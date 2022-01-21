@@ -3,31 +3,14 @@ import { FunctionComponent } from 'react';
 // application
 import FooterContacts from './FooterContacts';
 import FooterLinks from './FooterLinks';
-import FooterNewsletter from './FooterNewsletter';
 import ToTop from './ToTop';
 
-// data stubs
-import theme from '../../data/theme';
+import AppLink from '../shared/AppLink';
 
 const Footer: FunctionComponent = () => {
     const informationLinks = [
-        { title: 'About Us', url: '' },
-        { title: 'Delivery Information', url: '' },
-        { title: 'Privacy Policy', url: '' },
-        { title: 'Brands', url: '' },
-        { title: 'Contact Us', url: '' },
-        { title: 'Returns', url: '' },
-        { title: 'Site Map', url: '' },
-    ];
-
-    const accountLinks = [
-        { title: 'Store Location', url: '' },
-        { title: 'Order History', url: '' },
-        { title: 'Wish List', url: '' },
-        { title: 'Newsletter', url: '' },
-        { title: 'Specials', url: '' },
-        { title: 'Gift Certificates', url: '' },
-        { title: 'Affiliate', url: '' },
+        { title: 'من نحن', url: '' },
+        { title: 'سياسة الخصوصية', url: '' },
     ];
 
     return (
@@ -39,13 +22,51 @@ const Footer: FunctionComponent = () => {
                             <FooterContacts />
                         </div>
                         <div className="col-6 col-md-3 col-lg-2">
-                            <FooterLinks title="Information" items={informationLinks} />
+                            <FooterLinks title="معلومات" items={informationLinks} />
                         </div>
-                        <div className="col-6 col-md-3 col-lg-2">
-                            <FooterLinks title="My Account" items={accountLinks} />
-                        </div>
+                        {/* <div className='col-6 col-md-3 col-lg-2'>
+                            <FooterLinks title='My Account' items={accountLinks} />
+                        </div> */}
                         <div className="col-12 col-md-12 col-lg-4">
-                            <FooterNewsletter />
+                            <div className="site-footer__widget footer-links">
+                                <h5 className="footer-links__title">قم بتحميل التطبيق</h5>
+                                <ul className="footer-links__list">
+                                    <li key="Google Play" className="footer-links__item">
+                                        <AppLink
+                                            href="https://play.google.com/store/apps/details?id=com.allmartapp.allmart&amp;pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"
+                                            className="footer-links__link"
+                                        >
+                                            <img
+                                                style={{
+                                                    display: 'block',
+                                                    marginLeft: 'auto',
+                                                    marginRight: 'auto',
+                                                    width: '100%',
+                                                }}
+                                                alt="احصل عليه من Google Play"
+                                                src="https://play.google.com/intl/ar/badges/static/images/badges/ar_badge_web_generic.png"
+                                            />
+                                        </AppLink>
+                                    </li>
+                                    <li key="App Store" className="footer-links__item">
+                                        <AppLink
+                                            href="https://apps.apple.com/us/app/all-mart/id1570964770?itsct=apps_box_badge&amp;itscg=30200"
+                                            className="footer-links__link"
+                                        >
+                                            <img
+                                                style={{
+                                                    display: 'block',
+                                                    marginLeft: 'auto',
+                                                    marginRight: 'auto',
+                                                    width: '90%',
+                                                }}
+                                                src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/ar-ar?size=250x83&amp;releaseDate=1624924800&amp;h=5e0c5b783b8e61a7ae296df5c694ca8d"
+                                                alt="Download on the App Store"
+                                            />
+                                        </AppLink>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -2,7 +2,7 @@ import { makeIdGenerator, nameToSlug } from '../utils';
 import brandsData from './brands';
 import { categoriesListData, prepareCategory } from './categories';
 import { IShopCategory } from '../../interfaces/category';
-import { IProduct, IProductAttribute, IProductAttributeValue } from '../../interfaces/product';
+import { IProduct, IProductAttribute, IProductAttributeValue } from '../../interfaces/product-old';
 import attributesDef from './attributes';
 import {
     IProductAttributeDef,

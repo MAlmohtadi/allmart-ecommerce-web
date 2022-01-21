@@ -1,7 +1,7 @@
 // application
 import { ICategory } from '../../interfaces/category';
 import { IFilterValues, IListOptions } from '../../interfaces/list';
-import { IProductsList } from '../../interfaces/product';
+import { IProductsList } from '../../interfaces/product-old';
 
 export const SHOP_NAMESPACE = 'shop';
 

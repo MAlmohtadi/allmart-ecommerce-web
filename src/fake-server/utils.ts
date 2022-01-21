@@ -1,4 +1,4 @@
-import { IProduct } from '../interfaces/product';
+import { IProduct } from '../interfaces/product-old';
 import { ICategory } from '../interfaces/category';
 
 export function makeIdGenerator(): () => number {

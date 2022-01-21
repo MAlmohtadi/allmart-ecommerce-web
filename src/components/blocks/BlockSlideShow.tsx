@@ -10,9 +10,11 @@ import departmentsService from '../../services/departmentsService';
 import StroykaSlick from '../shared/StroykaSlick';
 import { useDirection } from '../../store/locale/localeHooks';
 import { useMedia } from '../../services/hooks';
+import { IHomePageResponse } from '../../interfaces/hompage';
 
 export interface BlockSlideShowProps {
     withDepartments?: boolean;
+    homepageInfo?: IHomePageResponse;
 }
 
 const slickSettings = {
@@ -76,7 +78,7 @@ const slides = [
 ];
 
 function BlockSlideShow(props: BlockSlideShowProps) {
-    const { withDepartments = false } = props;
+    const { withDepartments = false, homepageInfo } = props;
     const direction = useDirection();
     const departmentsAreaRef = useRef<HTMLDivElement | null>(null);
     const isDesktop = useMedia('(min-width: 992px)');
@@ -113,35 +115,38 @@ function BlockSlideShow(props: BlockSlideShowProps) {
         },
     );
 
-    const slidesList = slides.map((slide, index) => {
-        const image = (withDepartments ? slide.image_classic : slide.image_full)[direction];
+    const slidesList = homepageInfo?.banners.map((slide, index) => {
+        const image = slide.imageUrl;
 
         return (
             <div key={index} className="block-slideshow__slide">
                 <div
                     className="block-slideshow__slide-image block-slideshow__slide-image--desktop"
                     style={{
-                        backgroundImage: `url(${image})`,
+                        backgroundImage: `url('${image}')`,
                     }}
                 />
                 <div
                     className="block-slideshow__slide-image block-slideshow__slide-image--mobile"
                     style={{
-                        backgroundImage: `url(${slide.image_mobile[direction]})`,
+                        backgroundImage: `url('${image}')`,
                     }}
                 />
                 <div className="block-slideshow__slide-content">
-                    <div
+                    {/* <div
                         className="block-slideshow__slide-title"
                         dangerouslySetInnerHTML={{ __html: slide.title }}
                     />
                     <div
                         className="block-slideshow__slide-text"
                         dangerouslySetInnerHTML={{ __html: slide.text }}
-                    />
-                    <div className="block-slideshow__slide-button">
-                        <AppLink href="/" className="btn btn-primary btn-lg">Shop Now</AppLink>
-                    </div>
+                    /> */}
+                    {slide.isClickable
+                     && (
+                         <div className="block-slideshow__slide-button">
+                             <AppLink href="/" className="btn btn-primary btn-lg">أشتري الآن</AppLink>
+                         </div>
+                     )}
                 </div>
             </div>
         );
@@ -151,9 +156,9 @@ function BlockSlideShow(props: BlockSlideShowProps) {
         <div className={blockClasses}>
             <div className="container">
                 <div className="row">
-                    {withDepartments && (
+                    {/* {withDepartments && (
                         <div className="col-3 d-lg-block d-none" ref={setDepartmentsAreaRef} />
-                    )}
+                    )} */}
 
                     <div className={layoutClasses}>
                         <div className="block-slideshow__body">

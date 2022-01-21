@@ -19,7 +19,7 @@ import Search20Svg from '../../svg/search-20.svg';
 import shopApi, { GetSuggestionsOptions } from '../../api/shop';
 import Suggestions from './Suggestions';
 import { ICategory } from '../../interfaces/category';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 type CategoryWithDepth = ICategory & {depth: number};
 
@@ -195,7 +195,7 @@ function Search(props: SearchProps) {
         <div className={rootClasses} ref={wrapperRef} onBlur={handleBlur}>
             <div className="search__body">
                 <form className="search__form" action="">
-                    {context === 'header' && (
+                    {/* {context === 'header' && (
                         <select
                             className="search__categories"
                             aria-label="Category"
@@ -206,7 +206,7 @@ function Search(props: SearchProps) {
                             <option value="[all]">All Categories</option>
                             {categoryOptions}
                         </select>
-                    )}
+                    )} */}
                     <input
                         ref={inputRef}
                         onChange={handleChangeQuery}

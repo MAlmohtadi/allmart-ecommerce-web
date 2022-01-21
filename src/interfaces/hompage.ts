@@ -1,4 +1,3 @@
-import { ICustomFields } from './custom-fields';
 
 export interface IBanner {
     id: number;
@@ -9,6 +8,13 @@ export interface IBanner {
     subCategoryId: number;
     order: number;
 }
+export interface ISubCategory {
+    id: number,
+    isRetail: boolean,
+    isWholeSale: boolean,
+    name: string,
+    order: number
+}
 export interface ICategory {
     id: number,
     imageUrl: string,
@@ -18,13 +24,7 @@ export interface ICategory {
     order: number,
     subCategories: ISubCategory[]
 }
-export interface ISubCategory {
-    id: number,
-    isRetail: boolean,
-    isWholeSale: boolean,
-    name: string,
-    order: number
-}
+
 export interface IAdminSettingsResponse {
     chooseDeliveryEnabled: boolean,
     choose_delivery_period_enabled?: boolean,
@@ -40,6 +40,6 @@ export interface IAdminSettingsResponse {
 }
 export interface IHomePageResponse {
     categories: ICategory[],
-    banners: IBanner,
+    banners: IBanner[],
     adminSettingsResponse: IAdminSettingsResponse
 }

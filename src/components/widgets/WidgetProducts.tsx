@@ -5,7 +5,7 @@ import { Fragment, ReactNode } from 'react';
 import AppLink from '../shared/AppLink';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import url from '../../services/url';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 export interface WidgetProductsProps {
     title: ReactNode;

@@ -1,6 +1,6 @@
 import shopApi from '../../api/shop';
 import { IFilterValues, IListOptions } from '../../interfaces/list';
-import { IProductsList } from '../../interfaces/product';
+import { IProductsList } from '../../interfaces/product-old';
 import { IShopCategory } from '../../interfaces/category';
 import { SHOP_NAMESPACE } from './shopTypes';
 import {

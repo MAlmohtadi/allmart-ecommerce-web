@@ -3,7 +3,7 @@
 import qs from 'query-string';
 import { getCategories, getCategoryBySlug } from '../fake-server/endpoints/categories';
 import { IShopCategory } from '../interfaces/category';
-import { IProduct, IProductsList } from '../interfaces/product';
+// import { IProduct, IProductsList } from '../interfaces/product-old';
 import { IFilterValues, IListOptions } from '../interfaces/list';
 import {
     getDiscountedProducts,
@@ -17,6 +17,7 @@ import {
     getTopRatedProducts,
 } from '../fake-server/endpoints/products';
 import { IHomePageResponse } from '../interfaces/hompage';
+import { IProduct, IProductResponse } from '../interfaces/product';
 
 export interface GetCategoriesOptions {
     depth?: number;
@@ -41,6 +42,12 @@ export type GetSuggestionsOptions = {
 };
 export interface GetSaleOptions {
     isWholeSale?: boolean;
+    categoryId?: number,
+    nextPageNumber?: number,
+    pageSize?: number,
+    sort?: string,
+    subCategoryId?: number,
+    userId?: number
 }
 
 const BASE_URL = 'http://34.225.242.145:8080/api';
@@ -58,10 +65,38 @@ const shopApi = {
          * where:
          * - true = options.isWholeSale
          */
-        return fetch(`${BASE_URL}home/getHomeInfo${qs.stringify(options)}`)
+        return fetch(`${BASE_URL}/home/getHomeInfo?${qs.stringify(options)}`)
             .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
+    },
+    /**
+     * Returns array of featured products.
+     */
+    getFeaturedProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+        return fetch('http://jubranapi.us-east-1.elasticbeanstalk.com/api/products/getFeaturedProducts', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /**
+     * Returns array of offer products.
+     */
+    getOfferProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+        return fetch(`${BASE_URL}/offers/getOfferProdcuts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
     },
     /**
      * Returns array of categories.
@@ -140,7 +175,7 @@ const shopApi = {
     /**
      * Return products list.
      */
-    getProductsList: (options: IListOptions = {}, filters: IFilterValues = {}): Promise<IProductsList> => {
+    getProductsList: (options: IListOptions = {}, filters: IFilterValues = {}): Promise<IProductResponse> => {
         /**
          * This is what your API endpoint might look like:
          *
@@ -164,25 +199,6 @@ const shopApi = {
 
         // This is for demonstration purposes only. Remove it and use the code above.
         return getProductsList(options, filters);
-    },
-    /**
-     * Returns array of featured products.
-     */
-    getFeaturedProducts: (options: GetProductsOptions = {}): Promise<IProduct[]> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/shop/featured-products.json?limit=3&category=power-tools
-         *
-         * where:
-         * - 3           = options.limit
-         * - power-tools = options.category
-         */
-        // return fetch(`https://example.com/api/featured-products.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getFeaturedProducts(options);
     },
     /**
      * Returns array of latest products.

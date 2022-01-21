@@ -10,7 +10,7 @@ import Product from '../shared/Product';
 import ProductTabs from './ProductTabs';
 import shopApi from '../../api/shop';
 import url from '../../services/url';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { IShopCategory } from '../../interfaces/category';
 
 // blocks

@@ -1,7 +1,7 @@
 // application
 import { COMPARE_ADD_ITEM, COMPARE_REMOVE_ITEM, CompareAction } from './compareActionTypes';
 import { CompareState } from './compareTypes';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { withClientState } from '../client';
 
 function addItem(state: CompareState, product: IProduct): CompareState {

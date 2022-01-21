@@ -4,7 +4,7 @@ import ColorFilterBuilder from '../filters/color';
 import productsData from '../database/products';
 import RadioFilterBuilder from '../filters/radio';
 import RangeFilterBuilder from '../filters/range';
-import { IProduct, IProductsList } from '../../interfaces/product';
+import { IProduct, IProductsList } from '../../interfaces/product-old';
 import { delayResponse } from '../utils';
 
 export interface GetProductsOptions {

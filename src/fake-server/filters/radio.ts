@@ -1,7 +1,7 @@
 import AbstractFilterBuilder from './abstract';
 import productsData from '../database/products';
 import { IBaseFilterItem, IRadioFilter, IRadioFilterValue } from '../../interfaces/filter';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 export default class RadioFilterBuilder extends AbstractFilterBuilder {
     items: IBaseFilterItem[] = [];

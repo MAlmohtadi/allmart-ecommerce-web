@@ -2,7 +2,7 @@
 import { toast } from 'react-toastify';
 
 // application
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { CartItemOption } from './cartTypes';
 import {
     CART_ADD_ITEM,

@@ -1,7 +1,7 @@
 // third-party
 import { toast } from 'react-toastify';
 // application
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import {
     WISHLIST_ADD_ITEM,
     WISHLIST_REMOVE_ITEM,

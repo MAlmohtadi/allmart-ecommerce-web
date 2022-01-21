@@ -1,6 +1,6 @@
 import AbstractFilterBuilder from './abstract';
 import { ICategoryFilter, ICategoryFilterValue } from '../../interfaces/filter';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { IShopCategory } from '../../interfaces/category';
 import {
     categoriesListData,

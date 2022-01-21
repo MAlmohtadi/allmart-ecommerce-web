@@ -53,15 +53,20 @@ function IndicatorCart() {
             );
         }
 
-        if (item.product.images.length) {
-            image = (
-                <div className="product-image dropcart__product-image">
-                    <AppLink href={url.product(item.product)} className="product-image__body">
-                        <img className="product-image__img" src={item.product.images[0]} alt="" />
-                    </AppLink>
-                </div>
-            );
-        }
+        image = (
+            <div className="product-image dropcart__product-image">
+                <AppLink href={url.product(item.product)} className="product-image__body">
+                    <img
+                        className="product-image__img"
+                        src={item.product?.imageUrl}
+                        onError={({ currentTarget }) => {
+                            currentTarget.src = 'http://localhost:3000/images/products/product-13.jpg';
+                        }}
+                        alt={item.product.name}
+                    />
+                </AppLink>
+            </div>
+        );
 
         const removeButton = (
             <AsyncAction

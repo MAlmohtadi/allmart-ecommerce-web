@@ -1,7 +1,7 @@
 // application
 import BlockHeader from '../shared/BlockHeader';
 import ProductCard from '../shared/ProductCard';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 export interface BlockProductColumnsItem {
     title: string;

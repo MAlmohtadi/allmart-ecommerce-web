@@ -24,7 +24,7 @@ import WidgetFilters from '../widgets/WidgetFilters';
 import WidgetProducts from '../widgets/WidgetProducts';
 import { buildQuery } from '../../store/shop/shopHelpers';
 import { getCategoryParents } from '../../services/helpers';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { useShop } from '../../store/shop/shopHooks';
 
 // data stubs

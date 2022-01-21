@@ -13,7 +13,7 @@ import InputNumber from './InputNumber';
 import ProductGallery from './ProductGallery';
 import Rating from './Rating';
 import Wishlist16Svg from '../../svg/wishlist-16.svg';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { useCompareAddItem } from '../../store/compare/compareHooks';
 import { useWishlistAddItem } from '../../store/wishlist/wishlistHooks';
 import { useCartAddItem } from '../../store/cart/cartHooks';

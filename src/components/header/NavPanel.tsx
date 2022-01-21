@@ -34,20 +34,20 @@ function NavPanel(props: NavPanelProps) {
         searchIndicator = <IndicatorSearch />;
     }
 
-    // if (layout === 'default') {
-    //     departments = (
-    //         <div className="nav-panel__departments">
-    //             <Departments />
-    //         </div>
-    //     );
-    // }
+    if (layout === 'default') {
+        departments = (
+            <div className="nav-panel__departments">
+                <Departments />
+            </div>
+        );
+    }
 
     return (
         <div className="nav-panel">
             <div className="nav-panel__container container">
                 <div className="nav-panel__row">
                     {logo}
-                    {departments}
+                    {/* {departments} */}
 
                     <div className="nav-panel__nav-links nav-links">
                         <NavLinks />

@@ -34,15 +34,21 @@ function ShopPageWishlist() {
         const itemsList = items.map((item) => {
             let image;
 
-            if (item.images.length > 0) {
-                image = (
-                    <div className="product-image">
-                        <AppLink href={url.product(item)} className="product-image__body">
-                            <img className="product-image__img" src={item.images[0]} alt="" />
-                        </AppLink>
+            image = (
+                <div className="product-image">
+                    <div className="product-image__body">
+                        <img
+                            className="product-image__img"
+                            src={item.imageUrl}
+                            onError={({ currentTarget }) => {
+                                currentTarget.src = 'http://localhost:3000/images/products/product-13.jpg';
+                            }}
+                            alt={item.name}
+                        />
                     </div>
-                );
-            }
+                </div>
+            );
+
 
             const renderAddToCarButton: RenderFn = ({ run, loading }) => {
                 const classes = classNames('btn btn-primary btn-sm', {
@@ -69,10 +75,10 @@ function ShopPageWishlist() {
                         <AppLink href={url.product(item)} className="wishlist__product-name">
                             {item.name}
                         </AppLink>
-                        <div className="wishlist__product-rating">
+                        {/* <div className="wishlist__product-rating">
                             <Rating value={item.rating} />
                             <div className="wishlist__product-rating-legend">{`${item.reviews} Reviews`}</div>
-                        </div>
+                        </div> */}
                     </td>
                     <td className="wishlist__column wishlist__column--stock">
                         <div className="badge badge-success">In Stock</div>

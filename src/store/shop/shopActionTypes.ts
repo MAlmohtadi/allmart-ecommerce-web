@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 // application
 import { AppAction } from '../types';
 import { IFilterValues, IListOptions } from '../../interfaces/list';
-import { IProductsList } from '../../interfaces/product';
+import { IProductsList } from '../../interfaces/product-old';
 import { IShopCategory } from '../../interfaces/category';
 import { SHOP_NAMESPACE, ShopState } from './shopTypes';
 

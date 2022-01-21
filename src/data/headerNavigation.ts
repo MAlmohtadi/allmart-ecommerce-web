@@ -6,8 +6,28 @@ const dataHeaderNavigation: INav = [
         url: '/',
     },
     {
+        title: 'طلباتي',
+        url: '/account/orders',
+        submenu: {
+            type: 'menu',
+            menu: [
+                { title: 'جميع الطلبات', url: '/account/orders' },
+                { title: 'الطلبات الحالية', url: '/account/orders' },
+                { title: 'الطلبات السابقة', url: '/account/orders' },
+            ],
+        },
+    },
+    {
+        title: 'عروض خاصة',
+        url: '/shop/offers',
+    },
+    {
+        title: 'المنتجات',
+        url: '/shop/category-list',
+    },
+    {
         title: 'Shop',
-        url: '/shop/category-grid-3-columns-sidebar',
+        url: '/shop/category-list',
         submenu: {
             type: 'menu',
             menu: [

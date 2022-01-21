@@ -1,6 +1,6 @@
 // application
 import { AppAction } from '../types';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 export const COMPARE_ADD_ITEM = 'COMPARE_ADD_ITEM';
 export const COMPARE_REMOVE_ITEM = 'COMPARE_REMOVE_ITEM';

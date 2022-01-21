@@ -88,15 +88,20 @@ function ShopPageCart() {
             let image;
             let options;
 
-            if (item.product.images.length > 0) {
-                image = (
-                    <div className="product-image">
-                        <AppLink href={url.product(item.product)} className="product-image__body">
-                            <img className="product-image__img" src={item.product.images[0]} alt="" />
-                        </AppLink>
+            image = (
+                <div className="product-image">
+                    <div  className="product-image__body">
+                        <img
+                            className="product-image__img"
+                            src={item.product?.imageUrl}
+                            onError={({ currentTarget }) => {
+                                currentTarget.src = 'http://localhost:3000/images/products/product-13.jpg';
+                            }}
+                            alt={item.product.name}
+                        />
                     </div>
-                );
-            }
+                </div>
+            );
 
             if (item.options.length > 0) {
                 options = (
