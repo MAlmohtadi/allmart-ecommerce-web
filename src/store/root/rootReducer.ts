@@ -7,6 +7,7 @@ import cartReducer, { CART_NAMESPACE } from '../cart/cartReducer';
 import compareReducer, { COMPARE_NAMESPACE } from '../compare/compareReducer';
 import currencyReducer, { CURRENCY_NAMESPACE } from '../currency/currencyReducer';
 import localeReducer, { LOCALE_NAMESPACE } from '../locale/localeReducer';
+import saleReducer, { SALE_NAMESPACE } from '../sale/saleReducer';
 import mobileMenuReducer, { MOBILE_MENU_NAMESPACE } from '../mobile-menu/mobileMenuReducer';
 import quickviewReducer, { QUICKVIEW_NAMESPACE } from '../quickview/quickviewReducer';
 import wishlistReducer, { WISHLIST_NAMESPACE } from '../wishlist/wishlistReducer';
@@ -19,6 +20,7 @@ export default combineReducers({
     [COMPARE_NAMESPACE]: compareReducer,
     [CURRENCY_NAMESPACE]: currencyReducer,
     [LOCALE_NAMESPACE]: localeReducer,
+    [SALE_NAMESPACE]: saleReducer,
     [MOBILE_MENU_NAMESPACE]: mobileMenuReducer,
     [QUICKVIEW_NAMESPACE]: quickviewReducer,
     [WISHLIST_NAMESPACE]: wishlistReducer,

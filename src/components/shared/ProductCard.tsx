@@ -38,16 +38,20 @@ function ProductCard(props: ProductCardProps) {
     });
     const cartAddItem = useCartAddItem();
     const wishlistAddItem = useWishlistAddItem();
-    const compareAddItem = useCompareAddItem();
-    const quickviewOpen = useQuickviewOpen();
+    // const compareAddItem = useCompareAddItem();
+    // const quickviewOpen = useQuickviewOpen();
 
     const badges = [];
     let image;
     let price;
-    let features;
+    // let features;
 
     if (product.isOffer) {
-        badges.push(<div key="sale" className="product-card__badge product-card__badge--sale">عرض</div>);
+        badges.push(
+            <div key="sale" className="product-card__badge product-card__badge--sale">
+                عرض
+            </div>,
+        );
     }
     // if (product.badges.includes('hot')) {
     //     badges.push(<div key="hot" className="product-card__badge product-card__badge--hot">Hot</div>);
@@ -59,16 +63,16 @@ function ProductCard(props: ProductCardProps) {
     // if (product.images && product.images.length > 0) {
     image = (
         <div className="product-card__image product-image">
-            <AppLink href={url.product(product)} className="product-image__body">
+            <div className="product-image__body">
                 <img
                     className="product-image__img"
                     src={product?.imageUrl}
                     onError={({ currentTarget }) => {
-                        currentTarget.src = 'http://localhost:3000/images/products/product-13.jpg';
+                        currentTarget.src = 'http://localhost:3000/images/products/defaultImage.png';
                     }}
                     alt={product.name}
                 />
-            </AppLink>
+            </div>
         </div>
     );
     // }
@@ -76,9 +80,13 @@ function ProductCard(props: ProductCardProps) {
     if (product.isOffer && product.offerType === 2) {
         price = (
             <div className="product-card__prices">
-                <span className="product-card__new-price"><CurrencyFormat value={product.offerPrice} /></span>
+                <span className="product-card__new-price">
+                    <CurrencyFormat value={product.offerPrice} />
+                </span>
                 {' '}
-                <span className="product-card__old-price"><CurrencyFormat value={product.price} /></span>
+                <span className="product-card__old-price">
+                    <CurrencyFormat value={product.price} />
+                </span>
             </div>
         );
     } else {
@@ -94,31 +102,20 @@ function ProductCard(props: ProductCardProps) {
 
     return (
         <div className={containerClasses}>
-            {/* <AsyncAction
-                action={() => quickviewOpen(product.slug)}
-                render={({ run, loading }) => (
-                    <button
-                        type="button"
-                        onClick={run}
-                        className={classNames('product-card__quickview', {
-                            'product-card__quickview--preload': loading,
-                        })}
-                    >
-                        <Quickview16Svg />
-                    </button>
-                )}
-            /> */}
-            {badges.length > 0 && (
-                <div className="product-card__badges-list">{badges}</div>
-            )}
+            {badges.length > 0 && <div className="product-card__badges-list">{badges}</div>}
             {image}
             <div className="product-card__info">
                 <div className="product-card__name">
-                    <AppLink href={url.product(product)}>{product.name}</AppLink>
+                    <div>{product.name}</div>
                 </div>
                 {product.isOffer && product.offerType === 3 && (
                     <div className="product-card__rating">
-                        <div className="product-card__offer-price">{`إشتري ${product.offerQuantity||0} حبات بـ ${product.offerPrice||0} دينار`}</div>
+                        <div className="product-card__offer-price">
+                            {`إشتري ${product.offerQuantity || 0} حبات بـ ${
+                                product.offerPrice || 0
+                            } دينار`}
+
+                        </div>
                     </div>
                 )}
             </div>
@@ -145,9 +142,12 @@ function ProductCard(props: ProductCardProps) {
                                 <button
                                     type="button"
                                     onClick={run}
-                                    className={classNames('btn btn-secondary product-card__addtocart product-card__addtocart--list', {
-                                        'btn-loading': loading,
-                                    })}
+                                    className={classNames(
+                                        'btn btn-secondary product-card__addtocart product-card__addtocart--list',
+                                        {
+                                            'btn-loading': loading,
+                                        },
+                                    )}
                                 >
                                     أضف للسلة
                                 </button>
@@ -160,9 +160,12 @@ function ProductCard(props: ProductCardProps) {
                             <button
                                 type="button"
                                 onClick={run}
-                                className={classNames('btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist', {
-                                    'btn-loading': loading,
-                                })}
+                                className={classNames(
+                                    'btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist',
+                                    {
+                                        'btn-loading': loading,
+                                    },
+                                )}
                             >
                                 <Wishlist16Svg />
                             </button>

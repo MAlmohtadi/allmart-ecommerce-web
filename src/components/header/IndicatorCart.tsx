@@ -55,16 +55,16 @@ function IndicatorCart() {
 
         image = (
             <div className="product-image dropcart__product-image">
-                <AppLink href={url.product(item.product)} className="product-image__body">
+                <div className="product-image__body">
                     <img
                         className="product-image__img"
                         src={item.product?.imageUrl}
                         onError={({ currentTarget }) => {
-                            currentTarget.src = 'http://localhost:3000/images/products/product-13.jpg';
+                            currentTarget.src = 'http://localhost:3000/images/products/defaultImage.png';
                         }}
                         alt={item.product.name}
                     />
-                </AppLink>
+                </div>
             </div>
         );
 
@@ -90,7 +90,7 @@ function IndicatorCart() {
                 {image}
                 <div className="dropcart__product-info">
                     <div className="dropcart__product-name">
-                        <AppLink href={url.product(item.product)}>{item.product.name}</AppLink>
+                        {item.product.name}
                     </div>
                     {options}
                     <div className="dropcart__product-meta">

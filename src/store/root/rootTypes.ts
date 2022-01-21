@@ -3,6 +3,7 @@ import cartReducer from '../cart/cartReducer';
 import compareReducer from '../compare/compareReducer';
 import currencyReducer from '../currency/currencyReducer';
 import localeReducer from '../locale/localeReducer';
+import saleReducer from '../sale/saleReducer';
 import mobileMenuReducer from '../mobile-menu/mobileMenuReducer';
 import quickviewReducer from '../quickview/quickviewReducer';
 import wishlistReducer from '../wishlist/wishlistReducer';
@@ -16,6 +17,7 @@ export interface RootState {
     mobileMenu: AppReducerStateType<typeof mobileMenuReducer>;
     quickview: AppReducerStateType<typeof quickviewReducer>;
     locale: AppReducerStateType<typeof localeReducer>;
+    sale: AppReducerStateType<typeof saleReducer>;
     currency: AppReducerStateType<typeof currencyReducer>;
     shop: AppReducerStateType<typeof shopReducer>;
 }

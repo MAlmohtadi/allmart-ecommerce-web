@@ -41,7 +41,7 @@ function ShopPageWishlist() {
                             className="product-image__img"
                             src={item.imageUrl}
                             onError={({ currentTarget }) => {
-                                currentTarget.src = 'http://localhost:3000/images/products/product-13.jpg';
+                                currentTarget.src = 'http://localhost:3000/images/products/defaultImage.png';
                             }}
                             alt={item.name}
                         />
@@ -72,9 +72,9 @@ function ShopPageWishlist() {
                         {image}
                     </td>
                     <td className="wishlist__column wishlist__column--product">
-                        <AppLink href={url.product(item)} className="wishlist__product-name">
+                        {/* <AppLink href={url.product(item)} className="wishlist__product-name"> */}
                             {item.name}
-                        </AppLink>
+                        {/* </AppLink> */}
                         {/* <div className="wishlist__product-rating">
                             <Rating value={item.rating} />
                             <div className="wishlist__product-rating-legend">{`${item.reviews} Reviews`}</div>

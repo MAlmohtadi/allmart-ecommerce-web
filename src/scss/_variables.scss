@@ -119,11 +119,14 @@
    $light-opposite-alt-color:       #6c757d               !default;
    $light-divider-color:            #ebebeb               !default;
    // dark
-   $dark-color:                     $light-opposite-color !default;
+//    $dark-color:                     $light-opposite-color !default;
+   $dark-color:                     $light-color !default;
+
    $dark-opposite-color:            $light-color          !default;
    // accent
-   $accent-color:                   #ffd333               !default;
-   $accent-opposite-color:          $light-opposite-color !default;
+   $accent-color:                   #61012d               !default;
+//    $accent-opposite-color:          $light-opposite-color !default;
+$accent-opposite-color:          $light-color !default;
    //links
    $link-color:                     #1a66ff               !default;
    $link-hover-color:               #1a66ff               !default;
@@ -329,9 +332,9 @@
       $nav-links-item-default-bg:          transparent                                !default;
       $nav-links-item-default-shadow:      none                                       !default;
       $nav-links-item-default-font-color:  inherit                                    !default;
-      $nav-links-item-default-arrow-color: rgba(#000, .3)                             !default;
+      $nav-links-item-default-arrow-color: rgba(#fff, 1)                             !default;
       // hover
-      $nav-links-item-hover-bg:            rgba(#fff, .5)                             !default;
+      $nav-links-item-hover-bg:            rgba(#fff,.5)                             !default;
       $nav-links-item-hover-shadow:        $nav-links-item-default-shadow             !default;
       $nav-links-item-hover-font-color:    $nav-links-item-default-font-color         !default;
       $nav-links-item-hover-arrow-color:   $nav-links-item-default-arrow-color        !default;

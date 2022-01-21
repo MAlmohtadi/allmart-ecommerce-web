@@ -1,9 +1,6 @@
 // react
 import {
-    ComponentType,
-    useEffect,
-    useMemo,
-    Fragment,
+    ComponentType, useEffect, useMemo, Fragment,
 } from 'react';
 // third-party
 import { AppProps } from 'next/app';
@@ -17,11 +14,12 @@ import { useApplyClientState } from '../store/client';
 import { useDirection, useLocale, useMessages } from '../store/locale/localeHooks';
 // styles
 import '../scss/index.scss';
+import { useSale } from '../store/sale/saleHooks';
 
 export type StroykaAppProps = AppProps & {
     Component: NextComponentType<NextPageContext, any> & {
-        Layout: ComponentType
-    }
+        Layout: ComponentType;
+    };
 };
 
 function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
@@ -31,7 +29,7 @@ function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
     const messages = useMessages();
     const direction = useDirection();
     const store = useStore();
-
+    const isWholeSale = useSale();
     // preloader
     useEffect(() => {
         const preloader = document.querySelector('.site-preloader');

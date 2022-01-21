@@ -90,12 +90,12 @@ function ShopPageCart() {
 
             image = (
                 <div className="product-image">
-                    <div  className="product-image__body">
+                    <div className="product-image__body">
                         <img
                             className="product-image__img"
                             src={item.product?.imageUrl}
                             onError={({ currentTarget }) => {
-                                currentTarget.src = 'http://localhost:3000/images/products/product-13.jpg';
+                                currentTarget.src = 'http://localhost:3000/images/products/defaultImage.png';
                             }}
                             alt={item.product.name}
                         />
@@ -136,9 +136,9 @@ function ShopPageCart() {
                         {image}
                     </td>
                     <td className="cart-table__column cart-table__column--product">
-                        <AppLink href={url.product(item.product)} className="cart-table__product-name">
+                        <div className="cart-table__product-name">
                             {item.product.name}
-                        </AppLink>
+                        </div>
                         {options}
                     </td>
                     <td className="cart-table__column cart-table__column--price" data-title="Price">

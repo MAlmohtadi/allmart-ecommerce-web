@@ -50,7 +50,7 @@ export interface GetSaleOptions {
     userId?: number
 }
 
-const BASE_URL = 'http://34.225.242.145:8080/api';
+const BASE_URL = 'http://jubranapi.us-east-1.elasticbeanstalk.com/api';
 const shopApi = {
 
     /**
@@ -74,7 +74,7 @@ const shopApi = {
      * Returns array of featured products.
      */
     getFeaturedProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
-        return fetch('http://jubranapi.us-east-1.elasticbeanstalk.com/api/products/getFeaturedProducts', {
+        return fetch(`${BASE_URL}/products/getFeaturedProducts`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

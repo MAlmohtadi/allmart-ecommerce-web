@@ -1,9 +1,9 @@
 // third-party
-import { GetServerSideProps } from "next";
+import { GetServerSideProps } from 'next';
 
 // application
-import HomePage, { InitData } from "../components/home/HomePage";
-import shopApi from "../api/shop";
+import HomePage, { InitData } from '../components/home/HomePage';
+import shopApi from '../api/shop';
 
 export interface PageProps {
     initData?: InitData;
@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async () => ({
                 isWholeSale: false,
                 nextPageNumber: 0,
                 pageSize: 20,
-                sort: "asc",
+                sort: 'asc',
             }),
         },
     },

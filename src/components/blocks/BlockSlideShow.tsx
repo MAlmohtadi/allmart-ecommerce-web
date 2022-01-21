@@ -124,12 +124,14 @@ function BlockSlideShow(props: BlockSlideShowProps) {
                     className="block-slideshow__slide-image block-slideshow__slide-image--desktop"
                     style={{
                         backgroundImage: `url('${image}')`,
+                        backgroundRepeat: 'round',
                     }}
                 />
                 <div
                     className="block-slideshow__slide-image block-slideshow__slide-image--mobile"
                     style={{
                         backgroundImage: `url('${image}')`,
+                        backgroundRepeat: 'round',
                     }}
                 />
                 <div className="block-slideshow__slide-content">
