@@ -175,6 +175,42 @@ const shopApi = {
     /**
      * Return products list.
      */
+    getProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+        /**
+         * This is what your API endpoint might look like:
+         *
+         * https://example.com/api/products.json?page=2&limit=12&sort=name_desc&filter_category=screwdriwers&filter_price=500-1000
+         *
+         * where:
+         * - page            = options.page
+         * - limit           = options.limit
+         * - sort            = options.sort
+         * - filter_category = filters.category
+         * - filter_price    = filters.price
+         */
+        // const params = { ...options };
+        //
+        // Object.keys(filters).forEach((slug) => {
+        //     params[`filter_${slug}`] = filters[slug];
+        // });
+        //
+        // return fetch(`https://example.com/api/products.json?${qs.stringify(params)}`)
+        //     .then((response) => response.json());
+        return fetch(`http://allmartapi-env.eba-emmfhi2f.us-east-1.elasticbeanstalk.com/api/products/getProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+        // This is for demonstration purposes only. Remove it and use the code above.
+        // return getProductsList(options, filters);
+    },
+    /**
+     * Return products list.
+     */
     getProductsList: (options: IListOptions = {}, filters: IFilterValues = {}): Promise<IProductResponse> => {
         /**
          * This is what your API endpoint might look like:

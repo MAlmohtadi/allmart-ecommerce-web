@@ -112,23 +112,21 @@ function ProductsView(props: ProductsViewProps) {
                         <div className="view-options__filters-button">
                             <button type="button" className="filters-button" onClick={openSidebarFn}>
                                 <Filters16Svg className="filters-button__icon" />
-                                <span className="filters-button__title">Filters</span>
+                                <span className="filters-button__title">الفلاتر</span>
                                 {!!filtersCount && <span className="filters-button__counter">{filtersCount}</span>}
                             </button>
                         </div>
                         <div className="view-options__layout">
                             <div className="layout-switcher">
-                                <div className="layout-switcher__list">
-                                    {viewModes}
-                                </div>
+                                <div className="layout-switcher__list">{viewModes}</div>
                             </div>
                         </div>
                         <div className="view-options__legend">
-                            {`Showing ${productsList.from}—${productsList.to} of ${productsList.total} products`}
+                            {`عرض ${productsList.from}—${productsList.to} من ${productsList.total} المنتجات`}
                         </div>
                         <div className="view-options__divider" />
                         <div className="view-options__control">
-                            <label htmlFor="view-options-sort">Sort By</label>
+                            <label htmlFor="view-options-sort">الترتيب حسب</label>
                             <div>
                                 <select
                                     id="view-options-sort"
@@ -136,14 +134,14 @@ function ProductsView(props: ProductsViewProps) {
                                     value={options.sort || productsList.sort}
                                     onChange={handleSortChange}
                                 >
-                                    <option value="default">Default</option>
-                                    <option value="name_asc">Name (A-Z)</option>
-                                    <option value="name_desc">Name (Z-A)</option>
+                                    <option value="default">بدون</option>
+                                    <option value="name_asc">الاسم (أ - ي)</option>
+                                    <option value="name_desc">الاسم (ي - أ)</option>
                                 </select>
                             </div>
                         </div>
                         <div className="view-options__control">
-                            <label htmlFor="view-options-limit">Show</label>
+                            <label htmlFor="view-options-limit">عرض</label>
                             <div>
                                 <select
                                     id="view-options-limit"
@@ -166,9 +164,7 @@ function ProductsView(props: ProductsViewProps) {
                     data-layout={layout !== 'list' ? grid : layout}
                     data-with-features={layout === 'grid-with-features' ? 'true' : 'false'}
                 >
-                    <div className="products-list__body">
-                        {productsListItems}
-                    </div>
+                    <div className="products-list__body">{productsListItems}</div>
                 </div>
 
                 <div className="products-view__pagination">
@@ -184,14 +180,10 @@ function ProductsView(props: ProductsViewProps) {
     } else {
         content = (
             <div className="products-view__empty">
-                <div className="products-view__empty-title">No matching items</div>
-                <div className="products-view__empty-subtitle">Try resetting the filters</div>
-                <button
-                    type="button"
-                    className="btn btn-primary btn-sm"
-                    onClick={shopResetFilters}
-                >
-                    Reset filters
+                <div className="products-view__empty-title">لا توجد عناصر مطابقة</div>
+                <div className="products-view__empty-subtitle">حاول إعادة ضبط المرشحات</div>
+                <button type="button" className="btn btn-primary btn-sm" onClick={shopResetFilters}>
+                    إلغاء الفلتر
                 </button>
             </div>
         );

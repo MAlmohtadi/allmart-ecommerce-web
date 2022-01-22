@@ -53,7 +53,7 @@ function NavLinks(props: NavLinksProps) {
             }
             categoriesMenuData[0].submenu.menu.push({
                 title: `${category.name}`,
-                url: `/shop/category-list?${category.id}&subcategory=1`,
+                url: `/shop/category-list?category=${category.id}&subcategory=${object[0].id}`,
                 children: [...object],
             });
         });

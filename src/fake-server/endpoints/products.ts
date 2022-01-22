@@ -4,7 +4,7 @@ import ColorFilterBuilder from '../filters/color';
 import productsData from '../database/products';
 import RadioFilterBuilder from '../filters/radio';
 import RangeFilterBuilder from '../filters/range';
-import { IProduct, IProductsList } from '../../interfaces/product-old';
+import { IProduct, IProductsList } from '../../interfaces/product';
 import { delayResponse } from '../utils';
 
 export interface GetProductsOptions {
@@ -59,11 +59,8 @@ export function getProductsList(
     filterValues: GetProductsListFilters = {},
 ): Promise<IProductsList> {
     const filters = [
-        new CategoryFilterBuilder('category', 'Categories'),
-        new RangeFilterBuilder('price', 'Price'),
-        new CheckFilterBuilder('brand', 'Brand'),
-        new RadioFilterBuilder('discount', 'Discount'),
-        new ColorFilterBuilder('color', 'Color'),
+        new CategoryFilterBuilder('category', 'الصنف'),
+        new RangeFilterBuilder('price', 'السعر'),
     ];
 
     let items = productsData.slice(0);
@@ -71,7 +68,7 @@ export function getProductsList(
     filters.forEach((filter) => filter.makeItems(items, filterValues[filter.slug]));
 
     // Calculate items count for filter values.
-    filters.forEach((filter) => filter.calc(filters));
+    // filters.forEach((filter) => filter.calc(filters));
 
     // Apply filters to products list.
     items = items.filter(
