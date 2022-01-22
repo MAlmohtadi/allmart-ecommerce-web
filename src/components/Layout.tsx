@@ -22,7 +22,7 @@ function Layout(props : LayoutProps) {
         <Fragment>
             <ToastContainer autoClose={5000} hideProgressBar />
 
-            {/* <Quickview /> */}
+            <Quickview />
 
             <MobileMenu />
 

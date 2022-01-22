@@ -15,7 +15,7 @@ class MyDocument extends Document {
     render() {
         // noinspection HtmlRequiredTitleElement
         return (
-            <Html lang="ar" dir="rtl">
+            <Html lang="en" dir="ltr">
                 <Head>
                     <link rel="shortcut icon" href="/favicon.ico" />
 

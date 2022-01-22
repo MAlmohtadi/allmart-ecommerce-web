@@ -2,7 +2,7 @@
 import { GetServerSideProps } from 'next';
 
 // application
-import HomePageOne, { InitData } from '../components/home/HomePageOne';
+import HomePageTwo, { InitData } from '../components/home/HomePageTwo';
 import shopApi from '../api/shop';
 
 export interface PageProps {
@@ -13,7 +13,7 @@ export interface PageProps {
 export const getServerSideProps: GetServerSideProps<PageProps> = async () => ({
     props: {
         initData: {
-            featuredProducts: await shopApi.getPopularProducts({ limit: 8 }),
+            featuredProducts: await shopApi.getPopularProducts({ limit: 12 }),
             bestsellers: await shopApi.getPopularProducts({ limit: 7 }),
             latestProducts: await shopApi.getLatestProducts({ limit: 8 }),
             productColumns: [
@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async () => ({
 function Page(props: PageProps) {
     const { initData } = props;
 
-    return <HomePageOne initData={initData} />;
+    return <HomePageTwo initData={initData} />;
 }
 
 export default Page;

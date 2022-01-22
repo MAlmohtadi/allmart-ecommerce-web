@@ -34,13 +34,13 @@ function NavPanel(props: NavPanelProps) {
         searchIndicator = <IndicatorSearch />;
     }
 
-    // if (layout === 'default') {
-    //     departments = (
-    //         <div className="nav-panel__departments">
-    //             <Departments />
-    //         </div>
-    //     );
-    // }
+    if (layout === 'default') {
+        departments = (
+            <div className="nav-panel__departments">
+                <Departments />
+            </div>
+        );
+    }
 
     return (
         <div className="nav-panel">
