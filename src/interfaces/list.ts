@@ -34,6 +34,10 @@ export interface IListOptions {
     sort?: string;
     limit?: number;
     page?: number;
+    categoryId?: number;
+    subCategoryId?: number;
+    nextPageNumber: number;
+    pageSize?: number;
 }
 
 export interface IFilterValues {

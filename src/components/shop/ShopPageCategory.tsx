@@ -24,7 +24,7 @@ import WidgetFilters from '../widgets/WidgetFilters';
 import WidgetProducts from '../widgets/WidgetProducts';
 import { buildQuery } from '../../store/shop/shopHelpers';
 import { getCategoryParents } from '../../services/helpers';
-import { IProduct } from '../../interfaces/product-old';
+import { IProductList } from '../../interfaces/product-old';
 import { useShop } from '../../store/shop/shopHooks';
 
 // data stubs
@@ -49,7 +49,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     const shopState = useShop();
 
     const router = useRouter();
-    const [latestProducts, setLatestProducts] = useState<IProduct[]>([]);
+    // const [latestProducts, setLatestProducts] = useState<IProductList[]>([]);
 
     // sidebar
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
@@ -82,41 +82,36 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
         });
     }, [shopState.options, shopState.filters]);
 
-    // Load latest products.
-    useEffect(() => {
-        let canceled = false;
+    // // Load latest products.
+    // useEffect(() => {
+    //     let canceled = false;
 
-        if (offcanvas === 'always') {
-            setLatestProducts([]);
-        } else {
-            shopApi.getLatestProducts({ limit: 5 }).then((result) => {
-                if (canceled) {
-                    return;
-                }
+    //     if (offcanvas === 'always') {
+    //         setLatestProducts([]);
+    //     } else {
+    //         shopApi.getLatestProducts({ limit: 5 }).then((result) => {
+    //             if (canceled) {
+    //                 return;
+    //             }
 
-                setLatestProducts(result);
-            });
-        }
+    //             setLatestProducts(result);
+    //         });
+    //     }
 
-        return () => {
-            canceled = true;
-        };
-    }, [offcanvas]);
+    //     return () => {
+    //         canceled = true;
+    //     };
+    // }, [offcanvas]);
 
     const sidebarComponent = useMemo(() => (
         <CategorySidebar open={sidebarOpen} closeFn={closeSidebarFn} offcanvas={offcanvas}>
             <CategorySidebarItem>
                 <WidgetFilters title="Filters" offcanvas={offcanvas} />
             </CategorySidebarItem>
-            {offcanvas !== 'always' && (
-                <CategorySidebarItem className="d-none d-lg-block">
-                    <WidgetProducts title="Latest Products" products={latestProducts} />
-                </CategorySidebarItem>
-            )}
         </CategorySidebar>
-    ), [sidebarOpen, closeSidebarFn, offcanvas, latestProducts]);
+    ), [sidebarOpen, closeSidebarFn, offcanvas]);
 
-    if (shopState.categoryIsLoading || (shopState.productsListIsLoading && !shopState.productsList)) {
+    if (shopState.categoryIsLoading || (shopState.productsIsLoading && !shopState.products)) {
         return <BlockLoader />;
     }
 

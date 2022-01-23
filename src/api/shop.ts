@@ -17,7 +17,8 @@ import {
     getTopRatedProducts,
 } from '../fake-server/endpoints/products';
 import { IHomePageResponse } from '../interfaces/hompage';
-import { IProduct, IProductResponse } from '../interfaces/product';
+import { IProductResponse, IProductCustom } from '../interfaces/product';
+import { IProductsList, IProduct } from '../interfaces/product-old';
 
 export interface GetCategoriesOptions {
     depth?: number;
@@ -211,7 +212,7 @@ const shopApi = {
     /**
      * Return products list.
      */
-    getProductsList: (options: IListOptions = {}, filters: IFilterValues = {}): Promise<IProductResponse> => {
+    getProductsList: (options: IListOptions = {}, filters: IFilterValues = {}): Promise<IProductsList> => {
         /**
          * This is what your API endpoint might look like:
          *

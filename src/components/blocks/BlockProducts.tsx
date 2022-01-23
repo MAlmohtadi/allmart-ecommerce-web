@@ -1,7 +1,7 @@
 // application
 import BlockHeader from '../shared/BlockHeader';
 import ProductCard from '../shared/ProductCard';
-import { IProduct } from '../../interfaces/product-old';
+import { IProduct } from '../../interfaces/product';
 
 export type BlockProductsLayout = 'large-first' | 'large-last';
 

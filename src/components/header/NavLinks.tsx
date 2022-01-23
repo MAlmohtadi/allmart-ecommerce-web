@@ -39,6 +39,7 @@ function NavLinks(props: NavLinksProps) {
             },
         },
     ];
+    const defaultQueryParams = 'page=1&limit=12&sort=asc';
     const customMenuDataPreperation = () => {
         let object = [];
         if (categories.isLoading) {
@@ -48,12 +49,12 @@ function NavLinks(props: NavLinksProps) {
             if (category.subCategories.length) {
                 object = category.subCategories.map((subCategory) => ({
                     title: `${subCategory.name}`,
-                    url: `/shop/category-list?category=${category.id}&subcategory=${subCategory.id}`,
+                    url: `/shop/category-list?category=${category.id}&subcategory=${subCategory.id}&${defaultQueryParams}`,
                 }));
             }
             categoriesMenuData[0].submenu.menu.push({
                 title: `${category.name}`,
-                url: `/shop/category-list?category=${category.id}&subcategory=${object[0].id}`,
+                url: `/shop/category-list?category=${category.id}&subcategory=${object[0].id}&${defaultQueryParams}`,
                 children: [...object],
             });
         });

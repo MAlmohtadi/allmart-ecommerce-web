@@ -1,21 +1,4 @@
-// import { IBrand } from './brand';
-// import { IFilter } from './filter';
-// import { IFilterableList, IPaginatedList } from './list';
-// import { IShopCategory } from './category';
-
-// export interface IProductAttributeValue {
-//     slug: string;
-//     name: string;
-// }
-
-// export interface IProductAttribute {
-//     slug: string;
-//     name: string;
-//     values: IProductAttributeValue[];
-//     featured: boolean;
-// }
-
-export interface IProduct {
+export interface IProductCustom {
     id: number;
     imageUrl: string;
     isFavorite: boolean;
@@ -32,6 +15,6 @@ export interface IProduct {
 }
 export interface IProductResponse {
     nextPageNumber?: number;
-    products: IProduct[];
+    products: IProductCustom[];
     productsRemainingCount?: number;
 }

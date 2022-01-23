@@ -15,6 +15,7 @@ import {
     useSetOption,
     useShopFilterValues,
     useShopOptions,
+    useShopProducts,
     useShopProductsList,
     useShopProductsListIsLoading,
     useShopResetFiltersThunk,
@@ -50,12 +51,14 @@ function ProductsView(props: ProductsViewProps) {
 
     const isLoading = useShopProductsListIsLoading();
     const productsList = useShopProductsList();
+    const products = useShopProducts();
+
     const options = useShopOptions();
     const filterValues = useShopFilterValues();
 
-    const handlePageChange = useSetOption('page', parseFloat);
+    const handlePageChange = useSetOption('nextPageNumber', parseFloat);
     const handleSortChange = useSetOption('sort', (event) => event.target.value);
-    const handleLimitChange = useSetOption('limit', (event) => parseFloat(event.target.value));
+    const handleLimitChange = useSetOption('pageSize', (event) => parseFloat(event.target.value));
 
     const shopResetFilters = useShopResetFiltersThunk();
 
@@ -87,7 +90,7 @@ function ProductsView(props: ProductsViewProps) {
         );
     });
 
-    const productsListItems = productsList.items.map((product) => (
+    const productsListItems = products.map((product) => (
         <div key={product.id} className="products-list__item">
             <ProductCard product={product} />
         </div>
@@ -146,7 +149,7 @@ function ProductsView(props: ProductsViewProps) {
                                 <select
                                     id="view-options-limit"
                                     className="form-control form-control-sm"
-                                    value={options.limit || productsList.limit}
+                                    value={options.pageSize || productsList.pages }
                                     onChange={handleLimitChange}
                                 >
                                     <option value="6">6</option>
@@ -169,9 +172,9 @@ function ProductsView(props: ProductsViewProps) {
 
                 <div className="products-view__pagination">
                     <Pagination
-                        current={options.page || productsList.page}
+                        current={options.nextPageNumber || productsList.page}
                         siblings={2}
-                        total={productsList.pages}
+                        total={options.nextPageNumber}
                         onPageChange={handlePageChange}
                     />
                 </div>
