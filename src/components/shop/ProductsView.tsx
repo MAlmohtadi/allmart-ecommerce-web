@@ -15,7 +15,6 @@ import {
     useSetOption,
     useShopFilterValues,
     useShopOptions,
-    useShopProducts,
     useShopProductsList,
     useShopProductsListIsLoading,
     useShopResetFiltersThunk,
@@ -51,14 +50,13 @@ function ProductsView(props: ProductsViewProps) {
 
     const isLoading = useShopProductsListIsLoading();
     const productsList = useShopProductsList();
-    const products = useShopProducts();
 
     const options = useShopOptions();
     const filterValues = useShopFilterValues();
 
-    const handlePageChange = useSetOption('nextPageNumber', parseFloat);
+    const handlePageChange = useSetOption('page', parseFloat);
     const handleSortChange = useSetOption('sort', (event) => event.target.value);
-    const handleLimitChange = useSetOption('pageSize', (event) => parseFloat(event.target.value));
+    const handleLimitChange = useSetOption('limit', (event) => parseFloat(event.target.value));
 
     const shopResetFilters = useShopResetFiltersThunk();
 
@@ -90,7 +88,7 @@ function ProductsView(props: ProductsViewProps) {
         );
     });
 
-    const productsListItems = products.map((product) => (
+    const productsListItems = productsList.items.map((product) => (
         <div key={product.id} className="products-list__item">
             <ProductCard product={product} />
         </div>
@@ -138,8 +136,8 @@ function ProductsView(props: ProductsViewProps) {
                                     onChange={handleSortChange}
                                 >
                                     <option value="default">بدون</option>
-                                    <option value="name_asc">الاسم (أ - ي)</option>
-                                    <option value="name_desc">الاسم (ي - أ)</option>
+                                    <option value="asc">الاسم (أ - ي)</option>
+                                    <option value="desc">الاسم (ي - أ)</option>
                                 </select>
                             </div>
                         </div>
@@ -149,7 +147,7 @@ function ProductsView(props: ProductsViewProps) {
                                 <select
                                     id="view-options-limit"
                                     className="form-control form-control-sm"
-                                    value={options.pageSize || productsList.pages }
+                                    value={options.limit || productsList.limit}
                                     onChange={handleLimitChange}
                                 >
                                     <option value="6">6</option>
@@ -172,9 +170,9 @@ function ProductsView(props: ProductsViewProps) {
 
                 <div className="products-view__pagination">
                     <Pagination
-                        current={options.nextPageNumber || productsList.page}
+                        current={options.page || productsList.page}
                         siblings={2}
-                        total={options.nextPageNumber}
+                        total={productsList.pages}
                         onPageChange={handlePageChange}
                     />
                 </div>

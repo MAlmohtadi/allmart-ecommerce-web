@@ -2,7 +2,6 @@
 import { ICategory } from '../../interfaces/category';
 import { IFilterValues, IListOptions } from '../../interfaces/list';
 import { IProductsList } from '../../interfaces/product-old';
-import { IProduct } from '../../interfaces/product';
 
 export const SHOP_NAMESPACE = 'shop';
 
@@ -15,8 +14,4 @@ export interface ShopState {
     productsList: IProductsList | null;
     options: IListOptions;
     filters: IFilterValues;
-    productsIsLoading: boolean;
-    products: IProduct[];
-    nextPageNumber: number;
-    productsRemainingCount: number;
 }

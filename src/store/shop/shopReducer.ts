@@ -2,7 +2,6 @@
 import { IFilterValues } from '../../interfaces/list';
 import { SHOP_NAMESPACE, ShopState } from './shopTypes';
 import {
-    SHOP_FETCH_CATEGORY_SUCCESS,
     SHOP_FETCH_PRODUCTS_LIST_START,
     SHOP_FETCH_PRODUCTS_LIST_SUCCESS,
     SHOP_HYDRATE,
@@ -12,27 +11,16 @@ import {
     SHOP_SET_OPTION_VALUE,
     ShopAction,
     ShopSetFilterValueAction,
-    SHOP_FETCH_PRODUCTS_START,
-    SHOP_FETCH_PRODUCTS_SUCCESS,
 } from './shopActionTypes';
+import { IProductResponse, IProductsList } from '../../interfaces/product';
+import RangeFilterBuilder from '../../fake-server/filters/range';
 
 const initialState: ShopState = {
     init: false,
-    categorySlug: null,
-    categoryIsLoading: true,
-    category: null,
     productsListIsLoading: true,
     productsList: null,
-    options: {
-        pageSize: 12,
-        nextPageNumber: 1,
-        sort: 'asc',
-    },
+    options: {},
     filters: {},
-    productsIsLoading: true,
-    products: [],
-    nextPageNumber: 1,
-    productsRemainingCount: 0,
 };
 
 function shopReducerSetFilterValue(state: ShopState, action: ShopSetFilterValueAction): ShopState {
@@ -49,11 +37,43 @@ function shopReducerSetFilterValue(state: ShopState, action: ShopSetFilterValueA
 
     return {
         ...state,
-        options: { ...state.options, page: 1 },
+        options: { ...state.options },
         filters,
     };
 }
 
+function mapProductList(state: ShopState, productResponse: IProductResponse): IProductsList {
+    const page = state.options.page || 1;
+    const limit = state.options.limit || 12;
+    const sort = state.options.sort || '';
+    const total = limit + productResponse.productsRemainingCount;
+    const pages = Math.ceil(total / limit);
+    const from = (page - 1) * limit + 1;
+    const to = Math.max(Math.min(page * limit, total), from);
+    // const page = state.options.page || 1;
+    // const limit = state.options.limit || 12;
+    // const sort = state.options.sort || '';
+    // const total = productResponse.products.length;
+    // const pages = Math.ceil(total / limit);
+    // const from = (page - 1) * limit + 1;
+    // const to = Math.max(Math.min(page * limit, total), from);
+    // productResponse.products
+    const priceFilter = new RangeFilterBuilder('price', 'Price');
+    priceFilter.max = 200;
+    // const filters =
+    const productList: IProductsList = {
+        items: [...productResponse.products],
+        page,
+        limit,
+        sort,
+        total,
+        pages,
+        from,
+        to,
+        filters: [priceFilter.build()],
+    };
+    return productList;
+}
 function shopReducer(state = initialState, action: ShopAction): ShopState {
     switch (action.type) {
     case SHOP_HYDRATE:
@@ -61,16 +81,8 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
     case SHOP_INIT:
         return {
             ...initialState,
-            categorySlug: action.categorySlug,
             options: { ...state.options, ...action.options },
             filters: action.filters,
-        };
-    case SHOP_FETCH_CATEGORY_SUCCESS:
-        return {
-            ...state,
-            init: true,
-            categoryIsLoading: false,
-            category: action.category,
         };
     case SHOP_FETCH_PRODUCTS_LIST_START:
         return { ...state, productsListIsLoading: true };
@@ -78,20 +90,12 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
         return {
             ...state,
             productsListIsLoading: false,
-            productsList: action.productsList,
-        };
-    case SHOP_FETCH_PRODUCTS_START:
-        return { ...state, productsIsLoading: true };
-    case SHOP_FETCH_PRODUCTS_SUCCESS:
-        return {
-            ...state,
-            productsIsLoading: false,
-            ...action.data,
+            productsList: mapProductList(state, action.productsList),
         };
     case SHOP_SET_OPTION_VALUE:
         return {
             ...state,
-            options: { ...state.options, page: 1, [action.option]: action.value },
+            options: { ...state.options, nextPageNumber: 1, [action.option]: action.value },
         };
     case SHOP_SET_FILTER_VALUE: return shopReducerSetFilterValue(state, action);
     case SHOP_RESET_FILTERS:
@@ -99,7 +103,6 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
             ...state,
             options: {
                 ...state.options,
-                page: 1,
                 pageSize: 12,
                 nextPageNumber: 1,
                 sort: 'asc',

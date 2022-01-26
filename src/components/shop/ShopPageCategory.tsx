@@ -24,7 +24,7 @@ import WidgetFilters from '../widgets/WidgetFilters';
 import WidgetProducts from '../widgets/WidgetProducts';
 import { buildQuery } from '../../store/shop/shopHelpers';
 import { getCategoryParents } from '../../services/helpers';
-import { IProductList } from '../../interfaces/product-old';
+import { IProductList } from '../../interfaces/product';
 import { useShop } from '../../store/shop/shopHooks';
 
 // data stubs
@@ -111,26 +111,16 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
         </CategorySidebar>
     ), [sidebarOpen, closeSidebarFn, offcanvas]);
 
-    if (shopState.categoryIsLoading || (shopState.productsIsLoading && !shopState.products)) {
+    if (shopState.productsListIsLoading && !shopState.productsList) {
         return <BlockLoader />;
     }
 
     const breadcrumb = [
-        { title: 'Home', url: url.home() },
-        { title: 'Shop', url: url.catalog() },
+        { title: 'الرئيسية', url: url.home() },
+        { title: 'التصنيفات', url: url.catalog() },
     ];
-    let pageTitle = 'Shop';
+    let pageTitle = 'التصنيفات';
     let content;
-
-    if (shopState.category) {
-        getCategoryParents(shopState.category).forEach((parent) => {
-            breadcrumb.push({ title: parent.name, url: url.category(parent) });
-        });
-
-        breadcrumb.push({ title: shopState.category.name, url: url.category(shopState.category) });
-
-        pageTitle = shopState.category.name;
-    }
 
     const productsView = (
         <ProductsView
@@ -171,7 +161,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     return (
         <Fragment>
             <Head>
-                <title>{`Shop Category Page — ${theme.name}`}</title>
+                <title>{` التصنيفات — ${theme.name}`}</title>
             </Head>
 
             <PageHeader header={pageTitle} breadcrumb={breadcrumb} />

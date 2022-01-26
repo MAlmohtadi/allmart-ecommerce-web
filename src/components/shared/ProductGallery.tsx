@@ -291,7 +291,7 @@ function ProductGallery(props: ProductGalleryProps) {
                     */}
                 <img
                     className="product-image__img"
-                    src={image}
+                    src={`${image}`}
                     alt=""
                     ref={(element) => { imagesRefs.current[index] = element; }}
                     data-width="700"
@@ -314,7 +314,7 @@ function ProductGallery(props: ProductGalleryProps) {
                 className={classes}
             >
                 <div className="product-image__body">
-                    <img className="product-image__img product-gallery__carousel-image" src={image} alt="" />
+                    <img className="product-image__img product-gallery__carousel-image" src={`${image}`} alt="" />
                 </div>
             </button>
         );

@@ -39,7 +39,7 @@ function ShopPageWishlist() {
                     <div className="product-image__body">
                         <img
                             className="product-image__img"
-                            src={item.imageUrl}
+                            src={`${item.imageUrl}`}
                             onError={({ currentTarget }) => {
                                 currentTarget.src = 'http://localhost:3000/images/products/defaultImage.png';
                             }}
@@ -73,7 +73,7 @@ function ShopPageWishlist() {
                     </td>
                     <td className="wishlist__column wishlist__column--product">
                         {/* <AppLink href={url.product(item)} className="wishlist__product-name"> */}
-                            {item.name}
+                        {item.name}
                         {/* </AppLink> */}
                         {/* <div className="wishlist__product-rating">
                             <Rating value={item.rating} />
@@ -81,7 +81,7 @@ function ShopPageWishlist() {
                         </div> */}
                     </td>
                     <td className="wishlist__column wishlist__column--stock">
-                        <div className="badge badge-success">In Stock</div>
+                        <div className="badge badge-success">{item.isStockAvailable ? ' متوفر ' : 'غير متوفر '}</div>
                     </td>
                     <td className="wishlist__column wishlist__column--price"><CurrencyFormat value={item.price} /></td>
                     <td className="wishlist__column wishlist__column--tocart">
@@ -106,10 +106,10 @@ function ShopPageWishlist() {
                     <table className="wishlist">
                         <thead className="wishlist__head">
                             <tr className="wishlist__row">
-                                <th className="wishlist__column wishlist__column--image">Image</th>
-                                <th className="wishlist__column wishlist__column--product">Product</th>
-                                <th className="wishlist__column wishlist__column--stock">Stock Status</th>
-                                <th className="wishlist__column wishlist__column--price">Price</th>
+                                <th className="wishlist__column wishlist__column--image">الصورة</th>
+                                <th className="wishlist__column wishlist__column--product">المنتج</th>
+                                <th className="wishlist__column wishlist__column--stock">الحالة</th>
+                                <th className="wishlist__column wishlist__column--price">السعر</th>
                                 <th className="wishlist__column wishlist__column--tocart" aria-label="Add to cart" />
                                 <th className="wishlist__column wishlist__column--remove" aria-label="Remove" />
                             </tr>
@@ -126,10 +126,10 @@ function ShopPageWishlist() {
             <div className="block block-empty">
                 <div className="container">
                     <div className="block-empty__body">
-                        <div className="block-empty__message">Your wish list is empty!</div>
+                        <div className="block-empty__message">لا يوجد منتجات مفضلة!</div>
                         <div className="block-empty__actions">
                             <AppLink href="/" className="btn btn-primary btn-sm">
-                                Continue
+                                أكمل التسوق
                             </AppLink>
                         </div>
                     </div>

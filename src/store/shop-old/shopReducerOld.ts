@@ -1,6 +1,6 @@
 // application
 import { IFilterValues } from '../../interfaces/list';
-import { SHOP_NAMESPACE, ShopState } from './shopTypes';
+import { SHOP_NAMESPACE, ShopState } from './shopTypesOld';
 import {
     SHOP_FETCH_CATEGORY_SUCCESS,
     SHOP_FETCH_PRODUCTS_LIST_START,
@@ -12,9 +12,7 @@ import {
     SHOP_SET_OPTION_VALUE,
     ShopAction,
     ShopSetFilterValueAction,
-    SHOP_FETCH_PRODUCTS_START,
-    SHOP_FETCH_PRODUCTS_SUCCESS,
-} from './shopActionTypes';
+} from './shopActionTypesOld';
 
 const initialState: ShopState = {
     init: false,
@@ -23,16 +21,8 @@ const initialState: ShopState = {
     category: null,
     productsListIsLoading: true,
     productsList: null,
-    options: {
-        pageSize: 12,
-        nextPageNumber: 1,
-        sort: 'asc',
-    },
+    options: {},
     filters: {},
-    productsIsLoading: true,
-    products: [],
-    nextPageNumber: 1,
-    productsRemainingCount: 0,
 };
 
 function shopReducerSetFilterValue(state: ShopState, action: ShopSetFilterValueAction): ShopState {
@@ -80,14 +70,6 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
             productsListIsLoading: false,
             productsList: action.productsList,
         };
-    case SHOP_FETCH_PRODUCTS_START:
-        return { ...state, productsIsLoading: true };
-    case SHOP_FETCH_PRODUCTS_SUCCESS:
-        return {
-            ...state,
-            productsIsLoading: false,
-            ...action.data,
-        };
     case SHOP_SET_OPTION_VALUE:
         return {
             ...state,
@@ -100,9 +82,6 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
             options: {
                 ...state.options,
                 page: 1,
-                pageSize: 12,
-                nextPageNumber: 1,
-                sort: 'asc',
             },
             filters: {},
         };

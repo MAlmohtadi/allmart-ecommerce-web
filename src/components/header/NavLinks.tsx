@@ -39,7 +39,7 @@ function NavLinks(props: NavLinksProps) {
             },
         },
     ];
-    const defaultQueryParams = 'page=1&limit=12&sort=asc';
+
     const customMenuDataPreperation = () => {
         let object = [];
         if (categories.isLoading) {
@@ -49,12 +49,12 @@ function NavLinks(props: NavLinksProps) {
             if (category.subCategories.length) {
                 object = category.subCategories.map((subCategory) => ({
                     title: `${subCategory.name}`,
-                    url: `/shop/category-list?category=${category.id}&subcategory=${subCategory.id}&${defaultQueryParams}`,
+                    url: `/categories/${category.id}/sub-category/${subCategory.id}`,
                 }));
             }
-            categoriesMenuData[0].submenu.menu.push({
+            return categoriesMenuData[0].submenu.menu.push({
                 title: `${category.name}`,
-                url: `/shop/category-list?category=${category.id}&subcategory=${object[0].id}&${defaultQueryParams}`,
+                url: `/categories/${category.id}`,
                 children: [...object],
             });
         });
@@ -142,13 +142,13 @@ function NavLinks(props: NavLinksProps) {
             );
         }
 
-        if (item.submenu && item.submenu.type === 'megamenu') {
-            submenu = (
-                <div className={`nav-links__megamenu nav-links__megamenu--size--${item.submenu.menu.size}`}>
-                    <Megamenu menu={item.submenu.menu} />
-                </div>
-            );
-        }
+        // if (item.submenu && item.submenu.type === 'megamenu') {
+        //     submenu = (
+        //         <div className={`nav-links__megamenu nav-links__megamenu--size--${item.submenu.menu.size}`}>
+        //             <Megamenu menu={item.submenu.menu} />
+        //         </div>
+        //     );
+        // }
 
         const classes = classNames('nav-links__item', {
             'nav-links__item--with-submenu': item.submenu,

@@ -56,7 +56,7 @@ function ShopPageCompare() {
                 image = (
                     <div className="compare-table__product-image product-image">
                         <div className="product-image__body">
-                            <img className="product-image__img" src={product.images[0]} alt="" />
+                            <img className="product-image__img" src={`${product.images[0]}`} alt="" />
                         </div>
                     </div>
                 );

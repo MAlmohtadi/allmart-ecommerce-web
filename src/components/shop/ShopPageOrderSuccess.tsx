@@ -29,7 +29,7 @@ export default function ShopPageOrderSuccess() {
                 <td className="order-list__column-image">
                     <div className="product-image">
                         <AppLink href={url.product(item)} className="product-image__body">
-                            <img className="product-image__img" src={item.image} alt="" />
+                            <img className="product-image__img" src={`${item.image}`} alt="" />
                         </AppLink>
                     </div>
                 </td>

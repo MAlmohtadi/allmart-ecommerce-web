@@ -93,7 +93,7 @@ function ShopPageCart() {
                     <div className="product-image__body">
                         <img
                             className="product-image__img"
-                            src={item.product?.imageUrl}
+                            src={`${item.product?.imageUrl}`}
                             onError={({ currentTarget }) => {
                                 currentTarget.src = 'http://localhost:3000/images/products/defaultImage.png';
                             }}
@@ -218,11 +218,11 @@ function ShopPageCart() {
                     <table className="cart__table cart-table">
                         <thead className="cart-table__head">
                             <tr className="cart-table__row">
-                                <th className="cart-table__column cart-table__column--image">Image</th>
-                                <th className="cart-table__column cart-table__column--product">Product</th>
-                                <th className="cart-table__column cart-table__column--price">Price</th>
-                                <th className="cart-table__column cart-table__column--quantity">Quantity</th>
-                                <th className="cart-table__column cart-table__column--total">Total</th>
+                                <th className="cart-table__column cart-table__column--image">الصورة</th>
+                                <th className="cart-table__column cart-table__column--product">المنتج</th>
+                                <th className="cart-table__column cart-table__column--price">السعر</th>
+                                <th className="cart-table__column cart-table__column--quantity">الكمية</th>
+                                <th className="cart-table__column cart-table__column--total">المجموع</th>
                                 <th className="cart-table__column cart-table__column--remove" aria-label="Remove" />
                             </tr>
                         </thead>
@@ -276,10 +276,10 @@ function ShopPageCart() {
             <div className="block block-empty">
                 <div className="container">
                     <div className="block-empty__body">
-                        <div className="block-empty__message">Your shopping cart is empty!</div>
+                        <div className="block-empty__message">السلة فارغة!</div>
                         <div className="block-empty__actions">
                             <AppLink href="/" className="btn btn-primary btn-sm">
-                                Continue
+                                أكمل التسوق
                             </AppLink>
                         </div>
                     </div>

@@ -5,8 +5,7 @@ import { AppAction } from '../types';
 import { IFilterValues, IListOptions } from '../../interfaces/list';
 import { IProductsList } from '../../interfaces/product-old';
 import { IShopCategory } from '../../interfaces/category';
-import { SHOP_NAMESPACE, ShopState } from './shopTypes';
-import { IProductResponse } from '../../interfaces/product';
+import { SHOP_NAMESPACE, ShopState } from './shopTypesOld';
 
 export const SHOP_HYDRATE = HYDRATE;
 export const SHOP_INIT = 'SHOP_INIT';
@@ -16,8 +15,7 @@ export const SHOP_FETCH_PRODUCTS_LIST_SUCCESS = 'SHOP_FETCH_PRODUCTS_LIST_SUCCES
 export const SHOP_SET_OPTION_VALUE = 'SHOP_SET_OPTION_VALUE';
 export const SHOP_SET_FILTER_VALUE = 'SHOP_SET_FILTER_VALUE';
 export const SHOP_RESET_FILTERS = 'SHOP_RESET_FILTERS';
-export const SHOP_FETCH_PRODUCTS_START = 'SHOP_FETCH_PRODUCTS_START';
-export const SHOP_FETCH_PRODUCTS_SUCCESS = 'SHOP_FETCH_PRODUCTS_SUCCESS';
+
 export interface ShopHydrateAction {
     type: typeof SHOP_HYDRATE;
     payload: {
@@ -46,15 +44,6 @@ export interface ShopFetchProductsListSuccessAction {
     productsList: IProductsList;
 }
 
-export interface ShopFetchProductsStartAction {
-    type: typeof SHOP_FETCH_PRODUCTS_START;
-}
-
-export interface ShopFetchProductsSuccessAction {
-    type: typeof SHOP_FETCH_PRODUCTS_SUCCESS;
-    data: IProductResponse;
-}
-
 export interface ShopSetOptionValueAction {
     type: typeof SHOP_SET_OPTION_VALUE;
     option: string;
@@ -77,8 +66,6 @@ export type ShopAction =
     ShopFetchCategorySuccessAction |
     ShopFetchProductsListStartAction |
     ShopFetchProductsListSuccessAction |
-    ShopFetchProductsStartAction |
-    ShopFetchProductsSuccessAction |
     ShopSetOptionValueAction |
     ShopSetFilterValueAction |
     ShopResetFiltersAction;

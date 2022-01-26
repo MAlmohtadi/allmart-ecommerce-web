@@ -34,12 +34,15 @@ export interface IListOptions {
     sort?: string;
     limit?: number;
     page?: number;
+}
+export interface IProductOptions {
     categoryId?: number;
     subCategoryId?: number;
-    nextPageNumber: number;
+    nextPageNumber?: number;
     pageSize?: number;
+    sort?: string;
+    isWholeSale?:boolean
 }
-
 export interface IFilterValues {
     [filterSlug: string]: string;
 }

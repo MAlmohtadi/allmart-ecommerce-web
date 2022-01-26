@@ -4,7 +4,7 @@ import qs from 'query-string';
 import { getCategories, getCategoryBySlug } from '../fake-server/endpoints/categories';
 import { IShopCategory } from '../interfaces/category';
 // import { IProduct, IProductsList } from '../interfaces/product-old';
-import { IFilterValues, IListOptions } from '../interfaces/list';
+import { IFilterValues, IListOptions, IProductOptions } from '../interfaces/list';
 import {
     getDiscountedProducts,
     getFeaturedProducts,
@@ -17,8 +17,8 @@ import {
     getTopRatedProducts,
 } from '../fake-server/endpoints/products';
 import { IHomePageResponse } from '../interfaces/hompage';
-import { IProductResponse, IProductCustom } from '../interfaces/product';
-import { IProductsList, IProduct } from '../interfaces/product-old';
+import { IProductResponse, IProduct } from '../interfaces/product';
+// import { IProductsList, IProduct } from '../interfaces/product-old';
 
 export interface GetCategoriesOptions {
     depth?: number;
@@ -176,7 +176,7 @@ const shopApi = {
     /**
      * Return products list.
      */
-    getProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+    getProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
         /**
          * This is what your API endpoint might look like:
          *
@@ -208,53 +208,6 @@ const shopApi = {
             .then((response) => response.json());
         // This is for demonstration purposes only. Remove it and use the code above.
         // return getProductsList(options, filters);
-    },
-    /**
-     * Return products list.
-     */
-    getProductsList: (options: IListOptions = {}, filters: IFilterValues = {}): Promise<IProductsList> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/products.json?page=2&limit=12&sort=name_desc&filter_category=screwdriwers&filter_price=500-1000
-         *
-         * where:
-         * - page            = options.page
-         * - limit           = options.limit
-         * - sort            = options.sort
-         * - filter_category = filters.category
-         * - filter_price    = filters.price
-         */
-        // const params = { ...options };
-        //
-        // Object.keys(filters).forEach((slug) => {
-        //     params[`filter_${slug}`] = filters[slug];
-        // });
-        //
-        // return fetch(`https://example.com/api/products.json?${qs.stringify(params)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getProductsList(options, filters);
-    },
-    /**
-     * Returns array of latest products.
-     */
-    getLatestProducts: (options: GetProductsOptions = {}): Promise<IProduct[]> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/shop/latest-products.json?limit=3&category=power-tools
-         *
-         * where:
-         * - 3           = options.limit
-         * - power-tools = options.category
-         */
-        // return fetch(`https://example.com/api/latest-products.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getLatestProducts(options);
     },
     /**
      * Returns an array of top rated products.

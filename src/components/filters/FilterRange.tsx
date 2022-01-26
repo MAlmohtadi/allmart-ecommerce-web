@@ -97,7 +97,7 @@ function FilterRange(props: FilterRangeProps) {
                 />
             </div>
             <div className="filter-price__title">
-                Price:
+                السعر:
                 {' '}
                 <span className="filter-price__min-value"><CurrencyFormat value={fromLabel} /></span>
                 {' – '}

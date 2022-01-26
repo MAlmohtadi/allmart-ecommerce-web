@@ -1,6 +1,6 @@
 // application
-import { IProductCustom } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product';
 
 export interface WishlistState {
-    items: IProductCustom[];
+    items: IProduct[];
 }

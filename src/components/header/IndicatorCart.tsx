@@ -31,7 +31,7 @@ function IndicatorCart() {
         totals = (
             <Fragment>
                 <tr>
-                    <th>Subtotal</th>
+                    <th>المجموع الفرعي</th>
                     <td><CurrencyFormat value={cart.subtotal} /></td>
                 </tr>
                 {totals}
@@ -116,7 +116,7 @@ function IndicatorCart() {
                         <tbody>
                             {totals}
                             <tr>
-                                <th>Total</th>
+                                <th>المجموع</th>
                                 <td><CurrencyFormat value={cart.total} /></td>
                             </tr>
                         </tbody>
@@ -124,8 +124,8 @@ function IndicatorCart() {
                 </div>
 
                 <div className="dropcart__buttons">
-                    <AppLink href={url.cart()} className="btn btn-secondary">View Cart</AppLink>
-                    <AppLink href={url.checkout()} className="btn btn-primary">Checkout</AppLink>
+                    <AppLink href={url.cart()} className="btn btn-secondary">تصفح السلة</AppLink>
+                    <AppLink href={url.checkout()} className="btn btn-primary">تنفيذ الطلب</AppLink>
                 </div>
             </div>
         );
@@ -133,7 +133,7 @@ function IndicatorCart() {
         dropdown = (
             <div className="dropcart">
                 <div className="dropcart__empty">
-                    Your shopping cart is empty!
+                    سلة التسوق فارغة
                 </div>
             </div>
         );

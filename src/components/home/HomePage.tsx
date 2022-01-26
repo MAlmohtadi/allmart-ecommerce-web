@@ -22,19 +22,14 @@ import BlockSlideShow from '../blocks/BlockSlideShow';
 
 // data stubs
 // import dataBlogPosts from '../../data/blogPosts';
-import dataShopBlockCategories from '../../data/shopBlockCategories';
 import theme from '../../data/theme';
 import { IHomePageResponse } from '../../interfaces/hompage';
-import { IProductResponse, IProduct } from '../../interfaces/product';
+import { IProductResponse } from '../../interfaces/product';
 
 export interface InitData {
     homepageInfo?:IHomePageResponse,
     featuredProducts?: IProductResponse;
     offerProducts?: IProductResponse,
-    // bestsellers?: IProduct[];
-    // latestProducts?: IProduct[];
-    // productColumns?: BlockProductColumnsItem[];
-    // customFeaturedProducts: IProductResponse;
 }
 
 export interface HomePageProps {
@@ -85,7 +80,7 @@ function HomePage(props: HomePageProps) {
                 <BlockProductsCarousel
                     title="عروض خاصة"
                     layout="grid-5"
-                    rows={offerProducts.data?.products?.length >10 ? 2 : 1}
+                    rows={offerProducts.data?.products?.length > 10 ? 2 : 1}
                     products={offerProducts.data?.products}
                     loading={offerProducts.isLoading}
                 />

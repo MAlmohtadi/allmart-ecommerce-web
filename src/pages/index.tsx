@@ -10,8 +10,7 @@ export interface PageProps {
 }
 
 // noinspection JSUnusedGlobalSymbols
-export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
-    return {
+export const getServerSideProps: GetServerSideProps<PageProps> = async () => ({
     props: {
         initData: {
             homepageInfo: await shopApi.getHompageData({ isWholeSale: false }),
@@ -24,7 +23,7 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
             }),
         },
     },
-}};
+});
 
 function Page(props: PageProps) {
     const { initData } = props;

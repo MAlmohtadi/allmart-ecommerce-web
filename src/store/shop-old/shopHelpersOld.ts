@@ -6,7 +6,7 @@ import { Store } from 'redux';
 import { AppDispatch } from '../types';
 import { IFilterValues, IListOptions } from '../../interfaces/list';
 import { RootState } from '../root/rootTypes';
-import { shopInitThunk } from './shopActions';
+import { shopInitThunk } from './shopActionsOld';
 
 export function parseQueryOptions(query: string) {
     const queryObject = queryString.parse(query);
@@ -21,12 +21,7 @@ export function parseQueryOptions(query: string) {
     if (typeof queryObject.sort === 'string') {
         optionValues.sort = queryObject.sort;
     }
-    if (typeof queryObject.category === 'string') {
-        optionValues.categoryId = parseFloat(queryObject.category);
-    }
-    if (typeof queryObject.subcategory === 'string') {
-        optionValues.subCategoryId = parseFloat(queryObject.subcategory);
-    }
+
     return optionValues;
 }
 

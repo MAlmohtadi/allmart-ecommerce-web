@@ -1,9 +1,8 @@
 import shopApi from '../../api/shop';
 import { IFilterValues, IListOptions } from '../../interfaces/list';
 import { IProductsList } from '../../interfaces/product-old';
-import { IProductResponse } from '../../interfaces/product';
 import { IShopCategory } from '../../interfaces/category';
-import { SHOP_NAMESPACE } from './shopTypes';
+import { SHOP_NAMESPACE } from './shopTypesOld';
 import {
     SHOP_FETCH_CATEGORY_SUCCESS,
     SHOP_FETCH_PRODUCTS_LIST_START,
@@ -20,16 +19,10 @@ import {
     ShopSetFilterValueAction,
     ShopSetOptionValueAction,
     ShopThunkAction,
-    ShopFetchProductsSuccessAction,
-    ShopFetchProductsStartAction,
-    SHOP_FETCH_PRODUCTS_START,
-    SHOP_FETCH_PRODUCTS_SUCCESS,
-} from './shopActionTypes';
-import { SALE_NAMESPACE } from '../sale/saleReducer';
+} from './shopActionTypesOld';
 
 let cancelPreviousCategoryRequest = () => { };
 let cancelPreviousProductsListRequest = () => { };
-let cancelPreviousProductsRequest = () => { };
 
 export function shopInit(
     categorySlug: string | null,
@@ -61,18 +54,6 @@ export function shopFetchProductsListSuccess(productsList: IProductsList): ShopF
     return {
         type: SHOP_FETCH_PRODUCTS_LIST_SUCCESS,
         productsList,
-    };
-}
-export function shopFetchProductsStart(): ShopFetchProductsStartAction {
-    return {
-        type: SHOP_FETCH_PRODUCTS_START,
-    };
-}
-
-export function shopFetchProductsSuccess(data: IProductResponse): ShopFetchProductsSuccessAction {
-    return {
-        type: SHOP_FETCH_PRODUCTS_SUCCESS,
-        data,
     };
 }
 
@@ -150,27 +131,6 @@ export function shopFetchProductsListThunk(): ShopThunkAction<Promise<void>> {
     };
 }
 
-export function shopFetchProductsThunk(): ShopThunkAction<Promise<void>> {
-    return async (dispatch, getState) => {
-        let canceled = false;
-
-        cancelPreviousProductsRequest();
-        cancelPreviousProductsRequest = () => { canceled = true; };
-
-        dispatch(shopFetchProductsStart());
-
-        const shopState = getState()[SHOP_NAMESPACE];
-        const saleState = getState()[SALE_NAMESPACE];
-        const products = await shopApi.getProducts({ ...shopState.options, ...saleState });
-
-        if (canceled) {
-            return;
-        }
-
-        dispatch(shopFetchProductsSuccess(products));
-    };
-}
-
 export function shopSetOptionValueThunk(option: string, value: string): ShopThunkAction<Promise<void>> {
     return async (dispatch) => {
         dispatch(shopSetOptionValue(option, value));
@@ -203,7 +163,6 @@ export function shopInitThunk(
         await Promise.all([
             dispatch(shopFetchCategoryThunk(categorySlug)),
             dispatch(shopFetchProductsListThunk()),
-            dispatch(shopFetchProductsThunk()),
         ]);
     };
 }

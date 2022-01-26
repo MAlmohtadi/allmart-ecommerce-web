@@ -2,9 +2,10 @@
 import { useCallback } from 'react';
 // application
 import { IListOptions } from '../../interfaces/list';
-import { SHOP_NAMESPACE, ShopState } from './shopTypes';
-import { shopResetFiltersThunk, shopSetFilterValueThunk, shopSetOptionValueThunk } from './shopActions';
+// import { SHOP_NAMESPACE, ShopState } from './shopTypesOld';
+import { shopResetFiltersThunk, shopSetFilterValueThunk, shopSetOptionValueThunk } from './shopActionsOld';
 import { useAppAction, useAppSelector } from '../hooks';
+import { ShopState, SHOP_NAMESPACE } from './shopTypesOld';
 
 export function useShopSelector<T extends(state: ShopState) => any>(selector: T): ReturnType<T> {
     return useAppSelector((state) => selector(state[SHOP_NAMESPACE]));
@@ -15,7 +16,6 @@ export const useShop = () => useShopSelector((state) => state);
 export const useShopProductsListIsLoading = () => useShopSelector((state) => state.productsListIsLoading);
 
 export const useShopProductsList = () => useShopSelector((state) => state.productsList);
-export const useShopProducts = () => useShopSelector((state) => state.products);
 
 export const useShopOptions = () => useShopSelector((state) => state.options);
 

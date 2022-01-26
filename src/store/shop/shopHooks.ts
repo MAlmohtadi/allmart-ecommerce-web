@@ -15,7 +15,6 @@ export const useShop = () => useShopSelector((state) => state);
 export const useShopProductsListIsLoading = () => useShopSelector((state) => state.productsListIsLoading);
 
 export const useShopProductsList = () => useShopSelector((state) => state.productsList);
-export const useShopProducts = () => useShopSelector((state) => state.products);
 
 export const useShopOptions = () => useShopSelector((state) => state.options);
 

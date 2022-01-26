@@ -1,4 +1,7 @@
-export interface IProductCustom {
+import { IFilter } from './filter';
+import { IFilterableList, IPaginatedList } from './list';
+
+export interface IProduct{
     id: number;
     imageUrl: string;
     isFavorite: boolean;
@@ -14,7 +17,9 @@ export interface IProductCustom {
 
 }
 export interface IProductResponse {
-    nextPageNumber?: number;
-    products: IProductCustom[];
-    productsRemainingCount?: number;
+    nextPageNumber: number;
+    products: IProduct[];
+    productsRemainingCount: number;
 }
+
+export type IProductsList = IPaginatedList<IProduct> & IFilterableList<IProduct, IFilter>;

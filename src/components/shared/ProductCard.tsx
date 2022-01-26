@@ -66,7 +66,7 @@ function ProductCard(props: ProductCardProps) {
             <div className="product-image__body">
                 <img
                     className="product-image__img"
-                    src={product?.imageUrl}
+                    src={`${product?.imageUrl}`}
                     onError={({ currentTarget }) => {
                         currentTarget.src = 'http://localhost:3000/images/products/defaultImage.png';
                     }}
@@ -121,8 +121,8 @@ function ProductCard(props: ProductCardProps) {
             </div>
             <div className="product-card__actions">
                 <div className="product-card__availability">
-                    Availability:
-                    <span className="text-success">In Stock</span>
+                    الحالة:
+                    <span className="text-success">{`${product.isStockAvailable ? ' متوفر ' : ' غير متوفر '}`}</span>
                 </div>
                 {price}
                 <div className="product-card__buttons">
