@@ -38,10 +38,15 @@ function shopReducerSetFilterValue(state: ShopState, action: ShopSetFilterValueA
 
         filters = { ...currentFilters };
     }
+    const [minPrice, maxPrice] = filters.price.split('-');
 
     return {
         ...state,
-        options: { ...state.options },
+        options: {
+            ...state.options,
+            minPrice,
+            maxPrice,
+        },
         filters,
     };
 }
@@ -55,7 +60,7 @@ function mapProductList(state: ShopState, productResponse: IProductResponse): IP
     const from = (page - 1) * limit + 1;
     const to = Math.max(Math.min(page * limit, total), from);
 
-    const priceFilter = new RangeFilterBuilder('price', 'Price');
+    const priceFilter = new RangeFilterBuilder('price', 'price');
     priceFilter.max = 100;
     // const filters =
     const productList: IProductsList = {
@@ -103,6 +108,8 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
                 limit: 12,
                 page: 1,
                 sort: '',
+                maxPrice: 100,
+                minPrice: 0,
             },
             filters: {},
         };

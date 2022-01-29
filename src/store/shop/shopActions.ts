@@ -78,7 +78,10 @@ export function shopFetchProductsListThunk(): ShopThunkAction<Promise<void>> {
 
         const shopState = getState()[SHOP_NAMESPACE];
         const saleState = getState()[SALE_NAMESPACE];
-        const { options } = shopState;
+        const {
+            options,
+        } = shopState;
+
         options.sort = typeof options.sort === 'string' ? options.sort : '';
         options.nextPageNumber = options.page ? options.page - 1 : 0;
         options.pageSize = options.limit || 12;

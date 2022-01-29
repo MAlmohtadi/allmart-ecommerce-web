@@ -41,7 +41,9 @@ export interface IProductOptions {
     nextPageNumber?: number;
     pageSize?: number;
     sort?: string;
-    isWholeSale?:boolean
+    isWholeSale?:boolean;
+    maxPrice?:number;
+    minPrice?:number
 }
 export interface IFilterValues {
     [filterSlug: string]: string;

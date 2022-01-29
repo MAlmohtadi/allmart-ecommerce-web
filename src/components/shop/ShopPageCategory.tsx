@@ -106,7 +106,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     const sidebarComponent = useMemo(() => (
         <CategorySidebar open={sidebarOpen} closeFn={closeSidebarFn} offcanvas={offcanvas}>
             <CategorySidebarItem>
-                <WidgetFilters title="Filters" offcanvas={offcanvas} />
+                <WidgetFilters title="فلترة" offcanvas={offcanvas} />
             </CategorySidebarItem>
         </CategorySidebar>
     ), [sidebarOpen, closeSidebarFn, offcanvas]);
