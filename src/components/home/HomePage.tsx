@@ -1,5 +1,5 @@
 // react
-import { Fragment, useMemo } from 'react';
+import { Fragment, useEffect, useMemo } from 'react';
 
 // third-party
 import Head from 'next/head';
@@ -7,16 +7,8 @@ import Head from 'next/head';
 // application
 import shopApi from '../../api/shop';
 // import { IProduct } from '../../interfaces/product';
-import { useDeferredData, useProductColumns, useProductTabs } from '../../services/hooks';
+import { useDeferredData } from '../../services/hooks';
 
-// blocks
-// import BlockBanner from '../blocks/BlockBanner';
-// import BlockBrands from '../blocks/BlockBrands';
-import BlockCategories from '../blocks/BlockCategories';
-import BlockFeatures from '../blocks/BlockFeatures';
-// import BlockPosts from '../blocks/BlockPosts';
-// import BlockProductColumns, { BlockProductColumnsItem } from '../blocks/BlockProductColumns';
-// import BlockProducts from '../blocks/BlockProducts';
 import BlockProductsCarousel from '../blocks/BlockProductsCarousel';
 import BlockSlideShow from '../blocks/BlockSlideShow';
 
@@ -25,11 +17,14 @@ import BlockSlideShow from '../blocks/BlockSlideShow';
 import theme from '../../data/theme';
 import { IHomePageResponse } from '../../interfaces/hompage';
 import { IProductResponse } from '../../interfaces/product';
+import { useHome, useHomeFetchData, useHomeInit } from '../../store/home/homeHooks';
+import { useSale } from '../../store/sale/saleHooks';
+import getHomePageData from '../../store/home/homeHelpers';
 
 export interface InitData {
-    homepageInfo?:IHomePageResponse,
+    homepageInfo?: IHomePageResponse;
     featuredProducts?: IProductResponse;
-    offerProducts?: IProductResponse,
+    offerProducts?: IProductResponse;
 }
 
 export interface HomePageProps {
@@ -38,53 +33,64 @@ export interface HomePageProps {
 
 function HomePage(props: HomePageProps) {
     const { initData } = props;
+    const isWholeSale = useSale();
+    const homepageInfo = useDeferredData(() => shopApi.getHompageData({ isWholeSale }), initData?.homepageInfo);
+    const homeData = useHome();
+    const featuredProducts = useDeferredData(
+        () => shopApi.getFeaturedProducts({ isWholeSale: false }),
+        initData?.featuredProducts,
+    );
 
-    const homepageInfo = useDeferredData(() => (
-        shopApi.getHompageData({ isWholeSale: false })
-    ), initData?.homepageInfo);
-
-    const featuredProducts = useDeferredData(() => (
-        shopApi.getFeaturedProducts({ isWholeSale: false })
-    ), initData?.featuredProducts);
-
-    const offerProducts = useDeferredData(() => (
-        shopApi.getOfferProducts({
+    const offerProducts = useDeferredData(
+        () => shopApi.getOfferProducts({
             isWholeSale: false,
             nextPageNumber: 0,
             pageSize: 20,
             sort: 'asc',
-        })
-    ), initData?.offerProducts);
+        }),
+        initData?.offerProducts,
+    );
 
     return (
         <Fragment>
             <Head>
-                <title>{`Home Page Two — ${theme.name}`}</title>
+                <title>جبران</title>
             </Head>
 
-            {useMemo(() => <BlockSlideShow homepageInfo={homepageInfo?.data} />, [])}
+            {useMemo(
+                () => (
+                    <BlockSlideShow homepageInfo={homepageInfo?.data} />
+                ),
+                [],
+            )}
 
             {/* {useMemo(() => <BlockFeatures layout="boxed" />, [])} */}
 
-            {useMemo(() => (
-                <BlockProductsCarousel
-                    title="Featured Products"
-                    layout="grid-5"
-                    rows={2}
-                    products={featuredProducts.data?.products}
-                    loading={featuredProducts.isLoading}
-                />
-            ), [featuredProducts])}
+            {useMemo(
+                () => (
+                    <BlockProductsCarousel
+                        title="منتجاتنا"
+                        layout="grid-5"
+                        rows={2}
+                        products={featuredProducts.data?.products}
+                        loading={featuredProducts.isLoading}
+                    />
+                ),
+                [featuredProducts],
+            )}
 
-            {useMemo(() => (
-                <BlockProductsCarousel
-                    title="عروض خاصة"
-                    layout="grid-5"
-                    rows={offerProducts.data?.products?.length > 10 ? 2 : 1}
-                    products={offerProducts.data?.products}
-                    loading={offerProducts.isLoading}
-                />
-            ), [offerProducts])}
+            {useMemo(
+                () => (
+                    <BlockProductsCarousel
+                        title="عروض خاصة"
+                        layout="grid-5"
+                        rows={offerProducts.data?.products?.length > 10 ? 2 : 1}
+                        products={offerProducts.data?.products}
+                        loading={offerProducts.isLoading}
+                    />
+                ),
+                [offerProducts],
+            )}
         </Fragment>
     );
 }

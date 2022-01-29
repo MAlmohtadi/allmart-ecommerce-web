@@ -27,7 +27,7 @@ function NavPanel(props: NavPanelProps) {
     if (layout === 'compact') {
         logo = (
             <div className="nav-panel__logo">
-                <AppLink href="/"><LogoSmallSvg /></AppLink>
+                <AppLink href="/"><LogoSmallSvg height={30} /></AppLink>
             </div>
         );
 

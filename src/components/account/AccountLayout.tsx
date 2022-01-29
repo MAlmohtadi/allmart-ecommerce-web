@@ -19,19 +19,19 @@ function AccountLayout(props: AccountLayoutProps) {
     const router = useRouter();
 
     const breadcrumb = [
-        { title: 'Home', url: url.home() },
-        { title: 'My Account', url: url.accountDashboard() },
+        { title: 'الرئيسية', url: url.home() },
+        { title: 'حسابي', url: url.accountDashboard() },
     ];
 
     const items = [
-        { title: 'Dashboard', link: url.accountDashboard() },
-        { title: 'Edit Profile', link: url.accountProfile() },
-        { title: 'Order History', link: url.accountOrders() },
-        { title: 'Order Details', link: url.accountOrder({ id: 5 }) },
-        { title: 'Addresses', link: url.accountAddresses() },
-        { title: 'Edit Address', link: url.accountAddress({ id: 5 }) },
-        { title: 'Password', link: url.accountPassword() },
-        { title: 'Logout', link: url.accountSignIn() },
+        // { title: 'Dashboard', link: url.accountDashboard() },
+        { title: 'معلوماتي', link: url.accountProfile() },
+        { title: 'الطلبات', link: url.accountOrders() },
+        // { title: 'Order Details', link: url.accountOrder({ id: 5 }) },
+        // { title: 'Addresses', link: url.accountAddresses() },
+        // { title: 'Edit Address', link: url.accountAddress({ id: 5 }) },
+        // { title: 'Password', link: url.accountPassword() },
+        // { title: 'تسجيل خروج', link: url.accountSignIn() },
     ].map((item, index) => {
         const isActive = router.pathname === item.link.href;
         const classes = classNames('account-nav__item', {
@@ -47,14 +47,14 @@ function AccountLayout(props: AccountLayoutProps) {
 
     return (
         <Fragment>
-            <PageHeader header="My Account" breadcrumb={breadcrumb} />
+            <PageHeader header="حسابي" breadcrumb={breadcrumb} />
 
             <div className="block">
                 <div className="container">
                     <div className="row">
                         <div className="col-12 col-lg-3 d-flex">
                             <div className="account-nav flex-grow-1">
-                                <h4 className="account-nav__title">Navigation</h4>
+                                <h4 className="account-nav__title">التصفح</h4>
                                 <ul>{items}</ul>
                             </div>
                         </div>

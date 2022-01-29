@@ -13,6 +13,9 @@ import quickviewReducer, { QUICKVIEW_NAMESPACE } from '../quickview/quickviewRed
 import wishlistReducer, { WISHLIST_NAMESPACE } from '../wishlist/wishlistReducer';
 import shopReducer from '../shop/shopReducer';
 import { SHOP_NAMESPACE } from '../shop/shopTypes';
+import accountReducer, { ACCOUNT_NAMESPACE } from '../account/accountReducer';
+import { HOME_NAMESPACE } from '../home/homeTypes';
+import homeReducer from '../home/homeReducer';
 
 export default combineReducers({
     version: (state: number = version) => state,
@@ -25,4 +28,6 @@ export default combineReducers({
     [QUICKVIEW_NAMESPACE]: quickviewReducer,
     [WISHLIST_NAMESPACE]: wishlistReducer,
     [SHOP_NAMESPACE]: shopReducer,
+    [ACCOUNT_NAMESPACE]: accountReducer,
+    [HOME_NAMESPACE]: homeReducer,
 });

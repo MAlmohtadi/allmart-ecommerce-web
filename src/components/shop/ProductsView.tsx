@@ -19,6 +19,7 @@ import {
     useShopProductsListIsLoading,
     useShopResetFiltersThunk,
 } from '../../store/shop/shopHooks';
+import { useHome } from '../../store/home/homeHooks';
 
 export type ProductsViewLayout = 'grid' | 'grid-with-features' | 'list';
 
@@ -50,7 +51,7 @@ function ProductsView(props: ProductsViewProps) {
 
     const isLoading = useShopProductsListIsLoading();
     const productsList = useShopProductsList();
-
+    const home = useHome();
     const options = useShopOptions();
     const filterValues = useShopFilterValues();
 
@@ -136,8 +137,8 @@ function ProductsView(props: ProductsViewProps) {
                                     onChange={handleSortChange}
                                 >
                                     <option value="default">بدون</option>
-                                    <option value="asc">الاسم (أ - ي)</option>
-                                    <option value="desc">الاسم (ي - أ)</option>
+                                    <option value="asc">الأقل سعرا</option>
+                                    <option value="desc">الاعلى سعرا</option>
                                 </select>
                             </div>
                         </div>

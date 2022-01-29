@@ -48,7 +48,7 @@ export function parseQueryFilters(query: string) {
 export function buildQuery(options: IProductOptions, filters: IFilterValues) {
     const params: { [key: string]: any } = {};
 
-    if (options.nextPageNumber !== 1) {
+    if (options.nextPageNumber !== 0) {
         params.nextPageNumber = options.nextPageNumber;
     }
 

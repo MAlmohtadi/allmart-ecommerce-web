@@ -80,7 +80,7 @@ export function shopFetchProductsListThunk(): ShopThunkAction<Promise<void>> {
         const saleState = getState()[SALE_NAMESPACE];
         const { options } = shopState;
         options.sort = typeof options.sort === 'string' ? options.sort : '';
-        options.nextPageNumber = options.page || 1;
+        options.nextPageNumber = options.page ? options.page - 1 : 0;
         options.pageSize = options.limit || 12;
         options.isWholeSale = saleState.isWholeSale;
         const productsList = await shopApi.getProductsList(options);

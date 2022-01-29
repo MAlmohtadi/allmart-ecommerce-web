@@ -11,7 +11,6 @@ import AsyncAction, { RenderFn } from '../shared/AsyncAction';
 import Cross12Svg from '../../svg/cross-12.svg';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import PageHeader from '../shared/PageHeader';
-import Rating from '../shared/Rating';
 import url from '../../services/url';
 import { useWishlist, useWishlistRemoveItem } from '../../store/wishlist/wishlistHooks';
 
@@ -55,7 +54,7 @@ function ShopPageWishlist() {
                     'btn-loading': loading,
                 });
 
-                return <button type="button" onClick={run} className={classes}>Add To Cart</button>;
+                return <button type="button" onClick={run} className={classes}>إضافة للسلة</button>;
             };
 
             const renderRemoveButton: RenderFn = ({ run, loading }) => {
@@ -141,10 +140,10 @@ function ShopPageWishlist() {
     return (
         <Fragment>
             <Head>
-                <title>{`Wish List — ${theme.name}`}</title>
+                <title>جبران - المفضلة</title>
             </Head>
 
-            <PageHeader header="Wishlist" breadcrumb={breadcrumb} />
+            <PageHeader header="المفضلة" breadcrumb={breadcrumb} />
 
             {content}
         </Fragment>

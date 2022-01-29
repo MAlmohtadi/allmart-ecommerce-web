@@ -17,6 +17,7 @@ import { useSale } from '../../store/sale/saleHooks';
 import { useDeferredData } from '../../services/hooks';
 import shopApi from '../../api/shop';
 import { IHomePageResponse } from '../../interfaces/hompage';
+import { useHome } from '../../store/home/homeHooks';
 
 export interface InitData {
     homepageInfo?: IHomePageResponse;
@@ -25,10 +26,9 @@ export interface NavLinksProps {
     initData?: InitData;
 }
 function NavLinks(props: NavLinksProps) {
-    const { initData } = props;
     const direction = useDirection();
-    const isWholeSale = useSale();
-    const categories = useDeferredData(() => shopApi.getHompageData({ isWholeSale }), initData?.homepageInfo);
+    const homeData = useHome();
+    const { categories } = homeData;
     const categoriesMenuData = [
         {
             title: 'التصنيفات',
@@ -42,10 +42,10 @@ function NavLinks(props: NavLinksProps) {
 
     const customMenuDataPreperation = () => {
         let object = [];
-        if (categories.isLoading) {
+        if (!homeData.init && homeData.homeIsLoading) {
             return [];
         }
-        return categories.data?.categories.map((category) => {
+        return categories.map((category) => {
             if (category.subCategories.length) {
                 object = category.subCategories.map((subCategory) => ({
                     title: `${subCategory.name}`,

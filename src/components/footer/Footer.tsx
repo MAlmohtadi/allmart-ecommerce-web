@@ -27,7 +27,7 @@ const Footer: FunctionComponent = () => {
                         {/* <div className='col-6 col-md-3 col-lg-2'>
                             <FooterLinks title='My Account' items={accountLinks} />
                         </div> */}
-                        <div className="col-12 col-md-12 col-lg-4">
+                        <div className="col-12 col-md-3 col-lg-2">
                             <div className="site-footer__widget footer-links">
                                 <h5 className="footer-links__title">قم بتحميل التطبيق</h5>
                                 <ul className="footer-links__list">

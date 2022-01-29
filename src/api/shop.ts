@@ -18,6 +18,7 @@ import {
 } from '../fake-server/endpoints/products';
 import { IHomePageResponse } from '../interfaces/hompage';
 import { IProductResponse, IProduct } from '../interfaces/product';
+import { IAccount } from '../interfaces/account';
 // import { IProductsList, IProduct } from '../interfaces/product-old';
 
 export interface GetCategoriesOptions {
@@ -49,6 +50,19 @@ export interface GetSaleOptions {
     sort?: string,
     subCategoryId?: number,
     userId?: number
+}
+export interface AccountOptions {
+    phone?: string;
+    email?: string;
+    name?: string;
+    secondaryPhone?: string;
+    appleId?: string;
+    facebookId?: string;
+    id?: number;
+}
+export interface Error {
+    isBussinessError?: boolean;
+    message?: string;
 }
 
 const BASE_URL = 'http://jubranapi.us-east-1.elasticbeanstalk.com/api';
@@ -90,6 +104,53 @@ const shopApi = {
      */
     getOfferProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
         return fetch(`${BASE_URL}/offers/getOfferProdcuts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /**
+    * Returns array of offer products.
+    */
+    login: (options: AccountOptions = {}): Promise<IAccount|Error> => {
+        return fetch(`${BASE_URL}/user/login`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    updateAccoount: (options: AccountOptions = {}): Promise<IAccount> => {
+        return fetch(`${BASE_URL}/user/update`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    registerAccoount: (options: AccountOptions = {}): Promise<IAccount> => {
+        return fetch(`${BASE_URL}/user/register`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    removeAccoount: (options: AccountOptions = {}): Promise<void> => {
+        return fetch(`${BASE_URL}/user/deleteUserInfo`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

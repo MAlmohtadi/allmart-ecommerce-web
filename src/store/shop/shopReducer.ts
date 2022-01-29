@@ -19,7 +19,11 @@ const initialState: ShopState = {
     init: false,
     productsListIsLoading: true,
     productsList: null,
-    options: {},
+    options: {
+        page: 1,
+        limit: 12,
+        sort: '',
+    },
     filters: {},
 };
 
@@ -46,20 +50,13 @@ function mapProductList(state: ShopState, productResponse: IProductResponse): IP
     const page = state.options.page || 1;
     const limit = state.options.limit || 12;
     const sort = state.options.sort || '';
-    const total = limit + productResponse.productsRemainingCount;
+    const total = productResponse.totalNumberOfProducts;
     const pages = Math.ceil(total / limit);
     const from = (page - 1) * limit + 1;
     const to = Math.max(Math.min(page * limit, total), from);
-    // const page = state.options.page || 1;
-    // const limit = state.options.limit || 12;
-    // const sort = state.options.sort || '';
-    // const total = productResponse.products.length;
-    // const pages = Math.ceil(total / limit);
-    // const from = (page - 1) * limit + 1;
-    // const to = Math.max(Math.min(page * limit, total), from);
-    // productResponse.products
+
     const priceFilter = new RangeFilterBuilder('price', 'Price');
-    priceFilter.max = 200;
+    priceFilter.max = 100;
     // const filters =
     const productList: IProductsList = {
         items: [...productResponse.products],
@@ -95,7 +92,7 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
     case SHOP_SET_OPTION_VALUE:
         return {
             ...state,
-            options: { ...state.options, nextPageNumber: 1, [action.option]: action.value },
+            options: { ...state.options, page: 0, [action.option]: action.value },
         };
     case SHOP_SET_FILTER_VALUE: return shopReducerSetFilterValue(state, action);
     case SHOP_RESET_FILTERS:
@@ -103,9 +100,9 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
             ...state,
             options: {
                 ...state.options,
-                pageSize: 12,
-                nextPageNumber: 1,
-                sort: 'asc',
+                limit: 12,
+                page: 1,
+                sort: '',
             },
             filters: {},
         };

@@ -58,7 +58,7 @@ function MobileHeader() {
                             <Menu18x14Svg />
                         </button>
                         <AppLink href={url.home()} className="mobile-header__logo">
-                            <LogoSmallSvg />
+                            <LogoSmallSvg  height={30} />
                         </AppLink>
                         <Search
                             context="mobile-header"

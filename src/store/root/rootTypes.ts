@@ -8,6 +8,8 @@ import mobileMenuReducer from '../mobile-menu/mobileMenuReducer';
 import quickviewReducer from '../quickview/quickviewReducer';
 import wishlistReducer from '../wishlist/wishlistReducer';
 import shopReducer from '../shop/shopReducer';
+import accountReducer from '../account/accountReducer';
+import homeReducer from '../home/homeReducer';
 
 export interface RootState {
     version: number;
@@ -20,4 +22,6 @@ export interface RootState {
     sale: AppReducerStateType<typeof saleReducer>;
     currency: AppReducerStateType<typeof currencyReducer>;
     shop: AppReducerStateType<typeof shopReducer>;
+    account: AppReducerStateType<typeof accountReducer>;
+    home: AppReducerStateType<typeof homeReducer>;
 }

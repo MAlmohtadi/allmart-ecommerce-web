@@ -20,6 +20,8 @@ export interface IProductResponse {
     nextPageNumber: number;
     products: IProduct[];
     productsRemainingCount: number;
+    currentPageNumber: number;
+    totalNumberOfProducts: number;
 }
 
 export type IProductsList = IPaginatedList<IProduct> & IFilterableList<IProduct, IFilter>;
