@@ -34,6 +34,7 @@ export interface IListOptions {
     sort?: string;
     limit?: number;
     page?: number;
+    search?:string;
 }
 export interface IProductOptions {
     categoryId?: number;
@@ -44,6 +45,7 @@ export interface IProductOptions {
     isWholeSale?:boolean;
     maxPrice?:number;
     minPrice?:number
+    textToSearch?:string;
 }
 export interface IFilterValues {
     [filterSlug: string]: string;

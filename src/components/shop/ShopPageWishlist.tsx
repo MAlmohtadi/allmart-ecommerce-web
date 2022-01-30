@@ -23,8 +23,8 @@ function ShopPageWishlist() {
     const wishlistRemoveItem = useWishlistRemoveItem();
     const cartAddItem = useCartAddItem();
     const breadcrumb = [
-        { title: 'Home', url: '' },
-        { title: 'Wishlist', url: '' },
+        { title: 'الرئيسية', url: '' },
+        { title: 'المفضلة', url: '' },
     ];
 
     let content;

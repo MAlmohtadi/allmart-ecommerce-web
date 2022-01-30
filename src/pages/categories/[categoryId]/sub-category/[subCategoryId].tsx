@@ -13,9 +13,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 });
 
 function Page() {
-    // const router = useRouter();
     return <ShopPageCategory columns={3} viewMode="list" />;
-    // return <h1>{`Sub Category Page ${router.query.subCategoryId}`}</h1>;
 }
 
 export default Page;

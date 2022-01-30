@@ -48,7 +48,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     // shop
     const shopState = useShop();
 
-    const router = useRouter();
+    // const router = useRouter();
     // const [latestProducts, setLatestProducts] = useState<IProductList[]>([]);
 
     // sidebar
@@ -57,30 +57,30 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     const closeSidebarFn = useCallback(() => setSidebarOpen(false), [setSidebarOpen]);
 
     // Replace current url.
-    useEffect(() => {
-        const query = buildQuery(shopState.options, shopState.filters);
-        const href = queryString.stringifyUrl({
-            ...queryString.parseUrl(router.asPath),
-            query: queryString.parse(query),
-        }, { encode: false });
+    // useEffect(() => {
+    //     const query = buildQuery(shopState.options, shopState.filters);
+    //     const href = queryString.stringifyUrl({
+    //         ...queryString.parseUrl(router.asPath),
+    //         query: queryString.parse(query),
+    //     }, { encode: false });
 
-        router.replace(href, href, {
-            shallow: true,
-        }).then(() => {
-            // This is necessary for the "History API" to work.
-            window.history.replaceState(
-                {
-                    ...window.history.state,
-                    options: {
-                        ...window.history.state.options,
-                        shallow: false,
-                    },
-                },
-                '',
-                href,
-            );
-        });
-    }, [shopState.options, shopState.filters]);
+    //     router.replace(href, href, {
+    //         shallow: true,
+    //     }).then(() => {
+    //         // This is necessary for the "History API" to work.
+    //         window.history.replaceState(
+    //             {
+    //                 ...window.history.state,
+    //                 options: {
+    //                     ...window.history.state.options,
+    //                     shallow: false,
+    //                 },
+    //             },
+    //             '',
+    //             href,
+    //         );
+    //     });
+    // }, [shopState.options, shopState.filters]);
 
     // // Load latest products.
     // useEffect(() => {

@@ -14,8 +14,6 @@ import { useApplyClientState } from '../store/client';
 import { useDirection, useLocale, useMessages } from '../store/locale/localeHooks';
 // styles
 import '../scss/index.scss';
-import { useSale } from '../store/sale/saleHooks';
-import getHomePageData from '../store/home/homeHelpers';
 
 export type StroykaAppProps = AppProps & {
     Component: NextComponentType<NextPageContext, any> & {
@@ -30,8 +28,6 @@ function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
     const messages = useMessages();
     const direction = useDirection();
     const store = useStore();
-
-    const isWholeSale = useSale();
     // preloader
     useEffect(() => {
         const preloader = document.querySelector('.site-preloader');
@@ -69,8 +65,6 @@ function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
                 save(store.getState());
             });
         }
-        getHomePageData(store);
-
     }, [store]);
 
     useEffect(() => {

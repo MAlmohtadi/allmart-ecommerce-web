@@ -12,35 +12,35 @@ function SitePageNotFound() {
     return (
         <div className="block">
             <Head>
-                <title>{`404 Page Not Found — ${theme.name}`}</title>
+                <title>404 الصفحة غير موجودة</title>
             </Head>
 
             <div className="container">
                 <div className="not-found">
                     <div className="not-found__404">
-                        Oops! Error 404
+                        اوبس! خطأ 404
                     </div>
 
                     <div className="not-found__content">
-                        <h1 className="not-found__title">Page Not Found</h1>
+                        <h1 className="not-found__title">الصفحة غير موجودة</h1>
 
                         <p className="not-found__text">
-                            We can&apos;t seem to find the page you&apos;re looking for.
+                            لا يمكننا إيجاد الصفحة الذي تريد.
                             <br />
-                            Try to use the search.
+                            حاول استخدام البحث.
                         </p>
 
                         <form className="not-found__search">
-                            <input type="text" className="not-found__search-input form-control" placeholder="Search Query..." />
-                            <button type="submit" className="not-found__search-button btn btn-primary">Search</button>
+                            <input type="text" className="not-found__search-input form-control" placeholder="البحث عن" />
+                            <button type="submit" className="not-found__search-button btn btn-primary">ابحث</button>
                         </form>
 
                         <p className="not-found__text">
-                            Or go to the home page to start over.
+                            او اذهب للرئيسية وابدأ من جديد.
                         </p>
 
                         <AppLink href={url.home()} className="btn btn-secondary btn-sm">
-                            Go To Home Page
+                            الرئيسية
                         </AppLink>
                     </div>
                 </div>

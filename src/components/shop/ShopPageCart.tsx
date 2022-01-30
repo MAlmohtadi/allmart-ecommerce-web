@@ -77,8 +77,8 @@ function ShopPageCart() {
     };
 
     const breadcrumb = [
-        { title: 'Home', url: '' },
-        { title: 'Shopping Cart', url: '' },
+        { title: 'الرئيسية', url: '' },
+        { title: 'سلة التسوق', url: '' },
     ];
 
     let content;
@@ -165,7 +165,7 @@ function ShopPageCart() {
             <Fragment>
                 <thead className="cart__totals-header">
                     <tr>
-                        <th>Subtotal</th>
+                        <th>المجموع</th>
                         <td><CurrencyFormat value={cart.subtotal} /></td>
                     </tr>
                 </thead>
@@ -186,7 +186,7 @@ function ShopPageCart() {
                                 <th>{extraLine.title}</th>
                                 <td>
                                     <CurrencyFormat value={extraLine.price} />
-                                    {calcShippingLink}
+                                    {/* {calcShippingLink} */}
                                 </td>
                             </tr>
                         );
@@ -205,7 +205,7 @@ function ShopPageCart() {
 
                     return (
                         <button type="button" onClick={run} className={classes} disabled={!cartNeedUpdate()}>
-                            Update Cart
+                            تعديل السلة
                         </button>
                     );
                 }}
@@ -233,12 +233,12 @@ function ShopPageCart() {
                     <div className="cart__actions">
                         <form className="cart__coupon-form">
                             <label htmlFor="input-coupon-code" className="sr-only">Password</label>
-                            <input type="text" className="form-control" id="input-coupon-code" placeholder="Coupon Code" />
-                            <button type="submit" className="btn btn-primary">Apply Coupon</button>
+                            <input type="text" className="form-control" id="input-coupon-code" placeholder="كود الخصم" />
+                            <button type="submit" className="btn btn-primary">تأكيد الكود</button>
                         </form>
                         <div className="cart__buttons">
                             <AppLink href="/" className="btn btn-light">
-                                Continue Shopping
+                                أكمل التسوق
                             </AppLink>
                             {updateCartButton}
                         </div>
@@ -248,12 +248,12 @@ function ShopPageCart() {
                         <div className="col-12 col-md-7 col-lg-6 col-xl-5">
                             <div className="card">
                                 <div className="card-body">
-                                    <h3 className="card-title">Cart Totals</h3>
+                                    <h3 className="card-title">ملخص الدفع</h3>
                                     <table className="cart__totals">
                                         {cartTotals}
                                         <tfoot className="cart__totals-footer">
                                             <tr>
-                                                <th>Total</th>
+                                                <th>البلغ الكلي</th>
                                                 <td><CurrencyFormat value={cart.total} /></td>
                                             </tr>
                                         </tfoot>
@@ -262,7 +262,7 @@ function ShopPageCart() {
                                         href={url.checkout()}
                                         className="btn btn-primary btn-xl btn-block cart__checkout-button"
                                     >
-                                        Proceed to checkout
+                                        تنفيذ الطلب
                                     </AppLink>
                                 </div>
                             </div>
@@ -291,10 +291,10 @@ function ShopPageCart() {
     return (
         <Fragment>
             <Head>
-                <title>{`Shopping Cart — ${theme.name}`}</title>
+                <title>سلة التسوق</title>
             </Head>
 
-            <PageHeader header="Shopping Cart" breadcrumb={breadcrumb} />
+            <PageHeader header="سلة التسوق" breadcrumb={breadcrumb} />
 
             {content}
         </Fragment>

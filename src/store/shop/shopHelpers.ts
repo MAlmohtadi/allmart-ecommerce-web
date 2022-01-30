@@ -10,7 +10,7 @@ import { shopInitThunk } from './shopActions';
 
 export function parseQueryOptions(query: string) {
     const queryObject = queryString.parse(query);
-    const optionValues: IListOptions = {};
+    const optionValues: IListOptions & IProductOptions = {};
 
     if (typeof queryObject.page === 'string') {
         optionValues.page = parseFloat(queryObject.page);
@@ -21,7 +21,9 @@ export function parseQueryOptions(query: string) {
     if (typeof queryObject.sort === 'string') {
         optionValues.sort = queryObject.sort;
     }
-
+    if (typeof queryObject.textToSearch === 'string') {
+        optionValues.textToSearch = queryObject.textToSearch;
+    }
     return optionValues;
 }
 

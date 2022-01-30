@@ -86,8 +86,12 @@ export function shopFetchProductsListThunk(): ShopThunkAction<Promise<void>> {
         options.nextPageNumber = options.page ? options.page - 1 : 0;
         options.pageSize = options.limit || 12;
         options.isWholeSale = saleState.isWholeSale;
-        const productsList = await shopApi.getProductsList(options);
-
+        let productsList;
+        if (options.textToSearch) {
+            productsList = await shopApi.getSearchProductsList(options);
+        } else {
+            productsList = await shopApi.getProductsList(options);
+        }
         if (canceled) {
             return;
         }

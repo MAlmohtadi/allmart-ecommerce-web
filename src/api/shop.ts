@@ -270,6 +270,42 @@ const shopApi = {
         // This is for demonstration purposes only. Remove it and use the code above.
         // return getProductsList(options, filters);
     },
+    /*
+     * Return products list.
+     */
+    getSearchProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
+        /**
+         * This is what your API endpoint might look like:
+         *
+         * https://example.com/api/products.json?page=2&limit=12&sort=name_desc&filter_category=screwdriwers&filter_price=500-1000
+         *
+         * where:
+         * - page            = options.page
+         * - limit           = options.limit
+         * - sort            = options.sort
+         * - filter_category = filters.category
+         * - filter_price    = filters.price
+         */
+        // const params = { ...options };
+        //
+        // Object.keys(filters).forEach((slug) => {
+        //     params[`filter_${slug}`] = filters[slug];
+        // });
+        //
+        // return fetch(`https://example.com/api/products.json?${qs.stringify(params)}`)
+        //     .then((response) => response.json());
+        return fetch(`${BASE_URL}/products/searchProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+        // This is for demonstration purposes only. Remove it and use the code above.
+        // return getProductsList(options, filters);
+    },
     /**
      * Returns an array of top rated products.
      */
