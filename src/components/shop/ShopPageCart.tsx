@@ -95,7 +95,7 @@ function ShopPageCart() {
                             className="product-image__img"
                             src={`${item.product?.imageUrl}`}
                             onError={({ currentTarget }) => {
-                                currentTarget.src = 'http://localhost:3000/images/products/defaultImage.png';
+                                currentTarget.src = 'http://jubranjo.com/images/products/defaultImage.png';
                             }}
                             alt={item.product.name}
                         />

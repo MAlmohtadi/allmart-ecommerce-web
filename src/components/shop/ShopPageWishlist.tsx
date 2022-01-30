@@ -40,7 +40,7 @@ function ShopPageWishlist() {
                             className="product-image__img"
                             src={`${item.imageUrl}`}
                             onError={({ currentTarget }) => {
-                                currentTarget.src = 'http://localhost:3000/images/products/defaultImage.png';
+                                currentTarget.src = 'http://jubranjo.com/images/products/defaultImage.png';
                             }}
                             alt={item.name}
                         />
