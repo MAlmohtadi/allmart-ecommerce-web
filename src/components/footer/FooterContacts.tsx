@@ -17,7 +17,7 @@ function FooterContacts() {
                 </li> */}
                 <li>
                     <i className="footer-contacts__icon far fa-envelope" />
-                    info@jubranapp.com
+                    info@jubranjo.com
                 </li>
                 {/* <li>
                     <i className="footer-contacts__icon fas fa-mobile-alt" />

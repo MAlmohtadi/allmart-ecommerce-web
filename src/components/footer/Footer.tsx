@@ -33,7 +33,7 @@ const Footer: FunctionComponent = () => {
                                 <ul className="footer-links__list">
                                     <li key="Google Play" className="footer-links__item">
                                         <AppLink
-                                            href="https://play.google.com/store/apps/details?id=com.allmartapp.allmart&amp;pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1"
+                                            href="https://play.google.com/store/apps/details?id=com.jubranpp.jubran"
                                             className="footer-links__link"
                                         >
                                             <img
@@ -50,7 +50,7 @@ const Footer: FunctionComponent = () => {
                                     </li>
                                     <li key="App Store" className="footer-links__item">
                                         <AppLink
-                                            href="https://apps.apple.com/us/app/all-mart/id1570964770?itsct=apps_box_badge&amp;itscg=30200"
+                                            href="https://apps.apple.com/us/app/jubran/id1594000901"
                                             className="footer-links__link"
                                         >
                                             <img
