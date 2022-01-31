@@ -93,7 +93,7 @@ function MobileMenu() {
             <div className="mobilemenu__backdrop" onClick={mobileMenuClose} />
             <div className="mobilemenu__body">
                 <div className="mobilemenu__header">
-                    <div className="mobilemenu__title">Menu</div>
+                    <div className="mobilemenu__title">القائمة</div>
                     <button type="button" className="mobilemenu__close" onClick={mobileMenuClose}>
                         <Cross20Svg />
                     </button>

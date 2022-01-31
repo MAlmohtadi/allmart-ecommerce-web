@@ -258,7 +258,7 @@ const shopApi = {
         //
         // return fetch(`https://example.com/api/products.json?${qs.stringify(params)}`)
         //     .then((response) => response.json());
-        return fetch(`http://allmartapi-env.eba-emmfhi2f.us-east-1.elasticbeanstalk.com/api/products/getProducts`, {
+        return fetch(`${BASE_URL}/products/getProducts`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

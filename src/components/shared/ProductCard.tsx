@@ -68,7 +68,7 @@ function ProductCard(props: ProductCardProps) {
                     className="product-image__img"
                     src={`${product?.imageUrl}`}
                     onError={({ currentTarget }) => {
-                        currentTarget.src = 'http://jubranjo.com/images/products/defaultImage.png';
+                        currentTarget.src = '/images/products/defaultImage.png';
                     }}
                     alt={product.name}
                 />

@@ -208,12 +208,12 @@ function Product(props: ProductProps) {
                             </div>
                         </div>
                         <div className="form-group product__option">
-                            <label htmlFor="product-quantity" className="product__option-label">Quantity</label>
+                            <label htmlFor="product-quantity" className="product__option-label">الكمية</label>
                             <div className="product__actions">
                                 <div className="product__actions-item">
                                     <InputNumber
                                         id="product-quantity"
-                                        aria-label="Quantity"
+                                        aria-label="الكمية"
                                         className="product__quantity"
                                         size="lg"
                                         min={1}

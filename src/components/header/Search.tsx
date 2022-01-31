@@ -8,13 +8,13 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 
 // application
+import { toast } from 'react-toastify';
 import Cross20Svg from '../../svg/cross-20.svg';
 import Search20Svg from '../../svg/search-20.svg';
 import shopApi, { GetSuggestionsOptions } from '../../api/shop';
 import Suggestions from './Suggestions';
 import { ICategory } from '../../interfaces/category';
 import { IProduct } from '../../interfaces/product-old';
-import { toast } from 'react-toastify';
 
 type CategoryWithDepth = ICategory & { depth: number };
 
@@ -152,7 +152,13 @@ function Search(props: SearchProps) {
             }
         }, 10);
     };
-
+    const search = () => {
+        if (query.length < 2) {
+            toast.error('يجب ادخال حرفين على الأقل للبحث');
+        } else {
+            router.push(`/search?textToSearch=${query}`);
+        }
+    };
     // Close suggestions when the Escape key has been pressed.
     const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
         // Escape.
@@ -160,11 +166,7 @@ function Search(props: SearchProps) {
             close();
         }
         if (event.key === 'Enter') {
-            if (query.length < 2) {
-                toast.error('يجب ادخال حرفين على الأقل للبحث');
-            } else {
-                router.push(`/search?textToSearch=${query}`);
-            }
+            search();
         }
     };
 
@@ -219,7 +221,7 @@ function Search(props: SearchProps) {
                     />
                     <button
                         className="search__button search__button--type--submit"
-                        onClick={() => router.push(`/search?extToSearch=${query}`)}
+                        onClick={() => search()}
                         type="submit"
                     >
                         <Search20Svg />

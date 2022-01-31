@@ -57,22 +57,22 @@ const dataMobileMenu: IMobileMenu = [
     //     ],
     // },
 
-    {
-        type: 'link',
-        title: 'Account',
-        url: '/account/login',
-        children: [
-            { type: 'link', title: 'Login', url: '/account/login' },
-            { type: 'link', title: 'Dashboard', url: '/account/dashboard' },
-            { type: 'link', title: 'Edit Profile', url: '/account/profile' },
-            { type: 'link', title: 'Order History', url: '/account/orders' },
-            // {
-            //     type: 'link',
-            //     title: 'Order Details',
-            //     url: { href: '/account/orders/[orderId]', as: '/account/orders/5', prefetch: false },
-            // },
-        ],
-    },
+    // {
+    //     type: 'link',
+    //     title: 'Account',
+    //     url: '/account/login',
+    //     children: [
+    //         { type: 'link', title: 'Login', url: '/account/login' },
+    //         { type: 'link', title: 'Dashboard', url: '/account/dashboard' },
+    //         { type: 'link', title: 'Edit Profile', url: '/account/profile' },
+    //         { type: 'link', title: 'Order History', url: '/account/orders' },
+    //         // {
+    //         //     type: 'link',
+    //         //     title: 'Order Details',
+    //         //     url: { href: '/account/orders/[orderId]', as: '/account/orders/5', prefetch: false },
+    //         // },
+    //     ],
+    // },
 
     // {
     //     type: 'link',

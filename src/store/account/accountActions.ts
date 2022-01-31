@@ -32,7 +32,7 @@ export function loginAccountSuccess(
 export function updateAccountSuccess(
     data: IAccount,
 ): UpdateAccountAction {
-    // toast.success(`Product "${product.name}" added to cart!`, { theme: 'colored' });
+    toast.success('تم تحديث معلوماتك بنجاح', { theme: 'colored' });
     return {
         type: UPDATE_ACCOUNT,
         data,
@@ -54,7 +54,7 @@ export function removeAccountSuccess(): RemoveAccountAction {
     };
 }
 export function logoutAccountSuccess(): LogoutAccountAction {
-    // toast.success(`Product "${product.name}" added to cart!`, { theme: 'colored' });
+    toast.success('تم تسجيل الخروج', { theme: 'colored' });
     return {
         type: LOGOUT_ACCOUNT,
     };

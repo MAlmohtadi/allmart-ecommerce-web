@@ -95,7 +95,7 @@ function ShopPageCart() {
                             className="product-image__img"
                             src={`${item.product?.imageUrl}`}
                             onError={({ currentTarget }) => {
-                                currentTarget.src = 'http://jubranjo.com/images/products/defaultImage.png';
+                                currentTarget.src = '/images/products/defaultImage.png';
                             }}
                             alt={item.product.name}
                         />
@@ -141,17 +141,17 @@ function ShopPageCart() {
                         </div>
                         {options}
                     </td>
-                    <td className="cart-table__column cart-table__column--price" data-title="Price">
+                    <td className="cart-table__column cart-table__column--price" data-title="السعر">
                         <CurrencyFormat value={item.price} />
                     </td>
-                    <td className="cart-table__column cart-table__column--quantity" data-title="Quantity">
+                    <td className="cart-table__column cart-table__column--quantity" data-title="الكمية">
                         <InputNumber
                             onChange={(quantity) => handleChangeQuantity(item, quantity)}
                             value={getItemQuantity(item)}
                             min={1}
                         />
                     </td>
-                    <td className="cart-table__column cart-table__column--total" data-title="Total">
+                    <td className="cart-table__column cart-table__column--total" data-title="المجموع">
                         <CurrencyFormat value={item.total} />
                     </td>
                     <td className="cart-table__column cart-table__column--remove">

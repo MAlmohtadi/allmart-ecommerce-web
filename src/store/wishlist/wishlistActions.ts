@@ -11,7 +11,7 @@ import {
 } from './wishlistActionTypes';
 
 export function wishlistAddItemSuccess(product: IProduct): WishlistAddItemAction {
-    toast.success(`Product "${product.name}" added to wish list!`, { theme: 'colored' });
+    toast.success(`تم اضافة "${product.name}" للمفضلة!`, { theme: 'colored' });
 
     return {
         type: WISHLIST_ADD_ITEM,
