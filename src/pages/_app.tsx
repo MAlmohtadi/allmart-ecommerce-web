@@ -25,7 +25,7 @@ export type StroykaAppProps = AppProps & {
 };
 
 function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
-    const headerLayout = 'default';
+    const headerLayout = router.pathname === '/home-two' ? 'compact' : 'default';
     const applyClientState = useApplyClientState();
     const locale = useLocale();
     const messages = useMessages();

@@ -16,7 +16,6 @@ import {
     getSuggestions,
     getTopRatedProducts,
 } from '../fake-server/endpoints/products';
-import { IHomePageResponse } from '../interfaces/hompage';
 
 export interface GetCategoriesOptions {
     depth?: number;
@@ -39,30 +38,8 @@ export type GetSuggestionsOptions = {
     limit?: number;
     category?: string;
 };
-export interface GetSaleOptions {
-    isWholeSale?: boolean;
-}
 
-const BASE_URL = 'http://34.225.242.145:8080/api';
 const shopApi = {
-
-    /**
-     * Returns array of categories.
-     */
-    getHompageData: (options: GetSaleOptions = {}): Promise<IHomePageResponse> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/categories.json?isWholeSale=true
-         *
-         * where:
-         * - true = options.isWholeSale
-         */
-        return fetch(`${BASE_URL}home/getHomeInfo${qs.stringify(options)}`)
-            .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-    },
     /**
      * Returns array of categories.
      */
