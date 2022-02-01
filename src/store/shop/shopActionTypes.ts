@@ -4,7 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { AppAction } from '../types';
 import { IFilterValues, IListOptions } from '../../interfaces/list';
 import { SHOP_NAMESPACE, ShopState } from './shopTypes';
-import { IProductsList } from '../../interfaces/product';
+import { IProductResponse, IProductsList } from '../../interfaces/product';
 
 export const SHOP_HYDRATE = HYDRATE;
 export const SHOP_INIT = 'SHOP_INIT';
@@ -35,7 +35,7 @@ export interface ShopFetchProductsListStartAction {
 
 export interface ShopFetchProductsListSuccessAction {
     type: typeof SHOP_FETCH_PRODUCTS_LIST_SUCCESS;
-    productsList: IProductsList;
+    productsList: IProductResponse;
 }
 export interface ShopSetOptionValueAction {
     type: typeof SHOP_SET_OPTION_VALUE;

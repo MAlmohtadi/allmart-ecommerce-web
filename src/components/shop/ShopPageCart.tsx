@@ -253,7 +253,7 @@ function ShopPageCart() {
                                         {cartTotals}
                                         <tfoot className="cart__totals-footer">
                                             <tr>
-                                                <th>البلغ الكلي</th>
+                                                <th>المبلغ الكلي</th>
                                                 <td><CurrencyFormat value={cart.total} /></td>
                                             </tr>
                                         </tfoot>

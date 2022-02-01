@@ -35,7 +35,7 @@ function HomePage(props: HomePageProps) {
     const { initData } = props;
     const isWholeSale = useSale();
     const homepageInfo = useDeferredData(() => shopApi.getHompageData({ isWholeSale }), initData?.homepageInfo);
-    const homeData = useHome();
+
     const featuredProducts = useDeferredData(
         () => shopApi.getFeaturedProducts({ isWholeSale: false }),
         initData?.featuredProducts,

@@ -75,10 +75,14 @@ export default async function getShopPageData(
 ): Promise<void> {
     // const categorySlug = slug || (typeof context.params?.slug === 'string' ? context.params.slug : null);
 
-    // if (typeof context.req.url === 'string') {
     const query = queryString.stringify(queryString.parseUrl(context.req.url).query);
     const options = { ...parseQueryOptions(query), ...context.params };
     const filters = parseQueryFilters(query);
+    if (typeof context.req.url === 'string' && context.req.url.includes('offers')) {
+        options.isOffer = true;
+    } else {
+        options.isOffer = false;
+    }
     const dispatch = store.dispatch as AppDispatch;
 
     await dispatch(shopInitThunk(options, filters));

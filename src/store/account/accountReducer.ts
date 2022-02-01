@@ -28,8 +28,6 @@ export const ACCOUNT_NAMESPACE = 'account';
 
 function accountBaseReducer(state = initialState, action: AccountAction): AccountState {
     switch (action.type) {
-    case ACCOUNT_HYDRATE:
-        return action.payload[ACCOUNT_NAMESPACE];
     case LOGIN_ACCOUNT:
     case REGISTER_ACCOUNT:
     case UPDATE_ACCOUNT:

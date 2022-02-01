@@ -15,7 +15,7 @@ function CurrencyFormat(props: CurrencyFormatProps) {
     const currentCurrency = useCurrency();
     const { symbol } = currency || currentCurrency;
 
-    return <Fragment>{`${value.toFixed(2)}${symbol}`}</Fragment>;
+    return <Fragment>{`${symbol}${value.toFixed(2)}`}</Fragment>;
 }
 
 export default CurrencyFormat;

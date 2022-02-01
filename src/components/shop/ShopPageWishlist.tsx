@@ -17,6 +17,7 @@ import { useWishlist, useWishlistRemoveItem } from '../../store/wishlist/wishlis
 // data stubs
 import theme from '../../data/theme';
 import { useCartAddItem } from '../../store/cart/cartHooks';
+import { useAccount } from '../../store/account/accountHooks';
 
 function ShopPageWishlist() {
     const { items } = useWishlist();
@@ -26,10 +27,27 @@ function ShopPageWishlist() {
         { title: 'الرئيسية', url: '' },
         { title: 'المفضلة', url: '' },
     ];
-
+    const account = useAccount();
     let content;
-
-    if (items.length) {
+    if (!account.isLoggedIn) {
+        content = (
+            <div className="block block-empty">
+                <div className="container">
+                    <div className="block-empty__body">
+                        <div className="block-empty__message">
+                            يجب عليك تسجيل الدخول
+                            !
+                        </div>
+                        <div className="block-empty__actions">
+                            <AppLink href="/account/login" className="btn btn-primary btn-sm">
+                                تسجيل الدخول
+                            </AppLink>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    } else if (items.length) {
         const itemsList = items.map((item) => {
             let image;
 
@@ -47,7 +65,6 @@ function ShopPageWishlist() {
                     </div>
                 </div>
             );
-
 
             const renderAddToCarButton: RenderFn = ({ run, loading }) => {
                 const classes = classNames('btn btn-primary btn-sm', {
@@ -140,7 +157,7 @@ function ShopPageWishlist() {
     return (
         <Fragment>
             <Head>
-                <title>جبران - المفضلة</title>
+                <title>المفضلة - جبران</title>
             </Head>
 
             <PageHeader header="المفضلة" breadcrumb={breadcrumb} />

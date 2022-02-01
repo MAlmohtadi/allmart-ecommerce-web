@@ -60,7 +60,7 @@ export function logoutAccountSuccess(): LogoutAccountAction {
     };
 }
 
-export function accountLoginThunk(accountOptions: AccountOptions): AccountThunkAction<Promise<void>> {
+export function accountLogin(accountOptions: AccountOptions): AccountThunkAction<Promise<void>> {
     // sending request to server, timeout is used as a stub
     return async (dispatch) => {
         let canceled = false;
