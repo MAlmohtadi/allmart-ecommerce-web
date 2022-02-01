@@ -5,7 +5,7 @@ import { Fragment, ReactNode } from 'react';
 import AppLink from '../shared/AppLink';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import url from '../../services/url';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 export interface WidgetProductsProps {
     title: ReactNode;
@@ -23,7 +23,7 @@ function WidgetProducts(props: WidgetProductsProps) {
                 <div className="widget-products__image">
                     <div className="product-image">
                         <AppLink href={url.product(product)} className="product-image__body">
-                            <img className="product-image__img" src={product.images[0]} alt="" />
+                            <img className="product-image__img" src={`${product.images[0]}`} alt="" />
                         </AppLink>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import {
     CartItem,
     CartItemOption,
@@ -57,13 +57,8 @@ function calcTotals(items: CartItem[]): CartTotal[] {
     return [
         {
             type: 'shipping',
-            title: 'Shipping',
+            title: 'التوصيل',
             price: 25,
-        },
-        {
-            type: 'tax',
-            title: 'Tax',
-            price: subtotal * 0.2,
         },
     ];
 }

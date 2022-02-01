@@ -1,6 +1,6 @@
 // application
 import shopApi from '../../api/shop';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import {
     QUICKVIEW_CLOSE,
     QUICKVIEW_OPEN,

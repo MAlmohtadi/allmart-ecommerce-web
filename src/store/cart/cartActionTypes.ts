@@ -1,4 +1,4 @@
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { CartItemOption } from './cartTypes';
 import { AppAction } from '../types';
 

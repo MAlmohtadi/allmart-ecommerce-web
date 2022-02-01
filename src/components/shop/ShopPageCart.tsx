@@ -77,8 +77,8 @@ function ShopPageCart() {
     };
 
     const breadcrumb = [
-        { title: 'Home', url: '' },
-        { title: 'Shopping Cart', url: '' },
+        { title: 'الرئيسية', url: '' },
+        { title: 'سلة التسوق', url: '' },
     ];
 
     let content;
@@ -88,15 +88,20 @@ function ShopPageCart() {
             let image;
             let options;
 
-            if (item.product.images.length > 0) {
-                image = (
-                    <div className="product-image">
-                        <AppLink href={url.product(item.product)} className="product-image__body">
-                            <img className="product-image__img" src={item.product.images[0]} alt="" />
-                        </AppLink>
+            image = (
+                <div className="product-image">
+                    <div className="product-image__body">
+                        <img
+                            className="product-image__img"
+                            src={`${item.product?.imageUrl}`}
+                            onError={({ currentTarget }) => {
+                                currentTarget.src = '/images/products/defaultImage.png';
+                            }}
+                            alt={item.product.name}
+                        />
                     </div>
-                );
-            }
+                </div>
+            );
 
             if (item.options.length > 0) {
                 options = (
@@ -131,22 +136,22 @@ function ShopPageCart() {
                         {image}
                     </td>
                     <td className="cart-table__column cart-table__column--product">
-                        <AppLink href={url.product(item.product)} className="cart-table__product-name">
+                        <div className="cart-table__product-name">
                             {item.product.name}
-                        </AppLink>
+                        </div>
                         {options}
                     </td>
-                    <td className="cart-table__column cart-table__column--price" data-title="Price">
+                    <td className="cart-table__column cart-table__column--price" data-title="السعر">
                         <CurrencyFormat value={item.price} />
                     </td>
-                    <td className="cart-table__column cart-table__column--quantity" data-title="Quantity">
+                    <td className="cart-table__column cart-table__column--quantity" data-title="الكمية">
                         <InputNumber
                             onChange={(quantity) => handleChangeQuantity(item, quantity)}
                             value={getItemQuantity(item)}
                             min={1}
                         />
                     </td>
-                    <td className="cart-table__column cart-table__column--total" data-title="Total">
+                    <td className="cart-table__column cart-table__column--total" data-title="المجموع">
                         <CurrencyFormat value={item.total} />
                     </td>
                     <td className="cart-table__column cart-table__column--remove">
@@ -160,7 +165,7 @@ function ShopPageCart() {
             <Fragment>
                 <thead className="cart__totals-header">
                     <tr>
-                        <th>Subtotal</th>
+                        <th>المجموع</th>
                         <td><CurrencyFormat value={cart.subtotal} /></td>
                     </tr>
                 </thead>
@@ -181,7 +186,7 @@ function ShopPageCart() {
                                 <th>{extraLine.title}</th>
                                 <td>
                                     <CurrencyFormat value={extraLine.price} />
-                                    {calcShippingLink}
+                                    {/* {calcShippingLink} */}
                                 </td>
                             </tr>
                         );
@@ -200,7 +205,7 @@ function ShopPageCart() {
 
                     return (
                         <button type="button" onClick={run} className={classes} disabled={!cartNeedUpdate()}>
-                            Update Cart
+                            تعديل السلة
                         </button>
                     );
                 }}
@@ -213,11 +218,11 @@ function ShopPageCart() {
                     <table className="cart__table cart-table">
                         <thead className="cart-table__head">
                             <tr className="cart-table__row">
-                                <th className="cart-table__column cart-table__column--image">Image</th>
-                                <th className="cart-table__column cart-table__column--product">Product</th>
-                                <th className="cart-table__column cart-table__column--price">Price</th>
-                                <th className="cart-table__column cart-table__column--quantity">Quantity</th>
-                                <th className="cart-table__column cart-table__column--total">Total</th>
+                                <th className="cart-table__column cart-table__column--image">الصورة</th>
+                                <th className="cart-table__column cart-table__column--product">المنتج</th>
+                                <th className="cart-table__column cart-table__column--price">السعر</th>
+                                <th className="cart-table__column cart-table__column--quantity">الكمية</th>
+                                <th className="cart-table__column cart-table__column--total">المجموع</th>
                                 <th className="cart-table__column cart-table__column--remove" aria-label="Remove" />
                             </tr>
                         </thead>
@@ -228,12 +233,12 @@ function ShopPageCart() {
                     <div className="cart__actions">
                         <form className="cart__coupon-form">
                             <label htmlFor="input-coupon-code" className="sr-only">Password</label>
-                            <input type="text" className="form-control" id="input-coupon-code" placeholder="Coupon Code" />
-                            <button type="submit" className="btn btn-primary">Apply Coupon</button>
+                            <input type="text" className="form-control" id="input-coupon-code" placeholder="كود الخصم" />
+                            <button type="submit" className="btn btn-primary">تأكيد الكود</button>
                         </form>
                         <div className="cart__buttons">
                             <AppLink href="/" className="btn btn-light">
-                                Continue Shopping
+                                أكمل التسوق
                             </AppLink>
                             {updateCartButton}
                         </div>
@@ -243,12 +248,12 @@ function ShopPageCart() {
                         <div className="col-12 col-md-7 col-lg-6 col-xl-5">
                             <div className="card">
                                 <div className="card-body">
-                                    <h3 className="card-title">Cart Totals</h3>
+                                    <h3 className="card-title">ملخص الدفع</h3>
                                     <table className="cart__totals">
                                         {cartTotals}
                                         <tfoot className="cart__totals-footer">
                                             <tr>
-                                                <th>Total</th>
+                                                <th>البلغ الكلي</th>
                                                 <td><CurrencyFormat value={cart.total} /></td>
                                             </tr>
                                         </tfoot>
@@ -257,7 +262,7 @@ function ShopPageCart() {
                                         href={url.checkout()}
                                         className="btn btn-primary btn-xl btn-block cart__checkout-button"
                                     >
-                                        Proceed to checkout
+                                        تنفيذ الطلب
                                     </AppLink>
                                 </div>
                             </div>
@@ -271,10 +276,10 @@ function ShopPageCart() {
             <div className="block block-empty">
                 <div className="container">
                     <div className="block-empty__body">
-                        <div className="block-empty__message">Your shopping cart is empty!</div>
+                        <div className="block-empty__message">السلة فارغة!</div>
                         <div className="block-empty__actions">
                             <AppLink href="/" className="btn btn-primary btn-sm">
-                                Continue
+                                أكمل التسوق
                             </AppLink>
                         </div>
                     </div>
@@ -286,10 +291,10 @@ function ShopPageCart() {
     return (
         <Fragment>
             <Head>
-                <title>{`Shopping Cart — ${theme.name}`}</title>
+                <title>سلة التسوق</title>
             </Head>
 
-            <PageHeader header="Shopping Cart" breadcrumb={breadcrumb} />
+            <PageHeader header="سلة التسوق" breadcrumb={breadcrumb} />
 
             {content}
         </Fragment>

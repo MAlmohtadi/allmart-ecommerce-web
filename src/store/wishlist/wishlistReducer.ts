@@ -1,5 +1,5 @@
 // application
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { WISHLIST_ADD_ITEM, WISHLIST_REMOVE_ITEM, WishlistAction } from './wishlistActionTypes';
 import { WishlistState } from './wishlistTypes';
 import { withClientState } from '../client';

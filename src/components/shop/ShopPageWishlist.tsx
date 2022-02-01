@@ -11,7 +11,6 @@ import AsyncAction, { RenderFn } from '../shared/AsyncAction';
 import Cross12Svg from '../../svg/cross-12.svg';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import PageHeader from '../shared/PageHeader';
-import Rating from '../shared/Rating';
 import url from '../../services/url';
 import { useWishlist, useWishlistRemoveItem } from '../../store/wishlist/wishlistHooks';
 
@@ -24,8 +23,8 @@ function ShopPageWishlist() {
     const wishlistRemoveItem = useWishlistRemoveItem();
     const cartAddItem = useCartAddItem();
     const breadcrumb = [
-        { title: 'Home', url: '' },
-        { title: 'Wishlist', url: '' },
+        { title: 'الرئيسية', url: '' },
+        { title: 'المفضلة', url: '' },
     ];
 
     let content;
@@ -34,22 +33,28 @@ function ShopPageWishlist() {
         const itemsList = items.map((item) => {
             let image;
 
-            if (item.images.length > 0) {
-                image = (
-                    <div className="product-image">
-                        <AppLink href={url.product(item)} className="product-image__body">
-                            <img className="product-image__img" src={item.images[0]} alt="" />
-                        </AppLink>
+            image = (
+                <div className="product-image">
+                    <div className="product-image__body">
+                        <img
+                            className="product-image__img"
+                            src={`${item.imageUrl}`}
+                            onError={({ currentTarget }) => {
+                                currentTarget.src = '/images/products/defaultImage.png';
+                            }}
+                            alt={item.name}
+                        />
                     </div>
-                );
-            }
+                </div>
+            );
+
 
             const renderAddToCarButton: RenderFn = ({ run, loading }) => {
                 const classes = classNames('btn btn-primary btn-sm', {
                     'btn-loading': loading,
                 });
 
-                return <button type="button" onClick={run} className={classes}>Add To Cart</button>;
+                return <button type="button" onClick={run} className={classes}>إضافة للسلة</button>;
             };
 
             const renderRemoveButton: RenderFn = ({ run, loading }) => {
@@ -66,16 +71,16 @@ function ShopPageWishlist() {
                         {image}
                     </td>
                     <td className="wishlist__column wishlist__column--product">
-                        <AppLink href={url.product(item)} className="wishlist__product-name">
-                            {item.name}
-                        </AppLink>
-                        <div className="wishlist__product-rating">
+                        {/* <AppLink href={url.product(item)} className="wishlist__product-name"> */}
+                        {item.name}
+                        {/* </AppLink> */}
+                        {/* <div className="wishlist__product-rating">
                             <Rating value={item.rating} />
                             <div className="wishlist__product-rating-legend">{`${item.reviews} Reviews`}</div>
-                        </div>
+                        </div> */}
                     </td>
                     <td className="wishlist__column wishlist__column--stock">
-                        <div className="badge badge-success">In Stock</div>
+                        <div className="badge badge-success">{item.isStockAvailable ? ' متوفر ' : 'غير متوفر '}</div>
                     </td>
                     <td className="wishlist__column wishlist__column--price"><CurrencyFormat value={item.price} /></td>
                     <td className="wishlist__column wishlist__column--tocart">
@@ -100,10 +105,10 @@ function ShopPageWishlist() {
                     <table className="wishlist">
                         <thead className="wishlist__head">
                             <tr className="wishlist__row">
-                                <th className="wishlist__column wishlist__column--image">Image</th>
-                                <th className="wishlist__column wishlist__column--product">Product</th>
-                                <th className="wishlist__column wishlist__column--stock">Stock Status</th>
-                                <th className="wishlist__column wishlist__column--price">Price</th>
+                                <th className="wishlist__column wishlist__column--image">الصورة</th>
+                                <th className="wishlist__column wishlist__column--product">المنتج</th>
+                                <th className="wishlist__column wishlist__column--stock">الحالة</th>
+                                <th className="wishlist__column wishlist__column--price">السعر</th>
                                 <th className="wishlist__column wishlist__column--tocart" aria-label="Add to cart" />
                                 <th className="wishlist__column wishlist__column--remove" aria-label="Remove" />
                             </tr>
@@ -120,10 +125,10 @@ function ShopPageWishlist() {
             <div className="block block-empty">
                 <div className="container">
                     <div className="block-empty__body">
-                        <div className="block-empty__message">Your wish list is empty!</div>
+                        <div className="block-empty__message">لا يوجد منتجات مفضلة!</div>
                         <div className="block-empty__actions">
                             <AppLink href="/" className="btn btn-primary btn-sm">
-                                Continue
+                                أكمل التسوق
                             </AppLink>
                         </div>
                     </div>
@@ -135,10 +140,10 @@ function ShopPageWishlist() {
     return (
         <Fragment>
             <Head>
-                <title>{`Wish List — ${theme.name}`}</title>
+                <title>جبران - المفضلة</title>
             </Head>
 
-            <PageHeader header="Wishlist" breadcrumb={breadcrumb} />
+            <PageHeader header="المفضلة" breadcrumb={breadcrumb} />
 
             {content}
         </Fragment>

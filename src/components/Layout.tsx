@@ -9,7 +9,6 @@ import Footer from './footer/Footer';
 import Header, { HeaderLayout } from './header/Header';
 import MobileHeader from './mobile/MobileHeader';
 import MobileMenu from './mobile/MobileMenu';
-import Quickview from './shared/Quickview';
 
 export interface LayoutProps extends PropsWithChildren<{}>{
     headerLayout: HeaderLayout;

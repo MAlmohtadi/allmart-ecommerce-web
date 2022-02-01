@@ -24,7 +24,7 @@ import WidgetFilters from '../widgets/WidgetFilters';
 import WidgetProducts from '../widgets/WidgetProducts';
 import { buildQuery } from '../../store/shop/shopHelpers';
 import { getCategoryParents } from '../../services/helpers';
-import { IProduct } from '../../interfaces/product';
+import { IProductList } from '../../interfaces/product';
 import { useShop } from '../../store/shop/shopHooks';
 
 // data stubs
@@ -48,8 +48,8 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     // shop
     const shopState = useShop();
 
-    const router = useRouter();
-    const [latestProducts, setLatestProducts] = useState<IProduct[]>([]);
+    // const router = useRouter();
+    // const [latestProducts, setLatestProducts] = useState<IProductList[]>([]);
 
     // sidebar
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
@@ -57,85 +57,70 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     const closeSidebarFn = useCallback(() => setSidebarOpen(false), [setSidebarOpen]);
 
     // Replace current url.
-    useEffect(() => {
-        const query = buildQuery(shopState.options, shopState.filters);
-        const href = queryString.stringifyUrl({
-            ...queryString.parseUrl(router.asPath),
-            query: queryString.parse(query),
-        }, { encode: false });
+    // useEffect(() => {
+    //     const query = buildQuery(shopState.options, shopState.filters);
+    //     const href = queryString.stringifyUrl({
+    //         ...queryString.parseUrl(router.asPath),
+    //         query: queryString.parse(query),
+    //     }, { encode: false });
 
-        router.replace(href, href, {
-            shallow: true,
-        }).then(() => {
-            // This is necessary for the "History API" to work.
-            window.history.replaceState(
-                {
-                    ...window.history.state,
-                    options: {
-                        ...window.history.state.options,
-                        shallow: false,
-                    },
-                },
-                '',
-                href,
-            );
-        });
-    }, [shopState.options, shopState.filters]);
+    //     router.replace(href, href, {
+    //         shallow: true,
+    //     }).then(() => {
+    //         // This is necessary for the "History API" to work.
+    //         window.history.replaceState(
+    //             {
+    //                 ...window.history.state,
+    //                 options: {
+    //                     ...window.history.state.options,
+    //                     shallow: false,
+    //                 },
+    //             },
+    //             '',
+    //             href,
+    //         );
+    //     });
+    // }, [shopState.options, shopState.filters]);
 
-    // Load latest products.
-    useEffect(() => {
-        let canceled = false;
+    // // Load latest products.
+    // useEffect(() => {
+    //     let canceled = false;
 
-        if (offcanvas === 'always') {
-            setLatestProducts([]);
-        } else {
-            shopApi.getLatestProducts({ limit: 5 }).then((result) => {
-                if (canceled) {
-                    return;
-                }
+    //     if (offcanvas === 'always') {
+    //         setLatestProducts([]);
+    //     } else {
+    //         shopApi.getLatestProducts({ limit: 5 }).then((result) => {
+    //             if (canceled) {
+    //                 return;
+    //             }
 
-                setLatestProducts(result);
-            });
-        }
+    //             setLatestProducts(result);
+    //         });
+    //     }
 
-        return () => {
-            canceled = true;
-        };
-    }, [offcanvas]);
+    //     return () => {
+    //         canceled = true;
+    //     };
+    // }, [offcanvas]);
 
     const sidebarComponent = useMemo(() => (
         <CategorySidebar open={sidebarOpen} closeFn={closeSidebarFn} offcanvas={offcanvas}>
             <CategorySidebarItem>
-                <WidgetFilters title="Filters" offcanvas={offcanvas} />
+                <WidgetFilters title="فلترة" offcanvas={offcanvas} />
             </CategorySidebarItem>
-            {offcanvas !== 'always' && (
-                <CategorySidebarItem className="d-none d-lg-block">
-                    <WidgetProducts title="Latest Products" products={latestProducts} />
-                </CategorySidebarItem>
-            )}
         </CategorySidebar>
-    ), [sidebarOpen, closeSidebarFn, offcanvas, latestProducts]);
+    ), [sidebarOpen, closeSidebarFn, offcanvas]);
 
-    if (shopState.categoryIsLoading || (shopState.productsListIsLoading && !shopState.productsList)) {
+    if (shopState.productsListIsLoading && !shopState.productsList) {
         return <BlockLoader />;
     }
 
     const breadcrumb = [
-        { title: 'Home', url: url.home() },
-        { title: 'Shop', url: url.catalog() },
+        { title: 'الرئيسية', url: url.home() },
+        { title: 'التصنيفات', url: url.catalog() },
     ];
-    let pageTitle = 'Shop';
+    let pageTitle = 'التصنيفات';
     let content;
-
-    if (shopState.category) {
-        getCategoryParents(shopState.category).forEach((parent) => {
-            breadcrumb.push({ title: parent.name, url: url.category(parent) });
-        });
-
-        breadcrumb.push({ title: shopState.category.name, url: url.category(shopState.category) });
-
-        pageTitle = shopState.category.name;
-    }
 
     const productsView = (
         <ProductsView
@@ -176,7 +161,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     return (
         <Fragment>
             <Head>
-                <title>{`Shop Category Page — ${theme.name}`}</title>
+                <title>{` التصنيفات — ${theme.name}`}</title>
             </Head>
 
             <PageHeader header={pageTitle} breadcrumb={breadcrumb} />

@@ -10,7 +10,7 @@ import AsyncAction from '../shared/AsyncAction';
 import Cart16Svg from '../../svg/cart-16.svg';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import url from '../../services/url';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { useCartAddItem } from '../../store/cart/cartHooks';
 
 export interface SuggestionsProps {
@@ -33,7 +33,7 @@ function Suggestions(props: SuggestionsProps) {
             {product.images && product.images.length > 0 && (
                 <div className="suggestions__item-image product-image">
                     <div className="product-image__body">
-                        <img className="product-image__img" src={product.images[0]} alt="" />
+                        <img className="product-image__img" src={`${product.images[0]}`} alt="" />
                     </div>
                 </div>
             )}

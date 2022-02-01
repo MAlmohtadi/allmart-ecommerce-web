@@ -1,9 +1,6 @@
 // react
 import {
-    ComponentType,
-    useEffect,
-    useMemo,
-    Fragment,
+    ComponentType, useEffect, useMemo, Fragment,
 } from 'react';
 // third-party
 import { AppProps } from 'next/app';
@@ -20,8 +17,8 @@ import '../scss/index.scss';
 
 export type StroykaAppProps = AppProps & {
     Component: NextComponentType<NextPageContext, any> & {
-        Layout: ComponentType
-    }
+        Layout: ComponentType;
+    };
 };
 
 function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
@@ -31,7 +28,6 @@ function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
     const messages = useMessages();
     const direction = useDirection();
     const store = useStore();
-
     // preloader
     useEffect(() => {
         const preloader = document.querySelector('.site-preloader');

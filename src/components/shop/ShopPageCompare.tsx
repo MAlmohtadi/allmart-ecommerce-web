@@ -56,7 +56,7 @@ function ShopPageCompare() {
                 image = (
                     <div className="compare-table__product-image product-image">
                         <div className="product-image__body">
-                            <img className="product-image__img" src={product.images[0]} alt="" />
+                            <img className="product-image__img" src={`${product.images[0]}`} alt="" />
                         </div>
                     </div>
                 );
@@ -71,17 +71,6 @@ function ShopPageCompare() {
                 </td>
             );
         });
-
-        const ratingRow = items.map((product) => (
-            <td key={product.id}>
-                <div className="compare-table__product-rating">
-                    <Rating value={product.rating} />
-                </div>
-                <div className=" compare-table__product-rating-legend">
-                    {`${product.reviews} Reviews`}
-                </div>
-            </td>
-        ));
 
         const availabilityRow = items.map((product) => {
             let badge;
@@ -157,23 +146,19 @@ function ShopPageCompare() {
                         <table className="compare-table">
                             <tbody>
                                 <tr>
-                                    <th>Product</th>
+                                    <th>المنتج</th>
                                     {productInfoRow}
                                 </tr>
                                 <tr>
-                                    <th>Rating</th>
-                                    {ratingRow}
-                                </tr>
-                                <tr>
-                                    <th>Availability</th>
+                                    <th>الحالة</th>
                                     {availabilityRow}
                                 </tr>
                                 <tr>
-                                    <th>Price</th>
+                                    <th>السعر</th>
                                     {priceRow}
                                 </tr>
                                 <tr>
-                                    <th>Add To Cart</th>
+                                    <th>إضافة للسلة</th>
                                     {addToCartRow}
                                 </tr>
                                 {attributeRows}

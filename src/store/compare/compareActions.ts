@@ -1,7 +1,7 @@
 // third-party
 import { toast } from 'react-toastify';
 // application
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import {
     COMPARE_ADD_ITEM,
     COMPARE_REMOVE_ITEM,

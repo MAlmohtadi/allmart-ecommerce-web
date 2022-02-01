@@ -1,7 +1,7 @@
 import AbstractFilterBuilder from './abstract';
 import productsData from '../database/products';
 import { IColorFilter, IColorFilterItem, IColorFilterValue } from '../../interfaces/filter';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 const colors = [
     { slug: 'white', color: '#fff' },

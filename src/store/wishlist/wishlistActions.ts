@@ -1,7 +1,7 @@
 // third-party
 import { toast } from 'react-toastify';
 // application
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import {
     WISHLIST_ADD_ITEM,
     WISHLIST_REMOVE_ITEM,
@@ -11,7 +11,7 @@ import {
 } from './wishlistActionTypes';
 
 export function wishlistAddItemSuccess(product: IProduct): WishlistAddItemAction {
-    toast.success(`Product "${product.name}" added to wish list!`, { theme: 'colored' });
+    toast.success(`تم اضافة "${product.name}" للمفضلة!`, { theme: 'colored' });
 
     return {
         type: WISHLIST_ADD_ITEM,

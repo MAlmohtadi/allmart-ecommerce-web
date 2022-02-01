@@ -22,7 +22,7 @@ export default function Topbar() {
         { title: 'Order History', url: '/account/orders' },
         { title: 'Addresses', url: '/account/addresses' },
         { title: 'Password', url: '/account/password' },
-        { title: 'Logout', url: '/account/login' },
+        { title: 'Logout', url: '/' },
     ];
 
     const linksList = links.map((item, index) => (

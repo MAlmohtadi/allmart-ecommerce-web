@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 // application
 import shopApi from '../../api/shop';
 import ShopPageProduct from '../../components/shop/ShopPageProduct';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 export interface PageProps {
     product: IProduct;

@@ -1,12 +1,6 @@
 // react
 import {
-    ChangeEvent,
-    KeyboardEvent,
-    RefObject,
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
+    ChangeEvent, KeyboardEvent, RefObject, useCallback, useEffect, useRef, useState,
 } from 'react';
 
 // third-party
@@ -14,14 +8,15 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 
 // application
+import { toast } from 'react-toastify';
 import Cross20Svg from '../../svg/cross-20.svg';
 import Search20Svg from '../../svg/search-20.svg';
 import shopApi, { GetSuggestionsOptions } from '../../api/shop';
 import Suggestions from './Suggestions';
 import { ICategory } from '../../interfaces/category';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
-type CategoryWithDepth = ICategory & {depth: number};
+type CategoryWithDepth = ICategory & { depth: number };
 
 function useCategories() {
     const [categories, setCategories] = useState<CategoryWithDepth[]>([]);
@@ -29,15 +24,13 @@ function useCategories() {
     useEffect(() => {
         let canceled = false;
 
-        const treeToList = (categories: ICategory[], depth = 0): CategoryWithDepth[] => (
-            categories.reduce(
-                (result: CategoryWithDepth[], category) => [
-                    ...result,
-                    { depth, ...category },
-                    ...treeToList(category.children || [], depth + 1),
-                ],
-                [],
-            )
+        const treeToList = (categories: ICategory[], depth = 0): CategoryWithDepth[] => categories.reduce(
+            (result: CategoryWithDepth[], category) => [
+                ...result,
+                { depth, ...category },
+                ...treeToList(category.children || [], depth + 1),
+            ],
+            [],
         );
 
         shopApi.getCategories({ depth: 1 }).then((categories: ICategory[]) => {
@@ -65,10 +58,7 @@ export interface SearchProps {
 
 function Search(props: SearchProps) {
     const {
-        context,
-        className,
-        inputRef,
-        onClose,
+        context, className, inputRef, onClose,
     } = props;
     const [cancelFn, setCancelFn] = useState(() => () => {});
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
@@ -83,12 +73,13 @@ function Search(props: SearchProps) {
         if (onClose) {
             onClose();
         }
-
         setSuggestionsOpen(false);
     }, [onClose]);
 
     // Close suggestions when the location has been changed.
-    useEffect(() => close(), [close, router.asPath]);
+    useEffect(() => {
+        close();
+    }, [close, router.asPath]);
 
     // Close suggestions when a click has been made outside component.
     useEffect(() => {
@@ -130,23 +121,20 @@ function Search(props: SearchProps) {
         if (query === '') {
             setHasSuggestions(false);
         } else {
-            timer = setTimeout(() => {
-                const options: GetSuggestionsOptions = { limit: 5 };
-
-                if (category !== '[all]') {
-                    options.category = category;
-                }
-
-                shopApi.getSuggestions(query, options).then((products) => {
-                    if (canceled) {
-                        return;
-                    }
-
-                    setSuggestedProducts(products);
-                    setHasSuggestions(products.length > 0);
-                    setSuggestionsOpen(true);
-                });
-            }, 100);
+            // timer = setTimeout(() => {
+            // const options: GetSuggestionsOptions = { limit: 5 };
+            //     if (category !== '[all]') {
+            //         options.category = category;
+            //     }
+            //     shopApi.getSuggestions(query, options).then((products) => {
+            //         if (canceled) {
+            //             return;
+            //         }
+            //         setSuggestedProducts(products);
+            //         setHasSuggestions(products.length > 0);
+            //         setSuggestionsOpen(true);
+            //     });
+            // }, 100);
         }
 
         setCancelFn(() => newCancelFn);
@@ -164,12 +152,21 @@ function Search(props: SearchProps) {
             }
         }, 10);
     };
-
+    const search = () => {
+        if (query.length < 2) {
+            toast.error('يجب ادخال حرفين على الأقل للبحث');
+        } else {
+            router.push(`/search?textToSearch=${query}`);
+        }
+    };
     // Close suggestions when the Escape key has been pressed.
     const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
         // Escape.
         if (event.which === 27) {
             close();
+        }
+        if (event.key === 'Enter') {
+            search();
         }
     };
 
@@ -178,7 +175,9 @@ function Search(props: SearchProps) {
         'search--has-suggestions': hasSuggestions,
     });
 
-    const closeButton = context !== 'mobile-header' ? '' : (
+    const closeButton = context !== 'mobile-header' ? (
+        ''
+    ) : (
         <button className="search__button search__button--type--close" type="button" onClick={close}>
             <Cross20Svg />
         </button>
@@ -194,8 +193,8 @@ function Search(props: SearchProps) {
     return (
         <div className={rootClasses} ref={wrapperRef} onBlur={handleBlur}>
             <div className="search__body">
-                <form className="search__form" action="">
-                    {context === 'header' && (
+                <div className="search__form">
+                    {/* {context === 'header' && (
                         <select
                             className="search__categories"
                             aria-label="Category"
@@ -206,7 +205,7 @@ function Search(props: SearchProps) {
                             <option value="[all]">All Categories</option>
                             {categoryOptions}
                         </select>
-                    )}
+                    )} */}
                     <input
                         ref={inputRef}
                         onChange={handleChangeQuery}
@@ -215,19 +214,23 @@ function Search(props: SearchProps) {
                         value={query}
                         className="search__input"
                         name="search"
-                        placeholder="Search over 10,000 products"
+                        placeholder="ابحث عن المنتج"
                         aria-label="Site search"
                         type="text"
                         autoComplete="off"
                     />
-                    <button className="search__button search__button--type--submit" type="submit">
+                    <button
+                        className="search__button search__button--type--submit"
+                        onClick={() => search()}
+                        type="submit"
+                    >
                         <Search20Svg />
                     </button>
                     {closeButton}
                     <div className="search__border" />
-                </form>
+                </div>
 
-                <Suggestions className="search__suggestions" context={context} products={suggestedProducts} />
+                {/* <Suggestions className="search__suggestions" context={context} products={suggestedProducts} /> */}
             </div>
         </div>
     );

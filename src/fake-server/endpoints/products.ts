@@ -60,7 +60,7 @@ export function getProductsList(
 ): Promise<IProductsList> {
     const filters = [
         new CategoryFilterBuilder('category', 'Categories'),
-        new RangeFilterBuilder('price', 'Price'),
+        new RangeFilterBuilder('price', 'السعر'),
         new CheckFilterBuilder('brand', 'Brand'),
         new RadioFilterBuilder('discount', 'Discount'),
         new ColorFilterBuilder('color', 'Color'),

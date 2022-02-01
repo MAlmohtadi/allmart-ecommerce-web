@@ -4,13 +4,13 @@ import { GetServerSidePropsContext } from 'next';
 import { Store } from 'redux';
 // application
 import { AppDispatch } from '../types';
-import { IFilterValues, IListOptions } from '../../interfaces/list';
+import { IFilterValues, IListOptions, IProductOptions } from '../../interfaces/list';
 import { RootState } from '../root/rootTypes';
 import { shopInitThunk } from './shopActions';
 
 export function parseQueryOptions(query: string) {
     const queryObject = queryString.parse(query);
-    const optionValues: IListOptions = {};
+    const optionValues: IListOptions & IProductOptions = {};
 
     if (typeof queryObject.page === 'string') {
         optionValues.page = parseFloat(queryObject.page);
@@ -21,7 +21,9 @@ export function parseQueryOptions(query: string) {
     if (typeof queryObject.sort === 'string') {
         optionValues.sort = queryObject.sort;
     }
-
+    if (typeof queryObject.textToSearch === 'string') {
+        optionValues.textToSearch = queryObject.textToSearch;
+    }
     return optionValues;
 }
 
@@ -45,15 +47,15 @@ export function parseQueryFilters(query: string) {
     return filterValues;
 }
 
-export function buildQuery(options: IListOptions, filters: IFilterValues) {
+export function buildQuery(options: IProductOptions, filters: IFilterValues) {
     const params: { [key: string]: any } = {};
 
-    if (options.page !== 1) {
-        params.page = options.page;
+    if (options.nextPageNumber !== 0) {
+        params.nextPageNumber = options.nextPageNumber;
     }
 
-    if (options.limit !== 12) {
-        params.limit = options.limit;
+    if (options.pageSize !== 12) {
+        params.pageSize = options.pageSize;
     }
 
     if (options.sort !== 'default') {
@@ -70,16 +72,15 @@ export function buildQuery(options: IListOptions, filters: IFilterValues) {
 export default async function getShopPageData(
     store: Store<RootState>,
     context: GetServerSidePropsContext,
-    slug?: string,
 ): Promise<void> {
-    const categorySlug = slug || (typeof context.params?.slug === 'string' ? context.params.slug : null);
+    // const categorySlug = slug || (typeof context.params?.slug === 'string' ? context.params.slug : null);
 
-    if (typeof context.req.url === 'string') {
-        const query = queryString.stringify(queryString.parseUrl(context.req.url).query);
-        const options = parseQueryOptions(query);
-        const filters = parseQueryFilters(query);
-        const dispatch = store.dispatch as AppDispatch;
+    // if (typeof context.req.url === 'string') {
+    const query = queryString.stringify(queryString.parseUrl(context.req.url).query);
+    const options = { ...parseQueryOptions(query), ...context.params };
+    const filters = parseQueryFilters(query);
+    const dispatch = store.dispatch as AppDispatch;
 
-        await dispatch(shopInitThunk(categorySlug, options, filters));
-    }
+    await dispatch(shopInitThunk(options, filters));
+    // }
 }

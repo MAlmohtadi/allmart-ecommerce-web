@@ -2,7 +2,7 @@
 import { toast } from 'react-toastify';
 
 // application
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 import { CartItemOption } from './cartTypes';
 import {
     CART_ADD_ITEM,
@@ -20,7 +20,7 @@ export function cartAddItemSuccess(
     options: CartItemOption[] = [],
     quantity = 1,
 ): CartAddItemAction {
-    toast.success(`Product "${product.name}" added to cart!`, { theme: 'colored' });
+    toast.success(`تم اضافة "${product.name}" للسلة`, { theme: 'colored' });
 
     return {
         type: CART_ADD_ITEM,

@@ -1,6 +1,6 @@
 // application
 import { AppAction } from '../types';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 export const QUICKVIEW_OPEN = 'QUICKVIEW_OPEN';
 export const QUICKVIEW_CLOSE = 'QUICKVIEW_CLOSE';

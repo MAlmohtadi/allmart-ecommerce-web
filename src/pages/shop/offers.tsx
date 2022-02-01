@@ -5,13 +5,13 @@ import { wrapper } from '../../store/store';
 
 // noinspection JSUnusedGlobalSymbols
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-    await getShopPageData(store, context, 'power-tools');
+    await getShopPageData(store, context);
 
     return { props: {} };
 });
 
 function Page() {
-    return <ShopPageCategory columns={5} viewMode="grid" />;
+    return <ShopPageCategory columns={3} viewMode="list" />;
 }
 
 export default Page;

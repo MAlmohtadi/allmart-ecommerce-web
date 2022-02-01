@@ -1,7 +1,7 @@
 import AbstractFilterBuilder from './abstract';
 import productsData from '../database/products';
 import { IRangeFilter, IRangeFilterValue } from '../../interfaces/filter';
-import { IProduct } from '../../interfaces/product';
+import { IProduct } from '../../interfaces/product-old';
 
 function parseValue(value: string): IRangeFilterValue {
     return value.split('-').map((x) => parseFloat(x)) as IRangeFilterValue;
@@ -58,7 +58,6 @@ export default class RangeFilterBuilder extends AbstractFilterBuilder<IRangeFilt
     build(): IRangeFilter {
         return {
             type: 'range',
-            slug: this.slug,
             name: this.name,
             min: this.min,
             max: this.max,
