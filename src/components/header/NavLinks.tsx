@@ -5,6 +5,7 @@ import { MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
 import classNames from 'classnames';
 
 // application
+import { title } from 'process';
 import AppLink from '../shared/AppLink';
 import ArrowRoundedDown9x6Svg from '../../svg/arrow-rounded-down-9x6.svg';
 import Megamenu from './Megamenu';
@@ -13,11 +14,9 @@ import { useDirection } from '../../store/locale/localeHooks';
 
 // data stubs
 import dataHeaderNavigation from '../../data/headerNavigation';
-import { useSale } from '../../store/sale/saleHooks';
-import { useDeferredData } from '../../services/hooks';
-import shopApi from '../../api/shop';
 import { IHomePageResponse } from '../../interfaces/hompage';
 import { useHome } from '../../store/home/homeHooks';
+import { isArrayOfStrings } from '../../services/helpers';
 
 export interface InitData {
     homepageInfo?: IHomePageResponse;
@@ -25,39 +24,36 @@ export interface InitData {
 export interface NavLinksProps {
     initData?: InitData;
 }
-function NavLinks(props: NavLinksProps) {
+function NavLinks() {
     const direction = useDirection();
     const homeData = useHome();
     const { categories } = homeData;
-    const categoriesMenuData = [
-        {
-            title: 'التصنيفات',
-            url: '/',
-            submenu: {
-                type: 'menu',
-                menu: [],
-            },
-        },
-    ];
 
     const customMenuDataPreperation = () => {
-        let object = [];
+        let object : any[] = [];
         if (!homeData.init && homeData.homeIsLoading) {
-            return [];
+            return;
         }
-        return categories.map((category) => {
-            if (category.subCategories.length) {
-                object = category.subCategories.map((subCategory) => ({
-                    title: `${subCategory.name}`,
-                    url: `/categories/${category.id}/sub-category/${subCategory.id}`,
-                }));
-            }
-            return categoriesMenuData[0].submenu.menu.push({
-                title: `${category.name}`,
-                url: `/categories/${category.id}`,
-                children: [...object],
+
+        const categoryMenu = dataHeaderNavigation.find((item) => item.title === 'التصنيفات');
+
+        if (categoryMenu && categoryMenu.submenu
+            && Array.isArray(categoryMenu.submenu.menu)
+            && !categoryMenu?.submenu?.menu.length) {
+            categories?.map((category) => {
+                if (category.subCategories.length) {
+                    object = category.subCategories.map((subCategory) => ({
+                        title: `${subCategory.name}`,
+                        url: `/categories/${category.id}/sub-category/${subCategory.id}`,
+                    }));
+                }
+                return categoryMenu?.submenu?.menu.push({
+                    title: `${category.name}`,
+                    url: `/categories/${category.id}`,
+                    children: [...object],
+                });
             });
-        });
+        }
     };
     customMenuDataPreperation();
     const handleMouseEnter = (event: ReactMouseEvent) => {
@@ -126,50 +122,10 @@ function NavLinks(props: NavLinksProps) {
             </li>
         );
     });
-    const linksListCustom = categoriesMenuData.map((item, index) => {
-        let arrow;
-        let submenu;
 
-        if (item.submenu) {
-            arrow = <ArrowRoundedDown9x6Svg className="nav-links__arrow" />;
-        }
-
-        if (item.submenu && item.submenu.type === 'menu') {
-            submenu = (
-                <div className="nav-links__menu">
-                    <Menu items={item.submenu.menu} />
-                </div>
-            );
-        }
-
-        // if (item.submenu && item.submenu.type === 'megamenu') {
-        //     submenu = (
-        //         <div className={`nav-links__megamenu nav-links__megamenu--size--${item.submenu.menu.size}`}>
-        //             <Megamenu menu={item.submenu.menu} />
-        //         </div>
-        //     );
-        // }
-
-        const classes = classNames('nav-links__item', {
-            'nav-links__item--with-submenu': item.submenu,
-        });
-
-        return (
-            <li key={index} className={classes} onMouseEnter={handleMouseEnter}>
-                <AppLink href={item.url} {...item.props}>
-                    <span>
-                        {item.title}
-                        {arrow}
-                    </span>
-                </AppLink>
-                {submenu}
-            </li>
-        );
-    });
     return (
         <ul className="nav-links__list">
             {linksList}
-            {linksListCustom}
         </ul>
     );
 }

@@ -19,6 +19,7 @@ import { useQuickviewOpen } from '../../store/quickview/quickviewHooks';
 import { useWishlistAddItem } from '../../store/wishlist/wishlistHooks';
 import { useCartAddItem } from '../../store/cart/cartHooks';
 import { IProduct } from '../../interfaces/product';
+import { useAccount } from '../../store/account/accountHooks';
 
 export type ProductCardLayout = 'grid-sm' | 'grid-nl' | 'grid-lg' | 'list' | 'horizontal';
 
@@ -40,7 +41,7 @@ function ProductCard(props: ProductCardProps) {
     const wishlistAddItem = useWishlistAddItem();
     // const compareAddItem = useCompareAddItem();
     // const quickviewOpen = useQuickviewOpen();
-
+    const account = useAccount();
     const badges = [];
     let image;
     let price;
@@ -154,23 +155,25 @@ function ProductCard(props: ProductCardProps) {
                             </Fragment>
                         )}
                     />
-                    <AsyncAction
-                        action={() => wishlistAddItem(product)}
-                        render={({ run, loading }) => (
-                            <button
-                                type="button"
-                                onClick={run}
-                                className={classNames(
-                                    'btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist',
-                                    {
-                                        'btn-loading': loading,
-                                    },
-                                )}
-                            >
-                                <Wishlist16Svg />
-                            </button>
-                        )}
-                    />
+                    { account.isLoggedIn && (
+                        <AsyncAction
+                            action={() => wishlistAddItem(product)}
+                            render={({ run, loading }) => (
+                                <button
+                                    type="button"
+                                    onClick={run}
+                                    className={classNames(
+                                        'btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__wishlist',
+                                        {
+                                            'btn-loading': loading,
+                                        },
+                                    )}
+                                >
+                                    <Wishlist16Svg />
+                                </button>
+                            )}
+                        />
+                    )}
                     {/* <AsyncAction
                         action={() => compareAddItem(product)}
                         render={({ run, loading }) => (

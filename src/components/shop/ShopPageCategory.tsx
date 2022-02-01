@@ -106,7 +106,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     const sidebarComponent = useMemo(() => (
         <CategorySidebar open={sidebarOpen} closeFn={closeSidebarFn} offcanvas={offcanvas}>
             <CategorySidebarItem>
-                <WidgetFilters title="فلترة" offcanvas={offcanvas} />
+                <WidgetFilters title="الفلاتر" offcanvas={offcanvas} />
             </CategorySidebarItem>
         </CategorySidebar>
     ), [sidebarOpen, closeSidebarFn, offcanvas]);
@@ -161,7 +161,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     return (
         <Fragment>
             <Head>
-                <title>{` التصنيفات — ${theme.name}`}</title>
+                <title>التصنيفات - جبران</title>
             </Head>
 
             <PageHeader header={pageTitle} breadcrumb={breadcrumb} />

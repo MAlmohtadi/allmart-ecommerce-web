@@ -52,7 +52,7 @@ function IndicatorAccount() {
             <div className="account-menu__divider" />
             {account.isLoggedIn && (
                 <Fragment>
-                    <AppLink href={url.accountDashboard()} className="account-menu__user">
+                    <AppLink href={url.accountProfile()} className="account-menu__user">
                         <div className="account-menu__user-avatar">
                             <img src="/images/avatars/avatar-3.jpg" alt="" />
                         </div>
@@ -64,10 +64,10 @@ function IndicatorAccount() {
                     <div className="account-menu__divider" />
                     <ul className="account-menu__links">
                         <li>
-                            <AppLink href={url.accountProfile()}>تعديل معلومتي</AppLink>
+                            <AppLink href={url.accountProfile()}>حسابي</AppLink>
                         </li>
                         <li>
-                            <AppLink href={url.accountOrders()}>الطلبات</AppLink>
+                            <AppLink href={url.accountOrders()}>طلباتي</AppLink>
                         </li>
                     </ul>
                     <div className="account-menu__divider" />

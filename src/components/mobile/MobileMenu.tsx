@@ -53,19 +53,51 @@ function MobileMenu() {
 
     // const categories = useHomeCategories();
     // const homeIsLoading = useHomeIsLoading();
-    const categoriesMenuData = [
-        {
-            title: 'التصنيفات',
-            url: '/',
-            type: 'link',
-            children: [],
-        },
-    ];
+    // const categoriesMenuData = [
+    //     {
+    //         title: 'التصنيفات',
+    //         url: '/',
+    //         type: 'link',
+    //         children: [],
+    //     },
+    // ];
+    // const customMenuDataPreperation = () => {
+    //     let object = [];
+    //     if (!homeData.init && homeData.homeIsLoading) {
+    //         return [];
+    //     } if (homeData.init && !homeData.homeIsLoading && dataMobileMenu.length < 5) {
+    //         categories.map((category) => {
+    //             if (category.subCategories.length) {
+    //                 object = category.subCategories.map((subCategory) => ({
+    //                     title: `${subCategory.name}`,
+    //                     type: 'link',
+    //                     url: `/categories/${category.id}/sub-category/${subCategory.id}`,
+    //                 }));
+    //             }
+    //             categoriesMenuData[0].children.push({
+    //                 title: `${category.name}`,
+    //                 url: `/categories/${category.id}`,
+    //                 type: 'link',
+    //                 children: [...object],
+    //             });
+    //         });
+    //         dataMobileMenu.push(categoriesMenuData[0]);
+    //     }
+    // };
+
     const customMenuDataPreperation = () => {
-        let object = [];
+        let object: any[] = [];
         if (!homeData.init && homeData.homeIsLoading) {
-            return [];
-        } if (homeData.init && !homeData.homeIsLoading && dataMobileMenu.length < 5) {
+            return;
+        }
+
+        const categoryMenu = dataMobileMenu.find((item) => item.title === 'التصنيفات');
+        if (
+            categoryMenu
+            && categoryMenu.children
+            && Array.isArray(categoryMenu.children)
+            && !categoryMenu?.children.length
+        ) {
             categories.map((category) => {
                 if (category.subCategories.length) {
                     object = category.subCategories.map((subCategory) => ({
@@ -74,14 +106,13 @@ function MobileMenu() {
                         url: `/categories/${category.id}/sub-category/${subCategory.id}`,
                     }));
                 }
-                categoriesMenuData[0].children.push({
+                return categoryMenu.children.push({
                     title: `${category.name}`,
-                    url: `/categories/${category.id}`,
                     type: 'link',
+                    url: `/categories/${category.id}`,
                     children: [...object],
                 });
             });
-            dataMobileMenu.push(categoriesMenuData[0]);
         }
     };
     customMenuDataPreperation();

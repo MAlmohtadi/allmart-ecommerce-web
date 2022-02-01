@@ -25,6 +25,7 @@ const initialState: ShopState = {
         sort: '',
     },
     filters: {},
+    isOffer: false,
 };
 
 function shopReducerSetFilterValue(state: ShopState, action: ShopSetFilterValueAction): ShopState {
@@ -38,7 +39,8 @@ function shopReducerSetFilterValue(state: ShopState, action: ShopSetFilterValueA
 
         filters = { ...currentFilters };
     }
-    const [minPrice, maxPrice] = filters.price.split('-');
+    const filterPrice = filters?.price?.split('-') || ['0', '100'];
+    const [minPrice, maxPrice] = filterPrice;
 
     return {
         ...state,
@@ -108,8 +110,8 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
                 limit: 12,
                 page: 1,
                 sort: '',
-                maxPrice: 100,
-                minPrice: 0,
+                maxPrice: '100',
+                minPrice: '0',
             },
             filters: {},
         };

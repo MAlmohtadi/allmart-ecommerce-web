@@ -1,5 +1,7 @@
 // react
-import { FormEvent, Fragment, useRef } from 'react';
+import {
+    FormEvent, Fragment, useEffect, useRef,
+} from 'react';
 
 // third-party
 import Head from 'next/head';
@@ -19,10 +21,12 @@ export default function AccountPageLogin() {
     ];
     const route = useRouter();
     const account = useAccount();
-    if (account.isLoggedIn) {
-        route.push('/');
-    }
 
+    useEffect(() => {
+        if (account.isLoggedIn) {
+            route.back();
+        }
+    }, [account.isLoggedIn]);
     const nameInputRef = useRef<HTMLInputElement | null>(null);
     const phoneInputRef = useRef<HTMLInputElement | null>(null);
     const phone2ndInputRef = useRef<HTMLInputElement | null>(null);

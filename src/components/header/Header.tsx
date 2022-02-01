@@ -36,7 +36,7 @@ function Header(props: HeaderProps) {
 
     return (
         <div className="site-header">
-            <Topbar />
+            {/* <Topbar /> */}
             {bannerSection}
             <div className="site-header__nav-panel">
                 <NavPanel layout={layout} />

@@ -10,7 +10,7 @@ export default function AccountPageProfile() {
     const account = useAccount();
     const route = useRouter();
     if (!account.isLoggedIn) {
-        route.push('/');
+        route.push('/account/login');
     }
     const nameInputRef = useRef<HTMLInputElement | null>(null);
     const phoneInputRef = useRef<HTMLInputElement | null>(null);
