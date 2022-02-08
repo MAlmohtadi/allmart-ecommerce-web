@@ -44,7 +44,7 @@ export function homeFetchThunk(): HomeThunkAction<Promise<void>> {
 
         const saleState = getState()[SALE_NAMESPACE];
         const { isWholeSale } = saleState;
-        const homeDate = await shopApi.getHompageData({ isWholeSale });
+        const homeDate = await shopApi.getHomePageData({ isWholeSale });
 
         if (canceled) {
             return;

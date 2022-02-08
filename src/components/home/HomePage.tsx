@@ -14,12 +14,10 @@ import BlockSlideShow from '../blocks/BlockSlideShow';
 
 // data stubs
 // import dataBlogPosts from '../../data/blogPosts';
-import theme from '../../data/theme';
 import { IHomePageResponse } from '../../interfaces/hompage';
 import { IProductResponse } from '../../interfaces/product';
-import { useHome, useHomeFetchData, useHomeInit } from '../../store/home/homeHooks';
 import { useSale } from '../../store/sale/saleHooks';
-import getHomePageData from '../../store/home/homeHelpers';
+import { useHomeFetchData } from '../../store/home/homeHooks';
 
 export interface InitData {
     homepageInfo?: IHomePageResponse;
@@ -34,7 +32,7 @@ export interface HomePageProps {
 function HomePage(props: HomePageProps) {
     const { initData } = props;
     const isWholeSale = useSale();
-    const homepageInfo = useDeferredData(() => shopApi.getHompageData({ isWholeSale }), initData?.homepageInfo);
+    const homepageInfo = useDeferredData(() => shopApi.getHomePageData({ isWholeSale }), initData?.homepageInfo);
 
     const featuredProducts = useDeferredData(
         () => shopApi.getFeaturedProducts({ isWholeSale: false }),

@@ -1,5 +1,4 @@
 import { IAddress } from './address';
-import { ICoupon } from './coupon';
 
 export interface IOrderItemOption {
     label: string;
@@ -37,13 +36,9 @@ export interface IOrder {
 }
 
 export interface IOrderSummary {
-    cancelledDate: string;
-    couponInfo: ICoupon;
-    deliveryDate: string;
-    deliveryPrice: number;
     id: number;
-    isCancelled: true;
-    orderDate: string;
-    statusId: number;
-    totalPrice: number
+    date: string;
+    status: string;
+    quantity: number;
+    total: number;
 }

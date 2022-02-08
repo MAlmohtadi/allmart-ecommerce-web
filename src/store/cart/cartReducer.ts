@@ -1,4 +1,5 @@
-import { IProduct } from '../../interfaces/product-old';
+import { toast } from 'react-toastify';
+import { IProduct } from '../../interfaces/product';
 import {
     CartItem,
     CartItemOption,
@@ -11,8 +12,12 @@ import {
     CART_UPDATE_QUANTITIES,
     CartAction,
     CartItemQuantity,
+    CART_UPDATE_SHIPPING_PRICE,
+    CART_ADD_COUPON_SUCCESS,
+    CART_CLEAR,
 } from './cartActionTypes';
 import { withClientState } from '../client';
+import { ICoupon } from '../../interfaces/coupon';
 
 function findItemIndex(items: CartItem[], product: IProduct, options: CartItemOption[]): number {
     return items.findIndex((item) => {
@@ -44,58 +49,104 @@ function calcQuantity(items: CartItem[]): number {
 }
 
 function calcTotal(subtotal: number, totals: CartTotal[]): number {
-    return totals.reduce((acc, extraLine) => acc + extraLine.price, subtotal);
+    return totals.reduce((acc, extraLine) => (extraLine.type === 'discount' ? acc - extraLine.price : acc + extraLine.price), subtotal);
 }
+function calcSubtotalEligibleForDiscount(items: CartItem[]): number {
+    return items.filter((item) => item.eligibleForDiscount)
+        .reduce((subtotal, item) => subtotal + item.total, 0);
+}
+const getDiscountAmount = (coupon: ICoupon, total: number): number => {
+    if (!coupon) {
+        return 0;
+    }
 
-function calcTotals(items: CartItem[]): CartTotal[] {
+    if (coupon?.minOrderPrice && total >= coupon?.minOrderPrice) {
+        const { isPercentage = false, percentage = 0, discountAmount = 0 } = coupon;
+        return isPercentage
+            ? total * (percentage / 100)
+            : discountAmount;
+    }
+    toast.warn(`الحد الادنى للطلب حتى يتم تطبيق الخصم JOD ${coupon?.minOrderPrice}`, { theme: 'colored' });
+
+    return 0;
+};
+
+function calcTotals(items: CartItem[], shippingPrice: number, coupon?: ICoupon): CartTotal[] {
     if (items.length === 0) {
         return [];
     }
 
-    const subtotal = calcSubtotal(items);
-
-    return [
+    const subtotal = calcSubtotalEligibleForDiscount(items);
+    const result: CartTotal[] = [
         {
             type: 'shipping',
             title: 'التوصيل',
-            price: 25,
+            price: shippingPrice,
+        },
+        {
+            type: 'discount',
+            title: 'كوبون الخصم',
+            price: getDiscountAmount(coupon, subtotal),
         },
     ];
+
+    return result;
 }
 
+function calculateOffersByQuantities(product: IProduct, quantity: number): number {
+    let total = 0;
+    let offerQuantity = 0;
+    let quantityTotal = quantity;
+    offerQuantity = product.offerQuantity;
+    if (offerQuantity === 0) {
+        offerQuantity = 1;
+    }
+    while (quantityTotal > 0 && quantityTotal >= offerQuantity) {
+        total += product.offerPrice;
+        quantityTotal -= offerQuantity;
+    }
+    if (quantityTotal > 0) {
+        total += product.price * quantity;
+    }
+    return total;
+}
 function addItem(state: CartState, product: IProduct, options: CartItemOption[], quantity: number) {
     const itemIndex = findItemIndex(state.items, product, options);
 
     let newItems;
     let { lastItemId } = state;
-
+    let total = 0;
     if (itemIndex === -1) {
         lastItemId += 1;
+        total = product.isOffer ? calculateOffersByQuantities(product, quantity) : product.price;
         newItems = [...state.items, {
             id: lastItemId,
             product: JSON.parse(JSON.stringify(product)),
             options: JSON.parse(JSON.stringify(options)),
             price: product.price,
-            total: product.price * quantity,
+            total,
             quantity,
+            eligibleForDiscount: !product.isOffer,
         }];
     } else {
         const item = state.items[itemIndex];
-
+        total = product.isOffer
+            ? calculateOffersByQuantities(product, item.quantity + quantity)
+            : (item.quantity + quantity) * item.price;
         newItems = [
             ...state.items.slice(0, itemIndex),
             {
                 ...item,
                 quantity: item.quantity + quantity,
-                total: (item.quantity + quantity) * item.price,
+                total,
             },
             ...state.items.slice(itemIndex + 1),
         ];
     }
 
     const subtotal = calcSubtotal(newItems);
-    const totals = calcTotals(newItems);
-    const total = calcTotal(subtotal, totals);
+    const totals = calcTotals(newItems, state.shippingPrice, state.coupon);
+    total = calcTotal(subtotal, totals);
 
     return {
         ...state,
@@ -113,7 +164,7 @@ function removeItem(state: CartState, itemId: number) {
     const newItems = items.filter((item) => item.id !== itemId);
 
     const subtotal = calcSubtotal(newItems);
-    const totals = calcTotals(newItems);
+    const totals = calcTotals(newItems, state.shippingPrice, state.coupon);
     const total = calcTotal(subtotal, totals);
 
     return {
@@ -137,17 +188,19 @@ function updateQuantities(state: CartState, quantities: CartItemQuantity[]) {
         }
 
         needUpdate = true;
-
+        const total = item.product.isOffer
+            ? calculateOffersByQuantities(item.product, quantity.value)
+            : quantity.value * item.price;
         return {
             ...item,
             quantity: quantity.value,
-            total: quantity.value * item.price,
+            total,
         };
     });
 
     if (needUpdate) {
         const subtotal = calcSubtotal(newItems);
-        const totals = calcTotals(newItems);
+        const totals = calcTotals(newItems, state.shippingPrice, state.coupon);
         const total = calcTotal(subtotal, totals);
 
         return {
@@ -163,6 +216,18 @@ function updateQuantities(state: CartState, quantities: CartItemQuantity[]) {
     return state;
 }
 
+function applyCoupon(state: CartState, coupon: ICoupon) {
+    const subtotal = calcSubtotal(state.items);
+    const totals = calcTotals(state.items, state.shippingPrice, coupon);
+    const total = calcTotal(subtotal, totals);
+    return {
+        ...state,
+        subtotal,
+        totals,
+        total,
+        coupon,
+    };
+}
 const initialState: CartState = {
     lastItemId: 0,
     quantity: 0,
@@ -170,23 +235,29 @@ const initialState: CartState = {
     subtotal: 0,
     totals: [],
     total: 0,
+    shippingPrice: 0,
 };
 
 export const CART_NAMESPACE = 'cart';
 
 function cartBaseReducer(state = initialState, action: CartAction): CartState {
     switch (action.type) {
-    case CART_ADD_ITEM:
-        return addItem(state, action.product, action.options, action.quantity);
+        case CART_ADD_ITEM:
+            return addItem(state, action.product, action.options, action.quantity);
 
-    case CART_REMOVE_ITEM:
-        return removeItem(state, action.itemId);
+        case CART_REMOVE_ITEM:
+            return removeItem(state, action.itemId);
 
-    case CART_UPDATE_QUANTITIES:
-        return updateQuantities(state, action.quantities);
-
-    default:
-        return state;
+        case CART_UPDATE_QUANTITIES:
+            return updateQuantities(state, action.quantities);
+        case CART_UPDATE_SHIPPING_PRICE:
+            return { ...state, shippingPrice: action.price };
+        case CART_ADD_COUPON_SUCCESS:
+            return applyCoupon(state, action.coupon);
+        case CART_CLEAR:
+            return initialState;
+        default:
+            return state;
     }
 }
 

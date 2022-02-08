@@ -18,8 +18,8 @@ const initialState: HomeState = {
 
 function homeReducer(state = initialState, action: HomeAction): HomeState {
     switch (action.type) {
-    case HOME_HYDRATE:
-        return action.payload[HOME_NAMESPACE];
+    // case HOME_HYDRATE:
+    //     return action.payload[HOME_NAMESPACE];
     case HOME_INIT:
         return {
             ...state,

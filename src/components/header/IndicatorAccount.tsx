@@ -18,7 +18,7 @@ function IndicatorAccount() {
         if (enteredPhone && enteredPhone.match('[0-9]{10}')) {
             accountLogin({ phone: enteredPhone });
         } else {
-            toast.error('رقم الهاتف غير صحيح');
+            toast.error('رقم الهاتف غير صحيح', { theme: 'colored' });
         }
     }
     const dropdown = (

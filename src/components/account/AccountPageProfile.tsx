@@ -26,19 +26,19 @@ export default function AccountPageProfile() {
         const secondaryPhone = phone2ndInputRef.current?.value;
         const email = emailInputRef.current?.value;
         if (!(phone && phone.match('[0-9]{10}'))) {
-            toast.error('رقم الهاتف غير صحيح');
+            toast.error('رقم الهاتف غير صحيح', { theme: 'colored' });
             return;
         }
         if (secondaryPhone && secondaryPhone.length > 0 && !secondaryPhone.match('[0-9]{10}')) {
-            toast.error('رقم الهاتف الثاني غير صحيح');
+            toast.error('رقم الهاتف الثاني غير صحيح', { theme: 'colored' });
             return;
         }
         if (!(name && name.length > 0)) {
-            toast.error('يجب ادخال اسم صحيح');
+            toast.error('يجب ادخال اسم صحيح', { theme: 'colored' });
             return;
         }
         if (email && email.length > 0 && !email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-            toast.error('يجب ادخال ايميل صحيح');
+            toast.error('يجب ادخال ايميل صحيح', { theme: 'colored' });
             return;
         }
         accountUpdate({
