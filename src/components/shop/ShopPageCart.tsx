@@ -1,11 +1,14 @@
 // react
-import { Fragment, useState } from 'react';
+import {
+    FormEvent, Fragment, useRef, useState,
+} from 'react';
 
 // third-party
 import classNames from 'classnames';
 import Head from 'next/head';
 
 // application
+import { toast } from 'react-toastify';
 import AppLink from '../shared/AppLink';
 import AsyncAction from '../shared/AsyncAction';
 import Cross12Svg from '../../svg/cross-12.svg';
@@ -17,7 +20,9 @@ import { CartItem } from '../../store/cart/cartTypes';
 
 // data stubs
 import theme from '../../data/theme';
-import { useCart, useCartRemoveItem, useCartUpdateQuantities } from '../../store/cart/cartHooks';
+import {
+    useCart, useCartApplyCoupon, useCartRemoveItem, useCartUpdateQuantities,
+} from '../../store/cart/cartHooks';
 
 export interface Quantity {
     itemId: number;
@@ -29,21 +34,29 @@ function ShopPageCart() {
     const cart = useCart();
     const cartRemoveItem = useCartRemoveItem();
     const cartUpdateQuantities = useCartUpdateQuantities();
-
-    const updateQuantities = () => (
-        cartUpdateQuantities(quantities.map((x) => ({
+    const couponRef = useRef<HTMLInputElement | null>(null);
+    const updateQuantities = () => cartUpdateQuantities(
+        quantities.map((x) => ({
             ...x,
             value: typeof x.value === 'string' ? parseFloat(x.value) : x.value,
-        })))
+        })),
     );
+    const applyCoupon = useCartApplyCoupon();
 
-    const cartNeedUpdate = () => (
-        quantities.filter((x) => {
-            const item = cart.items.find((item) => item.id === x.itemId);
+    const submitCoupon = (e: FormEvent) => {
+        e.preventDefault();
+        if (!couponRef.current || !couponRef.current.value) {
+            toast.error('الرجاء تعبئة كود الخصم', { theme: 'colored' });
+        } else {
+            applyCoupon(couponRef.current?.value);
+        }
+    };
 
-            return item && item.quantity !== x.value && x.value !== '';
-        }).length > 0
-    );
+    const cartNeedUpdate = () => quantities.filter((x) => {
+        const item = cart.items.find((item) => item.id === x.itemId);
+
+        return item && item.quantity !== x.value && x.value !== '';
+    }).length > 0;
 
     const getItemQuantity = (item: CartItem) => {
         const quantity = quantities.find((x) => x.itemId === item.id);
@@ -132,15 +145,15 @@ function ShopPageCart() {
 
             return (
                 <tr key={item.id} className="cart-table__row">
-                    <td className="cart-table__column cart-table__column--image">
-                        {image}
-                    </td>
+                    <td className="cart-table__column cart-table__column--image">{image}</td>
                     <td className="cart-table__column cart-table__column--product">
-                        <div className="cart-table__product-name">
-                            {item.product.name}
-                        </div>
+                        <div className="cart-table__product-name">{item.product.name}</div>
                         {options}
                     </td>
+                    {/*
+                    <td className="cart-table__column cart-table__column--price" data-title="العرض">
+                        <CurrencyFormat value={item.product?.offerPrice || 0} />
+                    </td> */}
                     <td className="cart-table__column cart-table__column--price" data-title="السعر">
                         <CurrencyFormat value={item.price} />
                     </td>
@@ -154,9 +167,7 @@ function ShopPageCart() {
                     <td className="cart-table__column cart-table__column--total" data-title="المجموع">
                         <CurrencyFormat value={item.total} />
                     </td>
-                    <td className="cart-table__column cart-table__column--remove">
-                        {removeButton}
-                    </td>
+                    <td className="cart-table__column cart-table__column--remove">{removeButton}</td>
                 </tr>
             );
         });
@@ -166,7 +177,9 @@ function ShopPageCart() {
                 <thead className="cart__totals-header">
                     <tr>
                         <th>المجموع</th>
-                        <td><CurrencyFormat value={cart.subtotal} /></td>
+                        <td>
+                            <CurrencyFormat value={cart.subtotal} />
+                        </td>
                     </tr>
                 </thead>
                 <tbody className="cart__totals-body">
@@ -176,7 +189,8 @@ function ShopPageCart() {
                         if (extraLine.type === 'shipping') {
                             calcShippingLink = (
                                 <div className="cart__calc-shipping">
-                                    <AppLink href="/">Calculate Shipping</AppLink>
+                                    حسب المنطقة والوقت
+                                    {/* <AppLink href="/">Calculate Shipping</AppLink> */}
                                 </div>
                             );
                         }
@@ -186,7 +200,7 @@ function ShopPageCart() {
                                 <th>{extraLine.title}</th>
                                 <td>
                                     <CurrencyFormat value={extraLine.price} />
-                                    {/* {calcShippingLink} */}
+                                    {calcShippingLink}
                                 </td>
                             </tr>
                         );
@@ -220,21 +234,30 @@ function ShopPageCart() {
                             <tr className="cart-table__row">
                                 <th className="cart-table__column cart-table__column--image">الصورة</th>
                                 <th className="cart-table__column cart-table__column--product">المنتج</th>
+                                {/* <th className="cart-table__column cart-table__column--price">سعر العرض</th> */}
                                 <th className="cart-table__column cart-table__column--price">السعر</th>
                                 <th className="cart-table__column cart-table__column--quantity">الكمية</th>
                                 <th className="cart-table__column cart-table__column--total">المجموع</th>
                                 <th className="cart-table__column cart-table__column--remove" aria-label="Remove" />
                             </tr>
                         </thead>
-                        <tbody className="cart-table__body">
-                            {cartItems}
-                        </tbody>
+                        <tbody className="cart-table__body">{cartItems}</tbody>
                     </table>
                     <div className="cart__actions">
-                        <form className="cart__coupon-form">
-                            <label htmlFor="input-coupon-code" className="sr-only">Password</label>
-                            <input type="text" className="form-control" id="input-coupon-code" placeholder="كود الخصم" />
-                            <button type="submit" className="btn btn-primary">تأكيد الكود</button>
+                        <form className="cart__coupon-form" onSubmit={submitCoupon}>
+                            <label htmlFor="input-coupon-code" className="sr-only">
+                                Password
+                            </label>
+                            <input
+                                ref={couponRef}
+                                type="text"
+                                className="form-control"
+                                id="input-coupon-code"
+                                placeholder="كود الخصم"
+                            />
+                            <button type="submit" className="btn btn-primary">
+                                تأكيد الكود
+                            </button>
                         </form>
                         <div className="cart__buttons">
                             <AppLink href="/" className="btn btn-light">
@@ -254,7 +277,9 @@ function ShopPageCart() {
                                         <tfoot className="cart__totals-footer">
                                             <tr>
                                                 <th>المبلغ الكلي</th>
-                                                <td><CurrencyFormat value={cart.total} /></td>
+                                                <td>
+                                                    <CurrencyFormat value={cart.total} />
+                                                </td>
                                             </tr>
                                         </tfoot>
                                     </table>

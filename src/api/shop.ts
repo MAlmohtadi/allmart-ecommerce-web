@@ -19,6 +19,8 @@ import {
 import { IHomePageResponse } from '../interfaces/hompage';
 import { IProductResponse, IProduct } from '../interfaces/product';
 import { IAccount } from '../interfaces/account';
+import { ICoupon } from '../interfaces/coupon';
+import { ICheckoutInfo } from '../interfaces/checkout-info';
 // import { IProductsList, IProduct } from '../interfaces/product-old';
 
 export interface GetCategoriesOptions {
@@ -65,9 +67,40 @@ export interface WishListOptions {
     userId?: number;
     productId?: number;
 }
+export interface CouponOptions {
+    code: string;
+    userId?: number;
+}
 export interface Error {
     isBussinessError?: boolean;
     message?: string;
+}
+
+export interface OrderOptions {
+    couponCode: string,
+    couponDiscount: number,
+    deliveryDate: string,
+    deliveryPeriod: string,
+    deliveryPrice: number,
+    isWholeSale: boolean,
+    location: string,
+    notes: string,
+    orderedProducts: [
+        {
+            id: number,
+            isOffer: boolean,
+            offerPrice: number,
+            offerQuantity: number,
+            offerType: number,
+            orderId?: number,
+            price: number,
+            productId: number,
+            quantity: number
+        }
+    ],
+    totalPrice: number,
+    typeOfPayment: number,
+    userId: number
 }
 
 const BASE_URL = 'http://jubranapi.us-east-1.elasticbeanstalk.com/api';
@@ -76,7 +109,7 @@ const shopApi = {
     /**
      * Returns array of categories.
      */
-    getHompageData: (options: GetSaleOptions = {}): Promise<IHomePageResponse> => {
+    getHomePageData: (options: GetSaleOptions = {}): Promise<IHomePageResponse> => {
         /**
          * This is what your API endpoint might look like:
          *
@@ -250,10 +283,45 @@ const shopApi = {
             .then((response) => response.ok);
     },
     /**
-    * Return products list.
+    * Return wishlist products .
     */
     getWishListProducts: (options: WishListOptions): Promise<IProduct[]> => {
         return fetch(`${BASE_URL}/favorite/getFavoriteProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /**
+    * apply coupon.
+    */
+    applyCoupon: (options: CouponOptions): Promise<ICoupon & Error> => {
+        return fetch(`${BASE_URL}/coupons/getCouponByCode`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /**
+    * get checkout Info.
+    */
+    getCheckoutInfo: (): Promise<ICheckoutInfo> => {
+        return fetch(`${BASE_URL}/checkout/getCheckoutInfo`)
+            .then((response) => response.json());
+    },
+    /**
+    * add order.
+    */
+    addOrder: (options: OrderOptions): Promise<ICheckoutInfo & Error> => {
+        return fetch(`${BASE_URL}/orders/addOrder`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

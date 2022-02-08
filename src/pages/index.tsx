@@ -8,7 +8,7 @@ export interface PageProps {
     initData?: InitData;
 }
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-    const homepageInfo = await shopApi.getHompageData({ isWholeSale: false });
+    const homepageInfo = await shopApi.getHomePageData({ isWholeSale: false });
     await getHomePageData(store, context);
     return {
         props: {

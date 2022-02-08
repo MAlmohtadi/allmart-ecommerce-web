@@ -154,7 +154,7 @@ function Search(props: SearchProps) {
     };
     const search = () => {
         if (query.length < 2) {
-            toast.error('يجب ادخال حرفين على الأقل للبحث');
+            toast.error('يجب ادخال حرفين على الأقل للبحث', { theme: 'colored' });
         } else {
             router.push(`/search?textToSearch=${query}`);
         }
