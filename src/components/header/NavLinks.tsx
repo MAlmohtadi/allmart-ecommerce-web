@@ -14,7 +14,7 @@ import { useDirection } from '../../store/locale/localeHooks';
 
 // data stubs
 import dataHeaderNavigation from '../../data/headerNavigation';
-import { IHomePageResponse } from '../../interfaces/hompage';
+import { IHomePageResponse } from '../../interfaces/homepage';
 import { useHome } from '../../store/home/homeHooks';
 import { isArrayOfStrings } from '../../services/helpers';
 

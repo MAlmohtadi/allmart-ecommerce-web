@@ -12,8 +12,8 @@ const dataHeaderNavigation: INav = [
             type: 'menu',
             menu: [
                 { title: 'جميع الطلبات', url: '/account/orders' },
-                { title: 'الطلبات الحالية', url: '/account/orders' },
-                { title: 'الطلبات السابقة', url: '/account/orders' },
+                { title: 'الطلبات الحالية', url: '/account/orders/current' },
+                { title: 'الطلبات السابقة', url: '/account/orders/previous' },
             ],
         },
     },

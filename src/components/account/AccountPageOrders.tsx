@@ -1,49 +1,71 @@
 // react
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // third-party
 import Head from 'next/head';
 
 // application
+import moment from 'moment';
 import AppLink from '../shared/AppLink';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import Pagination from '../shared/Pagination';
 import url from '../../services/url';
 
-// data stubs
-import dataAccountOrders from '../../data/accountOrders';
-import theme from '../../data/theme';
+import { useOrder } from '../../store/order/orderHooks';
+import { useAccount } from '../../store/account/accountHooks';
+import { useDeferredData } from '../../services/hooks';
+import shopApi from '../../api/shop';
+
+export const orderStatus = {
+    1: {
+        label: 'تم استلام الطلب',
+    },
+    2: {
+        label: 'الطلب قيد التجهيز',
+    },
+    3: {
+        label: 'الطلب قيد التوصيل',
+    },
+    4: {
+        label: 'تم توصيل الطلب',
+    },
+    5: {
+        label: 'تم إلغاء الطلب',
+    },
+};
 
 function AccountPageOrders() {
-    const [page, setPage] = useState(1);
+    const orderState = useOrder();
 
-    const ordersList = dataAccountOrders.map((order) => (
-        <tr key={order.id}>
-            <td>
-                <AppLink href={url.accountOrder(order)}>{`#${order.id}`}</AppLink>
-            </td>
-            <td>{order.date}</td>
-            <td>{order.status}</td>
-            <td>
-                <CurrencyFormat value={order.total} />
-                {' '}
-                for
-                {' '}
-                {order.quantity}
-                {' '}
-                item(s)
-            </td>
-        </tr>
-    ));
+    const ordersList = orderState.orders.map((order) => {
+        const date = moment(order.orderDate);
+        const status = order.isCancelled ? orderStatus[5] : orderStatus[order.statusId];
+        return (
+            <tr key={order.id}>
+                <td>
+                    <AppLink href={url.accountOrder(order)}>{`#${order.id}`}</AppLink>
+                </td>
+                <td>
+                    {date.format('l')}
+                    {' '}
+                    {date.format('LT')}
+                </td>
+                <td>{status.label}</td>
+                <td>
+                    <CurrencyFormat value={order.totalPrice} />
+                </td>
+            </tr>
+        );
+    });
 
     return (
         <div className="card">
             <Head>
-                <title>{`Order History — ${theme.name}`}</title>
+                <title>جميع الطلبات — جبران</title>
             </Head>
 
             <div className="card-header">
-                <h5>Order History</h5>
+                <h5>جميع الطلبات</h5>
             </div>
             <div className="card-divider" />
             <div className="card-table">
@@ -51,22 +73,20 @@ function AccountPageOrders() {
                     <table>
                         <thead>
                             <tr>
-                                <th>Order</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Total</th>
+                                <th>الطلب</th>
+                                <th>التاريخ</th>
+                                <th>الحالة</th>
+                                <th>المجموع</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {ordersList}
-                        </tbody>
+                        <tbody>{ordersList}</tbody>
                     </table>
                 </div>
             </div>
             <div className="card-divider" />
-            <div className="card-footer">
+            {/* <div className="card-footer">
                 <Pagination current={page} total={3} onPageChange={setPage} />
-            </div>
+            </div> */}
         </div>
     );
 }

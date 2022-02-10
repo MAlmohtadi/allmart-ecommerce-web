@@ -12,8 +12,8 @@ const dataMobileMenu: IMobileMenu = [
         url: '/account/orders',
         children: [
             { type: 'link', title: 'جميع الطلبات', url: '/account/orders' },
-            { type: 'link', title: 'الطلبات الحالية', url: '/account/orders' },
-            { type: 'link', title: 'الطلبات السابقة', url: '/account/orders' },
+            { type: 'link', title: 'الطلبات الحالية', url: '/account/orders/current' },
+            { type: 'link', title: 'الطلبات السابقة', url: '/account/orders/previous' },
         ],
     },
     {

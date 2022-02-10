@@ -10,7 +10,7 @@ import departmentsService from '../../services/departmentsService';
 import StroykaSlick from '../shared/StroykaSlick';
 import { useDirection } from '../../store/locale/localeHooks';
 import { useMedia } from '../../services/hooks';
-import { IHomePageResponse } from '../../interfaces/hompage';
+import { IHomePageResponse } from '../../interfaces/homepage';
 
 export interface BlockSlideShowProps {
     withDepartments?: boolean;

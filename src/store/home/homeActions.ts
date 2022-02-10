@@ -10,7 +10,7 @@ import {
     HomeThunkAction,
 } from './homeActionTypes';
 import { SALE_NAMESPACE } from '../sale/saleReducer';
-import { IHomePageResponse } from '../../interfaces/hompage';
+import { IHomePageResponse } from '../../interfaces/homepage';
 
 let cancelPreviousRequest = () => { };
 
