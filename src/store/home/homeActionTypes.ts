@@ -3,7 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 // application
 import { AppAction } from '../types';
 import { HOME_NAMESPACE, HomeState } from './homeTypes';
-import { IHomePageResponse } from '../../interfaces/hompage';
+import { IHomePageResponse } from '../../interfaces/homepage';
 
 export const HOME_HYDRATE = HYDRATE;
 export const HOME_INIT = 'HOME_INIT';

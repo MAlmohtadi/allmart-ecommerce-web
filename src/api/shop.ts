@@ -4,23 +4,21 @@ import qs from 'query-string';
 import { getCategories, getCategoryBySlug } from '../fake-server/endpoints/categories';
 import { IShopCategory } from '../interfaces/category';
 // import { IProduct, IProductsList } from '../interfaces/product-old';
-import { IFilterValues, IListOptions, IProductOptions } from '../interfaces/list';
+import { IProductOptions } from '../interfaces/list';
 import {
     getDiscountedProducts,
-    getFeaturedProducts,
-    getLatestProducts,
     getPopularProducts,
     getProductBySlug,
-    getProductsList,
     getRelatedProducts,
     getSuggestions,
     getTopRatedProducts,
 } from '../fake-server/endpoints/products';
-import { IHomePageResponse } from '../interfaces/hompage';
+import { IHomePageResponse } from '../interfaces/homepage';
 import { IProductResponse, IProduct } from '../interfaces/product';
-import { IAccount } from '../interfaces/account';
 import { ICoupon } from '../interfaces/coupon';
 import { ICheckoutInfo } from '../interfaces/checkout-info';
+import { IOrder, IOrderProduct, IOrderSummary } from '../interfaces/order';
+import { IAccount } from '../store/account/accountTypes';
 // import { IProductsList, IProduct } from '../interfaces/product-old';
 
 export interface GetCategoriesOptions {
@@ -76,15 +74,24 @@ export interface Error {
     message?: string;
 }
 
-export interface OrderOptions {
-    couponCode: string,
+export interface UserOrdersOptions{
+  isCurrentOrders: boolean,
+  isOlderOrders: boolean,
+  isWholeSale: boolean,
+  userId: number
+
+}
+
+export interface OrderProductsOptions {
+    orderId: number,
+    userId: number;
+    isWholeSale?: boolean,
+}
+
+export interface OrderBaseOptions {
     couponDiscount: number,
-    deliveryDate: string,
-    deliveryPeriod: string,
-    deliveryPrice: number,
     isWholeSale: boolean,
-    location: string,
-    notes: string,
+    orderId: number,
     orderedProducts: [
         {
             id: number,
@@ -99,8 +106,17 @@ export interface OrderOptions {
         }
     ],
     totalPrice: number,
-    typeOfPayment: number,
     userId: number
+}
+
+export interface OrderOptions extends OrderBaseOptions {
+    couponCode: string,
+    deliveryDate: string,
+    deliveryPeriod: string,
+    deliveryPrice: number,
+    location: string,
+    notes: string,
+    typeOfPayment: number,
 }
 
 const BASE_URL = 'http://jubranapi.us-east-1.elasticbeanstalk.com/api';
@@ -165,7 +181,7 @@ const shopApi = {
         })
             .then((response) => response.json());
     },
-    updateAccoount: (options: AccountOptions = {}): Promise<IAccount> => {
+    updateAccount: (options: AccountOptions = {}): Promise<IAccount> => {
         return fetch(`${BASE_URL}/user/update`, {
             method: 'POST',
             headers: {
@@ -176,7 +192,7 @@ const shopApi = {
         })
             .then((response) => response.json());
     },
-    registerAccoount: (options: AccountOptions = {}): Promise<IAccount> => {
+    registerAccount: (options: AccountOptions = {}): Promise<IAccount> => {
         return fetch(`${BASE_URL}/user/register`, {
             method: 'POST',
             headers: {
@@ -187,7 +203,7 @@ const shopApi = {
         })
             .then((response) => response.json());
     },
-    removeAccoount: (options: AccountOptions = {}): Promise<void> => {
+    removeAccount: (options: AccountOptions = {}): Promise<void> => {
         return fetch(`${BASE_URL}/user/deleteUserInfo`, {
             method: 'POST',
             headers: {
@@ -320,8 +336,64 @@ const shopApi = {
     /**
     * add order.
     */
-    addOrder: (options: OrderOptions): Promise<ICheckoutInfo & Error> => {
+    addOrder: (options: OrderOptions): Promise<IOrderSummary & Error> => {
         return fetch(`${BASE_URL}/orders/addOrder`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * Return user orders.
+    */
+    getUserOrders: (options: UserOrdersOptions): Promise<IOrderSummary[]> => {
+        return fetch(`${BASE_URL}/orders/getUserOrders`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * Return order products orders.
+    */
+    getOrderProducts: (options: OrderProductsOptions): Promise<IOrderProduct[]> => {
+        return fetch(`${BASE_URL}/orders/getOrderProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * cancel order  orders.
+    */
+    cancelOrder: (options: OrderProductsOptions): Promise<IOrderSummary> => {
+        return fetch(`${BASE_URL}/orders/cancelOrder`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * update Order Products.
+    */
+    updateOrderProducts: (options: OrderBaseOptions): Promise<IOrderProduct> => {
+        return fetch(`${BASE_URL}/orders/updateOrderProducts`, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

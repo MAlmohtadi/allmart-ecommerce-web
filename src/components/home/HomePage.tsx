@@ -14,10 +14,9 @@ import BlockSlideShow from '../blocks/BlockSlideShow';
 
 // data stubs
 // import dataBlogPosts from '../../data/blogPosts';
-import { IHomePageResponse } from '../../interfaces/hompage';
+import { IHomePageResponse } from '../../interfaces/homepage';
 import { IProductResponse } from '../../interfaces/product';
 import { useSale } from '../../store/sale/saleHooks';
-import { useHomeFetchData } from '../../store/home/homeHooks';
 
 export interface InitData {
     homepageInfo?: IHomePageResponse;

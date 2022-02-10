@@ -16,6 +16,8 @@ import { SHOP_NAMESPACE } from '../shop/shopTypes';
 import accountReducer, { ACCOUNT_NAMESPACE } from '../account/accountReducer';
 import { HOME_NAMESPACE } from '../home/homeTypes';
 import homeReducer from '../home/homeReducer';
+import { ORDER_NAMESPACE } from '../order/orderTypes';
+import orderReducer from '../order/orderReducer';
 
 export default combineReducers({
     version: (state: number = version) => state,
@@ -30,4 +32,5 @@ export default combineReducers({
     [SHOP_NAMESPACE]: shopReducer,
     [ACCOUNT_NAMESPACE]: accountReducer,
     [HOME_NAMESPACE]: homeReducer,
+    [ORDER_NAMESPACE]: orderReducer,
 });

@@ -1,41 +1,24 @@
 import { IAddress } from './address';
 import { ICoupon } from './coupon';
 
-export interface IOrderItemOption {
-    label: string;
-    value: string;
-}
-
-export interface IOrderItem {
+export interface IOrderProduct {
+    isCancelled: boolean,
+    orderId: number,
+    productId: number,
+    quantity: number,
     id: number;
-    slug: string;
+    imageUrl: string;
+    isFavorite: boolean;
+    isOffer: boolean;
+    isStockAvailable: boolean;
+    maxQuantity: number;
     name: string;
-    image: string;
-    options?: IOrderItemOption[];
+    offerPrice: number;
+    offerQuantity: number;
+    offerType: number;
     price: number;
-    quantity: number;
-    total: number;
+    quantityMultiplier: number;
 }
-
-export interface IOrderAdditionalLine {
-    label: string;
-    total: number;
-}
-
-export interface IOrder {
-    id: number;
-    date: string;
-    status: string;
-    items: IOrderItem[];
-    additionalLines: IOrderAdditionalLine[];
-    quantity: number;
-    subtotal: number;
-    total: number;
-    paymentMethod: string;
-    shippingAddress: IAddress;
-    billingAddress: IAddress;
-}
-
 export interface IOrderSummary {
     cancelledDate: string;
     couponInfo: ICoupon;

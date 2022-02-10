@@ -1,6 +1,6 @@
 // application
 import { ICategory } from '../../interfaces/category';
-import { IAdminSettingsResponse, IBanner } from '../../interfaces/hompage';
+import { IAdminSettingsResponse, IBanner } from '../../interfaces/homepage';
 
 export const HOME_NAMESPACE = 'home';
 

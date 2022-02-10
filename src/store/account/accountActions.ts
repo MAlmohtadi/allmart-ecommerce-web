@@ -86,7 +86,7 @@ export function accountRegister(accountOptions: AccountOptions): AccountThunkAct
 
         cancelPreviousRequest();
         cancelPreviousRequest = () => { canceled = true; };
-        const data = await shopApi.registerAccoount(accountOptions);
+        const data = await shopApi.registerAccount(accountOptions);
         if (canceled) {
             return;
         }
@@ -100,14 +100,14 @@ export function accountRegister(accountOptions: AccountOptions): AccountThunkAct
 export function accountUpdate(accountOptions: AccountOptions): AccountThunkAction<Promise<void>> {
     // sending request to server, timeout is used as a stub
     return async (dispatch) => {
-        const data = await shopApi.updateAccoount(accountOptions);
+        const data = await shopApi.updateAccount(accountOptions);
         await dispatch(updateAccountSuccess(data));
     };
 }
 export function accountRemove(accountOptions: AccountOptions): AccountThunkAction<Promise<void>> {
     // sending request to server, timeout is used as a stub
     return async (dispatch) => {
-        await shopApi.removeAccoount(accountOptions);
+        await shopApi.removeAccount(accountOptions);
         dispatch(removeAccountSuccess());
     };
 }

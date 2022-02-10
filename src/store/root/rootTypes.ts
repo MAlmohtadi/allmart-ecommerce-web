@@ -10,6 +10,7 @@ import wishlistReducer from '../wishlist/wishlistReducer';
 import shopReducer from '../shop/shopReducer';
 import accountReducer from '../account/accountReducer';
 import homeReducer from '../home/homeReducer';
+import orderReducer from '../order/orderReducer';
 
 export interface RootState {
     version: number;
@@ -24,4 +25,5 @@ export interface RootState {
     shop: AppReducerStateType<typeof shopReducer>;
     account: AppReducerStateType<typeof accountReducer>;
     home: AppReducerStateType<typeof homeReducer>;
+    order: AppReducerStateType<typeof orderReducer>;
 }
