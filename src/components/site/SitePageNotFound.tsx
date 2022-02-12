@@ -15,7 +15,7 @@ function SitePageNotFound() {
             <div className="container">
                 <div className="not-found">
                     <div className="not-found__404">
-                        اوبس! خطأ 404
+                        عذرا! خطأ 404
                     </div>
 
                     <div className="not-found__content">

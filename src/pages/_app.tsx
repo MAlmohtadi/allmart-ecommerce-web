@@ -25,7 +25,8 @@ export type StroykaAppProps = AppProps & {
     };
 };
 
-function StroykaApp({ Component, pageProps }: StroykaAppProps) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
     const headerLayout = 'default';
     const applyClientState = useApplyClientState();
     const locale = useLocale();

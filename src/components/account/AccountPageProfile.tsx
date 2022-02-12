@@ -8,10 +8,8 @@ import { useAccount, useAccountUpdate } from '../../store/account/accountHooks';
 
 export default function AccountPageProfile() {
     const account = useAccount();
-    const route = useRouter();
-    if (!account.isLoggedIn) {
-        route.push('/account/login');
-    }
+    const router = useRouter();
+
     const nameInputRef = useRef<HTMLInputElement | null>(null);
     const phoneInputRef = useRef<HTMLInputElement | null>(null);
     const phone2ndInputRef = useRef<HTMLInputElement | null>(null);
@@ -44,6 +42,9 @@ export default function AccountPageProfile() {
         accountUpdate({
             name, phone, secondaryPhone, email,
         });
+    }
+    if (!account.isLoggedIn) {
+        router.push('/account/login');
     }
     return (
         <div className="card">
