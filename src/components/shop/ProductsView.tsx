@@ -5,6 +5,7 @@ import { ReactNode, useState } from 'react';
 import classNames from 'classnames';
 
 // application
+import { useRouter } from 'next/router';
 import Filters16Svg from '../../svg/filters-16.svg';
 import LayoutGrid16x16Svg from '../../svg/layout-grid-16x16.svg';
 import LayoutGridWithDetails16x16Svg from '../../svg/layout-grid-with-details-16x16.svg';
@@ -47,7 +48,7 @@ function ProductsView(props: ProductsViewProps) {
         openSidebarFn,
     } = props;
     const [layout, setLayout] = useState(propsLayout);
-
+    const router = useRouter();
     const isLoading = useShopProductsListIsLoading();
     const productsList = useShopProductsList();
     const options = useShopOptions();
@@ -66,7 +67,7 @@ function ProductsView(props: ProductsViewProps) {
     const filtersCount = Object.keys(filterValues).map((x) => filterValues[x]).filter((x) => x).length;
     const viewModesDef: ViewMode[] = [
         { key: 'grid', title: 'Grid', icon: <LayoutGrid16x16Svg /> },
-        { key: 'grid-with-features', title: 'Grid With Features', icon: <LayoutGridWithDetails16x16Svg /> },
+        // { key: 'grid-with-features', title: 'Grid With Features', icon: <LayoutGridWithDetails16x16Svg /> },
         { key: 'list', title: 'List', icon: <LayoutList16x16Svg /> },
     ];
     const viewModes = viewModesDef.map((viewMode) => {
@@ -109,13 +110,15 @@ function ProductsView(props: ProductsViewProps) {
             <div className="products-view__content">
                 <div className="products-view__options">
                     <div className={viewOptionsClasses}>
-                        <div className="view-options__filters-button">
-                            <button type="button" className="filters-button" onClick={openSidebarFn}>
-                                <Filters16Svg className="filters-button__icon" />
-                                <span className="filters-button__title">الفلاتر</span>
-                                {!!filtersCount && <span className="filters-button__counter">{filtersCount}</span>}
-                            </button>
-                        </div>
+                        {!router.pathname.includes('offers') && (
+                            <div className="view-options__filters-button">
+                                <button type="button" className="filters-button" onClick={openSidebarFn}>
+                                    <Filters16Svg className="filters-button__icon" />
+                                    <span className="filters-button__title">الفلاتر</span>
+                                    {!!filtersCount && <span className="filters-button__counter">{filtersCount}</span>}
+                                </button>
+                            </div>
+                        )}
                         <div className="view-options__layout">
                             <div className="layout-switcher">
                                 <div className="layout-switcher__list">{viewModes}</div>

@@ -12,7 +12,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 });
 
 function Page() {
-    return <ShopPageCategory columns={3} viewMode="list" />;
+    return <ShopPageCategory columns={4} viewMode="grid" />;
 }
 
 export default Page;
