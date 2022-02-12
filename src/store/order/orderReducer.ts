@@ -89,7 +89,7 @@ function calculateOffersByQuantities(product: IOrderProduct, quantity: number): 
         quantityTotal -= offerQuantity;
     }
     if (quantityTotal > 0) {
-        total += product.price * quantity;
+        total += product.price * quantityTotal;
     }
     return total;
 }
