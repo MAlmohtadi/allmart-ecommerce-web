@@ -32,24 +32,12 @@ function ShopPageCart() {
     const cart = useCart();
     const cartRemoveItem = useCartRemoveItem();
     const cartUpdateQuantities = useCartUpdateQuantities();
-    const couponRef = useRef<HTMLInputElement | null>(null);
     const updateQuantities = () => cartUpdateQuantities(
         quantities.map((x) => ({
             ...x,
             value: typeof x.value === 'string' ? parseFloat(x.value) : x.value,
         })),
     );
-    const applyCoupon = useCartApplyCoupon();
-
-    const submitCoupon = (e: FormEvent) => {
-        e.preventDefault();
-        if (!couponRef.current || !couponRef.current.value) {
-            toast.error('الرجاء تعبئة كود الخصم', { theme: 'colored' });
-        } else {
-            applyCoupon(couponRef.current?.value);
-        }
-    };
-
     const cartNeedUpdate = () => quantities.filter((x) => {
         const item = cart.items.find((item) => item.id === x.itemId);
 
@@ -232,7 +220,6 @@ function ShopPageCart() {
                             <tr className="cart-table__row">
                                 <th className="cart-table__column cart-table__column--image">الصورة</th>
                                 <th className="cart-table__column cart-table__column--product">المنتج</th>
-                                {/* <th className="cart-table__column cart-table__column--price">سعر العرض</th> */}
                                 <th className="cart-table__column cart-table__column--price">السعر</th>
                                 <th className="cart-table__column cart-table__column--quantity">الكمية</th>
                                 <th className="cart-table__column cart-table__column--total">المجموع</th>
@@ -242,21 +229,6 @@ function ShopPageCart() {
                         <tbody className="cart-table__body">{cartItems}</tbody>
                     </table>
                     <div className="cart__actions">
-                        <form className="cart__coupon-form" onSubmit={submitCoupon}>
-                            <label htmlFor="input-coupon-code" className="sr-only">
-                                Password
-                            </label>
-                            <input
-                                ref={couponRef}
-                                type="text"
-                                className="form-control"
-                                id="input-coupon-code"
-                                placeholder="كود الخصم"
-                            />
-                            <button type="submit" className="btn btn-primary">
-                                تأكيد الكود
-                            </button>
-                        </form>
                         <div className="cart__buttons">
                             <AppLink href="/" className="btn btn-light">
                                 أكمل التسوق
