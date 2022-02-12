@@ -4,7 +4,7 @@ import {
     useMemo, useRef,
     useState,
 } from 'react';
-import { IProduct } from '../interfaces/product-old';
+import { IProduct } from '../interfaces/product';
 
 export function useMedia(query: string) {
     if (!process.browser) {

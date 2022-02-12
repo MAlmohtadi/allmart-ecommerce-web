@@ -13,7 +13,7 @@ import {
     ShopSetFilterValueAction,
 } from './shopActionTypes';
 import { IProductResponse, IProductsList } from '../../interfaces/product';
-import RangeFilterBuilder from '../../fake-server/filters/range';
+import RangeFilterBuilder from '../../helper/range';
 
 const initialState: ShopState = {
     init: false,

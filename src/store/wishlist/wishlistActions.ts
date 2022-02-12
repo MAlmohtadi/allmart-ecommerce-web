@@ -48,12 +48,6 @@ export function wishlistAddItem(product: IProduct): WishlistThunkAction<Promise<
         if (response) {
             dispatch(wishlistAddItemSuccess(product));
         }
-        // new Promise((resolve) => {
-        //     setTimeout(() => {
-        //         dispatch(wishlistAddItemSuccess(product));
-        //         resolve();
-        //     }, 500);
-        // });
     };
 }
 
@@ -62,7 +56,7 @@ export function wishlistRemoveItem(productId: number): WishlistThunkAction<Promi
     return async (dispatch, getState) => {
         const saleState = getState()[SALE_NAMESPACE];
         const account = getState()[ACCOUNT_NAMESPACE];
-        const response = await shopApi.addToWishlist({
+        const response = await shopApi.removeFromWishlist({
             isWholeSale: saleState.isWholeSale,
             userId: account.id,
             productId,

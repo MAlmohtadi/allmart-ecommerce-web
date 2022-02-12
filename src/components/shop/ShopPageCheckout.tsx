@@ -71,6 +71,7 @@ function ShopPageCheckout(props: CheckoutProps) {
     };
 
     const selectPeriod = async (id: string = '') => {
+        // @ts-ignore
         const period = deliveryDate.periods.find((item) => `${item.id}` === id);
         setDeliveryPeriod(period);
     };
@@ -88,7 +89,6 @@ function ShopPageCheckout(props: CheckoutProps) {
                 quantity: item.quantity,
             }));
             const discount = cart.totals.find((item) => item.type === 'discount')?.price;
-
             shopApi.addOrder({
                 deliveryDate: deliveryDate.displayName,
                 couponCode: cart.coupon?.code || '',
@@ -98,6 +98,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                 deliveryPrice: (deliveryPlace === '1' ? deliveryPeriod.othersPrice : deliveryPeriod.price) || 0,
                 typeOfPayment: currentPayment === 'cash' ? 0 : 1,
                 notes: noteInputRef.current?.value || '',
+                // @ts-ignore
                 orderedProducts,
                 totalPrice: cart.total,
                 userId: account.id || 0,
@@ -123,6 +124,7 @@ function ShopPageCheckout(props: CheckoutProps) {
             if (!adminSettings?.choose_delivery_period_enabled === false) {
                 return null;
             }
+            // @ts-ignore
             price = deliveryPlace === '1' ? deliveryPeriod?.othersPrice : deliveryPeriod?.price;
         }
         return (
@@ -176,7 +178,7 @@ function ShopPageCheckout(props: CheckoutProps) {
     );
 
     const payments = dataShopPayments.map((payment) => {
-        const renderPayment: RenderPaymentFn = ({ setItemRef, setContentRef }) => (
+        const renderPayment: RenderPaymentFn = ({ setItemRef }) => (
             <li className="payment-methods__item" ref={setItemRef}>
                 <label className="payment-methods__item-header">
                     <span className="payment-methods__item-radio input-radio">
@@ -194,9 +196,6 @@ function ShopPageCheckout(props: CheckoutProps) {
                     </span>
                     <span className="payment-methods__item-title">{payment.title}</span>
                 </label>
-                {/* <div className="payment-methods__item-container" ref={setContentRef}>
-                    <div className="payment-methods__item-description text-muted">{payment.description}</div>
-                </div> */}
             </li>
         );
 
@@ -279,9 +278,10 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             >
                                                 <option defaultChecked>اختر يوم التوصيل ...</option>
                                                 {!deliveryInfo.isLoading
-                                                    && deliveryInfo.data.deliveryInfo.map((item) => (
-                                                        <option value={`${item.id}`}>{item.displayName}</option>
-                                                    ))}
+                                                // @ts-ignore
+                                                && deliveryInfo.data.deliveryInfo.map((item) => (
+                                                    <option value={`${item.id}`}>{item.displayName}</option>
+                                                ))}
                                             </select>
                                         </div>
                                     )}
@@ -310,6 +310,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             <span className="text-muted">(اختياري)</span>
                                         </label>
                                         <textarea
+                                            // @ts-ignore
                                             ref={noteInputRef}
                                             id="checkout-comment"
                                             className="form-control"

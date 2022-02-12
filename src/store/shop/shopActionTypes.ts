@@ -4,7 +4,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import { AppAction } from '../types';
 import { IFilterValues, IListOptions } from '../../interfaces/list';
 import { SHOP_NAMESPACE, ShopState } from './shopTypes';
-import { IProductResponse, IProductsList } from '../../interfaces/product';
+import { IProductResponse } from '../../interfaces/product';
 
 export const SHOP_HYDRATE = HYDRATE;
 export const SHOP_INIT = 'SHOP_INIT';

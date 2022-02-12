@@ -86,6 +86,7 @@ function calcTotals(items: CartItem[], shippingPrice: number, coupon?: ICoupon):
         {
             type: 'discount',
             title: 'كوبون الخصم',
+            // @ts-ignore
             price: getDiscountAmount(coupon, subtotal),
         },
     ];
@@ -97,7 +98,7 @@ function calculateOffersByQuantities(product: IProduct, quantity: number): numbe
     let total = 0;
     let offerQuantity = 0;
     let quantityTotal = quantity;
-    offerQuantity = product.offerQuantity;
+    offerQuantity = product.offerQuantity || 1;
     if (offerQuantity === 0) {
         offerQuantity = 1;
     }

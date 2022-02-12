@@ -1,11 +1,10 @@
 // react
-import { MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
+import { MouseEvent as ReactMouseEvent } from 'react';
 
 // third-party
 import classNames from 'classnames';
 
 // application
-import { title } from 'process';
 import AppLink from '../shared/AppLink';
 import ArrowRoundedDown9x6Svg from '../../svg/arrow-rounded-down-9x6.svg';
 import Megamenu from './Megamenu';
@@ -16,7 +15,6 @@ import { useDirection } from '../../store/locale/localeHooks';
 import dataHeaderNavigation from '../../data/headerNavigation';
 import { IHomePageResponse } from '../../interfaces/homepage';
 import { useHome } from '../../store/home/homeHooks';
-import { isArrayOfStrings } from '../../services/helpers';
 
 export interface InitData {
     homepageInfo?: IHomePageResponse;
@@ -47,7 +45,8 @@ function NavLinks() {
                         url: `/categories/${category.id}/sub-category/${subCategory.id}`,
                     }));
                 }
-                return categoryMenu?.submenu?.menu.push({
+                // @ts-ignore:
+                return categoryMenu?.submenu?.menu?.push({
                     title: `${category.name}`,
                     url: `/categories/${category.id}`,
                     children: [...object],

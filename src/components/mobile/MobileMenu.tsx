@@ -15,10 +15,7 @@ import { useMobileMenu, useMobileMenuClose } from '../../store/mobile-menu/mobil
 import dataMobileMenu from '../../data/mobileMenu';
 import dataShopCurrencies from '../../data/shopCurrencies';
 import { IMobileMenuLink } from '../../interfaces/menus/mobile-menu';
-import { useDeferredData } from '../../services/hooks';
-import shopApi from '../../api/shop';
-import { useSale } from '../../store/sale/saleHooks';
-import { useHome, useHomeCategories, useHomeIsLoading } from '../../store/home/homeHooks';
+import { useHome } from '../../store/home/homeHooks';
 
 function MobileMenu() {
     const mobileMenu = useMobileMenu();
@@ -51,40 +48,6 @@ function MobileMenu() {
         }
     };
 
-    // const categories = useHomeCategories();
-    // const homeIsLoading = useHomeIsLoading();
-    // const categoriesMenuData = [
-    //     {
-    //         title: 'التصنيفات',
-    //         url: '/',
-    //         type: 'link',
-    //         children: [],
-    //     },
-    // ];
-    // const customMenuDataPreperation = () => {
-    //     let object = [];
-    //     if (!homeData.init && homeData.homeIsLoading) {
-    //         return [];
-    //     } if (homeData.init && !homeData.homeIsLoading && dataMobileMenu.length < 5) {
-    //         categories.map((category) => {
-    //             if (category.subCategories.length) {
-    //                 object = category.subCategories.map((subCategory) => ({
-    //                     title: `${subCategory.name}`,
-    //                     type: 'link',
-    //                     url: `/categories/${category.id}/sub-category/${subCategory.id}`,
-    //                 }));
-    //             }
-    //             categoriesMenuData[0].children.push({
-    //                 title: `${category.name}`,
-    //                 url: `/categories/${category.id}`,
-    //                 type: 'link',
-    //                 children: [...object],
-    //             });
-    //         });
-    //         dataMobileMenu.push(categoriesMenuData[0]);
-    //     }
-    // };
-
     const customMenuDataPreperation = () => {
         let object: any[] = [];
         if (!homeData.init && homeData.homeIsLoading) {
@@ -98,6 +61,7 @@ function MobileMenu() {
             && Array.isArray(categoryMenu.children)
             && !categoryMenu?.children.length
         ) {
+            // @ts-ignore
             categories.map((category) => {
                 if (category.subCategories.length) {
                     object = category.subCategories.map((subCategory) => ({
@@ -106,6 +70,7 @@ function MobileMenu() {
                         url: `/categories/${category.id}/sub-category/${subCategory.id}`,
                     }));
                 }
+                // @ts-ignore
                 return categoryMenu.children.push({
                     title: `${category.name}`,
                     type: 'link',

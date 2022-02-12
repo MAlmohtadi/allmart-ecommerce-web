@@ -53,6 +53,7 @@ function IndicatorCart() {
             );
         }
 
+        // eslint-disable-next-line prefer-const
         image = (
             <div className="product-image dropcart__product-image">
                 <div className="product-image__body">
@@ -60,6 +61,7 @@ function IndicatorCart() {
                         className="product-image__img"
                         src={item.product?.imageUrl}
                         onError={({ currentTarget }) => {
+                            // eslint-disable-next-line no-param-reassign
                             currentTarget.src = '/images/products/defaultImage.png';
                         }}
                         alt={item.product.name}

@@ -1,5 +1,5 @@
 // react
-import { Fragment, useEffect, useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 
 // third-party
 import Head from 'next/head';
@@ -81,7 +81,7 @@ function HomePage(props: HomePageProps) {
                     <BlockProductsCarousel
                         title="عروض خاصة"
                         layout="grid-5"
-                        rows={offerProducts.data?.products?.length > 10 ? 2 : 1}
+                        rows={offerProducts.data?.products?.length || 0 > 10 ? 2 : 1}
                         products={offerProducts.data?.products}
                         loading={offerProducts.isLoading}
                     />

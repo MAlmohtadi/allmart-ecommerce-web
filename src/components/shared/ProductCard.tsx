@@ -5,17 +5,9 @@ import { Fragment, memo } from 'react';
 import classNames from 'classnames';
 
 // application
-import AppLink from './AppLink';
 import AsyncAction from './AsyncAction';
-// import Compare16Svg from '../../svg/compare-16.svg';
 import CurrencyFormat from './CurrencyFormat';
-// import Quickview16Svg from '../../svg/quickview-16.svg';
-// import Rating from './Rating';
-import url from '../../services/url';
 import Wishlist16Svg from '../../svg/wishlist-16.svg';
-// import { IProduct } from '../../interfaces/product-old';
-import { useCompareAddItem } from '../../store/compare/compareHooks';
-import { useQuickviewOpen } from '../../store/quickview/quickviewHooks';
 import { useWishlistAddItem } from '../../store/wishlist/wishlistHooks';
 import { useCartAddItem } from '../../store/cart/cartHooks';
 import { IProduct } from '../../interfaces/product';
@@ -39,14 +31,10 @@ function ProductCard(props: ProductCardProps) {
     });
     const cartAddItem = useCartAddItem();
     const wishlistAddItem = useWishlistAddItem();
-    // const compareAddItem = useCompareAddItem();
-    // const quickviewOpen = useQuickviewOpen();
     const account = useAccount();
     const badges = [];
     let image;
     let price;
-    // let features;
-
     if (product.isOffer) {
         badges.push(
             <div key="sale" className="product-card__badge product-card__badge--sale">
@@ -54,14 +42,7 @@ function ProductCard(props: ProductCardProps) {
             </div>,
         );
     }
-    // if (product.badges.includes('hot')) {
-    //     badges.push(<div key="hot" className="product-card__badge product-card__badge--hot">Hot</div>);
-    // }
-    // if (product.badges.includes('new')) {
-    //     badges.push(<div key="new" className="product-card__badge product-card__badge--new">New</div>);
-    // }
-
-    // if (product.images && product.images.length > 0) {
+    // eslint-disable-next-line prefer-const
     image = (
         <div className="product-card__image product-image">
             <div className="product-image__body">
@@ -69,6 +50,7 @@ function ProductCard(props: ProductCardProps) {
                     className="product-image__img"
                     src={`${product?.imageUrl}`}
                     onError={({ currentTarget }) => {
+                        // eslint-disable-next-line no-param-reassign
                         currentTarget.src = '/images/products/defaultImage.png';
                     }}
                     alt={product.name}
@@ -174,20 +156,6 @@ function ProductCard(props: ProductCardProps) {
                             )}
                         />
                     )}
-                    {/* <AsyncAction
-                        action={() => compareAddItem(product)}
-                        render={({ run, loading }) => (
-                            <button
-                                type="button"
-                                onClick={run}
-                                className={classNames('btn btn-light btn-svg-icon btn-svg-icon--fake-svg product-card__compare', {
-                                    'btn-loading': loading,
-                                })}
-                            >
-                                <Compare16Svg />
-                            </button>
-                        )}
-                    /> */}
                 </div>
             </div>
         </div>

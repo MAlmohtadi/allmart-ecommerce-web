@@ -17,9 +17,6 @@ import '../scss/index.scss';
 import { useSale } from '../store/sale/saleHooks';
 import { useHomeFetchData } from '../store/home/homeHooks';
 import { useAccount } from '../store/account/accountHooks';
-import { wishlistFetchProductsThunk, wishlistInitThunk } from '../store/wishlist/wishlistActions';
-import { orderInitThunk } from '../store/order/orderActions';
-import { useOrderInit } from '../store/order/orderHooks';
 import { useInitWishlistProducts } from '../store/wishlist/wishlistHooks';
 
 export type StroykaAppProps = AppProps & {
@@ -28,7 +25,7 @@ export type StroykaAppProps = AppProps & {
     };
 };
 
-function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
+function StroykaApp({ Component, pageProps }: StroykaAppProps) {
     const headerLayout = 'default';
     const applyClientState = useApplyClientState();
     const locale = useLocale();
@@ -36,7 +33,6 @@ function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
     const direction = useDirection();
     const store = useStore();
     const fetchHomePageData = useHomeFetchData();
-    const orderInit = useOrderInit();
     const initWishlist = useInitWishlistProducts();
     const isWholeSale = useSale();
     const account = useAccount();

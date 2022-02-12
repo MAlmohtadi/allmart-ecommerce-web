@@ -23,6 +23,7 @@ function addItem(state: WishlistState, product: IProduct): WishlistState {
 
 function removeItem(state: WishlistState, productId: number): WishlistState {
     return {
+        ...state,
         items: state.items.filter((x) => x.id !== productId),
     };
 }
@@ -45,7 +46,6 @@ function wishlistBaseReducer(state = initialState, action: WishlistAction) {
         return addItem(state, action.product);
     case WISHLIST_REMOVE_ITEM:
         return removeItem(state, action.productId);
-
     default:
         return state;
     }

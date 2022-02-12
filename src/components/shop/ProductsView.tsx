@@ -19,7 +19,6 @@ import {
     useShopProductsListIsLoading,
     useShopResetFiltersThunk,
 } from '../../store/shop/shopHooks';
-import { useHome } from '../../store/home/homeHooks';
 
 export type ProductsViewLayout = 'grid' | 'grid-with-features' | 'list';
 
@@ -51,7 +50,6 @@ function ProductsView(props: ProductsViewProps) {
 
     const isLoading = useShopProductsListIsLoading();
     const productsList = useShopProductsList();
-    const home = useHome();
     const options = useShopOptions();
     const filterValues = useShopFilterValues();
 

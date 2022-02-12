@@ -9,7 +9,6 @@ import {
     UPDATE_ACCOUNT,
     REGISTER_ACCOUNT,
     LOGOUT_ACCOUNT,
-    ACCOUNT_HYDRATE,
 } from './accountActionTypes';
 import { withClientState } from '../client';
 

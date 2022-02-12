@@ -5,9 +5,6 @@ import Head from 'next/head';
 import AppLink from '../shared/AppLink';
 import url from '../../services/url';
 
-// data stubs
-import theme from '../../data/theme';
-
 function SitePageNotFound() {
     return (
         <div className="block">

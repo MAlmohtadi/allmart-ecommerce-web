@@ -18,8 +18,6 @@ import PageHeader from '../shared/PageHeader';
 import url from '../../services/url';
 import { CartItem } from '../../store/cart/cartTypes';
 
-// data stubs
-import theme from '../../data/theme';
 import {
     useCart, useCartApplyCoupon, useCartRemoveItem, useCartUpdateQuantities,
 } from '../../store/cart/cartHooks';
@@ -98,16 +96,16 @@ function ShopPageCart() {
 
     if (cart.quantity) {
         const cartItems = cart.items.map((item) => {
-            let image;
             let options;
 
-            image = (
+            const image = (
                 <div className="product-image">
                     <div className="product-image__body">
                         <img
                             className="product-image__img"
                             src={`${item.product?.imageUrl}`}
                             onError={({ currentTarget }) => {
+                                // eslint-disable-next-line no-param-reassign
                                 currentTarget.src = '/images/products/defaultImage.png';
                             }}
                             alt={item.product.name}

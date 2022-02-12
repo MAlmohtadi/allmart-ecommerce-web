@@ -1,15 +1,11 @@
+/* eslint-disable jsx-a11y/alt-text */
 // react
 import { memo } from 'react';
 
-// third-party
-import { FormattedMessage } from 'react-intl';
-
 // application
 import AppLink from '../shared/AppLink';
-import LogoSvg from '../../svg/logo.svg';
 import NavPanel from './NavPanel';
 import Search from './Search';
-import Topbar from './Topbar';
 
 export type HeaderLayout = 'default' | 'compact';
 
@@ -36,7 +32,6 @@ function Header(props: HeaderProps) {
 
     return (
         <div className="site-header">
-            {/* <Topbar /> */}
             {bannerSection}
             <div className="site-header__nav-panel">
                 <NavPanel layout={layout} />

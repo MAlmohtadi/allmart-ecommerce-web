@@ -73,8 +73,7 @@ export default async function getShopPageData(
     store: Store<RootState>,
     context: GetServerSidePropsContext,
 ): Promise<void> {
-    // const categorySlug = slug || (typeof context.params?.slug === 'string' ? context.params.slug : null);
-
+    // @ts-ignore
     const query = queryString.stringify(queryString.parseUrl(context.req.url).query);
     const options = { ...parseQueryOptions(query), ...context.params };
     const filters = parseQueryFilters(query);
@@ -86,5 +85,4 @@ export default async function getShopPageData(
     const dispatch = store.dispatch as AppDispatch;
 
     await dispatch(shopInitThunk(options, filters));
-    // }
 }

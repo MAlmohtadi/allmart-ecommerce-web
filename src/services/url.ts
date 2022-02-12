@@ -1,5 +1,4 @@
 import { ILinkProps } from '../interfaces/menus/link-props';
-import { ICategory, IShopCategory } from '../interfaces/category';
 
 const url = {
     home: (): ILinkProps => ({
@@ -15,23 +14,6 @@ const url = {
     checkout: (): ILinkProps => ({
         href: '/shop/checkout',
     }),
-
-    category: (category: ICategory): ILinkProps => {
-        if (category.type === 'shop') {
-            return url.shopCategory(category);
-        }
-        if (category.type === 'blog') {
-            return url.blogCategory();
-        }
-
-        throw Error('Undefined category type');
-    },
-
-    shopCategory: (category: IShopCategory): ILinkProps => ({
-        href: '/shop/catalog/[slug]',
-        as: `/shop/catalog/${category.slug}`,
-    }),
-
     product: (product: { slug: string }): ILinkProps => ({
         href: '/shop/products/[slug]',
         as: `/shop/products/${product.slug}`,
