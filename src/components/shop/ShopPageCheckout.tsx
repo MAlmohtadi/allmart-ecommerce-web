@@ -188,7 +188,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                 <tr>
                     <th>المبلغ الإجمالي</th>
                     <td>
-                        <CurrencyFormat value={cart.total + (deliveryPlace === '1' ? deliveryPeriod.othersPrice : deliveryPeriod.price)} />
+                        <CurrencyFormat value={cart.total + (deliveryPlace === '1' ? deliveryPeriod?.othersPrice : deliveryPeriod?.price || 0.00)} />
                     </td>
                 </tr>
             </tfoot>

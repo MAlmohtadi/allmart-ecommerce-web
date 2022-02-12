@@ -7,7 +7,7 @@ import Head from 'next/head';
 // application
 import { useRouter } from 'next/router';
 import moment from 'moment';
-import classNames from 'classnames';
+import { confirmAlert } from 'react-confirm-alert';
 import AppLink from '../shared/AppLink';
 import url from '../../services/url';
 
@@ -15,8 +15,8 @@ import { useAccount } from '../../store/account/accountHooks';
 import { useCancelOrder, useOrder, useOrderProductsFetchData } from '../../store/order/orderHooks';
 import { orderStatus } from './AccountPageOrders';
 import CurrencyFormat from '../shared/CurrencyFormat';
-import AsyncAction from '../shared/AsyncAction';
 import BlockLoader from '../blocks/BlockLoader';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 export default function AccountPageOrderDetails() {
     const router = useRouter();
@@ -36,9 +36,25 @@ export default function AccountPageOrderDetails() {
         }
     }, [router.query, account.id]);
 
+    const onCancel = () => confirmAlert({
+        title: 'تأكيد إلغاء الطلب',
+        message: 'هل انت متأكد من إلغاء طلبك.',
+        buttons: [
+            {
+                label: 'نعم',
+                onClick: () => cancelOrderAction(Number(router.query?.orderId)),
+            },
+            {
+                label: 'لا',
+                onClick: () => {},
+            },
+        ],
+    });
+
     if (orderState.orderProductsIsLoading && !orderState.orderProducts) {
         return <BlockLoader />;
     }
+
     return (
         <Fragment>
             <Head>
@@ -116,20 +132,24 @@ export default function AccountPageOrderDetails() {
                                             </AppLink>
                                         </th>
                                         <td>
-                                            <AsyncAction
-                                                action={() => cancelOrderAction(Number(router.query?.orderId))}
+                                            {/* <AsyncAction
+                                                action={() => onCancel(Number(router.query?.orderId))}
                                                 render={({ run, loading }) => {
                                                     const classes = classNames('btn btn-secondary cart__update-button', {
                                                         'btn-loading': loading,
                                                     });
 
-                                                    return (
-                                                        <button type="button" onClick={run} className={classes}>
-                                                            إلغاء الطلب
-                                                        </button>
-                                                    );
+                                                    return ( */}
+                                            <button
+                                                type="button"
+                                                onClick={onCancel}
+                                                className="btn btn-secondary cart__update-button"
+                                            >
+                                                إلغاء الطلب
+                                            </button>
+                                            {/* );
                                                 }}
-                                            />
+                                            /> */}
 
                                         </td>
                                     </tr>
