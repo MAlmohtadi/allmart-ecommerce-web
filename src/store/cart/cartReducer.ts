@@ -107,7 +107,7 @@ function calculateOffersByQuantities(product: IProduct, quantity: number): numbe
         quantityTotal -= offerQuantity;
     }
     if (quantityTotal > 0) {
-        total += product.price * quantity;
+        total += product.price * quantityTotal;
     }
     return total;
 }
