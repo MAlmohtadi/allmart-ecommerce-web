@@ -142,6 +142,7 @@ function handleCancelOrder(state: OrderState, action: OrderAction): OrderState {
             ...state,
             orderIsLoading: false,
             orders: [...newOrders],
+            selectedOrder: { ...action.data },
         };
     }
 
