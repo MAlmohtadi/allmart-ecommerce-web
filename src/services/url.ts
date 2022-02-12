@@ -73,9 +73,9 @@ const url = {
         href: '/account/orders',
     }),
 
-    accountOrder: (order: { id: number }, userId: number): ILinkProps => ({
+    accountOrder: (id: number): ILinkProps => ({
         href: '/account/orders/[orderId]',
-        as: `/account/orders/${order.id}`,
+        as: `/account/orders/${id}`,
     }),
 
     accountAddresses: (): ILinkProps => ({

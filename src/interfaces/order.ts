@@ -3,8 +3,8 @@ import { ICoupon } from './coupon';
 
 export interface IOrderProduct {
     isCancelled: boolean,
-    orderId: number,
-    productId: number,
+    orderId?: number,
+    productId?: number,
     quantity: number,
     id: number;
     imageUrl: string;

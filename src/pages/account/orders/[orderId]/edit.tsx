@@ -1,5 +1,5 @@
 // application
-import ShopPageEditOrder from '../../../../components/shop/ShopPageEditOrder';
+import ShopPageEditOrder from '../../../../components/account/ShopPageEditOrder';
 
 function Page() {
     return <ShopPageEditOrder />;
