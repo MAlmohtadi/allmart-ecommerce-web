@@ -66,7 +66,7 @@ const getDiscountAmount = (coupon: ICoupon, total: number): number => {
             ? total * (percentage / 100)
             : discountAmount;
     }
-    toast.warn(`الحد الادنى للطلب حتى يتم تطبيق الخصم JOD ${coupon?.minOrderPrice}`, { theme: 'colored' });
+    toast.warn(`الحد الادنى للطلب بدون عروض حتى يتم تطبيق الخصم JOD ${coupon?.minOrderPrice}`, { theme: 'colored' });
 
     return 0;
 };

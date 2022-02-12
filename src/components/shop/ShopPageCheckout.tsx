@@ -1,6 +1,6 @@
 // react
 import {
-    Fragment, ChangeEvent, useEffect, useState, useRef,
+    Fragment, ChangeEvent, useEffect, useState, useRef, FormEvent,
 } from 'react';
 
 // third-party
@@ -17,15 +17,14 @@ import url from '../../services/url';
 
 // data stubs
 import dataShopPayments from '../../data/shopPayments';
-import { useCart, useCartClear } from '../../store/cart/cartHooks';
+import { useCart, useCartApplyCoupon, useCartClear } from '../../store/cart/cartHooks';
 import { useAccount } from '../../store/account/accountHooks';
-import {
-    ICheckoutInfo, IDelivery, IPeriod,
-} from '../../interfaces/checkout-info';
+import { ICheckoutInfo, IDelivery, IPeriod } from '../../interfaces/checkout-info';
 import { useHomeAdminSettings } from '../../store/home/homeHooks';
 import shopApi from '../../api/shop';
 import { useDeferredData } from '../../services/hooks';
 import { useSale } from '../../store/sale/saleHooks';
+import MapPicker from '../shared/MapPicker';
 
 export type RenderPaymentFn = CollapseRenderFn<HTMLLIElement, HTMLDivElement>;
 
@@ -47,12 +46,27 @@ function ShopPageCheckout(props: CheckoutProps) {
     const noteInputRef = useRef<HTMLInputElement | null>(null);
     const deliveryInfo = useDeferredData(() => shopApi.getCheckoutInfo(), initData);
     const clearCart = useCartClear();
+    const [location, setLocation] = useState({ lat: -34.397, lng: 150.644 });
+    const onChangeLocation = (lat:number, lng:number) => {
+        setLocation({ lat, lng });
+    };
     const handlePaymentChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
             setCurrentPayment(event.target.value);
         }
     };
+    const couponRef = useRef<HTMLInputElement | null>(null);
 
+    const applyCoupon = useCartApplyCoupon();
+
+    const submitCoupon = (e: FormEvent) => {
+        e.preventDefault();
+        if (!couponRef.current || !couponRef.current.value) {
+            toast.error('الرجاء تعبئة كود الخصم', { theme: 'colored' });
+        } else {
+            applyCoupon(couponRef.current?.value);
+        }
+    };
     useEffect(() => {
         if (cart.stateFrom === 'client' && cart.items.length < 1) {
             const linkProps = url.cart();
@@ -89,26 +103,30 @@ function ShopPageCheckout(props: CheckoutProps) {
                 quantity: item.quantity,
             }));
             const discount = cart.totals.find((item) => item.type === 'discount')?.price;
-            shopApi.addOrder({
-                deliveryDate: deliveryDate.displayName,
-                couponCode: cart.coupon?.code || '',
-                couponDiscount: discount || 0,
-                location: '0,0',
-                deliveryPeriod: deliveryPeriod.name,
-                deliveryPrice: (deliveryPlace === '1' ? deliveryPeriod.othersPrice : deliveryPeriod.price) || 0,
-                typeOfPayment: currentPayment === 'cash' ? 0 : 1,
-                notes: noteInputRef.current?.value || '',
-                // @ts-ignore
-                orderedProducts,
-                totalPrice: cart.total,
-                userId: account.id || 0,
-                isWholeSale,
-            }).then(async () => {
-                await router.replace('/shop/checkout/success');
-                await clearCart();
-            }).catch((e) => {
-                toast.error(e.message, { theme: 'colored' });
-            });
+            const deliveryPrice = (deliveryPlace === '1' ? deliveryPeriod.othersPrice : deliveryPeriod.price) || 0;
+            shopApi
+                .addOrder({
+                    deliveryDate: deliveryDate.displayName,
+                    couponCode: cart.coupon?.code || '',
+                    couponDiscount: discount || 0,
+                    location: `${location.lat},${location.lng}`,
+                    deliveryPeriod: deliveryPeriod.name,
+                    deliveryPrice,
+                    typeOfPayment: currentPayment === 'cash' ? 0 : 1,
+                    notes: noteInputRef.current?.value || '',
+                    // @ts-ignore
+                    orderedProducts,
+                    totalPrice: cart.total + deliveryPrice,
+                    userId: account.id || 0,
+                    isWholeSale,
+                })
+                .then(async () => {
+                    await router.replace('/shop/checkout/success');
+                    await clearCart();
+                })
+                .catch((e) => {
+                    toast.error(e.message, { theme: 'colored' });
+                });
         } else if (adminSettings?.chooseDeliveryEnabled) {
             let message = 'يجب اختيار التالي:';
             message = !deliveryDate ? `${message}\n\n - يوم التوصيل` : message;
@@ -170,7 +188,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                 <tr>
                     <th>المبلغ الإجمالي</th>
                     <td>
-                        <CurrencyFormat value={cart.total} />
+                        <CurrencyFormat value={cart.total + (deliveryPlace === '1' ? deliveryPeriod.othersPrice : deliveryPeriod.price)} />
                     </td>
                 </tr>
             </tfoot>
@@ -278,10 +296,10 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             >
                                                 <option defaultChecked>اختر يوم التوصيل ...</option>
                                                 {!deliveryInfo.isLoading
-                                                // @ts-ignore
-                                                && deliveryInfo.data.deliveryInfo.map((item) => (
-                                                    <option value={`${item.id}`}>{item.displayName}</option>
-                                                ))}
+                                                    // @ts-ignore
+                                                    && deliveryInfo.data.deliveryInfo.map((item) => (
+                                                        <option value={`${item.id}`}>{item.displayName}</option>
+                                                    ))}
                                             </select>
                                         </div>
                                     )}
@@ -295,7 +313,12 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             >
                                                 <option defaultChecked>اختر وقت التوصيل ...</option>
                                                 {deliveryDate.periods.map((item) => (
-                                                    <option value={`${item.id}`}>{item.name}</option>
+                                                    <option value={`${item.id}`}>
+                                                        {`${item.name} /  ${
+                                                            deliveryPlace === '1' ? item.othersPrice : item.price
+                                                        } JOD`}
+
+                                                    </option>
                                                 ))}
                                             </select>
                                             <span className="text-muted">يتم حساب سعر التوصيل حسب التالي:</span>
@@ -315,6 +338,35 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             id="checkout-comment"
                                             className="form-control"
                                             rows={4}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <form className="cart__coupon-form" onSubmit={submitCoupon}>
+                                            <label htmlFor="input-coupon-code" className="sr-only">
+                                                Password
+                                            </label>
+                                            <input
+                                                ref={couponRef}
+                                                type="text"
+                                                className="form-control"
+                                                id="input-coupon-code"
+                                                placeholder="كود الخصم"
+                                            />
+                                            <button type="submit" className="btn btn-primary">
+                                                تأكيد الكود
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <div className="form-group">
+                                        <MapPicker
+                                            isMarkerShown
+                                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfG3eAQBGOIiySuJxu273SGFAJ73Z0f98&v=3.exp&libraries=geometry,drawing,places"
+                                            location={location}
+                                            onChangeLocation={onChangeLocation}
+                                            loadingElement={<div style={{ height: '100%' }} />}
+                                            containerElement={<div style={{ height: '400px' }} />}
+                                            mapElement={<div style={{ height: '100%' }} />}
                                         />
                                     </div>
                                 </div>
