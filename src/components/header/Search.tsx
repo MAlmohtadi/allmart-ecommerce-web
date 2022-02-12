@@ -1,6 +1,6 @@
 // react
 import {
-    ChangeEvent, KeyboardEvent, RefObject, useCallback, useEffect, useRef, useState,
+    KeyboardEvent, RefObject, useCallback, useEffect, useRef, useState,
 } from 'react';
 
 // third-party
@@ -11,43 +11,6 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Cross20Svg from '../../svg/cross-20.svg';
 import Search20Svg from '../../svg/search-20.svg';
-import shopApi, { GetSuggestionsOptions } from '../../api/shop';
-import Suggestions from './Suggestions';
-import { ICategory } from '../../interfaces/category';
-import { IProduct } from '../../interfaces/product-old';
-
-type CategoryWithDepth = ICategory & { depth: number };
-
-function useCategories() {
-    const [categories, setCategories] = useState<CategoryWithDepth[]>([]);
-
-    useEffect(() => {
-        let canceled = false;
-
-        const treeToList = (categories: ICategory[], depth = 0): CategoryWithDepth[] => categories.reduce(
-            (result: CategoryWithDepth[], category) => [
-                ...result,
-                { depth, ...category },
-                ...treeToList(category.children || [], depth + 1),
-            ],
-            [],
-        );
-
-        shopApi.getCategories({ depth: 1 }).then((categories: ICategory[]) => {
-            if (canceled) {
-                return;
-            }
-
-            setCategories(treeToList(categories));
-        });
-
-        return () => {
-            canceled = true;
-        };
-    }, [setCategories]);
-
-    return categories;
-}
 
 export interface SearchProps {
     context: 'header' | 'mobile-header' | 'indicator';
@@ -60,13 +23,10 @@ function Search(props: SearchProps) {
     const {
         context, className, inputRef, onClose,
     } = props;
-    const [cancelFn, setCancelFn] = useState(() => () => {});
+    const [cancelFn] = useState(() => () => {});
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
-    const [hasSuggestions, setHasSuggestions] = useState(false);
-    const [suggestedProducts, setSuggestedProducts] = useState<IProduct[]>([]);
-    const [query, setQuery] = useState('');
-    const [category, setCategory] = useState('[all]');
-    const categories = useCategories();
+    const [hasSuggestions] = useState(false);
+    const [query] = useState('');
     const wrapperRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
     const close = useCallback(() => {
@@ -96,49 +56,6 @@ function Search(props: SearchProps) {
 
     // Cancel previous typing.
     useEffect(() => () => cancelFn(), [cancelFn]);
-
-    const handleFocus = () => {
-        setSuggestionsOpen(true);
-    };
-
-    const handleChangeCategory = (event: ChangeEvent<HTMLSelectElement>) => {
-        setCategory(event.target.value);
-    };
-
-    const handleChangeQuery = (event: ChangeEvent<HTMLInputElement>) => {
-        let canceled = false;
-        let timer: ReturnType<typeof setTimeout>;
-
-        const newCancelFn = () => {
-            canceled = true;
-            clearTimeout(timer);
-        };
-
-        const query = event.target.value;
-
-        setQuery(query);
-
-        if (query === '') {
-            setHasSuggestions(false);
-        } else {
-            // timer = setTimeout(() => {
-            // const options: GetSuggestionsOptions = { limit: 5 };
-            //     if (category !== '[all]') {
-            //         options.category = category;
-            //     }
-            //     shopApi.getSuggestions(query, options).then((products) => {
-            //         if (canceled) {
-            //             return;
-            //         }
-            //         setSuggestedProducts(products);
-            //         setHasSuggestions(products.length > 0);
-            //         setSuggestionsOpen(true);
-            //     });
-            // }, 100);
-        }
-
-        setCancelFn(() => newCancelFn);
-    };
 
     const handleBlur = () => {
         setTimeout(() => {
@@ -183,33 +100,14 @@ function Search(props: SearchProps) {
         </button>
     );
 
-    const categoryOptions = categories.map((category) => (
-        <option key={category.slug} value={category.slug}>
-            {'\u00A0'.repeat(4 * category.depth)}
-            {category.name}
-        </option>
-    ));
-
     return (
         <div className={rootClasses} ref={wrapperRef} onBlur={handleBlur}>
             <div className="search__body">
                 <div className="search__form">
-                    {/* {context === 'header' && (
-                        <select
-                            className="search__categories"
-                            aria-label="Category"
-                            value={category}
-                            onFocus={close}
-                            onChange={handleChangeCategory}
-                        >
-                            <option value="[all]">All Categories</option>
-                            {categoryOptions}
-                        </select>
-                    )} */}
                     <input
                         ref={inputRef}
-                        onChange={handleChangeQuery}
-                        onFocus={handleFocus}
+                        onChange={() => { }}
+                        onFocus={() => { }}
                         onKeyDown={handleKeyDown}
                         value={query}
                         className="search__input"
@@ -230,7 +128,6 @@ function Search(props: SearchProps) {
                     <div className="search__border" />
                 </div>
 
-                {/* <Suggestions className="search__suggestions" context={context} products={suggestedProducts} /> */}
             </div>
         </div>
     );

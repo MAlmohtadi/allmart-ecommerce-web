@@ -9,8 +9,8 @@ import AppLink from '../shared/AppLink';
 
 const Footer: FunctionComponent = () => {
     const informationLinks = [
-        { title: 'من نحن', url: '' },
-        { title: 'سياسة الخصوصية', url: '' },
+        { title: 'من نحن', url: '/site/about-us' },
+        { title: 'سياسة الخصوصية', url: '/site/terms' },
     ];
 
     return (
@@ -24,9 +24,6 @@ const Footer: FunctionComponent = () => {
                         <div className="col-6 col-md-3 col-lg-2">
                             <FooterLinks title="معلومات" items={informationLinks} />
                         </div>
-                        {/* <div className='col-6 col-md-3 col-lg-2'>
-                            <FooterLinks title='My Account' items={accountLinks} />
-                        </div> */}
                         <div className="col-12 col-md-3 col-lg-2">
                             <div className="site-footer__widget footer-links">
                                 <h5 className="footer-links__title">قم بتحميل التطبيق</h5>

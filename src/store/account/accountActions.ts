@@ -71,9 +71,12 @@ export function accountLogin(accountOptions: AccountOptions): AccountThunkAction
         if (canceled) {
             return;
         }
+        // @ts-ignore
         if (data.isBussinessError) {
+            // @ts-ignore
             toast.error(`${data.message}`, { theme: 'colored' });
         } else {
+            // @ts-ignore
             await dispatch(loginAccountSuccess(data));
         }
     };
@@ -90,7 +93,9 @@ export function accountRegister(accountOptions: AccountOptions): AccountThunkAct
         if (canceled) {
             return;
         }
+        // @ts-ignore
         if (data.isBussinessError) {
+            // @ts-ignore
             toast.error(`${data.message}`, { theme: 'colored' });
         } else {
             await dispatch(registerAccountSuccess(data));

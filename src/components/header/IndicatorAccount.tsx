@@ -11,7 +11,7 @@ function IndicatorAccount() {
     const phoneInputRef = useRef<HTMLInputElement | null>(null);
     const account = useAccount();
     const accountLogin = useAccountLogin();
-    const accountLoggout = useAccountLogout();
+    const accountLogout = useAccountLogout();
     function submitHandler(event: FormEvent) {
         event.preventDefault();
         const enteredPhone = phoneInputRef.current?.value;
@@ -53,9 +53,6 @@ function IndicatorAccount() {
             {account.isLoggedIn && (
                 <Fragment>
                     <AppLink href={url.accountProfile()} className="account-menu__user">
-                        <div className="account-menu__user-avatar">
-                            <img src="/images/avatars/avatar-3.jpg" alt="" />
-                        </div>
                         <div className="account-menu__user-info">
                             <div className="account-menu__user-name">{account.name}</div>
                             <div className="account-menu__user-email">{account.email}</div>
@@ -73,7 +70,7 @@ function IndicatorAccount() {
                     <div className="account-menu__divider" />
                     <ul className="account-menu__links">
                         <li>
-                            <AppLink onClick={accountLoggout}>تسجيل الخروج</AppLink>
+                            <AppLink onClick={accountLogout}>تسجيل الخروج</AppLink>
                         </li>
                     </ul>
                 </Fragment>

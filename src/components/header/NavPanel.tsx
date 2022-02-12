@@ -37,10 +37,11 @@ function NavPanel(props: NavPanelProps) {
     let searchIndicator;
 
     if (layout === 'compact') {
+        // @ts-ignore
         logo = (
             <div className="nav-panel__logo">
                 <AppLink href="/">
-                    <LogoSmallSvg height={30} />
+                    <LogoSmallSvg />
                 </AppLink>
             </div>
         );
@@ -49,6 +50,7 @@ function NavPanel(props: NavPanelProps) {
     }
 
     if (layout === 'default') {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         departments = (
             <div className="nav-panel__departments">
                 <Departments />
@@ -61,7 +63,6 @@ function NavPanel(props: NavPanelProps) {
             <div className="nav-panel__container container">
                 <div className="nav-panel__row">
                     {logo}
-                    {/* {departments} */}
 
                     <div className="nav-panel__nav-links nav-links">
                         <NavLinks />

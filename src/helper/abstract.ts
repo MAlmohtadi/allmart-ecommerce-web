@@ -1,5 +1,5 @@
-import { IProduct } from '../../interfaces/product-old';
-import { IBaseFilter } from '../../interfaces/filter';
+import { IProduct } from '../interfaces/product';
+import { IBaseFilter } from '../interfaces/filter';
 
 export default abstract class AbstractFilterBuilder<T extends IBaseFilter = IBaseFilter> {
     slug: string;

@@ -1,6 +1,5 @@
 // application
 import { IOrderProduct, IOrderSummary } from '../../interfaces/order';
-import { IProduct } from '../../interfaces/product';
 import { CartState } from '../cart/cartTypes';
 
 export const ORDER_NAMESPACE = 'order';

@@ -16,6 +16,7 @@ import { useCancelOrder, useOrder, useOrderProductsFetchData } from '../../store
 import { orderStatus } from './AccountPageOrders';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import AsyncAction from '../shared/AsyncAction';
+import BlockLoader from '../blocks/BlockLoader';
 
 export default function AccountPageOrderDetails() {
     const router = useRouter();
@@ -23,15 +24,21 @@ export default function AccountPageOrderDetails() {
     const orderState = useOrder();
     const getOrderProducts = useOrderProductsFetchData();
     const orderDetails = orderState.selectedOrder;
-    const status = orderDetails?.isCancelled ? orderStatus[5] : orderStatus[orderDetails?.statusId || 1];
+    const statusId: number = orderDetails?.statusId || 1;
+    // @ts-ignore: Unreachable code error
+    const status = orderDetails?.isCancelled ? orderStatus[5] : orderStatus[statusId];
     const cancelOrderAction = useCancelOrder();
     const discount = orderState.totals.find((item) => item.type === 'discount')?.price;
     const date = moment(orderDetails?.orderDate);
     useEffect(() => {
         if (router.query?.orderId && account.id) {
-            getOrderProducts(router.query?.orderId);
+            getOrderProducts(Number(router.query?.orderId));
         }
     }, [router.query, account.id]);
+
+    if (orderState.orderProductsIsLoading && !orderState.orderProducts) {
+        return <BlockLoader />;
+    }
     return (
         <Fragment>
             <Head>
@@ -110,7 +117,7 @@ export default function AccountPageOrderDetails() {
                                         </th>
                                         <td>
                                             <AsyncAction
-                                                action={() => cancelOrderAction(router.query?.orderId)}
+                                                action={() => cancelOrderAction(Number(router.query?.orderId))}
                                                 render={({ run, loading }) => {
                                                     const classes = classNames('btn btn-secondary cart__update-button', {
                                                         'btn-loading': loading,

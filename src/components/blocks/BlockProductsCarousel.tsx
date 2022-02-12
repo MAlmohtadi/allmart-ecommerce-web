@@ -9,7 +9,6 @@ import Slick from 'react-slick';
 import BlockHeader, { BlockHeaderGroup } from '../shared/BlockHeader';
 import ProductCard from '../shared/ProductCard';
 import StroykaSlick, { StroykaSlickProps } from '../shared/StroykaSlick';
-// import { IProduct } from '../../interfaces/product-old';
 import { IProduct } from '../../interfaces/product';
 
 function getProductsColumns(products: IProduct[], rows: number) {

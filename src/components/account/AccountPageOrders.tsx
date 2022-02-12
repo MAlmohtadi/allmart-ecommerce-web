@@ -1,5 +1,5 @@
 // react
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 
 // third-party
 import Head from 'next/head';
@@ -12,6 +12,8 @@ import Pagination from '../shared/Pagination';
 import url from '../../services/url';
 
 import { useOrder } from '../../store/order/orderHooks';
+import BlockLoader from '../blocks/BlockLoader';
+import { useAccount } from '../../store/account/accountHooks';
 
 export const orderStatus = {
     1: {
@@ -34,6 +36,7 @@ export const orderStatus = {
 function AccountPageOrders() {
     const [page, setPage] = useState(1);
     const orderState = useOrder();
+    const account = useAccount();
     const limit = 5;
     const total = orderState.orders.length;
     const pages = Math.ceil(total / limit);
@@ -46,6 +49,7 @@ function AccountPageOrders() {
     };
     const ordersList = orderState.orders.slice(from - 1, to).map((order) => {
         const date = moment(order.orderDate);
+        // @ts-ignore
         const status = order.isCancelled ? orderStatus[5] : orderStatus[order.statusId];
         return (
             <tr key={order.id}>
@@ -64,7 +68,32 @@ function AccountPageOrders() {
             </tr>
         );
     });
+    if (orderState.orderIsLoading && !orderState.orders) {
+        return <BlockLoader />;
+    }
 
+    if (!account.isLoggedIn) {
+        return (
+            <Fragment>
+                <Head>
+                    <title>جميع الطلبات — جبران</title>
+                </Head>
+
+                <div className="block block-empty">
+                    <div className="container">
+                        <div className="block-empty__body">
+                            <div className="block-empty__message">يجب عليك تسجيل الدخول !</div>
+                            <div className="block-empty__actions">
+                                <AppLink href="/account/login" className="btn btn-primary btn-sm">
+                                    تسجيل الدخول
+                                </AppLink>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
+        );
+    }
     return (
         <div className="card">
             <Head>

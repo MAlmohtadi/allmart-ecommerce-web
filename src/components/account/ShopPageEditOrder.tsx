@@ -1,6 +1,6 @@
 // react
 import {
-    FormEvent, Fragment, useRef, useState,
+    Fragment, useState,
 } from 'react';
 
 // third-party
@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import Head from 'next/head';
 
 // application
-import { toast } from 'react-toastify';
 import AppLink from '../shared/AppLink';
 import AsyncAction from '../shared/AsyncAction';
 import Cross12Svg from '../../svg/cross-12.svg';
@@ -18,11 +17,6 @@ import PageHeader from '../shared/PageHeader';
 import url from '../../services/url';
 import { CartItem } from '../../store/cart/cartTypes';
 
-// data stubs
-import theme from '../../data/theme';
-import {
-    useCart, useCartApplyCoupon, useCartRemoveItem, useCartUpdateQuantities,
-} from '../../store/cart/cartHooks';
 import {
     useOrder, useOrderRemoveItem, useOrderUpdateQuantities, useUpdateOrderProducts,
 } from '../../store/order/orderHooks';
@@ -91,16 +85,14 @@ function ShopPageEditOrder() {
     let content;
 
     const cartItems = orderState.items.map((item) => {
-        let image;
-        let options;
-
-        image = (
+        const image = (
             <div className="product-image">
                 <div className="product-image__body">
                     <img
                         className="product-image__img"
                         src={`${item.product?.imageUrl}`}
                         onError={({ currentTarget }) => {
+                            // eslint-disable-next-line no-param-reassign
                             currentTarget.src = '/images/products/defaultImage.png';
                         }}
                         alt={item.product.name}
@@ -132,10 +124,6 @@ function ShopPageEditOrder() {
                 <td className="cart-table__column cart-table__column--product">
                     <div className="cart-table__product-name">{item.product.name}</div>
                 </td>
-                {/*
-                    <td className="cart-table__column cart-table__column--price" data-title="العرض">
-                        <CurrencyFormat value={item.product?.offerPrice || 0} />
-                    </td> */}
                 <td className="cart-table__column cart-table__column--price" data-title="السعر">
                     <CurrencyFormat value={item.price} />
                 </td>
@@ -195,6 +183,7 @@ function ShopPageEditOrder() {
         />
     );
 
+    // eslint-disable-next-line prefer-const
     content = (
         <div className="cart block">
             <div className="container">

@@ -5,9 +5,6 @@ import Head from 'next/head';
 import AppLink from '../shared/AppLink';
 import url from '../../services/url';
 
-// data stubs
-import theme from '../../data/theme';
-
 function SitePageNotFound() {
     return (
         <div className="block">
@@ -18,7 +15,7 @@ function SitePageNotFound() {
             <div className="container">
                 <div className="not-found">
                     <div className="not-found__404">
-                        اوبس! خطأ 404
+                        عذرا! خطأ 404
                     </div>
 
                     <div className="not-found__content">

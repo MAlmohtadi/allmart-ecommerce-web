@@ -4,7 +4,6 @@ import Head from 'next/head';
 // application
 import AppLink from '../shared/AppLink';
 import Check100Svg from '../../svg/check-100.svg';
-import theme from '../../data/theme';
 
 export default function ShopPageOrderSuccess() {
     return (

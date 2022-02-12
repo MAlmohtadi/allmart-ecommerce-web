@@ -1,11 +1,12 @@
 // application
-import AccountLayout from '../../components/account/AccountLayout';
 import AccountPageProfile from '../../components/account/AccountPageProfile';
+import { wrapper } from '../../store/store';
+
+// noinspection JSUnusedGlobalSymbols
+export const getServerSideProps = wrapper.getServerSideProps(() => async () => ({ props: {} }));
 
 function Page() {
     return <AccountPageProfile />;
 }
-
-Page.Layout = AccountLayout;
 
 export default Page;

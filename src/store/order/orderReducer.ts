@@ -15,10 +15,9 @@ import {
     ORDER_SUBMIT_UPDATE_SUCCESS,
 } from './orderActionTypes';
 import {
-    CartItem, CartItemOption, CartState, CartTotal,
+    CartItem, CartTotal,
 } from '../cart/cartTypes';
 import { ICoupon } from '../../interfaces/coupon';
-import { IProduct } from '../../interfaces/product';
 import { IOrderProduct } from '../../interfaces/order';
 import { withClientState } from '../client';
 import { CartItemQuantity } from '../cart/cartActionTypes';
@@ -69,6 +68,7 @@ function calcTotals(items: CartItem[], shippingPrice: number, coupon?: ICoupon):
         {
             type: 'discount',
             title: 'كوبون الخصم',
+            // @ts-ignore
             price: getDiscountAmount(coupon, subtotal),
         },
     ];
@@ -80,7 +80,7 @@ function calculateOffersByQuantities(product: IOrderProduct, quantity: number): 
     let total = 0;
     let offerQuantity = 0;
     let quantityTotal = quantity;
-    offerQuantity = product.offerQuantity;
+    offerQuantity = product.offerQuantity || 1;
     if (offerQuantity === 0) {
         offerQuantity = 1;
     }
@@ -96,7 +96,7 @@ function calculateOffersByQuantities(product: IOrderProduct, quantity: number): 
 
 function handleFetchProducts(state: OrderState, action: OrderAction): OrderState {
     if (action.type === ORDER_PRODUCTS_FETCH_SUCCESS || action.type === ORDER_SUBMIT_UPDATE_SUCCESS) {
-        const selectedOrder = state.orders.find((order) => order.id == action.payload.orderId);
+        const selectedOrder = state.orders.find((order) => order.id === Number(action.payload.orderId));
         const items = action.payload.orderProducts.map((product) => {
             const total = product.isOffer
                 ? calculateOffersByQuantities(product, product.quantity) : product.price * product.quantity;
@@ -109,7 +109,9 @@ function handleFetchProducts(state: OrderState, action: OrderAction): OrderState
                 eligibleForDiscount: !product.isOffer,
             };
         });
+        // @ts-ignore
         const subtotal = calcSubtotal(items);
+        // @ts-ignore
         const totals = calcTotals(items, selectedOrder?.deliveryPrice, selectedOrder?.couponInfo);
         const total = calcTotal(subtotal, totals);
         const isOrderProductsUpdated = action.type === ORDER_PRODUCTS_FETCH_SUCCESS;
@@ -119,6 +121,7 @@ function handleFetchProducts(state: OrderState, action: OrderAction): OrderState
             orderProductsIsLoading: false,
             orderProducts: [...action.payload.orderProducts],
             coupon: selectedOrder?.couponInfo,
+            // @ts-ignore
             items,
             subtotal,
             totals,
@@ -150,7 +153,8 @@ function removeItem(state: OrderState, itemId: number) {
     const newItems = items.filter((item) => item.id !== itemId);
 
     const subtotal = calcSubtotal(newItems);
-    const totals = calcTotals(newItems, state.shippingPrice, state.coupon);
+    // @ts-ignore
+    const totals = calcTotals(newItems, state.selectedOrder?.deliveryPrice, state.selectedOrder?.couponInfo);
     const total = calcTotal(subtotal, totals);
 
     return {
@@ -175,6 +179,7 @@ function updateQuantities(state: OrderState, quantities: CartItemQuantity[]) {
 
         needUpdate = true;
         const total = item.product.isOffer
+            // @ts-ignore
             ? calculateOffersByQuantities(item.product, quantity.value)
             : quantity.value * item.price;
         return {
@@ -186,7 +191,8 @@ function updateQuantities(state: OrderState, quantities: CartItemQuantity[]) {
 
     if (needUpdate) {
         const subtotal = calcSubtotal(newItems);
-        const totals = calcTotals(newItems, state.shippingPrice, state.coupon);
+        // @ts-ignore
+        const totals = calcTotals(newItems, state.selectedOrder?.deliveryPrice, state.selectedOrder?.couponInfo);
         const total = calcTotal(subtotal, totals);
 
         return {

@@ -199,6 +199,7 @@ export function orderProductUpdateThunk(): OrderThunkAction<Promise<void>> {
         const newOrderProducts = await shopApi.updateOrderProducts({
             couponDiscount: discount || 0,
             orderId: orderState.selectedOrder?.id || 0,
+            // @ts-ignore
             orderedProducts: [...orderedProducts],
             totalPrice: orderState.total,
             userId: accountState.id || 0,

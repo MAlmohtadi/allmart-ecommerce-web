@@ -1,4 +1,3 @@
-import { IAddress } from './address';
 import { ICoupon } from './coupon';
 
 export interface IOrderProduct {

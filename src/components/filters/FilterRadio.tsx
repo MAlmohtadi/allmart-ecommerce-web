@@ -47,7 +47,7 @@ function FilterRadio(props: FilterCheckProps) {
                         <input
                             className="input-radio__input"
                             type="radio"
-                            name={data.slug}
+                            name={data.name}
                             value={item.slug}
                             checked={value === item.slug}
                             disabled={item.count === 0}

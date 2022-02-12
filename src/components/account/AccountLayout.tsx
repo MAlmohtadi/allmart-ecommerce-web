@@ -24,14 +24,8 @@ function AccountLayout(props: AccountLayoutProps) {
     ];
 
     const items = [
-        // { title: 'Dashboard', link: url.accountDashboard() },
         { title: 'معلوماتي', link: url.accountProfile() },
         { title: 'الطلبات', link: url.accountOrders() },
-        // { title: 'Order Details', link: url.accountOrder({ id: 5 }) },
-        // { title: 'Addresses', link: url.accountAddresses() },
-        // { title: 'Edit Address', link: url.accountAddress({ id: 5 }) },
-        // { title: 'Password', link: url.accountPassword() },
-        // { title: 'تسجيل خروج', link: url.accountSignIn() },
     ].map((item, index) => {
         const isActive = router.pathname === item.link.href;
         const classes = classNames('account-nav__item', {

@@ -55,7 +55,7 @@ export default function AccountPageLogin() {
             toast.error('يجب ادخال اسم صحيح', { theme: 'colored' });
             return;
         }
-        if (email && email.length > 0 && !email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+        if (email && email.length > 0 && !email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
             toast.error('يجب ادخال ايميل صحيح', { theme: 'colored' });
             return;
         }

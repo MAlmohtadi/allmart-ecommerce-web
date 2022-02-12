@@ -57,7 +57,6 @@ export default class RangeFilterBuilder extends AbstractFilterBuilder<IRangeFilt
     build(): IRangeFilter {
         return {
             type: 'range',
-            slug: this.slug,
             name: this.name,
             min: this.min,
             max: this.max,

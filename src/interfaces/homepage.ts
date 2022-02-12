@@ -1,4 +1,3 @@
-
 export interface IBanner {
     id: number;
     imageUrl: string;
@@ -27,6 +26,7 @@ export interface ICategory {
 
 export interface IAdminSettingsResponse {
     chooseDeliveryEnabled: boolean,
+    // eslint-disable-next-line camelcase
     choose_delivery_period_enabled?: boolean,
     deliveryInSameDayEnabled: boolean,
     id: number,

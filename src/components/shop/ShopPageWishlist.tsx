@@ -11,11 +11,9 @@ import AsyncAction, { RenderFn } from '../shared/AsyncAction';
 import Cross12Svg from '../../svg/cross-12.svg';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import PageHeader from '../shared/PageHeader';
-import url from '../../services/url';
 import { useWishlist, useWishlistRemoveItem } from '../../store/wishlist/wishlistHooks';
 
 // data stubs
-import theme from '../../data/theme';
 import { useCartAddItem } from '../../store/cart/cartHooks';
 import { useAccount } from '../../store/account/accountHooks';
 
@@ -49,15 +47,14 @@ function ShopPageWishlist() {
         );
     } else if (items.length) {
         const itemsList = items.map((item) => {
-            let image;
-
-            image = (
+            const image = (
                 <div className="product-image">
                     <div className="product-image__body">
                         <img
                             className="product-image__img"
                             src={`${item.imageUrl}`}
                             onError={({ currentTarget }) => {
+                                // eslint-disable-next-line no-param-reassign
                                 currentTarget.src = '/images/products/defaultImage.png';
                             }}
                             alt={item.name}
@@ -88,13 +85,7 @@ function ShopPageWishlist() {
                         {image}
                     </td>
                     <td className="wishlist__column wishlist__column--product">
-                        {/* <AppLink href={url.product(item)} className="wishlist__product-name"> */}
                         {item.name}
-                        {/* </AppLink> */}
-                        {/* <div className="wishlist__product-rating">
-                            <Rating value={item.rating} />
-                            <div className="wishlist__product-rating-legend">{`${item.reviews} Reviews`}</div>
-                        </div> */}
                     </td>
                     <td className="wishlist__column wishlist__column--stock">
                         <div className="badge badge-success">{item.isStockAvailable ? ' متوفر ' : 'غير متوفر '}</div>
