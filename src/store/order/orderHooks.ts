@@ -1,7 +1,10 @@
 // react
 // application
 import { useAppAction, useAppSelector } from '../hooks';
-import { userOrdersFetchThunk, orderInitThunk, orderProductsFetchThunk, cancelOrderThunk } from './orderActions';
+import {
+    userOrdersFetchThunk, orderInitThunk, orderProductsFetchThunk,
+    cancelOrderThunk, orderUpdateQuantities, orderRemoveItem, orderProductUpdateThunk,
+} from './orderActions';
 import { OrderState, ORDER_NAMESPACE } from './orderTypes';
 
 export function useOrderSelector<T extends(state: OrderState) => any>(selector: T): ReturnType<T> {
@@ -15,3 +18,6 @@ export const useOrderInit = () => useAppAction(orderInitThunk);
 export const useOrderFetchData = () => useAppAction(userOrdersFetchThunk);
 export const useOrderProductsFetchData = () => useAppAction(orderProductsFetchThunk);
 export const useCancelOrder = () => useAppAction(cancelOrderThunk);
+export const useOrderUpdateQuantities = () => useAppAction(orderUpdateQuantities);
+export const useOrderRemoveItem = () => useAppAction(orderRemoveItem);
+export const useUpdateOrderProducts = () => useAppAction(orderProductUpdateThunk);

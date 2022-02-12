@@ -1,5 +1,5 @@
 // react
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 // third-party
 import Head from 'next/head';
@@ -12,9 +12,6 @@ import Pagination from '../shared/Pagination';
 import url from '../../services/url';
 
 import { useOrder } from '../../store/order/orderHooks';
-import { useAccount } from '../../store/account/accountHooks';
-import { useDeferredData } from '../../services/hooks';
-import shopApi from '../../api/shop';
 
 export const orderStatus = {
     1: {
@@ -35,15 +32,25 @@ export const orderStatus = {
 };
 
 function AccountPageOrders() {
+    const [page, setPage] = useState(1);
     const orderState = useOrder();
-
-    const ordersList = orderState.orders.map((order) => {
+    const limit = 5;
+    const total = orderState.orders.length;
+    const pages = Math.ceil(total / limit);
+    const from = (page - 1) * limit + 1;
+    const to = Math.max(Math.min(page * limit, total), from);
+    const handlePageChange = (newPage: number) => {
+        if (newPage <= pages) {
+            setPage(newPage);
+        }
+    };
+    const ordersList = orderState.orders.slice(from - 1, to).map((order) => {
         const date = moment(order.orderDate);
         const status = order.isCancelled ? orderStatus[5] : orderStatus[order.statusId];
         return (
             <tr key={order.id}>
                 <td>
-                    <AppLink href={url.accountOrder(order)}>{`#${order.id}`}</AppLink>
+                    <AppLink href={url.accountOrder(order.id)}>{`#${order.id}`}</AppLink>
                 </td>
                 <td>
                     {date.format('l')}
@@ -84,9 +91,9 @@ function AccountPageOrders() {
                 </div>
             </div>
             <div className="card-divider" />
-            {/* <div className="card-footer">
-                <Pagination current={page} total={3} onPageChange={setPage} />
-            </div> */}
+            <div className="card-footer">
+                <Pagination current={page} total={pages} onPageChange={handlePageChange} />
+            </div>
         </div>
     );
 }

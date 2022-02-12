@@ -101,7 +101,7 @@ export interface OrderBaseOptions {
             offerType: number,
             orderId?: number,
             price: number,
-            productId: number,
+            productId?: number,
             quantity: number
         }
     ],
@@ -376,6 +376,20 @@ const shopApi = {
             .then((response) => response.json());
     },
     /*
+    * update order products orders.
+    */
+    updateOrderProducts: (options: OrderBaseOptions): Promise<IOrderProduct[]> => {
+        return fetch(`${BASE_URL}/orders/updateOrderProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
     * cancel order  orders.
     */
     cancelOrder: (options: OrderProductsOptions): Promise<IOrderSummary> => {
@@ -392,7 +406,7 @@ const shopApi = {
     /*
     * update Order Products.
     */
-    updateOrderProducts: (options: OrderBaseOptions): Promise<IOrderProduct> => {
+    updateOrderProducts: (options: OrderBaseOptions): Promise<IOrderProduct[]> => {
         return fetch(`${BASE_URL}/orders/updateOrderProducts`, {
             method: 'POST',
             headers: {

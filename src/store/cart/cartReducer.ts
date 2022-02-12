@@ -242,22 +242,22 @@ export const CART_NAMESPACE = 'cart';
 
 function cartBaseReducer(state = initialState, action: CartAction): CartState {
     switch (action.type) {
-        case CART_ADD_ITEM:
-            return addItem(state, action.product, action.options, action.quantity);
+    case CART_ADD_ITEM:
+        return addItem(state, action.product, action.options, action.quantity);
 
-        case CART_REMOVE_ITEM:
-            return removeItem(state, action.itemId);
+    case CART_REMOVE_ITEM:
+        return removeItem(state, action.itemId);
 
-        case CART_UPDATE_QUANTITIES:
-            return updateQuantities(state, action.quantities);
-        case CART_UPDATE_SHIPPING_PRICE:
-            return { ...state, shippingPrice: action.price };
-        case CART_ADD_COUPON_SUCCESS:
-            return applyCoupon(state, action.coupon);
-        case CART_CLEAR:
-            return initialState;
-        default:
-            return state;
+    case CART_UPDATE_QUANTITIES:
+        return updateQuantities(state, action.quantities);
+    case CART_UPDATE_SHIPPING_PRICE:
+        return { ...state, shippingPrice: action.price };
+    case CART_ADD_COUPON_SUCCESS:
+        return applyCoupon(state, action.coupon);
+    case CART_CLEAR:
+        return initialState;
+    default:
+        return state;
     }
 }
 

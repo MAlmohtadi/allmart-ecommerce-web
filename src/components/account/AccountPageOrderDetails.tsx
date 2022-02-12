@@ -11,13 +11,9 @@ import classNames from 'classnames';
 import AppLink from '../shared/AppLink';
 import url from '../../services/url';
 
-// data stubs
-import theme from '../../data/theme';
 import { useAccount } from '../../store/account/accountHooks';
 import { useCancelOrder, useOrder, useOrderProductsFetchData } from '../../store/order/orderHooks';
 import { orderStatus } from './AccountPageOrders';
-import { useDeferredData } from '../../services/hooks';
-import shopApi from '../../api/shop';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import AsyncAction from '../shared/AsyncAction';
 
@@ -26,12 +22,10 @@ export default function AccountPageOrderDetails() {
     const account = useAccount();
     const orderState = useOrder();
     const getOrderProducts = useOrderProductsFetchData();
-    const orderDetails = orderState.orders.find((order) => router.query?.orderId == order.id);
+    const orderDetails = orderState.selectedOrder;
     const status = orderDetails?.isCancelled ? orderStatus[5] : orderStatus[orderDetails?.statusId || 1];
     const cancelOrderAction = useCancelOrder();
-    // const orderProducts = useDeferredData(() => (
-    //     shopApi.getOrderProducts({ orderId: router.query?.orderId, userId: account.id })
-    // ), []);
+    const discount = orderState.totals.find((item) => item.type === 'discount')?.price;
     const date = moment(orderDetails?.orderDate);
     useEffect(() => {
         if (router.query?.orderId && account.id) {
@@ -76,8 +70,8 @@ export default function AccountPageOrderDetails() {
                                 </tr>
                             </thead>
                             <tbody className="card-table__body card-table__body--merge-rows">
-                                {!orderState.productOrderIsLoading
-                                    && orderState.productOrder.map((product) => (
+                                {!orderState.orderProductsIsLoading
+                                    && orderState.orderProducts.map((product) => (
                                         <tr id={product.name}>
                                             <td>{`${product.name} × ${product.quantity}`}</td>
                                             <td>
@@ -96,7 +90,7 @@ export default function AccountPageOrderDetails() {
                                 <tr>
                                     <th>الخصم</th>
                                     <td>
-                                        <CurrencyFormat value={orderDetails?.couponDiscount || 0.0} />
+                                        <CurrencyFormat value={discount || 0.0} />
                                     </td>
                                 </tr>
                             </tbody>
@@ -104,7 +98,7 @@ export default function AccountPageOrderDetails() {
                                 <tr>
                                     <th>المجموع الكلي</th>
                                     <td>
-                                        <CurrencyFormat value={orderDetails?.totalPrice || 0.0} />
+                                        <CurrencyFormat value={orderState?.total || 0.0} />
                                     </td>
                                 </tr>
                                 {!orderDetails?.isCancelled && orderDetails?.statusId === 1 && (
