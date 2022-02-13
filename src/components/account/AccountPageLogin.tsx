@@ -8,6 +8,7 @@ import Head from 'next/head';
 
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import FacebookLogin from 'react-facebook-login';
 import PageHeader from '../shared/PageHeader';
 
 // data stubs
@@ -72,10 +73,18 @@ export default function AccountPageLogin() {
         }
         accountLogin({ phone });
     }
+    const responseFacebook = (response) => {
+        accountLogin({ facebookId: response.id });
+    };
+    const registerFacebook = (response) => {
+        nameInputRef.current.value = response.name;
+        emailInputRef.current.value = response.email;
+    };
+
     return (
         <Fragment>
             <Head>
-                <title>{`Login — ${theme.name}`}</title>
+                <title>تسجيل الدخول</title>
             </Head>
 
             <PageHeader header="الحساب" breadcrumb={breadcrumb} />
@@ -102,6 +111,20 @@ export default function AccountPageLogin() {
                                             تسجيل الدخول
                                         </button>
                                     </form>
+
+                                    <FacebookLogin
+                                        size="small"
+                                        buttonStyle={{ marginTop: 10, fontSize: '0.875rem', textAlign: 'right' }}
+                                        appId="467375114690106"
+                                        autoLoad
+                                        xfbml
+                                        cookie
+                                        fields="name,email"
+                                        scope="public_profile,email"
+                                        callback={responseFacebook}
+                                        icon="fa-facebook"
+                                        textButton=" تسجيل دخول بإستخدام فيسبوك"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -156,6 +179,19 @@ export default function AccountPageLogin() {
                                             تأكيد المعلومات
                                         </button>
                                     </form>
+                                    <FacebookLogin
+                                        size="small"
+                                        buttonStyle={{ marginTop: 10, fontSize: '0.875rem', textAlign: 'right' }}
+                                        appId="467375114690106"
+                                        autoLoad
+                                        xfbml
+                                        cookie
+                                        fields="name,email"
+                                        scope="public_profile,email"
+                                        callback={registerFacebook}
+                                        icon="fa-facebook"
+                                        textButton=" انشاء حساب بإستخدام فيسبوك"
+                                    />
                                 </div>
                             </div>
                         </div>
