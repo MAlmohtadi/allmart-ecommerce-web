@@ -55,7 +55,6 @@ function IndicatorAccount() {
                             size="small"
                             buttonStyle={{ fontSize: '0.875rem', textAlign: 'right' }}
                             appId="467375114690106"
-                            autoLoad
                             xfbml
                             cookie
                             fields="name,email"

@@ -119,7 +119,6 @@ export default function AccountPageLogin() {
                                         size="small"
                                         buttonStyle={{ marginTop: 10, fontSize: '0.875rem', textAlign: 'right' }}
                                         appId="467375114690106"
-                                        autoLoad
                                         xfbml
                                         cookie
                                         fields="name,email"
@@ -187,7 +186,6 @@ export default function AccountPageLogin() {
                                         size="small"
                                         buttonStyle={{ marginTop: 10, fontSize: '0.875rem', textAlign: 'right' }}
                                         appId="467375114690106"
-                                        autoLoad
                                         xfbml
                                         cookie
                                         fields="name,email"
