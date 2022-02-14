@@ -12,7 +12,6 @@ import FacebookLogin from 'react-facebook-login';
 import PageHeader from '../shared/PageHeader';
 
 // data stubs
-import theme from '../../data/theme';
 import { useAccount, useAccountLogin, useAccountRegister } from '../../store/account/accountHooks';
 
 export default function AccountPageLogin() {
@@ -73,11 +72,15 @@ export default function AccountPageLogin() {
         }
         accountLogin({ phone });
     }
+    // @ts-ignore
     const responseFacebook = (response) => {
         accountLogin({ facebookId: response.id });
     };
+    // @ts-ignore
     const registerFacebook = (response) => {
+        // @ts-ignore
         nameInputRef.current.value = response.name;
+        // @ts-ignore
         emailInputRef.current.value = response.email;
     };
 
@@ -121,6 +124,7 @@ export default function AccountPageLogin() {
                                         cookie
                                         fields="name,email"
                                         scope="public_profile,email"
+                                        // @ts-ignore
                                         callback={responseFacebook}
                                         icon="fa-facebook"
                                         textButton=" تسجيل دخول بإستخدام فيسبوك"

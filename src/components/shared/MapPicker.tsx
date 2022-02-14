@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
     GoogleMap, Marker, withGoogleMap, withScriptjs,
 } from 'react-google-maps';
 
 const MapPicker = withScriptjs(withGoogleMap((props) => {
-    const onClick = (mapProps, map, clickEvent) => {
+    // @ts-ignore
+    const onClick = (mapProps) => {
+        // @ts-ignore
         props.onChangeLocation(mapProps.latLng.lat(), mapProps.latLng.lng());
     };
     useEffect(() => {
         if (navigator.geolocation) {
             navigator.geolocation
                 .getCurrentPosition((position) => (
+                    // @ts-ignore
                     props.onChangeLocation(position.coords.latitude, position.coords.longitude)));
         }
     }, [navigator.geolocation]);
@@ -18,11 +21,15 @@ const MapPicker = withScriptjs(withGoogleMap((props) => {
     return (
         <GoogleMap
             defaultZoom={18}
+            // @ts-ignore
             center={props.location}
+            // @ts-ignore
             defaultCenter={props.location}
             onClick={onClick}
         >
-            {props.isMarkerShown && <Marker position={props.location} />}
+            {// @ts-ignore
+                props.isMarkerShown && <Marker position={props.location} />
+            }
         </GoogleMap>
     );
 }));

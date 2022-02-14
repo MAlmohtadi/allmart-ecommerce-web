@@ -22,6 +22,7 @@ function IndicatorAccount() {
             toast.error('رقم الهاتف غير صحيح', { theme: 'colored' });
         }
     }
+    // @ts-ignore
     const responseFacebook = (response) => {
         accountLogin({ facebookId: response.id });
     };
