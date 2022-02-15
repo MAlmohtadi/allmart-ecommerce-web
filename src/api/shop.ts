@@ -108,7 +108,7 @@ export interface OrderOptions extends OrderBaseOptions {
     typeOfPayment: number,
 }
 
-const BASE_URL = 'http://jubranapi.us-east-1.elasticbeanstalk.com/api';
+const BASE_URL = 'https://jubran.jubran-api.com/api';
 const shopApi = {
 
     /**

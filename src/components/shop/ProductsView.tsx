@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import { useRouter } from 'next/router';
 import Filters16Svg from '../../svg/filters-16.svg';
 import LayoutGrid16x16Svg from '../../svg/layout-grid-16x16.svg';
-import LayoutGridWithDetails16x16Svg from '../../svg/layout-grid-with-details-16x16.svg';
 import LayoutList16x16Svg from '../../svg/layout-list-16x16.svg';
 import Pagination from '../shared/Pagination';
 import ProductCard from '../shared/ProductCard';

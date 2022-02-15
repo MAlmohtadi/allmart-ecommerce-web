@@ -132,14 +132,6 @@ export default function AccountPageOrderDetails() {
                                             </AppLink>
                                         </th>
                                         <td>
-                                            {/* <AsyncAction
-                                                action={() => onCancel(Number(router.query?.orderId))}
-                                                render={({ run, loading }) => {
-                                                    const classes = classNames('btn btn-secondary cart__update-button', {
-                                                        'btn-loading': loading,
-                                                    });
-
-                                                    return ( */}
                                             <button
                                                 type="button"
                                                 onClick={onCancel}

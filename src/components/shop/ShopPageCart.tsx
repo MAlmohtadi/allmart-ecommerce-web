@@ -1,6 +1,6 @@
 // react
 import {
-    FormEvent, Fragment, useRef, useState,
+    Fragment, useState,
 } from 'react';
 
 // third-party
@@ -8,7 +8,6 @@ import classNames from 'classnames';
 import Head from 'next/head';
 
 // application
-import { toast } from 'react-toastify';
 import AppLink from '../shared/AppLink';
 import AsyncAction from '../shared/AsyncAction';
 import Cross12Svg from '../../svg/cross-12.svg';
@@ -19,7 +18,7 @@ import url from '../../services/url';
 import { CartItem } from '../../store/cart/cartTypes';
 
 import {
-    useCart, useCartApplyCoupon, useCartRemoveItem, useCartUpdateQuantities,
+    useCart, useCartRemoveItem, useCartUpdateQuantities,
 } from '../../store/cart/cartHooks';
 
 export interface Quantity {

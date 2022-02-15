@@ -45,6 +45,7 @@ function ShopPageCheckout(props: CheckoutProps) {
     const [deliveryPeriod, setDeliveryPeriod] = useState<IPeriod>();
     const noteInputRef = useRef<HTMLInputElement | null>(null);
     const deliveryInfo = useDeferredData(() => shopApi.getCheckoutInfo(), initData);
+    const deliverPrice = (deliveryPlace === '1' ? deliveryPeriod?.othersPrice : deliveryPeriod?.price) || 0.00;
     const clearCart = useCartClear();
     const [location, setLocation] = useState({ lat: -34.397, lng: 150.644 });
     const onChangeLocation = (lat:number, lng:number) => {
@@ -188,7 +189,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                 <tr>
                     <th>المبلغ الإجمالي</th>
                     <td>
-                        <CurrencyFormat value={cart.total + (deliveryPlace === '1' ? deliveryPeriod?.othersPrice : deliveryPeriod?.price || 0.00)} />
+                        <CurrencyFormat value={cart.total + deliverPrice} />
                     </td>
                 </tr>
             </tfoot>
@@ -360,6 +361,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                                     </div>
                                     <div className="form-group">
                                         <MapPicker
+                                            // @ts-ignore
                                             isMarkerShown
                                             googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfG3eAQBGOIiySuJxu273SGFAJ73Z0f98&v=3.exp&libraries=geometry,drawing,places"
                                             location={location}

@@ -1,6 +1,7 @@
 // application
 import { FormEvent, Fragment, useRef } from 'react';
 import { toast } from 'react-toastify';
+import FacebookLogin from 'react-facebook-login';
 import AppLink from '../shared/AppLink';
 import Indicator from './Indicator';
 import Person20Svg from '../../svg/person-20.svg';
@@ -21,6 +22,11 @@ function IndicatorAccount() {
             toast.error('رقم الهاتف غير صحيح', { theme: 'colored' });
         }
     }
+    // @ts-ignore
+    const responseFacebook = (response) => {
+        accountLogin({ facebookId: response.id });
+    };
+
     const dropdown = (
         <div className="account-menu">
             {!account.isLoggedIn && (
@@ -43,6 +49,19 @@ function IndicatorAccount() {
                         <button type="submit" className="btn btn-primary btn-sm">
                             دخول
                         </button>
+                    </div>
+                    <div className="form-group account-menu__form-button">
+                        <FacebookLogin
+                            size="small"
+                            buttonStyle={{ fontSize: '0.875rem', textAlign: 'right' }}
+                            appId="467375114690106"
+                            xfbml
+                            cookie
+                            fields="name,email"
+                            scope="public_profile,email"
+                            callback={responseFacebook}
+                            textButton=" بإستخدام فيسبوك"
+                        />
                     </div>
                     <div className="account-menu__form-link">
                         <AppLink href={url.accountSignUp()}>انشاء حساب</AppLink>

@@ -8,10 +8,10 @@ import Head from 'next/head';
 
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
+import FacebookLogin from 'react-facebook-login';
 import PageHeader from '../shared/PageHeader';
 
 // data stubs
-import theme from '../../data/theme';
 import { useAccount, useAccountLogin, useAccountRegister } from '../../store/account/accountHooks';
 
 export default function AccountPageLogin() {
@@ -72,10 +72,22 @@ export default function AccountPageLogin() {
         }
         accountLogin({ phone });
     }
+    // @ts-ignore
+    const responseFacebook = (response) => {
+        accountLogin({ facebookId: response.id });
+    };
+    // @ts-ignore
+    const registerFacebook = (response) => {
+        // @ts-ignore
+        nameInputRef.current.value = response.name;
+        // @ts-ignore
+        emailInputRef.current.value = response.email;
+    };
+
     return (
         <Fragment>
             <Head>
-                <title>{`Login — ${theme.name}`}</title>
+                <title>تسجيل الدخول</title>
             </Head>
 
             <PageHeader header="الحساب" breadcrumb={breadcrumb} />
@@ -102,6 +114,20 @@ export default function AccountPageLogin() {
                                             تسجيل الدخول
                                         </button>
                                     </form>
+
+                                    <FacebookLogin
+                                        size="small"
+                                        buttonStyle={{ marginTop: 10, fontSize: '0.875rem', textAlign: 'right' }}
+                                        appId="467375114690106"
+                                        xfbml
+                                        cookie
+                                        fields="name,email"
+                                        scope="public_profile,email"
+                                        // @ts-ignore
+                                        callback={responseFacebook}
+                                        icon="fa-facebook"
+                                        textButton=" تسجيل دخول بإستخدام فيسبوك"
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -156,6 +182,18 @@ export default function AccountPageLogin() {
                                             تأكيد المعلومات
                                         </button>
                                     </form>
+                                    <FacebookLogin
+                                        size="small"
+                                        buttonStyle={{ marginTop: 10, fontSize: '0.875rem', textAlign: 'right' }}
+                                        appId="467375114690106"
+                                        xfbml
+                                        cookie
+                                        fields="name,email"
+                                        scope="public_profile,email"
+                                        callback={registerFacebook}
+                                        icon="fa-facebook"
+                                        textButton=" انشاء حساب بإستخدام فيسبوك"
+                                    />
                                 </div>
                             </div>
                         </div>
