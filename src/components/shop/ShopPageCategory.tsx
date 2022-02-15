@@ -30,7 +30,9 @@ export interface ShopPageCategoryProps {
 }
 
 function ShopPageCategory(props: ShopPageCategoryProps) {
-    const { columns, viewMode, sidebarPosition = 'start', pageTitle = 'التصنيفات' } = props;
+    const {
+        columns, viewMode, sidebarPosition = 'start', pageTitle = 'التصنيفات',
+    } = props;
     const offcanvas = columns === 3 ? 'mobile' : 'always';
     const productsViewGrid = `grid-${columns}-${columns > 3 ? 'full' : 'sidebar'}` as ProductsViewGrid;
 
