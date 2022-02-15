@@ -77,7 +77,12 @@ function BlockSlideShow(props: BlockSlideShowProps) {
                     {slide.isClickable
                      && (
                          <div className="block-slideshow__slide-button">
-                             <AppLink href="/" className="btn btn-primary btn-lg">أشتري الآن</AppLink>
+                             <AppLink
+                                 href={slide.isOfferTab ? '/shop/offers' : `/categories/${slide.categoryId}/sub-category/${slide.subCategoryId}`}
+                                 className="btn btn-primary btn-lg"
+                             >
+                                 إستعرض
+                             </AppLink>
                          </div>
                      )}
                 </div>
