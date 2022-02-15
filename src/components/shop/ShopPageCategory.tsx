@@ -26,10 +26,13 @@ export interface ShopPageCategoryProps {
     columns: ShopPageCategoryColumns;
     viewMode: ShopPageCategoryViewMode;
     sidebarPosition?: ShopPageCategorySidebarPosition;
+    pageTitle?: string
 }
 
 function ShopPageCategory(props: ShopPageCategoryProps) {
-    const { columns, viewMode, sidebarPosition = 'start' } = props;
+    const {
+        columns, viewMode, sidebarPosition = 'start', pageTitle = 'التصنيفات',
+    } = props;
     const offcanvas = columns === 3 ? 'mobile' : 'always';
     const productsViewGrid = `grid-${columns}-${columns > 3 ? 'full' : 'sidebar'}` as ProductsViewGrid;
 
@@ -55,9 +58,9 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
 
     const breadcrumb = [
         { title: 'الرئيسية', url: url.home() },
-        { title: 'التصنيفات', url: url.catalog() },
+        { title: pageTitle, url: url.catalog() },
     ];
-    const pageTitle = 'التصنيفات';
+
     let content;
 
     const productsView = (

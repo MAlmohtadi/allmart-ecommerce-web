@@ -1,5 +1,6 @@
 // react
 import {
+    ChangeEvent,
     KeyboardEvent, RefObject, useCallback, useEffect, useRef, useState,
 } from 'react';
 
@@ -23,10 +24,10 @@ function Search(props: SearchProps) {
     const {
         context, className, inputRef, onClose,
     } = props;
-    const [cancelFn] = useState(() => () => {});
+    const [cancelFn, setCancelFn] = useState(() => () => {});
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
-    const [hasSuggestions] = useState(false);
-    const [query] = useState('');
+
+    const [query, setQuery] = useState('');
     const wrapperRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
     const close = useCallback(() => {
@@ -89,7 +90,6 @@ function Search(props: SearchProps) {
 
     const rootClasses = classNames(`search search--location--${context}`, className, {
         'search--suggestions-open': suggestionsOpen,
-        'search--has-suggestions': hasSuggestions,
     });
 
     const closeButton = context !== 'mobile-header' ? (
@@ -100,13 +100,26 @@ function Search(props: SearchProps) {
         </button>
     );
 
+    const handleChangeQuery = (event: ChangeEvent<HTMLInputElement>) => {
+        let timer: ReturnType<typeof setTimeout>;
+
+        const newCancelFn = () => {
+            clearTimeout(timer);
+        };
+
+        const query = event.target.value;
+
+        setQuery(query);
+
+        setCancelFn(() => newCancelFn);
+    };
     return (
         <div className={rootClasses} ref={wrapperRef} onBlur={handleBlur}>
             <div className="search__body">
                 <div className="search__form">
                     <input
                         ref={inputRef}
-                        onChange={() => { }}
+                        onChange={handleChangeQuery}
                         onFocus={() => { }}
                         onKeyDown={handleKeyDown}
                         value={query}

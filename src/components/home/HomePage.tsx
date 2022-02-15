@@ -17,6 +17,7 @@ import BlockSlideShow from '../blocks/BlockSlideShow';
 import { IHomePageResponse } from '../../interfaces/homepage';
 import { IProductResponse } from '../../interfaces/product';
 import { useSale } from '../../store/sale/saleHooks';
+import BlockCategories from '../blocks/BlockCategories';
 
 export interface InitData {
     homepageInfo?: IHomePageResponse;
@@ -75,7 +76,13 @@ function HomePage(props: HomePageProps) {
                 ),
                 [featuredProducts],
             )}
-
+            {useMemo(() => (
+                <BlockCategories
+                    title="التصنيفات"
+                    layout="classic"
+                    categories={homepageInfo.data?.categories}
+                />
+            ), [])}
             {useMemo(
                 () => (
                     <BlockProductsCarousel

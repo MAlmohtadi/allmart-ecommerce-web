@@ -123,7 +123,14 @@ const shopApi = {
          * where:
          * - true = options.isWholeSale
          */
-        return fetch(`${BASE_URL}/home/getHomeInfo?${qs.stringify(options)}`)
+        return fetch(`${BASE_URL}/home/getHomeInfo?${qs.stringify(options)}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: 'WEB',
+            },
+        })
             .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
@@ -137,6 +144,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -151,6 +159,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -165,6 +174,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -176,6 +186,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -187,6 +198,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -198,6 +210,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -212,6 +225,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -226,6 +240,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -240,6 +255,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -254,6 +270,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -268,6 +285,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -282,6 +300,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -296,6 +315,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -310,6 +330,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -319,7 +340,14 @@ const shopApi = {
     * get checkout Info.
     */
     getCheckoutInfo: (): Promise<ICheckoutInfo> => {
-        return fetch(`${BASE_URL}/checkout/getCheckoutInfo`)
+        return fetch(`${BASE_URL}/checkout/getCheckoutInfo`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: 'WEB',
+            },
+        })
             .then((response) => response.json());
     },
     /**
@@ -331,6 +359,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -345,6 +374,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -359,6 +389,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -373,6 +404,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
@@ -387,6 +419,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                deviceType: 'WEB',
             },
             body: JSON.stringify(options),
         })
