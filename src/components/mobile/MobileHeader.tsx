@@ -15,7 +15,7 @@ import AppLink from '../shared/AppLink';
 import Cart20Svg from '../../svg/cart-20.svg';
 import Heart20Svg from '../../svg/heart-20.svg';
 import Indicator from '../header/Indicator';
-import LogoSmallSvg from '../../svg/logo-small.svg';
+import LogSvg from './LogoSvg';
 import Menu18x14Svg from '../../svg/menu-18x14.svg';
 import Search from '../header/Search';
 import Search20Svg from '../../svg/search-20.svg';
@@ -58,7 +58,7 @@ function MobileHeader() {
                             <Menu18x14Svg />
                         </button>
                         <AppLink href={url.home()} className="mobile-header__logo">
-                            <LogoSmallSvg />
+                            <LogSvg />
                         </AppLink>
                         <Search
                             context="mobile-header"
