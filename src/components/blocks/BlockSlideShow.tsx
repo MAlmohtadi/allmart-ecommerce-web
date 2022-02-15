@@ -10,6 +10,7 @@ import departmentsService from '../../services/departmentsService';
 import StroykaSlick from '../shared/StroykaSlick';
 import { useMedia } from '../../services/hooks';
 import { IHomePageResponse } from '../../interfaces/homepage';
+import url from '../../services/url';
 
 export interface BlockSlideShowProps {
     withDepartments?: boolean;
@@ -78,7 +79,9 @@ function BlockSlideShow(props: BlockSlideShowProps) {
                      && (
                          <div className="block-slideshow__slide-button">
                              <AppLink
-                                 href={slide.isOfferTab ? '/shop/offers' : `/categories/${slide.categoryId}/sub-category/${slide.subCategoryId}`}
+                                 href={slide.isOfferTab
+                                     ? url.offers()
+                                     : url.categoryWithSubCategory(slide.categoryId, slide.subCategoryId)}
                                  className="btn btn-primary btn-lg"
                              >
                                  إستعرض

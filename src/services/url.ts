@@ -74,9 +74,19 @@ const url = {
         href: '/account/password',
         as: '/account/password',
     }),
-
+    category: (categoryId: number): ILinkProps => ({
+        href: '/categories/[categoryId]',
+        as: `/categories/${categoryId}`,
+    }),
+    categoryWithSubCategory: (categoryId: number, subCategoryId: number): ILinkProps => ({
+        href: '/categories/[categoryId]/sub-category/[subCategoryId]',
+        as: `/categories/${categoryId}/sub-category/${subCategoryId}`,
+    }),
     contacts: (): ILinkProps => ({
         href: '/site/contact-us',
+    }),
+    offers: (): ILinkProps => ({
+        href: '/shop/offers',
     }),
 
     terms: (): ILinkProps => ({
