@@ -1,15 +1,13 @@
 // third-party
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import { FormEvent, useRef } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAccount, useAccountUpdate } from '../../store/account/accountHooks';
+import AppLink from '../shared/AppLink';
 
 export default function AccountPageProfile() {
     const account = useAccount();
-    const router = useRouter();
-
     const nameInputRef = useRef<HTMLInputElement | null>(null);
     const phoneInputRef = useRef<HTMLInputElement | null>(null);
     const phone2ndInputRef = useRef<HTMLInputElement | null>(null);
@@ -40,11 +38,27 @@ export default function AccountPageProfile() {
             return;
         }
         accountUpdate({
-            name, phone, secondaryPhone, email,
+            id: account.id, name, phone, secondaryPhone, email,
         });
     }
     if (!account.isLoggedIn) {
-        router.push('/account/login');
+        return (
+            <div className="block block-empty">
+                <div className="container">
+                    <div className="block-empty__body">
+                        <div className="block-empty__message">
+                            يجب عليك تسجيل الدخول
+                            !
+                        </div>
+                        <div className="block-empty__actions">
+                            <AppLink href="/account/login" className="btn btn-primary btn-sm">
+                                تسجيل الدخول
+                            </AppLink>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
     return (
         <div className="card">
