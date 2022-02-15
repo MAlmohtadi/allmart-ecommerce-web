@@ -71,7 +71,7 @@ function HomePage(props: HomePageProps) {
                     categories={homepageInfo.data?.categories}
                 />
             ), [])}
-            
+
             {useMemo(
                 () => (
                     <BlockProductsCarousel

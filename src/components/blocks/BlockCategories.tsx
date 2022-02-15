@@ -19,15 +19,17 @@ function BlockCategories(props: BlockCategoriesProps) {
         const classes = `block-categories__item category-card category-card--layout--${layout}`;
         const { subCategories }: { subCategories?: ISubCategory[] } = category;
 
-        const subcategoriesLinks = subCategories && subCategories.slice(0,3).map((sub, subIndex) => (
+        const subcategoriesLinks = subCategories && subCategories.slice(0, 3).map((sub, subIndex) => (
             <li key={subIndex}>
                 <AppLink href={url.categoryWithSubCategory(category.id, sub.id)}>{sub.name}</AppLink>
             </li>
         ));
         if (subCategories.length > 3) {
-            subcategoriesLinks.push(  <li key={3}>
-                <AppLink >{'.....'}</AppLink>
-            </li>) 
+            subcategoriesLinks.push(
+                <li key={3}>
+                    <AppLink>.....</AppLink>
+                </li>,
+            );
         }
 
         return (
