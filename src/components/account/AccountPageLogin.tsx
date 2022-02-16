@@ -1,6 +1,6 @@
 // react
 import {
-    FormEvent, Fragment, useEffect, useRef, useState
+    FormEvent, Fragment, useEffect, useRef, useState,
 } from 'react';
 
 // third-party
@@ -61,7 +61,7 @@ export default function AccountPageLogin() {
             return;
         }
         accountRegister({
-            name, phone, secondaryPhone, email, facebookId
+            name, phone, secondaryPhone, email, facebookId,
         });
     }
     function loginHandler(event: FormEvent) {
