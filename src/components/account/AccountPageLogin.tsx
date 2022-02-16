@@ -1,6 +1,6 @@
 // react
 import {
-    FormEvent, Fragment, useEffect, useRef,
+    FormEvent, Fragment, useEffect, useRef, useState
 } from 'react';
 
 // third-party
@@ -21,6 +21,7 @@ export default function AccountPageLogin() {
     ];
     const route = useRouter();
     const account = useAccount();
+    const [facebookId, setFacebookId] = useState(undefined);
 
     useEffect(() => {
         if (account.isLoggedIn) {
@@ -60,7 +61,7 @@ export default function AccountPageLogin() {
             return;
         }
         accountRegister({
-            name, phone, secondaryPhone, email,
+            name, phone, secondaryPhone, email, facebookId
         });
     }
     function loginHandler(event: FormEvent) {
@@ -82,6 +83,8 @@ export default function AccountPageLogin() {
         nameInputRef.current.value = response.name;
         // @ts-ignore
         emailInputRef.current.value = response.email;
+
+        setFacebookId(response.id);
     };
 
     return (

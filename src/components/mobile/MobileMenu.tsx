@@ -73,7 +73,7 @@ function MobileMenu() {
                 // @ts-ignore
                 return categoryMenu.children.push({
                     title: `${category.name}`,
-                    type: 'link',
+                    type: 'button',
                     url: `/categories/${category.id}`,
                     children: [...object],
                 });
