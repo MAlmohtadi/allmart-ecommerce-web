@@ -18,20 +18,24 @@ const dataHeaderNavigation: INav = [
         },
     },
     {
-        title: 'عروض خاصة',
-        url: '/shop/offers',
-    }, 
-    {
-        title: 'من نحن',
-        url: '/site/about-us',
-    },
-    {
         title: 'التصنيفات',
         url: '/',
         submenu: {
             type: 'menu',
             menu: [],
         },
+    },
+    {
+        title: 'عروض خاصة',
+        url: '/shop/offers',
+    },
+    {
+        title: 'معرض الصور',
+        url: '/shop/gallery',
+    },
+    {
+        title: 'من نحن',
+        url: '/site/about-us',
     },
 ];
 
