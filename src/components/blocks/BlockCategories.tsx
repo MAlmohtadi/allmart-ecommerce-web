@@ -19,11 +19,18 @@ function BlockCategories(props: BlockCategoriesProps) {
         const classes = `block-categories__item category-card category-card--layout--${layout}`;
         const { subCategories }: { subCategories?: ISubCategory[] } = category;
 
-        const subcategories = subCategories && subCategories.map((sub, subIndex) => (
+        const subcategoriesLinks = subCategories && subCategories.slice(0, 3).map((sub, subIndex) => (
             <li key={subIndex}>
                 <AppLink href={url.categoryWithSubCategory(category.id, sub.id)}>{sub.name}</AppLink>
             </li>
         ));
+        if (subCategories.length > 3) {
+            subcategoriesLinks.push(
+                <li key={3}>
+                    <AppLink>.....</AppLink>
+                </li>,
+            );
+        }
 
         return (
             <div key={index} className={classes}>
@@ -38,7 +45,7 @@ function BlockCategories(props: BlockCategoriesProps) {
                             <AppLink href={url.category(category.id)}>{category.name}</AppLink>
                         </div>
                         <ul className="category-card__links">
-                            {subcategories}
+                            {subcategoriesLinks}
                         </ul>
                         <div className="category-card__all">
                             <AppLink href={url.category(category.id)}>عرض الكل</AppLink>

@@ -7,7 +7,7 @@ const dataMobileMenu: IMobileMenu = [
         url: '/',
     },
     {
-        type: 'link',
+        type: 'button',
         title: 'طلباتي',
         url: '/account/orders',
         children: [
@@ -22,9 +22,14 @@ const dataMobileMenu: IMobileMenu = [
         url: '/shop/offers',
     },
     {
+        type: 'link',
+        title: 'من نحن',
+        url: '/site/about-us',
+    },
+    {
         title: 'التصنيفات',
         url: '/',
-        type: 'link',
+        type: 'button',
         children: [],
     },
     // {

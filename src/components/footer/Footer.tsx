@@ -9,8 +9,9 @@ import AppLink from '../shared/AppLink';
 
 const Footer: FunctionComponent = () => {
     const informationLinks = [
-        { title: 'من نحن', url: '/site/about-us' },
         { title: 'سياسة الخصوصية', url: '/site/terms' },
+        { title: 'الدعم', url: '/site/support' },
+        { title: 'الغاء الحساب', url: '/site/cancel-account' },
     ];
 
     return (

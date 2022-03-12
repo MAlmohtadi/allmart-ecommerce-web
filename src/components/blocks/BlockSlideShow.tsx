@@ -22,6 +22,8 @@ const slickSettings = {
     arrows: false,
     infinite: true,
     speed: 400,
+    autoplaySpeed: 5000,
+    autoplay:true,
     slidesToShow: 1,
     slidesToScroll: 1,
 };

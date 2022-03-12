@@ -16,6 +16,7 @@ import PageHeader from '../shared/PageHeader';
 import ProductsView, { ProductsViewGrid } from './ProductsView';
 import url from '../../services/url';
 import WidgetFilters from '../widgets/WidgetFilters';
+import { useHome } from '../../store/home/homeHooks';
 import { useShop } from '../../store/shop/shopHooks';
 
 export type ShopPageCategoryColumns = 3 | 4 | 5;
@@ -30,14 +31,32 @@ export interface ShopPageCategoryProps {
 }
 
 function ShopPageCategory(props: ShopPageCategoryProps) {
-    const {
-        columns, viewMode, sidebarPosition = 'start', pageTitle = 'التصنيفات',
-    } = props;
-    const offcanvas = columns === 3 ? 'mobile' : 'always';
-    const productsViewGrid = `grid-${columns}-${columns > 3 ? 'full' : 'sidebar'}` as ProductsViewGrid;
-
+    const homeData = useHome();
     // shop
     const shopState = useShop();
+    let customPageTitle = '';
+
+    const {
+        columns, viewMode, sidebarPosition = 'start', pageTitle,
+    } = props;
+
+    if (pageTitle) {
+        customPageTitle = pageTitle;
+    } else {
+        customPageTitle = 'التصنيفات ';
+        if (!Number.isNaN(Number((`${shopState.options?.categoryId}` ?? 'NaN')))) {
+            const category = homeData?.categories?.find((cat) => cat.id === Number(`${shopState.options?.categoryId}`));
+            if (shopState.options?.categoryId) {
+                customPageTitle = `${customPageTitle} > ${category?.name}`;
+            }
+            if (shopState.options?.subCategoryId && !Number.isNaN(Number((`${shopState.options?.subCategoryId}` ?? 'NaN')))) {
+                const subCategory = category?.subCategories?.find((subcat) => subcat.id === Number(`${shopState.options?.subCategoryId}`));
+                customPageTitle = `${customPageTitle} > ${subCategory?.name}`;
+            }
+        }
+    }
+    const offcanvas = columns === 3 ? 'mobile' : 'always';
+    const productsViewGrid = `grid-${columns}-${columns > 3 ? 'full' : 'sidebar'}` as ProductsViewGrid;
 
     // sidebar
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
@@ -58,7 +77,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
 
     const breadcrumb = [
         { title: 'الرئيسية', url: url.home() },
-        { title: pageTitle, url: url.catalog() },
+        { title: customPageTitle, url: url.catalog() },
     ];
 
     let content;
@@ -105,7 +124,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
                 <title>التصنيفات - جبران</title>
             </Head>
 
-            <PageHeader header={pageTitle} breadcrumb={breadcrumb} />
+            <PageHeader header={customPageTitle} breadcrumb={breadcrumb} />
 
             {content}
         </Fragment>

@@ -64,6 +64,14 @@ function HomePage(props: HomePageProps) {
 
             {/* {useMemo(() => <BlockFeatures layout="boxed" />, [])} */}
 
+            {useMemo(() => (
+                <BlockCategories
+                    title="التصنيفات"
+                    layout="classic"
+                    categories={homepageInfo.data?.categories}
+                />
+            ), [])}
+
             {useMemo(
                 () => (
                     <BlockProductsCarousel
@@ -76,13 +84,6 @@ function HomePage(props: HomePageProps) {
                 ),
                 [featuredProducts],
             )}
-            {useMemo(() => (
-                <BlockCategories
-                    title="التصنيفات"
-                    layout="classic"
-                    categories={homepageInfo.data?.categories}
-                />
-            ), [])}
             {useMemo(
                 () => (
                     <BlockProductsCarousel

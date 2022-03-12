@@ -3,6 +3,7 @@
 import qs from 'query-string';
 import { IProductOptions } from '../interfaces/list';
 
+import { isMobile } from 'react-device-detect'
 import { IHomePageResponse } from '../interfaces/homepage';
 import { IProductResponse, IProduct } from '../interfaces/product';
 import { ICoupon } from '../interfaces/coupon';
@@ -111,6 +112,7 @@ export interface OrderOptions extends OrderBaseOptions {
 const BASE_URL = 'https://jubran.jubran-api.com/api';
 const shopApi = {
 
+   
     /**
      * Returns array of categories.
      */
@@ -128,13 +130,29 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
         })
             .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
     },
+        /**
+     * Returns array of categories.
+     */
+         getAboutUsContent: (): Promise<any> => {
+        
+            return fetch(`${BASE_URL}/page/content/getAboutUs`, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+                },
+            })
+                .then((response) => response.json());
+    
+        },
     /**
      * Returns array of featured products.
      */
@@ -144,7 +162,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -159,7 +177,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -174,7 +192,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -186,7 +204,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -198,7 +216,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -210,7 +228,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -225,7 +243,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -240,7 +258,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -255,7 +273,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -270,7 +288,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -285,7 +303,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -300,7 +318,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -315,7 +333,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -330,7 +348,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -345,7 +363,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
         })
             .then((response) => response.json());
@@ -359,7 +377,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -374,7 +392,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -389,7 +407,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -404,7 +422,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
@@ -419,7 +437,7 @@ const shopApi = {
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                deviceType: 'WEB',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
             body: JSON.stringify(options),
         })
