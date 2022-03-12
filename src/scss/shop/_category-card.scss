@@ -26,6 +26,25 @@
 
     img {
         max-width: 100%;
+        aspect-ratio: 2/1;
+    }
+}
+
+.category-card__body_custom {
+    display: flex;
+    border-radius: 2px;
+    background: $category-card-bg;
+    box-shadow: $category-card-shadow;
+    flex-grow: 1;
+}
+
+.category-card__image_custom {
+
+    width: 100%;
+
+    img {
+        max-width: 100%;
+        aspect-ratio: 2/1;
     }
 }
 .category-card__content {
