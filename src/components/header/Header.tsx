@@ -18,19 +18,18 @@ function Header(props: HeaderProps) {
     const { layout = 'default' } = props;
     let bannerSection;
 
-    const handleScroll=() => {
-        const offset=window.scrollY;
-        if(offset > 200 ){
-          setScrolled(true);
+    const handleScroll = () => {
+        const offset = window.scrollY;
+        if (offset > 200) {
+            setScrolled(true);
+        } else {
+            setScrolled(false);
         }
-        else{
-          setScrolled(false);
-        }
-      }
+    };
 
-      useEffect(() => {
-        window.addEventListener('scroll',handleScroll)
-      })
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+    });
 
     if (layout === 'default') {
         bannerSection = (
@@ -44,14 +43,16 @@ function Header(props: HeaderProps) {
             </div>
         );
     }
-    let navbarClasses=['site-header__nav-panel'];
-    if(scrolled){
+
+    const navbarClasses = ['site-header__nav-panel'];
+    if (scrolled) {
         navbarClasses.push('scrolled');
-      }
+    }
+
     return (
-        <div className="site-header ">
+        <div className="site-header">
             {bannerSection}
-            <div className={navbarClasses.join(" ")}>
+            <div className={navbarClasses.join(' ')}>
                 <NavPanel layout={layout} />
             </div>
         </div>
