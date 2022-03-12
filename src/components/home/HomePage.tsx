@@ -18,6 +18,7 @@ import { IHomePageResponse } from '../../interfaces/homepage';
 import { IProductResponse } from '../../interfaces/product';
 import { useSale } from '../../store/sale/saleHooks';
 import BlockCategories from '../blocks/BlockCategories';
+import BlockCategoriesCustom from '../blocks/BlockCategoriesCustom';
 
 export interface InitData {
     homepageInfo?: IHomePageResponse;
@@ -65,7 +66,7 @@ function HomePage(props: HomePageProps) {
             {/* {useMemo(() => <BlockFeatures layout="boxed" />, [])} */}
 
             {useMemo(() => (
-                <BlockCategories
+                <BlockCategoriesCustom
                     title="التصنيفات"
                     layout="classic"
                     categories={homepageInfo.data?.categories}
