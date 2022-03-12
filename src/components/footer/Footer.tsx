@@ -12,6 +12,7 @@ const Footer: FunctionComponent = () => {
         { title: 'سياسة الخصوصية', url: '/site/terms' },
         { title: 'الدعم', url: '/site/support' },
         { title: 'الغاء الحساب', url: '/site/cancel-account' },
+        { title: 'صفحات التواصل', url: '/site/social-info' },
     ];
 
     return (
