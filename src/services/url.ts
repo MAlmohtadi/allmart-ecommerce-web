@@ -7,6 +7,8 @@ const url = {
 
     catalog: () => '/shop/catalog',
 
+    gallery: () => '/shop/gallery',
+
     cart: (): ILinkProps => ({
         href: '/shop/cart',
     }),

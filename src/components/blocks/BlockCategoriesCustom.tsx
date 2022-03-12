@@ -40,17 +40,6 @@ function BlockCategoriesCustom(props: BlockCategoriesProps) {
                             <img src={category.imageUrl} alt="" />
                         </AppLink>
                     </div>
-                    {/* <div className=" category-card__content">
-                        <div className=" category-card__name">
-                            <AppLink href={url.category(category.id)}>{category.name}</AppLink>
-                        </div>
-                        <ul className="category-card__links">
-                            {subcategoriesLinks}
-                        </ul>
-                        <div className="category-card__all">
-                            <AppLink href={url.category(category.id)}>عرض الكل</AppLink>
-                        </div>
-                    </div> */}
                 </div>
             </div>
         );
