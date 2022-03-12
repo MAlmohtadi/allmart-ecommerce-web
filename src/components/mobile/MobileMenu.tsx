@@ -15,13 +15,15 @@ import { useMobileMenu, useMobileMenuClose } from '../../store/mobile-menu/mobil
 import dataMobileMenu from '../../data/mobileMenu';
 import dataShopCurrencies from '../../data/shopCurrencies';
 import { IMobileMenuLink } from '../../interfaces/menus/mobile-menu';
+import { useHome } from '../../store/home/homeHooks';
 
 function MobileMenu() {
     const mobileMenu = useMobileMenu();
     const mobileMenuClose = useMobileMenuClose();
     const localeChange = useLocaleChange();
     const currencyChange = useCurrencyChange();
-
+    const homeData = useHome();
+    const { categories } = homeData;
     const classes = classNames('mobilemenu', {
         'mobilemenu--open': mobileMenu.open,
     });
@@ -46,6 +48,40 @@ function MobileMenu() {
         }
     };
 
+    const customMenuDataPreperation = () => {
+        let object: any[] = [];
+        if (!homeData.init && homeData.homeIsLoading) {
+            return;
+        }
+
+        const categoryMenu = dataMobileMenu.find((item) => item.title === 'التصنيفات');
+        if (
+            categoryMenu
+            && categoryMenu.children
+            && Array.isArray(categoryMenu.children)
+            && !categoryMenu?.children.length
+        ) {
+            // @ts-ignore
+            categories.map((category) => {
+                if (category.subCategories.length) {
+                    object = category.subCategories.map((subCategory) => ({
+                        title: `${subCategory.name}`,
+                        type: 'link',
+                        url: `/categories/${category.id}/sub-category/${subCategory.id}`,
+                    }));
+                }
+                // @ts-ignore
+                return categoryMenu.children.push({
+                    title: `${category.name}`,
+                    type: 'button',
+                    url: `/categories/${category.id}`,
+                    children: [...object],
+                });
+            });
+        }
+    };
+    customMenuDataPreperation();
+
     return (
         <div className={classes}>
             {/* eslint-disable-next-line max-len */}
@@ -53,7 +89,7 @@ function MobileMenu() {
             <div className="mobilemenu__backdrop" onClick={mobileMenuClose} />
             <div className="mobilemenu__body">
                 <div className="mobilemenu__header">
-                    <div className="mobilemenu__title">Menu</div>
+                    <div className="mobilemenu__title">القائمة</div>
                     <button type="button" className="mobilemenu__close" onClick={mobileMenuClose}>
                         <Cross20Svg />
                     </button>

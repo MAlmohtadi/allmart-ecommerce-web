@@ -34,8 +34,20 @@ export interface IListOptions {
     sort?: string;
     limit?: number;
     page?: number;
+    search?:string;
 }
-
+export interface IProductOptions {
+    categoryId?: number;
+    subCategoryId?: number;
+    nextPageNumber?: number;
+    pageSize?: number;
+    sort?: string;
+    isWholeSale?:boolean;
+    maxPrice?:string;
+    minPrice?:string
+    textToSearch?:string;
+    isOffer?:boolean
+}
 export interface IFilterValues {
     [filterSlug: string]: string;
 }

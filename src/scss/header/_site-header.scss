@@ -24,7 +24,10 @@
     align-items: center;
     justify-content: center;
     color: $header-logo-color;
-
+    img {
+        fill: currentColor;
+        height: 90px;
+    }
     @include direction {
         #{$margin-inline-end}: 30px;
     }
@@ -36,6 +39,7 @@
     svg {
         fill: currentColor;
     }
+
 }
 .site-header__search {
     flex-grow: 1;

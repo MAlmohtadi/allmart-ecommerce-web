@@ -95,7 +95,7 @@ function CategorySidebar(props: CategorySidebarProps) {
             <div className="block-sidebar__backdrop" ref={backdropRef} onClick={closeFn} />
             <div className="block-sidebar__body" ref={bodyRef}>
                 <div className="block-sidebar__header">
-                    <div className="block-sidebar__title">Filters</div>
+                    <div className="block-sidebar__title">الفلاتر</div>
                     <button className="block-sidebar__close" type="button" onClick={closeFn}>
                         <Cross20Svg />
                     </button>

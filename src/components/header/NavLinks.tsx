@@ -13,10 +13,48 @@ import { useDirection } from '../../store/locale/localeHooks';
 
 // data stubs
 import dataHeaderNavigation from '../../data/headerNavigation';
+import { IHomePageResponse } from '../../interfaces/homepage';
+import { useHome } from '../../store/home/homeHooks';
 
+export interface InitData {
+    homepageInfo?: IHomePageResponse;
+}
+export interface NavLinksProps {
+    initData?: InitData;
+}
 function NavLinks() {
     const direction = useDirection();
+    const homeData = useHome();
+    const { categories } = homeData;
 
+    const customMenuDataPreperation = () => {
+        let object : any[] = [];
+        if (!homeData.init && homeData.homeIsLoading) {
+            return;
+        }
+
+        const categoryMenu = dataHeaderNavigation.find((item) => item.title === 'التصنيفات');
+
+        if (categoryMenu && categoryMenu.submenu
+            && Array.isArray(categoryMenu.submenu.menu)
+            && !categoryMenu?.submenu?.menu.length) {
+            categories?.map((category) => {
+                if (category.subCategories.length) {
+                    object = category.subCategories.map((subCategory) => ({
+                        title: `${subCategory.name}`,
+                        url: `/categories/${category.id}/sub-category/${subCategory.id}`,
+                    }));
+                }
+                // @ts-ignore:
+                return categoryMenu?.submenu?.menu?.push({
+                    title: `${category.name}`,
+                    url: `/categories/${category.id}`,
+                    children: [...object],
+                });
+            });
+        }
+    };
+    customMenuDataPreperation();
     const handleMouseEnter = (event: ReactMouseEvent) => {
         const item = event.currentTarget as HTMLElement;
         const megamenu = item.querySelector('.nav-links__megamenu') as HTMLElement;
@@ -28,20 +66,14 @@ function NavLinks() {
             const itemOffsetLeft = item.offsetLeft;
 
             if (direction === 'rtl') {
-                const itemPosition = containerWidth - (
-                    itemOffsetLeft + item.getBoundingClientRect().width
-                );
+                const itemPosition = containerWidth - (itemOffsetLeft + item.getBoundingClientRect().width);
 
-                const megamenuPosition = Math.round(
-                    Math.min(itemPosition, containerWidth - megamenuWidth),
-                );
+                const megamenuPosition = Math.round(Math.min(itemPosition, containerWidth - megamenuWidth));
 
                 megamenu.style.left = '';
                 megamenu.style.right = `${megamenuPosition}px`;
             } else {
-                const megamenuPosition = Math.round(
-                    Math.min(itemOffsetLeft, containerWidth - megamenuWidth),
-                );
+                const megamenuPosition = Math.round(Math.min(itemOffsetLeft, containerWidth - megamenuWidth));
 
                 megamenu.style.right = '';
                 megamenu.style.left = `${megamenuPosition}px`;

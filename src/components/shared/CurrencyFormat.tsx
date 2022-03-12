@@ -11,7 +11,7 @@ export interface CurrencyFormatProps {
 }
 
 function CurrencyFormat(props: CurrencyFormatProps) {
-    const { value, currency } = props;
+    const { value = 0, currency } = props;
     const currentCurrency = useCurrency();
     const { symbol } = currency || currentCurrency;
 

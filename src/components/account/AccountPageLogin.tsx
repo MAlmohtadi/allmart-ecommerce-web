@@ -1,30 +1,99 @@
 // react
-import { Fragment } from 'react';
+import {
+    FormEvent, Fragment, useEffect, useRef, useState,
+} from 'react';
 
 // third-party
 import Head from 'next/head';
 
-// application
-import AppLink from '../shared/AppLink';
-import Check9x7Svg from '../../svg/check-9x7.svg';
+import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+import FacebookLogin from 'react-facebook-login';
 import PageHeader from '../shared/PageHeader';
 
 // data stubs
-import theme from '../../data/theme';
+import { useAccount, useAccountLogin, useAccountRegister } from '../../store/account/accountHooks';
 
 export default function AccountPageLogin() {
     const breadcrumb = [
-        { title: 'Home', url: '' },
-        { title: 'My Account', url: '' },
+        { title: 'الرئيسية', url: '' },
+        { title: 'الحساب', url: '/account/dashboard' },
     ];
+    const route = useRouter();
+    const account = useAccount();
+    const [facebookId, setFacebookId] = useState(undefined);
+
+    useEffect(() => {
+        if (account.isLoggedIn) {
+            route.back();
+        }
+    }, [account.isLoggedIn]);
+    const nameInputRef = useRef<HTMLInputElement | null>(null);
+    const phoneInputRef = useRef<HTMLInputElement | null>(null);
+    const phone2ndInputRef = useRef<HTMLInputElement | null>(null);
+    const emailInputRef = useRef<HTMLInputElement | null>(null);
+    const loginPhoneInputRef = useRef<HTMLInputElement | null>(null);
+
+    const accountRegister = useAccountRegister();
+    const accountLogin = useAccountLogin();
+
+    function submitHandler(event: FormEvent) {
+        event.preventDefault();
+        const name = nameInputRef.current?.value;
+        const phone = phoneInputRef.current?.value;
+        const secondaryPhone = phone2ndInputRef.current?.value;
+        const email = emailInputRef.current?.value;
+
+        if (!(phone && phone.match('[0-9]{10}'))) {
+            toast.error('رقم الهاتف غير صحيح', { theme: 'colored' });
+            return;
+        }
+        if (secondaryPhone && secondaryPhone.length > 0 && !secondaryPhone.match('[0-9]{10}')) {
+            toast.error('رقم الهاتف الثاني غير صحيح', { theme: 'colored' });
+            return;
+        }
+        if (!(name && name.length > 0)) {
+            toast.error('يجب ادخال اسم صحيح', { theme: 'colored' });
+            return;
+        }
+        if (email && email.length > 0 && !email.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+            toast.error('يجب ادخال ايميل صحيح', { theme: 'colored' });
+            return;
+        }
+        accountRegister({
+            name, phone, secondaryPhone, email, facebookId,
+        });
+    }
+    function loginHandler(event: FormEvent) {
+        event.preventDefault();
+        const phone = loginPhoneInputRef.current?.value;
+        if (!(phone && phone.match('[0-9]{10}'))) {
+            toast.error('رقم الهاتف غير صحيح', { theme: 'colored' });
+            return;
+        }
+        accountLogin({ phone });
+    }
+    // @ts-ignore
+    const responseFacebook = (response) => {
+        accountLogin({ facebookId: response.id });
+    };
+    // @ts-ignore
+    const registerFacebook = (response) => {
+        // @ts-ignore
+        nameInputRef.current.value = response.name;
+        // @ts-ignore
+        emailInputRef.current.value = response.email;
+
+        setFacebookId(response.id);
+    };
 
     return (
         <Fragment>
             <Head>
-                <title>{`Login — ${theme.name}`}</title>
+                <title>تسجيل الدخول</title>
             </Head>
 
-            <PageHeader header="My Account" breadcrumb={breadcrumb} />
+            <PageHeader header="الحساب" breadcrumb={breadcrumb} />
 
             <div className="block">
                 <div className="container">
@@ -32,90 +101,102 @@ export default function AccountPageLogin() {
                         <div className="col-md-6 d-flex">
                             <div className="card flex-grow-1 mb-md-0">
                                 <div className="card-body">
-                                    <h3 className="card-title">Login</h3>
-                                    <form>
+                                    <h3 className="card-title">تسجيل الدخول بالهاتف</h3>
+                                    <form onSubmit={loginHandler}>
                                         <div className="form-group">
-                                            <label htmlFor="login-email">Email address</label>
+                                            <label htmlFor="login-phone">رقم الهاتف</label>
                                             <input
-                                                id="login-email"
-                                                type="email"
+                                                ref={loginPhoneInputRef}
+                                                id="login-phone"
+                                                type="tel"
                                                 className="form-control"
-                                                placeholder="Enter email"
+                                                placeholder="رقم الهاتف"
                                             />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="login-password">Password</label>
-                                            <input
-                                                id="login-password"
-                                                type="password"
-                                                className="form-control"
-                                                placeholder="Password"
-                                            />
-                                            <small className="form-text text-muted">
-                                                <AppLink href="/">Forgotten Password</AppLink>
-                                            </small>
-                                        </div>
-                                        <div className="form-group">
-                                            <div className="form-check">
-                                                <span className="form-check-input input-check">
-                                                    <span className="input-check__body">
-                                                        <input
-                                                            id="login-remember"
-                                                            type="checkbox"
-                                                            className="input-check__input"
-                                                        />
-                                                        <span className="input-check__box" />
-                                                        <Check9x7Svg className="input-check__icon" />
-                                                    </span>
-                                                </span>
-                                                <label className="form-check-label" htmlFor="login-remember">
-                                                    Remember Me
-                                                </label>
-                                            </div>
                                         </div>
                                         <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
-                                            Login
+                                            تسجيل الدخول
                                         </button>
                                     </form>
+
+                                    <FacebookLogin
+                                        size="small"
+                                        buttonStyle={{ marginTop: 10, fontSize: '0.875rem', textAlign: 'right' }}
+                                        appId="467375114690106"
+                                        xfbml
+                                        cookie
+                                        fields="name,email"
+                                        scope="public_profile,email"
+                                        // @ts-ignore
+                                        callback={responseFacebook}
+                                        icon="fa-facebook"
+                                        textButton=" تسجيل دخول بإستخدام فيسبوك"
+                                    />
                                 </div>
                             </div>
                         </div>
                         <div className="col-md-6 d-flex mt-4 mt-md-0">
                             <div className="card flex-grow-1 mb-0">
                                 <div className="card-body">
-                                    <h3 className="card-title">Register</h3>
-                                    <form>
+                                    <h3 className="card-title">انشاء حساب</h3>
+                                    <form onSubmit={submitHandler}>
                                         <div className="form-group">
-                                            <label htmlFor="register-email">Email address</label>
+                                            <label htmlFor="name">الاسم</label>
                                             <input
+                                                ref={nameInputRef}
+                                                id="name"
+                                                type="text"
+                                                className="form-control"
+                                                required
+                                                placeholder="الاسم *"
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="phone">رقم الهاتف</label>
+                                            <input
+                                                ref={phoneInputRef}
+                                                id="phone"
+                                                type="tel"
+                                                required
+                                                className="form-control"
+                                                placeholder="رقم الهاتف *"
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="phone-2">رقم الهاتف الثاني</label>
+                                            <input
+                                                ref={phone2ndInputRef}
+                                                id="phone-2"
+                                                type="tel"
+                                                className="form-control"
+                                                placeholder="رقم الهاتف الثاني (إختياري)"
+                                            />
+                                        </div>
+                                        <div className="form-group">
+                                            <label htmlFor="register-email">الايميل</label>
+                                            <input
+                                                ref={emailInputRef}
                                                 id="register-email"
-                                                type="email"
+                                                type="text"
                                                 className="form-control"
-                                                placeholder="Enter email"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="register-password">Password</label>
-                                            <input
-                                                id="register-password"
-                                                type="password"
-                                                className="form-control"
-                                                placeholder="Password"
-                                            />
-                                        </div>
-                                        <div className="form-group">
-                                            <label htmlFor="register-confirm">Repeat Password</label>
-                                            <input
-                                                id="register-confirm"
-                                                type="password"
-                                                className="form-control"
-                                                placeholder="Password"
+                                                placeholder="الايميل (إختياري)"
                                             />
                                         </div>
                                         <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
-                                            Register
+                                            تأكيد المعلومات
                                         </button>
                                     </form>
+                                    <FacebookLogin
+                                        size="small"
+                                        buttonStyle={{ marginTop: 10, fontSize: '0.875rem', textAlign: 'right' }}
+                                        appId="467375114690106"
+                                        xfbml
+                                        cookie
+                                        fields="name,email"
+                                        scope="public_profile,email"
+                                        callback={registerFacebook}
+                                        icon="fa-facebook"
+                                        textButton=" انشاء حساب بإستخدام فيسبوك"
+                                    />
                                 </div>
                             </div>
                         </div>

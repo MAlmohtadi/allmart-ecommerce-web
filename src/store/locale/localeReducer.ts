@@ -4,7 +4,7 @@ import { LocaleState } from './localeTypes';
 import { withClientState } from '../client';
 
 const initialState: LocaleState = {
-    current: 'en',
+    current: 'ar',
 };
 
 export const LOCALE_NAMESPACE = 'locale';

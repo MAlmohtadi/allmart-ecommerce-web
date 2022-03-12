@@ -1,5 +1,4 @@
 import { ILinkProps } from '../interfaces/menus/link-props';
-import { ICategory, IShopCategory } from '../interfaces/category';
 
 const url = {
     home: (): ILinkProps => ({
@@ -15,23 +14,6 @@ const url = {
     checkout: (): ILinkProps => ({
         href: '/shop/checkout',
     }),
-
-    category: (category: ICategory): ILinkProps => {
-        if (category.type === 'shop') {
-            return url.shopCategory(category);
-        }
-        if (category.type === 'blog') {
-            return url.blogCategory();
-        }
-
-        throw Error('Undefined category type');
-    },
-
-    shopCategory: (category: IShopCategory): ILinkProps => ({
-        href: '/shop/catalog/[slug]',
-        as: `/shop/catalog/${category.slug}`,
-    }),
-
     product: (product: { slug: string }): ILinkProps => ({
         href: '/shop/products/[slug]',
         as: `/shop/products/${product.slug}`,
@@ -73,9 +55,9 @@ const url = {
         href: '/account/orders',
     }),
 
-    accountOrder: (order: { id: number }): ILinkProps => ({
+    accountOrder: (id: number): ILinkProps => ({
         href: '/account/orders/[orderId]',
-        as: `/account/orders/${order.id}`,
+        as: `/account/orders/${id}`,
     }),
 
     accountAddresses: (): ILinkProps => ({
@@ -92,9 +74,19 @@ const url = {
         href: '/account/password',
         as: '/account/password',
     }),
-
+    category: (categoryId: number): ILinkProps => ({
+        href: '/categories/[categoryId]',
+        as: `/categories/${categoryId}`,
+    }),
+    categoryWithSubCategory: (categoryId: number, subCategoryId: number): ILinkProps => ({
+        href: '/categories/[categoryId]/sub-category/[subCategoryId]',
+        as: `/categories/${categoryId}/sub-category/${subCategoryId}`,
+    }),
     contacts: (): ILinkProps => ({
         href: '/site/contact-us',
+    }),
+    offers: (): ILinkProps => ({
+        href: '/shop/offers',
     }),
 
     terms: (): ILinkProps => ({

@@ -21,9 +21,10 @@
         }
     }
     .product-card__name {
-        font-size: 16px;
+        font-size: 18px;
         line-height: 20px;
         flex-grow: 0;
+        font-weight: $font-weight-semi-bold;
     }
     .product-card__rating {
         margin-top: 7px;

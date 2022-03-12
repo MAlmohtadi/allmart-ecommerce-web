@@ -34,9 +34,9 @@
 }
 .category-card__name {
     margin-top: -2px;
-    font-weight: $font-weight-medium;
-    font-size: 17px;
-    line-height: 19px;
+    font-weight: $font-weight-extra-bold;
+    font-size: 22px;
+    line-height: 25px;
 
     a {
         color: inherit;
@@ -50,8 +50,9 @@
     list-style: none;
     margin: 14px 0 0;
     padding: 0;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 22px;
+    font-weight: $font-weight-semi-bold;
     flex-grow: 1;
 
     a {
@@ -103,7 +104,7 @@
             text-align: center;
         }
         .category-card__image {
-            width: 120px;
+            width: 100%;
             margin: 0 auto 18px;
         }
     }

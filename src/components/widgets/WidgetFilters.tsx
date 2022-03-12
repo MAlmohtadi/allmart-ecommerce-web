@@ -33,7 +33,7 @@ function WidgetFilters(props: WidgetFiltersProps) {
 
     const handleValueChange = useCallback(({ filter, value }: FilterChangeValueEvent) => {
         shopSetFilterValue(
-            filter.slug,
+            filter.name,
             isDefaultFilterValue(filter, value) ? null : serializeFilterValue(filter, value),
         ).then();
     }, [shopSetFilterValue]);
@@ -42,19 +42,19 @@ function WidgetFilters(props: WidgetFiltersProps) {
         const renderFilter: RenderFilterFn = ({ toggle, setItemRef, setContentRef }) => (
             <div className="filter filter--opened" ref={setItemRef}>
                 <button type="button" className="filter__title" onClick={toggle}>
-                    {filter.name}
+                    السعر
                     <ArrowRoundedDown12x7Svg className="filter__arrow" />
                 </button>
                 <div className="filter__body" ref={setContentRef}>
                     <div className="filter__container">
-                        <Filter data={filter} value={values[filter.slug]} onChangeValue={handleValueChange} />
+                        <Filter data={filter} value={values[filter.name]} onChangeValue={handleValueChange} />
                     </div>
                 </div>
             </div>
         );
 
         return (
-            <div key={filter.slug} className="widget-filters__item">
+            <div key={filter.name} className="widget-filters__item">
                 <Collapse toggleClass="filter--opened" render={renderFilter} />
             </div>
         );
@@ -79,7 +79,7 @@ function WidgetFilters(props: WidgetFiltersProps) {
                     className="btn btn-secondary btn-sm"
                     onClick={shopResetFilters}
                 >
-                    Reset
+                    إعادة تعيين
                 </button>
             </div>
         </div>

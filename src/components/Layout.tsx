@@ -9,7 +9,7 @@ import Footer from './footer/Footer';
 import Header, { HeaderLayout } from './header/Header';
 import MobileHeader from './mobile/MobileHeader';
 import MobileMenu from './mobile/MobileMenu';
-import Quickview from './shared/Quickview';
+// import Quickview from './shared/Quickview';
 
 export interface LayoutProps extends PropsWithChildren<{}>{
     headerLayout: HeaderLayout;
@@ -22,7 +22,7 @@ function Layout(props : LayoutProps) {
         <Fragment>
             <ToastContainer autoClose={5000} hideProgressBar />
 
-            <Quickview />
+            {/* <Quickview /> */}
 
             <MobileMenu />
 

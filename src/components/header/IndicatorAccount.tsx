@@ -1,71 +1,103 @@
 // application
+import { FormEvent, Fragment, useRef } from 'react';
+import { toast } from 'react-toastify';
+import FacebookLogin from 'react-facebook-login';
 import AppLink from '../shared/AppLink';
 import Indicator from './Indicator';
 import Person20Svg from '../../svg/person-20.svg';
 import url from '../../services/url';
+import { useAccount, useAccountLogin, useAccountLogout } from '../../store/account/accountHooks';
 
 function IndicatorAccount() {
+    const phoneInputRef = useRef<HTMLInputElement | null>(null);
+    const account = useAccount();
+    const accountLogin = useAccountLogin();
+    const accountLogout = useAccountLogout();
+    function submitHandler(event: FormEvent) {
+        event.preventDefault();
+        const enteredPhone = phoneInputRef.current?.value;
+        if (enteredPhone && enteredPhone.match('[0-9]{10}')) {
+            accountLogin({ phone: enteredPhone });
+        } else {
+            toast.error('رقم الهاتف غير صحيح', { theme: 'colored' });
+        }
+    }
+    // @ts-ignore
+    const responseFacebook = (response) => {
+        accountLogin({ facebookId: response.id });
+    };
+
     const dropdown = (
         <div className="account-menu">
-            <form className="account-menu__form">
-                <div className="account-menu__form-title">Log In to Your Account</div>
-                <div className="form-group">
-                    <label htmlFor="header-signin-email" className="sr-only">Email address</label>
-                    <input
-                        id="header-signin-email"
-                        type="email"
-                        className="form-control form-control-sm"
-                        placeholder="Email address"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="header-signin-password" className="sr-only">Password</label>
-                    <div className="account-menu__form-forgot">
+            {!account.isLoggedIn && (
+                <form className="account-menu__form" noValidate={false} onSubmit={submitHandler}>
+                    <div className="account-menu__form-title">تسجيل الدخول إلى حسابك</div>
+                    <div className="form-group">
+                        <label htmlFor="header-mobile" className="sr-only">
+                            رقم الهاتف
+                        </label>
                         <input
-                            id="header-signin-password"
-                            type="password"
+                            required
+                            id="header-mobile"
+                            type="tel"
                             className="form-control form-control-sm"
-                            placeholder="Password"
+                            placeholder="رقم الهاتف"
+                            ref={phoneInputRef}
                         />
-                        <AppLink href={url.accountSignIn()} className="account-menu__form-forgot-link">
-                            Forgot?
-                        </AppLink>
                     </div>
-                </div>
-                <div className="form-group account-menu__form-button">
-                    <button type="submit" className="btn btn-primary btn-sm">Login</button>
-                </div>
-                <div className="account-menu__form-link">
-                    <AppLink href={url.accountSignUp()}>Create An Account</AppLink>
-                </div>
-            </form>
+                    <div className="form-group account-menu__form-button">
+                        <button type="submit" className="btn btn-primary btn-sm">
+                            دخول
+                        </button>
+                    </div>
+                    <div className="form-group account-menu__form-button">
+                        <FacebookLogin
+                            size="small"
+                            buttonStyle={{ fontSize: '0.875rem', textAlign: 'right' }}
+                            appId="467375114690106"
+                            xfbml
+                            cookie
+                            fields="name,email"
+                            scope="public_profile,email"
+                            callback={responseFacebook}
+                            textButton=" بإستخدام فيسبوك"
+                        />
+                    </div>
+                    <div className="account-menu__form-link">
+                        <AppLink href={url.accountSignUp()}>انشاء حساب</AppLink>
+                    </div>
+                </form>
+            )}
             <div className="account-menu__divider" />
-            <AppLink href={url.accountDashboard()} className="account-menu__user">
-                <div className="account-menu__user-avatar">
-                    <img src="/images/avatars/avatar-3.jpg" alt="" />
-                </div>
-                <div className="account-menu__user-info">
-                    <div className="account-menu__user-name">Helena Garcia</div>
-                    <div className="account-menu__user-email">stroyka@example.com</div>
-                </div>
-            </AppLink>
-            <div className="account-menu__divider" />
-            <ul className="account-menu__links">
-                <li><AppLink href={url.accountProfile()}>Edit Profile</AppLink></li>
-                <li><AppLink href={url.accountOrders()}>Order History</AppLink></li>
-                <li><AppLink href={url.accountAddresses()}>Addresses</AppLink></li>
-                <li><AppLink href={url.accountPassword()}>Password</AppLink></li>
-            </ul>
-            <div className="account-menu__divider" />
-            <ul className="account-menu__links">
-                <li><AppLink href={url.accountSignOut()}>Logout</AppLink></li>
-            </ul>
+            {account.isLoggedIn && (
+                <Fragment>
+                    <AppLink href={url.accountProfile()} className="account-menu__user">
+                        <div className="account-menu__user-info">
+                            <div className="account-menu__user-name">{account.name}</div>
+                            <div className="account-menu__user-email">{account.email}</div>
+                        </div>
+                    </AppLink>
+                    <div className="account-menu__divider" />
+                    <ul className="account-menu__links">
+                        <li>
+                            <AppLink href={url.accountProfile()}>حسابي</AppLink>
+                        </li>
+                        <li>
+                            <AppLink href={url.accountOrders()}>طلباتي</AppLink>
+                        </li>
+                    </ul>
+                    <div className="account-menu__divider" />
+                    <ul className="account-menu__links">
+                        <li>
+                            <AppLink onClick={accountLogout}>تسجيل الخروج</AppLink>
+                        </li>
+                    </ul>
+                </Fragment>
+            )}
         </div>
     );
 
-    return (
-        <Indicator url={url.accountSignIn()} dropdown={dropdown} icon={<Person20Svg />} />
-    );
+    return <Indicator url={url.accountSignIn()} dropdown={dropdown} icon={<Person20Svg />} />;
 }
 
 export default IndicatorAccount;

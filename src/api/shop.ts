@@ -1,21 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars,arrow-body-style */
 // noinspection ES6UnusedImports
 import qs from 'query-string';
-import { getCategories, getCategoryBySlug } from '../fake-server/endpoints/categories';
-import { IShopCategory } from '../interfaces/category';
-import { IProduct, IProductsList } from '../interfaces/product';
-import { IFilterValues, IListOptions } from '../interfaces/list';
-import {
-    getDiscountedProducts,
-    getFeaturedProducts,
-    getLatestProducts,
-    getPopularProducts,
-    getProductBySlug,
-    getProductsList,
-    getRelatedProducts,
-    getSuggestions,
-    getTopRatedProducts,
-} from '../fake-server/endpoints/products';
+import { IProductOptions } from '../interfaces/list';
+
+import { isMobile } from 'react-device-detect'
+import { IHomePageResponse } from '../interfaces/homepage';
+import { IProductResponse, IProduct } from '../interfaces/product';
+import { ICoupon } from '../interfaces/coupon';
+import { ICheckoutInfo } from '../interfaces/checkout-info';
+import { IOrderProduct, IOrderSummary } from '../interfaces/order';
+import { IAccount } from '../store/account/accountTypes';
 
 export interface GetCategoriesOptions {
     depth?: number;
@@ -38,224 +32,416 @@ export type GetSuggestionsOptions = {
     limit?: number;
     category?: string;
 };
+export interface GetSaleOptions {
+    isWholeSale?: boolean;
+    categoryId?: number,
+    nextPageNumber?: number,
+    pageSize?: number,
+    sort?: string,
+    subCategoryId?: number,
+    userId?: number
+}
+export interface AccountOptions {
+    phone?: string;
+    email?: string;
+    name?: string;
+    secondaryPhone?: string;
+    appleId?: string;
+    facebookId?: string;
+    id?: number;
+}
+export interface WishListOptions {
+    isWholeSale?: boolean;
+    userId?: number;
+    productId?: number;
+}
+export interface CouponOptions {
+    code: string;
+    userId?: number;
+}
+export interface Error {
+    isBussinessError?: boolean;
+    message?: string;
+}
 
+export interface UserOrdersOptions{
+  isCurrentOrders: boolean,
+  isOlderOrders: boolean,
+  isWholeSale: boolean,
+  userId: number
+
+}
+
+export interface OrderProductsOptions {
+    orderId: number,
+    userId: number;
+    isWholeSale?: boolean,
+}
+
+export interface OrderBaseOptions {
+    couponDiscount: number,
+    isWholeSale: boolean,
+    orderId: number,
+    orderedProducts: [
+        {
+            id: number,
+            isOffer: boolean,
+            offerPrice: number,
+            offerQuantity: number,
+            offerType: number,
+            orderId?: number,
+            price: number,
+            productId?: number,
+            quantity: number
+        }
+    ],
+    totalPrice: number,
+    userId: number
+}
+
+export interface OrderOptions extends OrderBaseOptions {
+    couponCode: string,
+    deliveryDate: string,
+    deliveryPeriod: string,
+    deliveryPrice: number,
+    location: string,
+    notes: string,
+    typeOfPayment: number,
+}
+
+const BASE_URL = 'https://jubran.jubran-api.com/api';
 const shopApi = {
+
+   
     /**
      * Returns array of categories.
      */
-    getCategories: (options: GetCategoriesOptions = {}): Promise<IShopCategory[]> => {
+    getHomePageData: (options: GetSaleOptions = {}): Promise<IHomePageResponse> => {
         /**
          * This is what your API endpoint might look like:
          *
-         * https://example.com/api/categories.json?depth=2
+         * https://example.com/api/categories.json?isWholeSale=true
          *
          * where:
-         * - 2 = options.depth
+         * - true = options.isWholeSale
          */
-        // return fetch(`https://example.com/api/categories.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
+        return fetch(`${BASE_URL}/home/getHomeInfo?${qs.stringify(options)}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+        })
+            .then((response) => response.json());
 
         // This is for demonstration purposes only. Remove it and use the code above.
-        return getCategories(options);
     },
-    /**
-     * Returns category by slug.
+        /**
+     * Returns array of categories.
      */
-    getCategoryBySlug: (slug: string, options: GetCategoryBySlugOptions = {}): Promise<IShopCategory> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/categories/power-tools.json?depth=2
-         *
-         * where:
-         * - power-tools = slug
-         * - 2           = options.depth
-         */
-        // return fetch(`https://example.com/api/categories/${slug}.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getCategoryBySlug(slug, options);
-    },
-    /**
-     * Returns product.
-     */
-    getProductBySlug: (slug: string): Promise<IProduct> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/products/screwdriver-a2017.json
-         *
-         * where:
-         * - screwdriver-a2017 = slug
-         */
-        // return fetch(`https://example.com/api/products/${slug}.json`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getProductBySlug(slug);
-    },
-    /**
-     * Returns array of related products.
-     */
-    getRelatedProducts: (slug: string, options: GetRelatedProductsOptions = {}): Promise<IProduct[]> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/shop/products/screwdriver-a2017/related.json&limit=3
-         *
-         * where:
-         * - screwdriver-a2017 = slug
-         * - limit             = options.limit
-         */
-        // return fetch(`https://example.com/api/products/${slug}/related.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getRelatedProducts(slug, options);
-    },
-    /**
-     * Return products list.
-     */
-    getProductsList: (options: IListOptions = {}, filters: IFilterValues = {}): Promise<IProductsList> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/products.json?page=2&limit=12&sort=name_desc&filter_category=screwdriwers&filter_price=500-1000
-         *
-         * where:
-         * - page            = options.page
-         * - limit           = options.limit
-         * - sort            = options.sort
-         * - filter_category = filters.category
-         * - filter_price    = filters.price
-         */
-        // const params = { ...options };
-        //
-        // Object.keys(filters).forEach((slug) => {
-        //     params[`filter_${slug}`] = filters[slug];
-        // });
-        //
-        // return fetch(`https://example.com/api/products.json?${qs.stringify(params)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getProductsList(options, filters);
-    },
+         getAboutUsContent: (): Promise<any> => {
+        
+            return fetch(`${BASE_URL}/page/content/getAboutUs`, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+                },
+            })
+                .then((response) => response.json());
+    
+        },
     /**
      * Returns array of featured products.
      */
-    getFeaturedProducts: (options: GetProductsOptions = {}): Promise<IProduct[]> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/shop/featured-products.json?limit=3&category=power-tools
-         *
-         * where:
-         * - 3           = options.limit
-         * - power-tools = options.category
-         */
-        // return fetch(`https://example.com/api/featured-products.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getFeaturedProducts(options);
+    getFeaturedProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+        return fetch(`${BASE_URL}/products/getFeaturedProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
     },
     /**
-     * Returns array of latest products.
+     * Returns array of offer products.
      */
-    getLatestProducts: (options: GetProductsOptions = {}): Promise<IProduct[]> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/shop/latest-products.json?limit=3&category=power-tools
-         *
-         * where:
-         * - 3           = options.limit
-         * - power-tools = options.category
-         */
-        // return fetch(`https://example.com/api/latest-products.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getLatestProducts(options);
+    getOfferProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+        return fetch(`${BASE_URL}/offers/getOfferProdcuts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
     },
     /**
-     * Returns an array of top rated products.
-     */
-    getTopRatedProducts: (options: GetProductsOptions = {}): Promise<IProduct[]> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/shop/top-rated-products.json?limit=3&category=power-tools
-         *
-         * where:
-         * - 3           = options.limit
-         * - power-tools = options.category
-         */
-        // return fetch(`https://example.com/api/top-rated-products.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getTopRatedProducts(options);
+    * Returns array of offer products.
+    */
+    login: (options: AccountOptions = {}): Promise<IAccount | Error> => {
+        return fetch(`${BASE_URL}/user/login`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    updateAccount: (options: AccountOptions = {}): Promise<IAccount> => {
+        return fetch(`${BASE_URL}/user/update`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    registerAccount: (options: AccountOptions = {}): Promise<IAccount> => {
+        return fetch(`${BASE_URL}/user/register`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    removeAccount: (options: AccountOptions = {}): Promise<void> => {
+        return fetch(`${BASE_URL}/user/deleteUserInfo`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
     },
     /**
-     * Returns an array of discounted products.
+    * Return products list.
+    */
+    getProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
+        return fetch(`${BASE_URL}/products/getProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+     * Return products list.
      */
-    getDiscountedProducts: (options: GetProductsOptions = {}): Promise<IProduct[]> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/shop/discounted-products.json?limit=3&category=power-tools
-         *
-         * where:
-         * - 3           = options.limit
-         * - power-tools = options.category
-         */
-        // return fetch(`https://example.com/api/discounted-products.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getDiscountedProducts(options);
+    getSearchProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
+        return fetch(`${BASE_URL}/products/searchProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * Return products list.
+    */
+    getOfferProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
+        return fetch(`${BASE_URL}/offers/getOfferProdcuts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * add to wishlist.
+    */
+    addToWishlist: (options: WishListOptions): Promise<boolean> => {
+        return fetch(`${BASE_URL}/favorite/add`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.ok);
+    },
+    /*
+    * remove from wishlist.
+    */
+    removeFromWishlist: (options: WishListOptions): Promise<boolean> => {
+        return fetch(`${BASE_URL}/favorite/delete`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.ok);
+    },
+    /*
+    * remove All from wishlist.
+    */
+    removeAllWishlist: (options: WishListOptions): Promise<boolean> => {
+        return fetch(`${BASE_URL}/favorite/delete`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.ok);
     },
     /**
-     * Returns an array of most popular products.
-     */
-    getPopularProducts: (options: GetProductsOptions = {}): Promise<IProduct[]> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/shop/popular-products.json?limit=3&category=power-tools
-         *
-         * where:
-         * - 3           = options.limit
-         * - power-tools = options.category
-         */
-        // return fetch(`https://example.com/api/popular-products.json?${qs.stringify(options)}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getPopularProducts(options);
+    * Return wishlist products .
+    */
+    getWishListProducts: (options: WishListOptions): Promise<IProduct[]> => {
+        return fetch(`${BASE_URL}/favorite/getFavoriteProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
     },
     /**
-     * Returns search suggestions.
-     */
-    getSuggestions: (query: string, options: GetSuggestionsOptions = {}): Promise<IProduct[]> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/search/suggestions.json?query=screwdriver&limit=5&category=power-tools
-         *
-         * where:
-         * - screwdriver = query
-         * - 5           = options.limit
-         * - power-tools = options.category
-         */
-        // return fetch(`https://example.com/api/search/suggestions.json?${qs.stringify({ ...options, query })}`)
-        //     .then((response) => response.json());
-
-        // This is for demonstration purposes only. Remove it and use the code above.
-        return getSuggestions(query, options);
+    * apply coupon.
+    */
+    applyCoupon: (options: CouponOptions): Promise<ICoupon & Error> => {
+        return fetch(`${BASE_URL}/coupons/getCouponByCode`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /**
+    * get checkout Info.
+    */
+    getCheckoutInfo: (): Promise<ICheckoutInfo> => {
+        return fetch(`${BASE_URL}/checkout/getCheckoutInfo`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+        })
+            .then((response) => response.json());
+    },
+    /**
+    * add order.
+    */
+    addOrder: (options: OrderOptions): Promise<IOrderSummary & Error> => {
+        return fetch(`${BASE_URL}/orders/addOrder`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * Return user orders.
+    */
+    getUserOrders: (options: UserOrdersOptions): Promise<IOrderSummary[]> => {
+        return fetch(`${BASE_URL}/orders/getUserOrders`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * Return order products orders.
+    */
+    getOrderProducts: (options: OrderProductsOptions): Promise<IOrderProduct[]> => {
+        return fetch(`${BASE_URL}/orders/getOrderProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * update order products orders.
+    */
+    updateOrderProducts: (options: OrderBaseOptions): Promise<IOrderProduct[]> => {
+        return fetch(`${BASE_URL}/orders/updateOrderProducts`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
+    },
+    /*
+    * cancel order  orders.
+    */
+    cancelOrder: (options: OrderProductsOptions): Promise<IOrderSummary> => {
+        return fetch(`${BASE_URL}/orders/cancelOrder`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
+        })
+            .then((response) => response.json());
     },
 };
 

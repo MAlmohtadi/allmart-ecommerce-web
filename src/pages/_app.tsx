@@ -1,9 +1,6 @@
 // react
 import {
-    ComponentType,
-    useEffect,
-    useMemo,
-    Fragment,
+    ComponentType, useEffect, useMemo, Fragment,
 } from 'react';
 // third-party
 import { AppProps } from 'next/app';
@@ -17,20 +14,36 @@ import { useApplyClientState } from '../store/client';
 import { useDirection, useLocale, useMessages } from '../store/locale/localeHooks';
 // styles
 import '../scss/index.scss';
+import { useSale } from '../store/sale/saleHooks';
+import { useHomeFetchData } from '../store/home/homeHooks';
+import { useAccount } from '../store/account/accountHooks';
+import { useInitWishlistProducts } from '../store/wishlist/wishlistHooks';
 
 export type StroykaAppProps = AppProps & {
     Component: NextComponentType<NextPageContext, any> & {
-        Layout: ComponentType
-    }
+        Layout: ComponentType;
+    };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
-    const headerLayout = router.pathname === '/home-two' ? 'compact' : 'default';
+    const headerLayout = 'default';
     const applyClientState = useApplyClientState();
     const locale = useLocale();
     const messages = useMessages();
     const direction = useDirection();
     const store = useStore();
+    const fetchHomePageData = useHomeFetchData();
+    const initWishlist = useInitWishlistProducts();
+    const isWholeSale = useSale();
+    const account = useAccount();
+    // fetch home page data when ever isWholeSale changed
+    useEffect(() => {
+        fetchHomePageData();
+        if (account.id) {
+            initWishlist();
+        }
+    }, [isWholeSale, account.id]);
 
     // preloader
     useEffect(() => {
