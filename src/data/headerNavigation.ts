@@ -20,6 +20,10 @@ const dataHeaderNavigation: INav = [
     {
         title: 'عروض خاصة',
         url: '/shop/offers',
+    }, 
+    {
+        title: 'من نحن',
+        url: '/site/about-us',
     },
     {
         title: 'التصنيفات',

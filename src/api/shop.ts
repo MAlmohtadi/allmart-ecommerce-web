@@ -137,6 +137,22 @@ const shopApi = {
 
         // This is for demonstration purposes only. Remove it and use the code above.
     },
+        /**
+     * Returns array of categories.
+     */
+         getAboutUsContent: (): Promise<any> => {
+        
+            return fetch(`${BASE_URL}/page/content/getAboutUs`, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+                },
+            })
+                .then((response) => response.json());
+    
+        },
     /**
      * Returns array of featured products.
      */
