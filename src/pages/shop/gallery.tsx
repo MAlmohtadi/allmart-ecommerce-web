@@ -16,7 +16,7 @@ export async function getServerSideProps() {
 
 function Page(props: PageProps) {
     const { initData } = props;
-
+    // @ts-ignore
     return <ShopPageGallery initData={initData} />;
 }
 

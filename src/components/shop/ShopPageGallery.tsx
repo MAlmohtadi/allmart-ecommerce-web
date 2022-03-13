@@ -1,9 +1,6 @@
 // react
 import {
     Fragment,
-    useCallback,
-    useMemo,
-    useState,
 } from 'react';
 
 // third-party
@@ -11,7 +8,6 @@ import Head from 'next/head';
 // application
 import PageHeader from '../shared/PageHeader';
 import url from '../../services/url';
-import AppLink from '../shared/AppLink';
 
 export interface Images {
     id: number;
@@ -30,7 +26,7 @@ export interface ShopPageGalleryProps {
 function ShopPageCategory(props: ShopPageGalleryProps) {
     const { initData } = props;
 
-    const images = initData?.gallery.map((image, index) => (
+    const images = initData?.gallery?.map((image, index) => (
         <div
             key={index}
             style={{
