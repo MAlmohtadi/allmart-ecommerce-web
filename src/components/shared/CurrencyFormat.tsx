@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 
 // application
 import { ICurrency } from '../../interfaces/currency';
-import { useCurrency } from '../../store/currency/currencyHooks';
+//  import { useCurrency } from '../../store/currency/currencyHooks';
 
 export interface CurrencyFormatProps {
     value: number;
@@ -11,11 +11,11 @@ export interface CurrencyFormatProps {
 }
 
 function CurrencyFormat(props: CurrencyFormatProps) {
-    const { value = 0, currency } = props;
-    const currentCurrency = useCurrency();
-    const { symbol } = currency || currentCurrency;
+    const { value = 0 } = props;
+    // const currentCurrency = useCurrency();
+    //  const { symbol } = currency || currentCurrency;
 
-    return <Fragment>{`${symbol}${value.toFixed(2)}`}</Fragment>;
+    return <Fragment>{`${value.toFixed(2)} دينار`}</Fragment>;
 }
 
 export default CurrencyFormat;

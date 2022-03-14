@@ -12,9 +12,9 @@ const dataShopCurrencies: ICurrency[] = [
         name: 'Pound Sterling',
     },
     {
-        code: 'USD',
-        symbol: '$',
-        name: 'US Dollar',
+        code: 'دينار',
+        symbol: 'دينار',
+        name: 'اردني',
     },
     {
         code: 'RUB',
@@ -23,6 +23,6 @@ const dataShopCurrencies: ICurrency[] = [
     },
 ];
 
-export const dataShopDefaultCurrency: ICurrency = dataShopCurrencies.find((x) => x.code === 'USD')!;
+export const dataShopDefaultCurrency: ICurrency = dataShopCurrencies.find((x) => x.code === 'دينار')!;
 
 export default dataShopCurrencies;

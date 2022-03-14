@@ -31,6 +31,21 @@ function MobileHeader() {
     const { items: { length: wishlistCount } } = useWishlist();
     const mobileMenuOpen = useMobileMenuOpen();
 
+    const [scrolled, setScrolled] = useState(false);
+
+    const handleScroll = () => {
+        const offset = window.scrollY;
+        if (offset > 70) {
+            setScrolled(true);
+        } else {
+            setScrolled(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+    });
+
     useEffect(() => {
         if (searchOpen && inputRef.current) {
             inputRef.current.focus();
@@ -49,8 +64,12 @@ function MobileHeader() {
         'mobile-header__search--open': searchOpen,
     });
 
+    const mobileNvbarClasses = ['mobile-header'];
+    if (scrolled) {
+        mobileNvbarClasses.push('scrolled-mobile');
+    }
     return (
-        <div className="mobile-header">
+        <div className={mobileNvbarClasses.join(' ')}>
             <div className="mobile-header__panel">
                 <div className="container">
                     <div className="mobile-header__body">
