@@ -12,6 +12,7 @@ import { useWishlistAddItem } from '../../store/wishlist/wishlistHooks';
 import { useCartAddItem } from '../../store/cart/cartHooks';
 import { IProduct } from '../../interfaces/product';
 import { useAccount } from '../../store/account/accountHooks';
+import ProductGallery from './ProductGallery';
 
 export type ProductCardLayout = 'grid-sm' | 'grid-nl' | 'grid-lg' | 'list' | 'horizontal';
 
@@ -43,20 +44,21 @@ function ProductCard(props: ProductCardProps) {
         );
     }
     // eslint-disable-next-line prefer-const
-    image = (
-        <div className="product-card__image product-image">
-            <div className="product-image__body">
-                <img
-                    className="product-image__img"
-                    src={`${product?.imageUrl}`}
-                    onError={({ currentTarget }) => {
-                        // eslint-disable-next-line no-param-reassign
-                        currentTarget.src = '/images/products/defaultImage.png';
-                    }}
-                    alt={product.name}
-                />
-            </div>
-        </div>
+    image = (  
+        <ProductGallery layout={"quickview"} images={[product?.imageUrl]} />
+        //     <div className="product-card__image product-image">
+        //   <div className="product-image__body">
+        //       <img
+        //             className="product-image__img"
+        //             src={`${product?.imageUrl}`}
+        //             onError={({ currentTarget }) => {
+        //                 // eslint-disable-next-line no-param-reassign
+        //                 currentTarget.src = '/images/products/defaultImage.png';
+        //             }}
+        //             alt={product.name}
+        //         /> 
+        //     </div>
+        //  </div> 
     );
     // }
 
