@@ -78,8 +78,6 @@ export default function AccountPageOrderDetails() {
                         </mark>
                         الحالة:
                         <mark className="order-header__status">{status.label}</mark>
-                        تاريخ التوصيل:
-                        <mark className="order-header__date">{orderDetails?.deliveryDate}</mark>
                     </div>
                 </div>
                 <div className="card-divider" />

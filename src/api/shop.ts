@@ -7,7 +7,7 @@ import { IProductOptions } from '../interfaces/list';
 import { IHomePageResponse } from '../interfaces/homepage';
 import { IProductResponse, IProduct } from '../interfaces/product';
 import { ICoupon } from '../interfaces/coupon';
-import { ICheckoutInfo } from '../interfaces/checkout-info';
+import { ICheckoutInfo, IDeliveryInfo } from '../interfaces/checkout-info';
 import { IOrderProduct, IOrderSummary } from '../interfaces/order';
 import { IAccount } from '../store/account/accountTypes';
 
@@ -64,11 +64,11 @@ export interface Error {
     message?: string;
 }
 
-export interface UserOrdersOptions{
-  isCurrentOrders: boolean,
-  isOlderOrders: boolean,
-  isWholeSale: boolean,
-  userId: number
+export interface UserOrdersOptions {
+    isCurrentOrders: boolean,
+    isOlderOrders: boolean,
+    isWholeSale: boolean,
+    userId: number
 
 }
 
@@ -116,6 +116,10 @@ export interface Images {
     order: number;
 }
 
+export interface DeliveryInfo {
+    lat: number;
+    lng: number;
+}
 const BASE_URL = 'https://jubran.jubran-api.com/api';
 const shopApi = {
 
@@ -369,6 +373,21 @@ const shopApi = {
                 'Content-Type': 'application/json',
                 deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
+        })
+            .then((response) => response.json());
+    },
+    /**
+     * get delivery Info.
+    */
+    getDeliveryInfo: (options: DeliveryInfo): Promise<IDeliveryInfo> => {
+        return fetch(`${BASE_URL}/checkout/getDeliveryInfo`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
+            },
+            body: JSON.stringify(options),
         })
             .then((response) => response.json());
     },
