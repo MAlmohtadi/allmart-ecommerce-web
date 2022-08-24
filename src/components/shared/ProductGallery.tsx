@@ -202,9 +202,9 @@ function ProductGallery(props: ProductGalleryProps) {
     };
 
     const handleFeaturedClick = (event: MouseEvent, index: number) => {
-        if (!createGalleryRef.current || layout === 'quickview') {
-            return;
-        }
+        // if (!createGalleryRef.current || layout === 'quickview') {
+        //     return;
+        // }
 
         event.preventDefault();
 
@@ -274,9 +274,8 @@ function ProductGallery(props: ProductGalleryProps) {
     }, [getIndexDependOnDir]);
 
     const featured = images.map((image, index) => (
-        <div key={index} className="product-image product-image--location--gallery">
             <AppLink
-                href={`/${image}`}
+                href={`${image}`}
                 className="product-image__body"
                 target="_blank"
                 onClick={(event: MouseEvent) => handleFeaturedClick(event, index)}
@@ -292,13 +291,16 @@ function ProductGallery(props: ProductGalleryProps) {
                 <img
                     className="product-image__img"
                     src={`${image}`}
+                    onError={({ currentTarget }) => {
+                        // eslint-disable-next-line no-param-reassign
+                        currentTarget.src = '/images/products/defaultImage.png';
+                    }}
                     alt=""
                     ref={(element) => { imagesRefs.current[index] = element; }}
                     data-width="700"
                     data-height="700"
                 />
             </AppLink>
-        </div>
     ));
 
     const thumbnails = images.map((image, index) => {
@@ -321,9 +323,7 @@ function ProductGallery(props: ProductGalleryProps) {
     });
 
     return (
-        <div className="product__gallery">
-            <div className="product-gallery">
-                <div className="product-gallery__featured">
+        <div className="product-card__image product-image">
                     {layout !== 'quickview' && (
                         <button type="button" className="product-gallery__zoom" onClick={handleZoomButtonClick}>
                             <ZoomIn24Svg />
@@ -337,13 +337,13 @@ function ProductGallery(props: ProductGalleryProps) {
                     >
                         {featured}
                     </StroykaSlick>
-                </div>
+                {/* </div>
                 <div className="product-gallery__carousel">
                     <StroykaSlick {...slickSettingsThumbnails[layout]}>
                         {thumbnails}
                     </StroykaSlick>
                 </div>
-            </div>
+            </div> */}
         </div>
     );
 }
