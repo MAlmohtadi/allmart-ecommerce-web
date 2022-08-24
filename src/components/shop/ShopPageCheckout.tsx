@@ -19,7 +19,7 @@ import url from '../../services/url';
 import dataShopPayments from '../../data/shopPayments';
 import { useCart, useCartApplyCoupon, useCartClear } from '../../store/cart/cartHooks';
 import { useAccount } from '../../store/account/accountHooks';
-import { ICheckoutInfo, IDelivery, IPeriod } from '../../interfaces/checkout-info';
+import { ICheckoutInfo, IDelivery, IDeliveryInfo, IPeriod } from '../../interfaces/checkout-info';
 import { useHomeAdminSettings } from '../../store/home/homeHooks';
 import shopApi from '../../api/shop';
 import { useDeferredData } from '../../services/hooks';
@@ -45,11 +45,14 @@ function ShopPageCheckout(props: CheckoutProps) {
     const [deliveryPeriod, setDeliveryPeriod] = useState<IPeriod>();
     const noteInputRef = useRef<HTMLInputElement | null>(null);
     const deliveryInfo = useDeferredData(() => shopApi.getCheckoutInfo(), initData);
-    const deliverPrice = (deliveryPlace === '1' ? deliveryPeriod?.othersPrice : deliveryPeriod?.price) || 0.00;
+    const [deliveryDetails, setDeliveryDetails] = useState<IDeliveryInfo>();
+
     const clearCart = useCartClear();
     const [location, setLocation] = useState({ lat: -34.397, lng: 150.644 });
-    const onChangeLocation = (lat:number, lng:number) => {
-        setLocation({ lat, lng });
+    const onChangeLocation = async(lat:number, lng:number) => {
+      const deliveryDetails = await  shopApi.getDeliveryInfo({lat,lng}).then()
+      setDeliveryDetails(deliveryDetails); 
+      setLocation({ lat, lng });
     };
     const handlePaymentChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
@@ -92,7 +95,7 @@ function ShopPageCheckout(props: CheckoutProps) {
     };
 
     const onSubmit = () => {
-        if (deliveryDate && deliveryPeriod) {
+        if (location && deliveryDetails) {
             const orderedProducts = cart.items.map((item) => ({
                 id: item.product.id,
                 isOffer: item.product.isOffer,
@@ -104,20 +107,19 @@ function ShopPageCheckout(props: CheckoutProps) {
                 quantity: item.quantity,
             }));
             const discount = cart.totals.find((item) => item.type === 'discount')?.price;
-            const deliveryPrice = (deliveryPlace === '1' ? deliveryPeriod.othersPrice : deliveryPeriod.price) || 0;
+            const deliveryPrice = deliveryDetails?.deliveryPrice || 0;
             shopApi
                 .addOrder({
-                    deliveryDate: deliveryDate.displayName,
+                    branchId: deliveryDetails?.branchId,
                     couponCode: cart.coupon?.code || '',
                     couponDiscount: discount || 0,
                     location: `${location.lat},${location.lng}`,
-                    deliveryPeriod: deliveryPeriod.name,
                     deliveryPrice,
                     typeOfPayment: currentPayment === 'cash' ? 0 : 1,
                     notes: noteInputRef.current?.value || '',
                     // @ts-ignore
                     orderedProducts,
-                    totalPrice: cart.total + deliveryPrice,
+                    totalPrice: cart.total + deliveryPrice||0,
                     userId: account.id || 0,
                     isWholeSale,
                 })
@@ -129,11 +131,11 @@ function ShopPageCheckout(props: CheckoutProps) {
                     toast.error(e.message, { theme: 'colored' });
                 });
         } else if (adminSettings?.chooseDeliveryEnabled) {
-            let message = 'يجب اختيار التالي:';
-            message = !deliveryDate ? `${message}\n\n - يوم التوصيل` : message;
-            message = adminSettings.choose_delivery_period_enabled !== false && !deliveryPeriod
-                ? `${message}\n\n - وقت التوصيل`
-                : message;
+            let message = 'يجب تحديد عنوان التوصيل :';
+            // message = !deliveryDate ? `${message}\n\n - يوم التوصيل` : message;
+            // message = adminSettings.choose_delivery_period_enabled !== false && !deliveryPeriod
+            //     ? `${message}\n\n - وقت التوصيل`
+            //     : message;
             toast.error(message, { theme: 'colored' });
         }
     };
@@ -144,7 +146,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                 return null;
             }
             // @ts-ignore
-            price = deliveryPlace === '1' ? deliveryPeriod?.othersPrice : deliveryPeriod?.price;
+            price = deliveryDetails?.deliveryPrice||0;
         }
         return (
             <tr key={index}>
@@ -189,7 +191,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                 <tr>
                     <th>المبلغ الإجمالي</th>
                     <td>
-                        <CurrencyFormat value={cart.total + deliverPrice} />
+                        <CurrencyFormat value={cart.total + (deliveryDetails?.deliveryPrice || 0)} />
                     </td>
                 </tr>
             </tfoot>
@@ -272,8 +274,8 @@ function ShopPageCheckout(props: CheckoutProps) {
                         <div className="col-12 col-lg-6 col-xl-7">
                             <div className="card mb-lg-0">
                                 <div className="card-body">
-                                    <h3 className="card-title">معلومات التوصيل</h3>
-                                    <div className="form-group">
+                                    <h3 className="card-title">تحديد عنوان التوصيل</h3>
+                                    {/* <div className="form-group">
                                         <label htmlFor="checkout-city">مكان التوصيل</label>
                                         <select
                                             id="checkout-city"
@@ -285,8 +287,8 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             <option value="0">عمان</option>
                                             <option value="1">محافظات أخري</option>
                                         </select>
-                                    </div>
-                                    {deliveryPlace && (
+                                    </div> */}
+                                    {/* {deliveryPlace && (
                                         <div className="form-group">
                                             <label htmlFor="checkout-day">يوم التوصيل</label>
                                             <select
@@ -326,7 +328,19 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             {' '}
                                             <span className="text-muted">المكان، اليوم، الوقت</span>
                                         </div>
-                                    )}
+                                    )} */}
+                                     <div className="form-group">
+                                        <MapPicker
+                                            // @ts-ignore
+                                            isMarkerShown
+                                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfG3eAQBGOIiySuJxu273SGFAJ73Z0f98&v=3.exp&libraries=geometry,drawing,places"
+                                            location={location}
+                                            onChangeLocation={onChangeLocation}
+                                            loadingElement={<div style={{ height: '100%' }} />}
+                                            containerElement={<div style={{ height: '400px' }} />}
+                                            mapElement={<div style={{ height: '100%' }} />}
+                                        />
+                                    </div>
                                     <div className="form-group">
                                         <label htmlFor="checkout-comment">
                                             ملاحظات الطلب
@@ -359,18 +373,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             </button>
                                         </form>
                                     </div>
-                                    <div className="form-group">
-                                        <MapPicker
-                                            // @ts-ignore
-                                            isMarkerShown
-                                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfG3eAQBGOIiySuJxu273SGFAJ73Z0f98&v=3.exp&libraries=geometry,drawing,places"
-                                            location={location}
-                                            onChangeLocation={onChangeLocation}
-                                            loadingElement={<div style={{ height: '100%' }} />}
-                                            containerElement={<div style={{ height: '400px' }} />}
-                                            mapElement={<div style={{ height: '100%' }} />}
-                                        />
-                                    </div>
+                                   
                                 </div>
                             </div>
                         </div>

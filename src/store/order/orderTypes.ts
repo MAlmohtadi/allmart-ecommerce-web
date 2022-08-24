@@ -11,6 +11,7 @@ export interface OrderState extends CartState{
     orderProducts: IOrderProduct[];
     orderProductsIsLoading: boolean;
     selectedOrder?: IOrderSummary;
+    branchId:number,
     orderUpdateProductsIsLoading: boolean;
     isOrderProductsUpdated: boolean;
 }
