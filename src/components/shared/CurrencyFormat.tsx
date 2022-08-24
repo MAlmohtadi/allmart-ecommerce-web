@@ -11,10 +11,12 @@ export interface CurrencyFormatProps {
 }
 
 function CurrencyFormat(props: CurrencyFormatProps) {
-    const { value = 0 } = props;
+    let { value = 0 } = props;
     // const currentCurrency = useCurrency();
     //  const { symbol } = currency || currentCurrency;
-
+    if (value === null) {
+        value = 0;
+    }
     return <Fragment>{`${value.toFixed(2)} دينار`}</Fragment>;
 }
 

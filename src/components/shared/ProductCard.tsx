@@ -1,3 +1,4 @@
+/* eslint-disable */
 // react
 import { Fragment, memo } from 'react';
 

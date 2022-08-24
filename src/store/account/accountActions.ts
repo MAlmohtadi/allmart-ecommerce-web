@@ -49,6 +49,7 @@ export function registerAccountSuccess(
 }
 export function removeAccountSuccess(): RemoveAccountAction {
     // toast.success(`Product "${product.name}" added to cart!`, { theme: 'colored' });
+    toast.success('تم إلغاء الحساب', { theme: 'colored' });
     return {
         type: REMOVE_ACCOUNT,
     };
@@ -113,6 +114,7 @@ export function accountRemove(accountOptions: AccountOptions): AccountThunkActio
     // sending request to server, timeout is used as a stub
     return async (dispatch) => {
         await shopApi.removeAccount(accountOptions);
+        accountLogout();
         dispatch(removeAccountSuccess());
     };
 }

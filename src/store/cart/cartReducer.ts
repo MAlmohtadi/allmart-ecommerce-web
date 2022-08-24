@@ -81,7 +81,7 @@ function calcTotals(items: CartItem[], shippingPrice: number, coupon?: ICoupon):
         {
             type: 'shipping',
             title: 'التوصيل',
-            price: shippingPrice,
+            price: shippingPrice || 0 ,
         },
         {
             type: 'discount',

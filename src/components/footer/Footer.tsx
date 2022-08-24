@@ -11,7 +11,8 @@ const Footer: FunctionComponent = () => {
     const informationLinks = [
         { title: 'سياسة الخصوصية', url: '/site/terms' },
         { title: 'الدعم', url: '/site/support' },
-        { title: 'الغاء الحساب', url: '/site/cancel-account' },
+        { title: 'الغاء الحساب التطبيق', url: '/site/cancel-account' },
+        { title: 'الغاء الحساب المتصفح', url: '/site/cancel-account-web' },
         { title: 'صفحات التواصل', url: '/site/social-info' },
     ];
 

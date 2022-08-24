@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { FormEvent, useRef } from 'react';
 import { toast } from 'react-toastify';
 
-import { useAccount, useAccountUpdate } from '../../store/account/accountHooks';
+import { useAccount, useAccountUpdate, useAccountRemove } from '../../store/account/accountHooks';
 import AppLink from '../shared/AppLink';
 
 export default function AccountPageProfile() {
@@ -14,7 +14,13 @@ export default function AccountPageProfile() {
     const emailInputRef = useRef<HTMLInputElement | null>(null);
 
     const accountUpdate = useAccountUpdate();
+    const accountRemove = useAccountRemove();
 
+    function deleteAccount() {
+        accountRemove({
+            id: account.id,
+        });
+    }
     function submitHandler(event: FormEvent) {
         event.preventDefault();
         const name = nameInputRef.current?.value;
@@ -38,7 +44,11 @@ export default function AccountPageProfile() {
             return;
         }
         accountUpdate({
-            id: account.id, name, phone, secondaryPhone, email,
+            id: account.id,
+            name,
+            phone,
+            secondaryPhone,
+            email,
         });
     }
     if (!account.isLoggedIn) {
@@ -46,10 +56,7 @@ export default function AccountPageProfile() {
             <div className="block block-empty">
                 <div className="container">
                     <div className="block-empty__body">
-                        <div className="block-empty__message">
-                            يجب عليك تسجيل الدخول
-                            !
-                        </div>
+                        <div className="block-empty__message">يجب عليك تسجيل الدخول !</div>
                         <div className="block-empty__actions">
                             <AppLink href="/account/login" className="btn btn-primary btn-sm">
                                 تسجيل الدخول
@@ -124,6 +131,18 @@ export default function AccountPageProfile() {
                                 تأكيد المعلومات
                             </button>
                         </form>
+                    </div>
+                </div>
+                <div className="row no-gutters">
+                    <div className="col-12">
+                        <button
+                            type="button"
+                            className="btn btn-primary mt-2 mt-md-3 mt-lg-4"
+                            onClick={deleteAccount}
+                            style={{ float: 'left' }}
+                        >
+                            إلغاء الحساب
+                        </button>
                     </div>
                 </div>
             </div>

@@ -208,6 +208,7 @@ function updateQuantities(state: OrderState, quantities: CartItemQuantity[]) {
 
     return state;
 }
+// @ts-ignore
 const initialState: OrderState = {
     init: false,
     orderIsLoading: false,

@@ -1,3 +1,4 @@
+/* eslint-disable */
 // react
 import { Fragment } from 'react';
 
@@ -46,18 +47,18 @@ function SitePageTerms() {
                             whether they appear in singular or in plural.
                         </p>
                         <h2>Definitions</h2>
-                        <p>For the purposes of this Privacy Policy:</p>
+                        <p>For the purposes of this Privacy Policy: </p>
                         <ul>
                             <li>
                                 <p>
-                                    <strong>Account</strong>
+                                    <strong>Account </strong>
                                     means a unique account created for You to access our Service or parts of our
                                     Service.
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    <strong>Affiliate</strong>
+                                    <strong>Affiliate </strong>
                                     means an entity that controls, is controlled by or is under common control with a
                                     party, where `&apos;control`&apos; means ownership of 50% or more of the shares,
                                     equity interest or other securities entitled to vote for election of directors or
@@ -66,46 +67,46 @@ function SitePageTerms() {
                             </li>
                             <li>
                                 <p>
-                                    <strong>Application</strong>
+                                    <strong>Application </strong>
                                     means the software program provided by the Company downloaded by You on any
                                     electronic device, named Jubran
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    <strong>Company</strong>
+                                    <strong>Company </strong>
                                     (referred to as either `&apos;the Company`&apos;, `&apos;We`&apos;, `&apos;Us`&apos;
                                     or `&apos;Our`&apos; in this Agreement) refers to Jubran.
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    <strong>Country</strong>
+                                    <strong>Country </strong>
                                     refers to: Jordan
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    <strong>Device</strong>
+                                    <strong>Device </strong>
                                     means any device that can access the Service such as a computer, a cellphone or a
                                     digital tablet.
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    <strong>Personal Data</strong>
+                                    <strong>Personal Data </strong>
                                     is any information that relates to an identified or identifiable individual.
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    <strong>Service</strong>
+                                    <strong>Service </strong>
                                     refers to the Application.
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    <strong>Service Provider</strong>
+                                    <strong>Service Provider </strong>
                                     means any natural or legal person who processes the data on behalf of the Company.
                                     It refers to third-party companies or individuals employed by the Company to
                                     facilitate the Service, to provide the Service on behalf of the Company, to perform
@@ -115,14 +116,14 @@ function SitePageTerms() {
                             </li>
                             <li>
                                 <p>
-                                    <strong>Third-party Social Media Service</strong>
+                                    <strong>Third-party Social Media Service </strong>
                                     refers to any website or any social network website through which a User can log in
                                     or create an account to use the Service.
                                 </p>
                             </li>
                             <li>
                                 <p>
-                                    <strong>Usage Data</strong>
+                                    <strong>Usage Data </strong>
                                     refers to data collected automatically, either generated by the use of the Service
                                     or from the Service infrastructure itself (for example, the duration of a page
                                     visit).
@@ -130,7 +131,7 @@ function SitePageTerms() {
                             </li>
                             <li>
                                 <p>
-                                    <strong>You</strong>
+                                    <strong>You </strong>
                                     means the individual accessing or using the Service, or the company, or other legal
                                     entity on behalf of which such individual is accessing or using the Service, as
                                     applicable.
@@ -180,6 +181,15 @@ function SitePageTerms() {
                         <p>
                             We may also collect information that Your browser sends whenever You visit our Service or
                             when You access the Service by or through a mobile device.
+                        </p>
+                        <h3>Data Deletion</h3>
+                        <p>
+                            Users can cancel and delete thier account data, using the mobile app or using the web app, once 
+                            user cancelled the account then all user information will be erased from Jubran account. 
+                            <br/>
+                            Instructions for cancelling account on web: https://jubranjo.com/site/cancel-account
+                            <br/>
+                            Instructions for cancelling account on mobile app: https://jubranjo.com/site/cancel-account-web
                         </p>
                         <h3>Information from Third-Party Social Media Services</h3>
                         <p>
@@ -437,7 +447,7 @@ function SitePageTerms() {
                         <h1>Contact Us</h1>
                         <p>If you have any questions about this Privacy Policy, You can contact us:</p>
                         <ul>
-                            <li>By email: info@allmartapp.com</li>
+                            <li>By email: info@jubranjo.com</li>
                         </ul>
                     </div>
                 </div>
