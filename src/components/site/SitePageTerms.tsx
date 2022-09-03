@@ -185,7 +185,7 @@ function SitePageTerms() {
                         <h3>Data Deletion</h3>
                         <p>
                             Users can cancel and delete thier account data, using the mobile app or using the web app, once 
-                            user cancelled the account then all user information will be erased from Jubran account. 
+                            user cancelled the account then user personal data will be erased from Jubran account. 
                             <br/>
                             Instructions for cancelling account on web: https://jubranjo.com/site/cancel-account
                             <br/>
