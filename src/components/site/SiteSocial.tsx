@@ -1,5 +1,7 @@
 // react
-import { Fragment } from 'react';
+import { Fragment,
+    useEffect,
+    useState, } from 'react';
 
 // third-party
 import Head from 'next/head';
@@ -7,6 +9,7 @@ import Head from 'next/head';
 // application
 import PageHeader from '../shared/PageHeader';
 
+import shopApi from '../../api/shop';
 // data stubs
 import theme from '../../data/theme';
 
@@ -15,7 +18,16 @@ function SiteSocial() {
         { title: 'الرئيسية', url: '' },
         { title: 'صفحات التواصل', url: '' },
     ];
+    
+    const [socialLinks, setSocialLinks] = useState([]);
+    const getSocialLinks = async () => {
+        const socialLinksData = await shopApi.getSocialLinks();
+        setSocialLinks(socialLinksData);
+    };
 
+    useEffect(() => {
+        getSocialLinks();
+    }, []);
     return (
         <Fragment>
             <Head>
@@ -24,42 +36,18 @@ function SiteSocial() {
 
             <PageHeader header="صفحات التواصل" breadcrumb={breadcrumb} />
             <div className="block">
-                <div className="container">
+                <div className="container" style={{textAlign:"center"}}>
                     <div className="contact-us__container">
-                        <div className="social-row">
-                            <div>
-                                <a href="https://www.facebook.com/jubranjoo" target="_blank" rel="noreferrer">
-                                    <div className="brand-name">Facebook</div>
-                                    <i className="fab fa-facebook fa-10x blue-color brand-logo" />
-                                </a>
-                            </div>
-                            <div>
-                                <a href="https://www.instagram.com/jubran.jo/" target="_blank" rel="noreferrer">
-                                    <div className="brand-name">Instagram</div>
-                                    <i className="fab fa-instagram fa-10x brand-logo" />
-                                </a>
-                            </div>
-                            <div>
-                                <a href="https://vm.tiktok.com/ZSeEnHhVA/" target="_blank" rel="noreferrer">
-                                    <div className="brand-name">Tiktok</div>
-                                    <i className="fab fa-tiktok fa-10x brand-logo" />
-                                </a>
-                            </div>
-                        </div>
-                        <div className="social-row">
-                            <div>
-                                <a href="https://www.snapchat.com/add/jubran.joo" target="_blank" rel="noreferrer">
-                                    <div className="brand-name">Snapchat</div>
-                                    <i className="fab fa-snapchat fa-10x fa-snapchat-ghost brand-logo" />
-                                </a>
-                            </div>
-                            <div>
-                                <a href="https://youtube.com/channel/UCF-yycoEWjZ3sNy8NElgthQ" target="_blank" rel="noreferrer">
-                                    <div className="brand-name">Youtube</div>
-                                    <i className="fab fa-youtube  fa-10x brand-logo" />
-                                </a>
-                            </div>
-                        </div>
+                   {socialLinks &&  socialLinks.map((socialItem) => 
+                     <div style={{borderColor: "black", display: "inline-block", marginRight: "65px",  marginLeft: "65px", padding:"20px", marginTop:"30px"}}>
+                     <a href={socialItem.link} target="_blank" rel="noreferrer">
+                         <div className="brand-name" style={{fontSize: "25px"}}>{socialItem.title}</div>
+                        <img src={socialItem.imageLink} style={{borderRadius: "50%", width:"130px"}}  />
+                     </a>
+                 </div>
+                    )}
+                           
+                    
                     </div>
                 </div>
             </div>
