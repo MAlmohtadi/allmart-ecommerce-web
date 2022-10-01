@@ -1,3 +1,4 @@
+/* eslint-disable */
 // react
 import { Fragment,
     useEffect,
@@ -40,9 +41,9 @@ function SiteSocial() {
                     <div className="contact-us__container">
                    {socialLinks &&  socialLinks.map((socialItem) => 
                      <div style={{borderColor: "black", display: "inline-block", marginRight: "65px",  marginLeft: "65px", padding:"20px", marginTop:"30px"}}>
-                     <a href={socialItem.link} target="_blank" rel="noreferrer">
-                         <div className="brand-name" style={{fontSize: "25px"}}>{socialItem.title}</div>
-                        <img src={socialItem.imageLink} style={{borderRadius: "50%", width:"130px"}}  />
+                     <a href={socialItem['link']} target="_blank" rel="noreferrer">
+                         <div className="brand-name" style={{fontSize: "25px"}}>{socialItem['title']}</div>
+                        <img src={socialItem['imageLink']} style={{borderRadius: "50%", width:"130px"}}  />
                      </a>
                  </div>
                     )}
