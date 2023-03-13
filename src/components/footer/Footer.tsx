@@ -33,7 +33,7 @@ const Footer: FunctionComponent = () => {
                                 <ul className="footer-links__list">
                                     <li key="Google Play" className="footer-links__item">
                                         <AppLink
-                                            href="https://play.google.com/store/apps/details?id=com.jubranpp.jubran"
+                                            href="https://play.google.com/store/apps/details?id=com.bountiestoday"
                                             className="footer-links__link"
                                         >
                                             <img

@@ -1,7 +1,7 @@
 export default {
-    name: 'Jubran',
-    fullName: 'Jubran',
-    url: 'https://jubran.com',
+    name: 'Bounties Today',
+    fullName: 'Bounties Today',
+    url: 'https://bountiestoday.com',
     author: {
         name: 'Kos',
         profile_url: 'https://themeforest.net/user/kos9',

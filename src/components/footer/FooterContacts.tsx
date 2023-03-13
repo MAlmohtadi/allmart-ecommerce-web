@@ -10,7 +10,7 @@ function FooterContacts() {
             <ul className="footer-contacts__contacts">
                 <li>
                     <i className="footer-contacts__icon far fa-envelope" />
-                    info@jubranjo.com
+                    info@bountiestodayjo.com
                 </li>
             </ul>
         </div>

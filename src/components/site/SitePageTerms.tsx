@@ -69,14 +69,14 @@ function SitePageTerms() {
                                 <p>
                                     <strong>Application </strong>
                                     means the software program provided by the Company downloaded by You on any
-                                    electronic device, named Jubran
+                                    electronic device, named Bounties Today
                                 </p>
                             </li>
                             <li>
                                 <p>
                                     <strong>Company </strong>
                                     (referred to as either `&apos;the Company`&apos;, `&apos;We`&apos;, `&apos;Us`&apos;
-                                    or `&apos;Our`&apos; in this Agreement) refers to Jubran.
+                                    or `&apos;Our`&apos; in this Agreement) refers to Bounties Today.
                                 </p>
                             </li>
                             <li>
@@ -185,11 +185,11 @@ function SitePageTerms() {
                         <h3>Data Deletion</h3>
                         <p>
                             Users can cancel and delete thier account data, using the mobile app or using the web app, once 
-                            user cancelled the account then user personal data will be erased from Jubran account. 
+                            user cancelled the account then user personal data will be erased from Bounties Today account. 
                             <br/>
-                            Instructions for cancelling account on web: https://jubranjo.com/site/cancel-account
+                            Instructions for cancelling account on web: https://bountiestodayjo.com/site/cancel-account
                             <br/>
-                            Instructions for cancelling account on mobile app: https://jubranjo.com/site/cancel-account-web
+                            Instructions for cancelling account on mobile app: https://bountiestodayjo.com/site/cancel-account-web
                         </p>
                         <h3>Information from Third-Party Social Media Services</h3>
                         <p>
@@ -447,7 +447,7 @@ function SitePageTerms() {
                         <h1>Contact Us</h1>
                         <p>If you have any questions about this Privacy Policy, You can contact us:</p>
                         <ul>
-                            <li>By email: info@jubranjo.com</li>
+                            <li>By email: info@bountiestodayjo.com</li>
                         </ul>
                     </div>
                 </div>

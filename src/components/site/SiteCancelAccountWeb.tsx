@@ -25,10 +25,10 @@ function SiteCancelAccountWeb() {
             <PageHeader breadcrumb={breadcrumb} />
             <div>
                 <div style={{ textAlign: 'center', paddingTop: 10, fontSize: 50 }}>
-                    Delete your account using Jubran web
+                    Delete your account using Bounties Today web
                 </div>
                 <div style={{ textAlign: 'center', fontSize: 25 }}>
-                    This will erase all your user data from Jubran account
+                    This will erase all your user data from Bounties Today account
                 </div>
                 <hr />
 
