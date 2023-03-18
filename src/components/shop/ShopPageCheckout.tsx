@@ -334,7 +334,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                                         <MapPicker
                                             // @ts-ignore
                                             isMarkerShown
-                                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfG3eAQBGOIiySuJxu273SGFAJ73Z0f98&v=3.exp&libraries=geometry,drawing,places"
+                                            googleMapURL='https://maps.googleapis.com/maps/api/js?key=AIzaSyDRbzciA6tQrE64jRLxV3EmdeSnbmCT-24&v=3.exp&libraries=geometry,drawing,places'
                                             location={location}
                                             onChangeLocation={onChangeLocation}
                                             loadingElement={<div style={{ height: '100%' }} />}
