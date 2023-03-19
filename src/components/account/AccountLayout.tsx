@@ -33,7 +33,7 @@ function AccountLayout(props: AccountLayoutProps) {
         });
 
         return (
-            <li key={item.title+index} className={classes}>
+            <li key={item.title + index} className={classes}>
                 <AppLink href={item.link}>{item.title}</AppLink>
             </li>
         );
