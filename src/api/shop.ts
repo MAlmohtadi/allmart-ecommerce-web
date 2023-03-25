@@ -120,7 +120,7 @@ export interface DeliveryInfo {
     lat: number;
     lng: number;
 }
-const BASE_URL = 'https://bountiestoday.us-east-1.elasticbeanstalk.com/api';
+const BASE_URL = 'https://bounties.bounties-api.com/api';
 const shopApi = {
 
     /**
