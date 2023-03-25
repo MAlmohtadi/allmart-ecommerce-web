@@ -121,7 +121,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     return (
         <Fragment>
             <Head>
-                <title>التصنيفات - جبران</title>
+                <title>التصنيفات - خيرات اليوم</title>
             </Head>
 
             <PageHeader header={customPageTitle} breadcrumb={breadcrumb} />

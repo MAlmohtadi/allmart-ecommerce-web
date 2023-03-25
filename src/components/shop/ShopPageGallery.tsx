@@ -55,7 +55,7 @@ function ShopPageCategory(props: ShopPageGalleryProps) {
     return (
         <Fragment>
             <Head>
-                <title>معرض الصور - جبران</title>
+                <title>معرض الصور - خيرات اليوم</title>
             </Head>
             <PageHeader header="معرض الصور" breadcrumb={breadcrumb} />
 

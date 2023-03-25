@@ -52,7 +52,7 @@ function HomePage(props: HomePageProps) {
     return (
         <Fragment>
             <Head>
-                <title>جبران</title>
+                <title>خيرات اليوم</title>
             </Head>
 
             {useMemo(

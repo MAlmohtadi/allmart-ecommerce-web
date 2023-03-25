@@ -241,7 +241,7 @@ function ShopPageCheckout(props: CheckoutProps) {
         return (
             <Fragment>
                 <Head>
-                    <title>المفضلة - جبران</title>
+                    <title>المفضلة - خيرات اليوم</title>
                 </Head>
 
                 <PageHeader header="تنفيذ الطلب" breadcrumb={breadcrumb} />
@@ -264,7 +264,7 @@ function ShopPageCheckout(props: CheckoutProps) {
     return (
         <Fragment>
             <Head>
-                <title>تنفيذ الطلب - جبران</title>
+                <title>تنفيذ الطلب - خيرات اليوم</title>
             </Head>
 
             <PageHeader header="تنفيذ الطلب" breadcrumb={breadcrumb} />

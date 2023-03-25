@@ -26,7 +26,7 @@ function SitePageSupport() {
             <div>
                 <div style={{ textAlign: 'center', paddingTop: 40, fontSize: 60 }}> Contact support email </div>
 
-                <div style={{ textAlign: 'center', fontSize: 35 }}> info@bountiestodayjo.com </div>
+                <div style={{ textAlign: 'center', fontSize: 35 }}> info@khayratelyoum.com </div>
             </div>
         </Fragment>
     );

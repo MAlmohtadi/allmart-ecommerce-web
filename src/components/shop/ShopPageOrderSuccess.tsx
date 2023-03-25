@@ -9,7 +9,7 @@ export default function ShopPageOrderSuccess() {
     return (
         <div className="block order-success">
             <Head>
-                <title>تم اكمال الطلب - جبران</title>
+                <title>تم اكمال الطلب - خيرات اليوم</title>
             </Head>
 
             <div className="container">

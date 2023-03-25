@@ -148,7 +148,7 @@ function ShopPageWishlist() {
     return (
         <Fragment>
             <Head>
-                <title>المفضلة - جبران</title>
+                <title>المفضلة - خيرات اليوم</title>
             </Head>
 
             <PageHeader header="المفضلة" breadcrumb={breadcrumb} />

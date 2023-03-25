@@ -70,7 +70,7 @@ export default function AccountPageProfile() {
     return (
         <div className="card">
             <Head>
-                <title>حسابي — جبران</title>
+                <title>حسابي — خيرات اليوم</title>
             </Head>
 
             <div className="card-header">

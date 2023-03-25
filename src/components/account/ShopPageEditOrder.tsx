@@ -250,7 +250,7 @@ function ShopPageEditOrder() {
     return (
         <Fragment>
             <Head>
-                <title>تعديل الطلب - جبران</title>
+                <title>تعديل الطلب - خيرات اليوم</title>
             </Head>
 
             <PageHeader header="تعديل الطلب" breadcrumb={breadcrumb} />

@@ -58,7 +58,7 @@ export default function AccountPageOrderDetails() {
     return (
         <Fragment>
             <Head>
-                <title>معلومات الطلب - جبران</title>
+                <title>معلومات الطلب - خيرات اليوم</title>
             </Head>
 
             <div className="card">

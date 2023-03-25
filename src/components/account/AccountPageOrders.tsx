@@ -76,7 +76,7 @@ function AccountPageOrders() {
         return (
             <Fragment>
                 <Head>
-                    <title>جميع الطلبات — جبران</title>
+                    <title>جميع الطلبات — خيرات اليوم</title>
                 </Head>
 
                 <div className="block block-empty">
@@ -97,7 +97,7 @@ function AccountPageOrders() {
     return (
         <div className="card">
             <Head>
-                <title>جميع الطلبات — جبران</title>
+                <title>جميع الطلبات — خيرات اليوم</title>
             </Head>
 
             <div className="card-header">
