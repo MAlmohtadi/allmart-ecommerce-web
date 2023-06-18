@@ -16,6 +16,8 @@ export interface CartItem {
     quantity: number;
     total: number;
     eligibleForDiscount: boolean;
+    countStepValue: number;
+    counterStartValue: number;
 }
 
 export type CartTotalType = 'shipping' | 'tax' | 'discount';
@@ -33,7 +35,7 @@ export interface Cart {
     totals: CartTotal[];
     total: number;
     shippingPrice: number;
-    coupon?: ICoupon
+    coupon?: ICoupon;
 }
 
 export interface CartState extends Cart {

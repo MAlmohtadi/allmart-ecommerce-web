@@ -73,14 +73,14 @@ export function cartClearSuccess(): CartClearAction {
 }
 export function cartAddItem(
     product: IProduct,
-    options: CartItemOption[] = [],
-    quantity = 1,
+    options: CartItemOption[] = [], 
+    quantity =1,
 ): CartThunkAction<Promise<void>> {
     // sending request to server, timeout is used as a stub
     return (dispatch) => (
         new Promise((resolve) => {
             setTimeout(() => {
-                dispatch(cartAddItemSuccess(product, options, quantity));
+                dispatch(cartAddItemSuccess(product, options,  product.countStepValue));
                 resolve();
             }, 500);
         })

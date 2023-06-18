@@ -126,12 +126,13 @@ function ShopPageEditOrder() {
                 </td>
                 <td className="cart-table__column cart-table__column--price" data-title="السعر">
                     <CurrencyFormat value={item.price} />
-                </td>
+                </td>        
                 <td className="cart-table__column cart-table__column--quantity" data-title="الكمية">
                     <InputNumber
                         onChange={(quantity) => handleChangeQuantity(item, quantity)}
                         value={getItemQuantity(item)}
-                        min={1}
+                        step={item.countStepValue}
+                        min={item.counterStartValue}
                     />
                 </td>
                 <td className="cart-table__column cart-table__column--total" data-title="المجموع">

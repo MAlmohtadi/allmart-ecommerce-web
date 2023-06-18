@@ -45,7 +45,7 @@ function calcSubtotal(items: CartItem[]): number {
 }
 
 function calcQuantity(items: CartItem[]): number {
-    return items.reduce((quantity, item) => quantity + item.quantity, 0);
+    return items.length;
 }
 
 function calcTotal(subtotal: number, totals: CartTotal[]): number {
@@ -125,9 +125,11 @@ function addItem(state: CartState, product: IProduct, options: CartItemOption[],
             product: JSON.parse(JSON.stringify(product)),
             options: JSON.parse(JSON.stringify(options)),
             price: product.price,
-            total,
-            quantity,
+            total: product.counterStartValue * product.price,
+            quantity: product.counterStartValue,
             eligibleForDiscount: !product.isOffer,
+            countStepValue: product.countStepValue,
+            counterStartValue: product.counterStartValue,
         }];
     } else {
         const item = state.items[itemIndex];
@@ -138,8 +140,10 @@ function addItem(state: CartState, product: IProduct, options: CartItemOption[],
             ...state.items.slice(0, itemIndex),
             {
                 ...item,
-                quantity: item.quantity + quantity,
+                quantity: item.quantity + product.countStepValue,
                 total,
+                countStepValue: product.countStepValue,
+                counterStartValue: product.counterStartValue,
             },
             ...state.items.slice(itemIndex + 1),
         ];

@@ -36,8 +36,8 @@ function InputNumber(props: InputNumberProps) {
     const change = (direction: -1 | 1, prevValue: string | number = value) => {
         // noinspection SuspiciousTypeOfGuard
         let newValue = typeof prevValue === 'string' ? parseFloat(prevValue) : prevValue;
-
-        newValue = (Number.isNaN(newValue) ? 0 : newValue) + step * direction;
+        
+        newValue = Number(parseFloat(((Number.isNaN(newValue) ? 0 : newValue) + step * direction)+"").toFixed(10));
 
         if (max !== null) {
             newValue = Math.min(max, newValue);

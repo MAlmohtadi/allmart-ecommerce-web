@@ -14,6 +14,8 @@ export interface IProduct{
     offerType: number;
     price: number;
     quantityMultiplier: number;
+    countStepValue: number;
+    counterStartValue: number;
 
 }
 export interface IProductResponse {
