@@ -37,7 +37,7 @@ function InputNumber(props: InputNumberProps) {
         // noinspection SuspiciousTypeOfGuard
         let newValue = typeof prevValue === 'string' ? parseFloat(prevValue) : prevValue;
 
-        // @ts-ignore
+        // eslint-disable-next-line prefer-template
         newValue = Number(parseFloat(((Number.isNaN(newValue) ? 0 : newValue) + step * direction) + '').toFixed(10));
 
         if (max !== null) {
