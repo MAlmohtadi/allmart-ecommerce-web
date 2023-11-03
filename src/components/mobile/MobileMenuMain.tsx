@@ -17,7 +17,7 @@ import dataShopCurrencies from '../../data/shopCurrencies';
 import { IMobileMenuLink } from '../../interfaces/menus/mobile-menu';
 import { useHome } from '../../store/home/homeHooks';
 
-function MobileMenu() {
+function MobileMenuMain() {
     const mobileMenu = useMobileMenu();
     const mobileMenuClose = useMobileMenuClose();
     const localeChange = useLocaleChange();
@@ -54,6 +54,7 @@ function MobileMenu() {
             return;
         }
 
+        
         const categoryMenu = dataMobileMenu.find((item) => item.title === 'التصنيفات');
         if (
             categoryMenu
@@ -94,6 +95,7 @@ function MobileMenu() {
                         <Cross20Svg />
                     </button>
                 </div>
+
                 <div className="mobilemenu__content">
                     <MobileLinks links={dataMobileMenu} onItemClick={handleItemClick} />
                 </div>
@@ -102,4 +104,4 @@ function MobileMenu() {
     );
 }
 
-export default memo(MobileMenu);
+export default memo(MobileMenuMain);

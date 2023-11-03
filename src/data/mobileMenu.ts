@@ -42,6 +42,14 @@ const dataMobileMenu: IMobileMenu = [
         title: 'حسابي',
         url: '/account/profile',
     },
+    {
+        type: 'button',
+        title: 'Language',
+        children: [
+            { type: 'button', title: 'English', data: { type: 'language', locale: 'en' } },
+            { type: 'button', title: 'العربية', data: { type: 'language', locale: 'ar' } },
+        ],
+    },
 ];
 
 export default dataMobileMenu;

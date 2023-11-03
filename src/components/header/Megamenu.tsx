@@ -29,9 +29,9 @@ function Megamenu(props: MegamenuProps) {
             };
         }
 
-        menuStyle = {
-            backgroundImage: `url('${image[direction]}')`,
-        };
+        // menuStyle = {
+        //     backgroundImage: `url('${image[direction]}')`,
+        // };
     }
 
     const columns = menu.columns.map((column, index) => (

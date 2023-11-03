@@ -77,12 +77,12 @@ const url = {
         as: '/account/password',
     }),
     category: (categoryId: number): ILinkProps => ({
-        href: '/categories/[categoryId]',
-        as: `/categories/${categoryId}`,
+        href: '/eshop/categories/[categoryId]',
+        as: `/eshop/categories/${categoryId}`,
     }),
     categoryWithSubCategory: (categoryId: number, subCategoryId: number): ILinkProps => ({
-        href: '/categories/[categoryId]/sub-category/[subCategoryId]',
-        as: `/categories/${categoryId}/sub-category/${subCategoryId}`,
+        href: '/eshop/categories/[categoryId]/sub-category/[subCategoryId]',
+        as: `/eshop/categories/${categoryId}/sub-category/${subCategoryId}`,
     }),
     contacts: (): ILinkProps => ({
         href: '/site/contact-us',

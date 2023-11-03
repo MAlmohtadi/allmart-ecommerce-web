@@ -1,23 +1,23 @@
 // react
-import {
-    ComponentType, useEffect, useMemo, Fragment,
-} from 'react';
+import { ComponentType, useEffect, useMemo, Fragment } from "react";
 // third-party
-import { AppProps } from 'next/app';
-import { IntlProvider } from 'react-intl';
-import { NextComponentType, NextPageContext } from 'next';
-import { useStore } from 'react-redux';
+import { AppProps } from "next/app";
+import { IntlProvider } from "react-intl";
+import { NextComponentType, NextPageContext } from "next";
+import { useStore } from "react-redux";
 // application
-import Layout from '../components/Layout';
-import { load, save, wrapper } from '../store/store';
-import { useApplyClientState } from '../store/client';
-import { useDirection, useLocale, useMessages } from '../store/locale/localeHooks';
+import Layout from "../components/Layout";
+import { load, save, wrapper } from "../store/store";
+import { useApplyClientState } from "../store/client";
+import { useDirection, useLocale, useMessages } from "../store/locale/localeHooks";
 // styles
-import '../scss/index.scss';
-import { useSale } from '../store/sale/saleHooks';
-import { useHomeFetchData } from '../store/home/homeHooks';
-import { useAccount } from '../store/account/accountHooks';
-import { useInitWishlistProducts } from '../store/wishlist/wishlistHooks';
+import "../scss/index.scss";
+import { useSale } from "../store/sale/saleHooks";
+import { useHomeFetchData } from "../store/home/homeHooks";
+import { useMainFetchData } from "../store/main/mainHooks";
+import { useAccount } from "../store/account/accountHooks";
+import { useInitWishlistProducts } from "../store/wishlist/wishlistHooks";
+import { useRouter } from "next/router";
 
 export type StroykaAppProps = AppProps & {
     Component: NextComponentType<NextPageContext, any> & {

@@ -1,22 +1,32 @@
 // react
-import { Fragment, PropsWithChildren } from 'react';
+import { Fragment, PropsWithChildren, useEffect } from "react";
 
 // third-party
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 
 // application
-import Footer from './footer/Footer';
-import Header, { HeaderLayout } from './header/Header';
-import MobileHeader from './mobile/MobileHeader';
-import MobileMenu from './mobile/MobileMenu';
+import Footer from "./footer/Footer";
+import Header, { HeaderLayout } from "./header/Header";
+import MobileHeader from "./mobile/MobileHeader";
+import MobileMenu from "./mobile/MobileMenu";
+import { useRouter } from "next/router";
+import MobileMenuMain from "./mobile/MobileMenuMain";
+import HeaderMain from "./header/HeaderMain";
+import MobileHeaderMain from "./mobile/MobileHeaderMain";
+import FooterMain from "./footer/FooterMain";
+import { useMain } from "../store/main/mainHooks";
+import mainApi from "../api/main";
+import { useDeferredData } from "../services/hooks";
+import { useLocale } from "../store/locale/localeHooks";
 // import Quickview from './shared/Quickview';
 
-export interface LayoutProps extends PropsWithChildren<{}>{
+export interface LayoutProps extends PropsWithChildren<{}> {
     headerLayout: HeaderLayout;
 }
 
-function Layout(props : LayoutProps) {
+function Layout(props: LayoutProps) {
     const { children, headerLayout } = props;
+    const route = useRouter();
 
     return (
         <Fragment>
@@ -24,24 +34,24 @@ function Layout(props : LayoutProps) {
 
             {/* <Quickview /> */}
 
-            <MobileMenu />
+            {route.pathname !== "/" && <MobileMenu />}
 
             <div className="site">
-                <header className="site__header d-lg-none">
-                    <MobileHeader />
-                </header>
+                {route.pathname !== "/" && (
+                    <header className="site__header d-lg-none">
+                        <MobileHeader />
+                    </header>
+                )}
 
-                <header className="site__header d-lg-block d-none">
-                    <Header layout={headerLayout} />
-                </header>
+                <header className="site__header d-lg-block d-none">{route.pathname !== "/" && <Header />}</header>
 
-                <div className="site__body">
-                    {children}
-                </div>
+                <div className="site__body">{children}</div>
 
-                <footer className="site__footer">
-                    <Footer />
-                </footer>
+                {route.pathname !== "/" && (
+                    <footer className="site__footer">
+                        <Footer />
+                    </footer>
+                )}
             </div>
         </Fragment>
     );

@@ -16,6 +16,8 @@ import { HOME_NAMESPACE } from '../home/homeTypes';
 import homeReducer from '../home/homeReducer';
 import { ORDER_NAMESPACE } from '../order/orderTypes';
 import orderReducer from '../order/orderReducer';
+import { MAIN_NAMESPACE } from '../main/mainTypes';
+import mainReducer from '../main/mainReducer';
 
 export default combineReducers({
     version: (state: number = version) => state,
@@ -29,4 +31,5 @@ export default combineReducers({
     [ACCOUNT_NAMESPACE]: accountReducer,
     [HOME_NAMESPACE]: homeReducer,
     [ORDER_NAMESPACE]: orderReducer,
+    [MAIN_NAMESPACE]: mainReducer,
 });

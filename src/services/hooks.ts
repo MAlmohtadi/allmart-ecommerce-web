@@ -40,7 +40,9 @@ export function useMedia(query: string) {
 }
 
 export type DeferredDataSource<T> = () => Promise<T>;
-export type DeferredDataState<T> = { isLoading: boolean, data: T };
+export type DeferredDataState<T> = {
+    footer: any; isLoading: boolean, data: T 
+};
 
 export function useDeferredData<T>(
     source: DeferredDataSource<T>,

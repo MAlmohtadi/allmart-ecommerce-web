@@ -1,7 +1,7 @@
 // application
 import ShopPageGallery from '../../components/shop/ShopPageGallery';
 import shopApi from '../../api/shop';
-import { PageProps } from '..';
+import { PageProps } from '../eshop';
 
 // noinspection JSUnusedGlobalSymbols
 export async function getServerSideProps() {

@@ -28,6 +28,13 @@
     position: relative;
     height: 100%;
 }
+.nav-panel__row__main{
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: space-between;
+    height: 100%;
+}
 .nav-panel__logo svg {
     display: block;
     fill: $nav-panel-logo-color;

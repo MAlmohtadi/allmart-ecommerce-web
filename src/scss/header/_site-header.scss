@@ -17,7 +17,13 @@
     align-items: center;
     height: 104px;
 }
-.site-header__logo {
+.site-header__middle__main {
+    display: flex;
+    align-items: center;
+    height: 104px;
+    justify-content: center;
+}
+.site-header__logo ,.site-header__logo_main{
     flex-shrink: 0;
     width: 255px;
     display: flex;
@@ -41,6 +47,7 @@
     }
 
 }
+
 .site-header__search {
     flex-grow: 1;
 }
@@ -71,6 +78,15 @@
     .site-header__logo {
         width: 210px;
         justify-content: flex-start;
+
+        @include direction {
+            #{$margin-inline-end}: 24px;
+        }
+    }
+
+    .site-header__logo_main {
+        width: 210px;
+        justify-content: center;
 
         @include direction {
             #{$margin-inline-end}: 24px;

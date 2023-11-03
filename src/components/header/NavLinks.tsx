@@ -42,13 +42,13 @@ function NavLinks() {
                 if (category.subCategories.length) {
                     object = category.subCategories.map((subCategory) => ({
                         title: `${subCategory.name}`,
-                        url: `/categories/${category.id}/sub-category/${subCategory.id}`,
+                        url: `/eshop/categories/${category.id}/sub-category/${subCategory.id}`,
                     }));
                 }
                 // @ts-ignore:
                 return categoryMenu?.submenu?.menu?.push({
                     title: `${category.name}`,
-                    url: `/categories/${category.id}`,
+                    url: `/eshop/categories/${category.id}`,
                     children: [...object],
                 });
             });

@@ -276,6 +276,7 @@ function ProductGallery(props: ProductGalleryProps) {
 
     const featured = images.map((image, index) => (
             <AppLink
+                key={index}
                 href={`${image}`}
                 className="product-image__body"
                 target="_blank"

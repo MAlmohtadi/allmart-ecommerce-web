@@ -1,26 +1,22 @@
 // application
-import HomePage, { InitData } from '../components/home/HomePage';
-import shopApi from '../api/shop';
-import { wrapper } from '../store/store';
-import getHomePageData from '../store/home/homeHelpers';
+import MainPage, { InitData } from "../components/main/MainPage";
+import mainApi from "../api/main";
+import { wrapper } from "../store/store";
+import getHomePageInfo from "../store/main/mainHelpers";
+import { useLocale } from "../store/locale/localeHooks";
 
 export interface PageProps {
     initData?: InitData;
 }
-export const getServerSideProps = wrapper.getServerSideProps((store) => async () => {
-    const homepageInfo = await shopApi.getHomePageData({ isWholeSale: false });
-    await getHomePageData(store);
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+    //    const locale=useLocale();
+    console.log(context);
+    const homePageInfo = await mainApi.getHomePageInfo({ locale: context.query.locale||'en_US' });
+    await getHomePageInfo(store);
     return {
         props: {
             initData: {
-                homepageInfo,
-                featuredProducts: await shopApi.getFeaturedProducts({ isWholeSale: false }),
-                offerProducts: await shopApi.getOfferProducts({
-                    isWholeSale: false,
-                    nextPageNumber: 0,
-                    pageSize: 20,
-                    sort: 'asc',
-                }),
+                ...homePageInfo,
             },
         },
     };
@@ -29,7 +25,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async ()
 function Page(props: PageProps) {
     const { initData } = props;
 
-    return <HomePage initData={initData} />;
+    return <MainPage initData={initData} />;
 }
 
 export default Page;
