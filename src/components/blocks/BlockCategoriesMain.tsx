@@ -1,10 +1,12 @@
 // application
-import AppLink from '../shared/AppLink';
-import BlockHeader from '../shared/BlockHeader';
-import url from '../../services/url';
-import { ICategory } from '../../interfaces/main';
+import AppLink from "../shared/AppLink";
+import BlockHeader from "../shared/BlockHeader";
+import url from "../../services/url";
+import { ICategory } from "../../interfaces/main";
+import { useRouter } from "next/router";
+// import { locale } from 'moment';
 
-export type BlockCategoriesLayout = 'classic' | 'compact';
+export type BlockCategoriesLayout = "classic" | "compact";
 
 export interface BlockCategoriesProps {
     title?: string;
@@ -13,8 +15,9 @@ export interface BlockCategoriesProps {
 }
 
 function BlockCategoriesMain(props: BlockCategoriesProps) {
-    const { title, layout = 'classic', categories = [] } = props;
-
+    const { title, layout = "classic", categories = [] } = props;
+    const router = useRouter();
+    const { locale = "en_US" } = router.query;
     const categoriesList = categories.map((category, index) => {
         const classes = `block-categories__item category-card category-card--layout--${layout}`;
         // const { subCategories }: { subCategories?: ISubCategory[] } = category;
@@ -36,7 +39,7 @@ function BlockCategoriesMain(props: BlockCategoriesProps) {
             <div id="ourproducts" key={index} className={classes}>
                 <div className="category-card__body_custom">
                     <div className="category-card__image_custom">
-                        <AppLink href={url.category(category.id)}>
+                        <AppLink href={url.exportCategory(category.id, locale)}>
                             <img src={category.imageUrl} alt={category.name} />
                         </AppLink>
                     </div>
@@ -50,9 +53,7 @@ function BlockCategoriesMain(props: BlockCategoriesProps) {
             <div className="container">
                 <BlockHeader title={title} />
 
-                <div className="block-categories__list">
-                    {categoriesList}
-                </div>
+                <div className="block-categories__list">{categoriesList}</div>
             </div>
         </div>
     );

@@ -6,12 +6,11 @@ import getHomePageInfo from "../store/main/mainHelpers";
 import { useLocale } from "../store/locale/localeHooks";
 
 export interface PageProps {
-    initData?: InitData;
+    initData: InitData;
 }
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-    //    const locale=useLocale();
-    console.log(context);
-    const homePageInfo = await mainApi.getHomePageInfo({ locale: context.query.locale||'en_US' });
+    const { locale = "en_US" } = context.query;
+    const homePageInfo = await mainApi.getHomePageInfo({ locale: locale });
     await getHomePageInfo(store);
     return {
         props: {

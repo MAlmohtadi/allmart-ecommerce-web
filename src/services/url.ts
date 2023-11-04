@@ -80,6 +80,10 @@ const url = {
         href: '/eshop/categories/[categoryId]',
         as: `/eshop/categories/${categoryId}`,
     }),
+    exportCategory: (categoryId: number,locale:string): ILinkProps => ({
+        href: '/categories/[categoryId]',
+        as: `/categories/${categoryId}?locale=${locale}`,
+    }),
     categoryWithSubCategory: (categoryId: number, subCategoryId: number): ILinkProps => ({
         href: '/eshop/categories/[categoryId]/sub-category/[subCategoryId]',
         as: `/eshop/categories/${categoryId}/sub-category/${subCategoryId}`,

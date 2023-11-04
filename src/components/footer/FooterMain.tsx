@@ -2,42 +2,26 @@ import { FunctionComponent } from "react";
 
 // application
 import FooterContactsMain from "./FooterContactsMain";
-import FooterLinks from "./FooterLinks";
 import ToTop from "./ToTop";
 
-import AppLink from "../shared/AppLink";
 import { IFooter } from "../../interfaces/main";
 import FooterLinksMain from "./FooterLinksMain";
-import mainApi from "../../api/main";
-import { useDeferredData } from "../../services/hooks";
-import { useLocale } from "../../store/locale/localeHooks";
 
-const FooterMain: FunctionComponent = () => {
-    const informationLinks = [
-        { title: "سياسة الخصوصية", url: "/site/terms" },
-        { title: "الدعم", url: "/site/support" },
-        { title: "الغاء الحساب التطبيق", url: "/site/cancel-account" },
-        { title: "الغاء الحساب المتصفح", url: "/site/cancel-account-web" },
-        { title: "صفحات التواصل", url: "/site/social-info" },
-    ];
-    const locale = useLocale();
-    const footer = useDeferredData(() => mainApi.getFooter({ langId: locale === "en" ? 2 : 1 }), {
-        callUsSection: {},
-        informationSection: {},
-    });
+interface Props{
+    footer: IFooter
+}
+function FooterMain(props: Props){
+
     return (
         <div className="site-footer">
             <div className="container">
                 <div className="site-footer__widgets">
                     <div className="row">
                         <div className="col-12 col-md-6 col-lg-4">
-                            <FooterContactsMain callUsSection={footer?.data?.callUsSection} />
+                            <FooterContactsMain callUsSection={props.footer?.callUsSection} />
                         </div>
                         <div className="col-6 col-md-3 col-lg-2">
-                            <FooterLinksMain
-                                headTitle={footer?.data?.informationSection?.headTitle}
-                                links={footer?.data?.informationSection?.links}
-                            />
+                            <FooterLinksMain informationSection={props.footer.informationSection}                            />
                         </div>
                         {/* <div className="col-12 col-md-3 col-lg-2">
                             <div className="site-footer__widget footer-links">

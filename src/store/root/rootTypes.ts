@@ -10,6 +10,7 @@ import accountReducer from '../account/accountReducer';
 import homeReducer from '../home/homeReducer';
 import orderReducer from '../order/orderReducer';
 import mainReducer from '../main/mainReducer';
+import quickviewReducer from '../quickview/quickviewReducer';
 
 export interface RootState {
     version: number;
@@ -24,4 +25,5 @@ export interface RootState {
     home: AppReducerStateType<typeof homeReducer>;
     main: AppReducerStateType<typeof mainReducer>;
     order: AppReducerStateType<typeof orderReducer>;
+    quickview: AppReducerStateType<typeof quickviewReducer>;
 }

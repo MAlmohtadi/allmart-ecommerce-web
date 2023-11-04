@@ -33,7 +33,7 @@ export interface InitData {
 }
 
 export interface HomePageProps {
-    initData?: InitData; 
+    initData: InitData; 
 }
 
 function MainPage(props: HomePageProps) {
@@ -76,7 +76,7 @@ function MainPage(props: HomePageProps) {
             {/* <FooterMain footer={homePageInfo?.data?.footer}/> */}
 
             <footer className="site__footer">
-                <FooterMain />
+                <FooterMain footer={initData.footer}/>
             </footer>
         </Fragment>
     );

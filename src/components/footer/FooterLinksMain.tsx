@@ -4,11 +4,13 @@ import AppLink from '../shared/AppLink';
 
 type FunctionComponentProps = {
     title: string;
-    links?: ILink[];
+    links: ILink[];
 };
-
-function FooterLinksMain(props: IInformationSection) {
-    const { headTitle, links = [] } = props;
+interface Props {
+   informationSection: IInformationSection
+}
+function FooterLinksMain(props: Props) {
+    const { headTitle, links = [] } = props.informationSection;
 
     const linksList = links && links.map((item, index) => (
         <li key={index} className="footer-links__item">

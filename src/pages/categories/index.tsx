@@ -1,17 +1,36 @@
 // application
-import getShopPageData from '../../store/shop/shopHelpers';
-import ShopPageCategory from '../../components/shop/ShopPageCategory';
-import { wrapper } from '../../store/store';
+import ShopPageCategoryMain from "../../components/shop/ShopPageCategoryMain";
+import { wrapper } from "../../store/store";
+import mainApi from "../../api/main";
+import { IHomePageInfo, IProduct } from "../../interfaces/main";
+
+export interface InitData {
+    homePageInfo: IHomePageInfo;
+    productsList: IProduct[];
+}
+export interface PageProps {
+    initData: InitData;
+}
 
 // noinspection JSUnusedGlobalSymbols
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-    await getShopPageData(store, context);
-    // await getHomePageData(store, context);
-    return { props: {} };
+    const { locale = "en_US" } = context.query;
+    console.log("getAllProduct", context);
+    const homePageInfo = await mainApi.getHomePageInfo({ locale: locale });
+    const productsList = await mainApi.getAllProduct({ locale: locale });
+    return {
+        props: {
+            initData: {
+                homePageInfo: homePageInfo,
+                productsList: productsList,
+            },
+        },
+    };
 });
 
-function Page() {
-    return <ShopPageCategory columns={3} viewMode="list" />;
+function Page(props: InitData) {
+    const { initData } = props;
+    return <ShopPageCategoryMain initData={initData} columns={4} viewMode="grid" />;
 }
 
 export default Page;
