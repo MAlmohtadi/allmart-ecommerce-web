@@ -10,7 +10,16 @@ import { useDeferredData } from "../../services/hooks";
 
 import BlockProductsCarouselMain from "../blocks/BlockProductsCarouselMain";
 
-import { IHomePageInfo, ICategory, IAboutUs, IMenu, IFooter, ITranslation, IBanner, ILanguage } from "../../interfaces/main";
+import {
+    IHomePageInfo,
+    ICategory,
+    IAboutUs,
+    IMenu,
+    IFooter,
+    ITranslation,
+    IBanner,
+    ILanguage,
+} from "../../interfaces/main";
 import { useLanguage, useLocale } from "../../store/locale/localeHooks";
 import BlockSlideShowMain from "../blocks/BlockSlideShowMain";
 import BlockCategoriesMain from "../blocks/BlockCategoriesMain";
@@ -19,6 +28,7 @@ import FooterMain from "../footer/FooterMain";
 import MobileHeaderMain from "../mobile/MobileHeaderMain";
 import HeaderMain from "../header/HeaderMain";
 import { useRouter } from "next/router";
+import AppLink from "../shared/AppLink";
 // import languages from "../../i18n";
 
 export interface InitData {
@@ -29,19 +39,19 @@ export interface InitData {
     menuList: IMenu[];
     footer: IFooter;
     translations: ITranslation;
-    languages:ILanguage[]
+    languages: ILanguage[];
 }
 
 export interface HomePageProps {
-    initData: InitData; 
+    initData: InitData;
 }
 
 function MainPage(props: HomePageProps) {
     const { initData } = props;
-    const locale = useLocale();
+    // const locale = useLocale();
     //    const categories= useMainCategories();
-    const route = useRouter();
-   
+    // const route = useRouter();
+
     return (
         <Fragment>
             <header className="site__header d-lg-none">
@@ -49,14 +59,21 @@ function MainPage(props: HomePageProps) {
             </header>
 
             <header className="site__header d-lg-block d-none">
-                <HeaderMain menuList={initData?.menuList} langueges={initData?.languages}/>
+                <HeaderMain menuList={initData?.menuList} langueges={initData?.languages} />
             </header>
             <Head>
                 <title>جبران</title>
             </Head>
 
             <BlockSlideShowMain banners={initData?.banners} />
-
+            <div className="row justify-content-center pt-md-5 pt-4">
+                    <div className="col-12 col-md-7 col-lg-6 col-xl-5">
+                    {/* {initData?.translations?.DownloadCatalogTranslation} */}
+                <AppLink className="btn btn-primary btn-xl btn-block">
+                    {initData?.translations?.DownloadCatalogTranslation}
+                </AppLink>
+            </div>
+            </div>
             <BlockCategoriesMain
                 title={initData?.translations?.productsTranslation}
                 layout="classic"
@@ -76,7 +93,7 @@ function MainPage(props: HomePageProps) {
             {/* <FooterMain footer={homePageInfo?.data?.footer}/> */}
 
             <footer className="site__footer">
-                <FooterMain footer={initData.footer}/>
+                <FooterMain footer={initData.footer} />
             </footer>
         </Fragment>
     );
