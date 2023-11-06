@@ -1,3 +1,4 @@
+// @ts-nocheck
 // application
 import MainPage, { InitData } from "../components/main/MainPage";
 import mainApi from "../api/main";

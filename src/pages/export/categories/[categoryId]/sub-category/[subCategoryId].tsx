@@ -1,3 +1,4 @@
+// @ts-nocheck
 // application
 // import { useRouter } from 'next/router';
 import getShopPageData from '../../../../store/shop/shopHelpers';

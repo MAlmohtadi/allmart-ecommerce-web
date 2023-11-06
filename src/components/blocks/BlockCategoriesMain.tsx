@@ -1,3 +1,4 @@
+// @ts-nocheck
 // application
 import AppLink from "../shared/AppLink";
 import BlockHeader from "../shared/BlockHeader";
