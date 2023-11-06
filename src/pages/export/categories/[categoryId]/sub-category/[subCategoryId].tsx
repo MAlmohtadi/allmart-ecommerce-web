@@ -1,9 +1,9 @@
 // @ts-nocheck
 // application
 // import { useRouter } from 'next/router';
-import getShopPageData from '../../../../store/shop/shopHelpers';
-import ShopPageCategory from '../../../../components/shop/ShopPageCategory';
-import { wrapper } from '../../../../store/store';
+import getShopPageData from '../../../../../store/shop/shopHelpers';
+import ShopPageCategory from '../../../../../components/shop/ShopPageCategory';
+import { wrapper } from '../../../../../store/store';
 // import getHomePageData from '../../../../store/home/homeHelpers';
 
 // noinspection JSUnusedGlobalSymbols
