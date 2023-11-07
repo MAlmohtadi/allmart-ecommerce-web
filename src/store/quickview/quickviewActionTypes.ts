@@ -1,5 +1,5 @@
 // application
-import { IProduct } from '../../interfaces/main';
+import { IProduct, ITranslation } from '../../interfaces/main';
 import { AppAction } from '../types';
 // import { IProduct } from '../../interfaces/product';
 
@@ -9,6 +9,7 @@ export const QUICKVIEW_CLOSE = 'QUICKVIEW_CLOSE';
 export interface QuickviewOpenAction {
     type: typeof QUICKVIEW_OPEN;
     product: IProduct;
+    translations: ITranslation;
 }
 
 export interface QuickviewCloseAction {

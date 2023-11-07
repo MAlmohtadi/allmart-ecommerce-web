@@ -13,7 +13,7 @@ function Quickview() {
     let productView;
 
     if (quickview.product !== null) {
-        productView = <Product product={quickview.product} layout="quickview" />;
+        productView = <Product translations={quickview.translations} product={quickview.product} layout="quickview" />;
     }
 
     return (

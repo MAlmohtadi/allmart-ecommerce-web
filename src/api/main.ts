@@ -21,7 +21,7 @@ export interface Language {
 export interface ProductByCategory {
     locale: string;
     // langId:string;
-    categoryId: number;
+    categoryId: string;
 }
 const BASE_URL = "https://jubran.jubran-api.com/api";
 const mainApi = {

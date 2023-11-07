@@ -4,12 +4,6 @@ import { Fragment, useMemo } from "react";
 // third-party
 import Head from "next/head";
 
-// application
-import mainApi from "../../api/main";
-import { useDeferredData } from "../../services/hooks";
-
-import BlockProductsCarouselMain from "../blocks/BlockProductsCarouselMain";
-
 import {
     IHomePageInfo,
     ICategory,
@@ -20,16 +14,14 @@ import {
     IBanner,
     ILanguage,
 } from "../../interfaces/main";
-import { useLanguage, useLocale } from "../../store/locale/localeHooks";
 import BlockSlideShowMain from "../blocks/BlockSlideShowMain";
 import BlockCategoriesMain from "../blocks/BlockCategoriesMain";
 import BlockHeader from "../shared/BlockHeader";
 import FooterMain from "../footer/FooterMain";
 import MobileHeaderMain from "../mobile/MobileHeaderMain";
 import HeaderMain from "../header/HeaderMain";
-import { useRouter } from "next/router";
 import AppLink from "../shared/AppLink";
-// import languages from "../../i18n";
+import MobileMenuMain from "../mobile/MobileMenuMain";
 
 export interface InitData {
     homePageInfo?: IHomePageInfo;
@@ -48,13 +40,11 @@ export interface HomePageProps {
 
 function MainPage(props: HomePageProps) {
     const { initData } = props;
-    // const locale = useLocale();
-    //    const categories= useMainCategories();
-    // const route = useRouter();
 
     return (
         <Fragment>
             <header className="site__header d-lg-none">
+                <MobileMenuMain menuList={initData?.menuList} langueges={initData?.languages} />
                 <MobileHeaderMain />
             </header>
 
@@ -67,12 +57,12 @@ function MainPage(props: HomePageProps) {
 
             <BlockSlideShowMain banners={initData?.banners} />
             <div className="row justify-content-center pt-md-5 pt-4">
-                    <div className="col-12 col-md-7 col-lg-6 col-xl-5">
+                <div className="col-12 col-md-7 col-lg-6 col-xl-5">
                     {/* {initData?.translations?.DownloadCatalogTranslation} */}
-                <AppLink className="btn btn-primary btn-xl btn-block">
-                    {initData?.translations?.DownloadCatalogTranslation}
-                </AppLink>
-            </div>
+                    <AppLink className="btn btn-primary btn-xl btn-block">
+                        {initData?.translations?.DownloadCatalogTranslation}
+                    </AppLink>
+                </div>
             </div>
             <BlockCategoriesMain
                 title={initData?.translations?.productsTranslation}

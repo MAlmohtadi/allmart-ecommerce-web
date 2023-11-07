@@ -18,7 +18,6 @@ export interface NavPanelProps {
 
 function NavPanelMain(props: NavPanelProps) {
     const { layout = "default",menuList, languages} = props;
-    const route = useRouter();
     let logo = null;
     let departments = null;
     let searchIndicator;

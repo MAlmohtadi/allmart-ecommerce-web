@@ -1,7 +1,7 @@
 // application
 import mainApi from '../../api/main';
 import shopApi from '../../api/shop';
-import { IProduct } from '../../interfaces/main';
+import { IProduct, ITranslation } from '../../interfaces/main';
 // import { IProduct } from '../../interfaces/product';
 import {
     QUICKVIEW_CLOSE,
@@ -13,10 +13,11 @@ import {
 
 let cancelPreviousRequest = () => {};
 
-export function quickviewOpenSuccess(product: IProduct): QuickviewOpenAction {
+export function quickviewOpenSuccess(product: IProduct,translations: ITranslation): QuickviewOpenAction {
     return {
         type: QUICKVIEW_OPEN,
         product,
+        translations
     };
 }
 
@@ -26,7 +27,7 @@ export function quickviewClose(): QuickviewCloseAction {
     };
 }
 
-export function quickviewOpen(product: IProduct): QuickviewThunkAction<Promise<void>> {
+export function quickviewOpen(product: IProduct,translations: ITranslation): QuickviewThunkAction<Promise<void>> {
     return (dispatch) => {
         cancelPreviousRequest();
 
@@ -40,7 +41,7 @@ export function quickviewOpen(product: IProduct): QuickviewThunkAction<Promise<v
                     }
 
                     if (product) {
-                        dispatch(quickviewOpenSuccess(product));
+                        dispatch(quickviewOpenSuccess(product,translations));
                     }
 
                     resolve();

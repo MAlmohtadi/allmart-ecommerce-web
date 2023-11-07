@@ -9,7 +9,7 @@ import Slick from 'react-slick';
 import BlockHeader, { BlockHeaderGroup } from '../shared/BlockHeader';
 import ProductCard from '../shared/ProductCard';
 import StroykaSlick, { StroykaSlickProps } from '../shared/StroykaSlick';
-import { IProduct } from '../../interfaces/main';
+import { IProduct, ITranslation } from '../../interfaces/main';
 import ProductCardMain from '../shared/ProductCardMain';
 // import { IProduct } from '../../interfaces/product';
 
@@ -34,6 +34,7 @@ export interface BlockProductsCarouselProps<T extends BlockHeaderGroup> {
     layout?: BlockProductsCarouselLayout;
     rows?: number;
     products?: IProduct[];
+    translations: ITranslation;
     groups?: T[];
     withSidebar?: boolean;
     loading?: boolean;
@@ -180,6 +181,7 @@ function BlockProductsCarouselMain<T extends BlockHeaderGroup>(props: BlockProdu
         layout = 'grid-4',
         rows = 1,
         products = [],
+        translations,
         groups = [],
         withSidebar = false,
         loading = false,
@@ -202,7 +204,7 @@ function BlockProductsCarouselMain<T extends BlockHeaderGroup>(props: BlockProdu
     const columns = getProductsColumns(products, rows).map((column, index) => {
         const products = column.map((product) => (
             <div key={product.id} className="block-products-carousel__cell">
-                <ProductCardMain product={product} />
+                <ProductCardMain translations={translations} product={product} />
             </div>
         ));
 

@@ -5,6 +5,7 @@ import { QuickviewState } from './quickviewTypes';
 const initialState: QuickviewState = {
     open: false,
     product: null,
+    translations: null
 };
 
 export const QUICKVIEW_NAMESPACE = 'quickview';
@@ -17,6 +18,7 @@ export default function quickviewReducer(state = initialState, action: Quickview
             ...state,
             open: true,
             product: JSON.parse(JSON.stringify(action.product)),
+            translations: JSON.parse(JSON.stringify(action.translations)),
         };
     } else if (action.type === QUICKVIEW_CLOSE) {
         newState = {

@@ -14,10 +14,16 @@ export interface PageProps {
 
 // noinspection JSUnusedGlobalSymbols
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-    const { locale = "en_US" } = context.query;
+    const { locale = "en_US",categoryId  } = context.params;
     console.log("getAllProduct", context);
     const homePageInfo = await mainApi.getHomePageInfo({ locale: locale });
-    const productsList = await mainApi.getAllProduct({ locale: locale });
+    let productsList;
+    if(categoryId){
+        productsList= await mainApi.getProductByCategory({ locale: locale, categoryId:categoryId });
+    }else{
+        productsList= await mainApi.getAllProduct({ locale: locale });
+    }
+  
     return {
         props: {
             initData: {

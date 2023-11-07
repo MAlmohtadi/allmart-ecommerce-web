@@ -39,7 +39,7 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
     let customPageTitle = "";
     
     const { columns, viewMode, sidebarPosition = "start", pageTitle,initData } = props;
-    const { homePageInfo, productsList } = initData;
+    const { homePageInfo, productsList} = initData;
     if (pageTitle) {
         customPageTitle = pageTitle;
     } else {
@@ -79,10 +79,6 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
         [sidebarOpen, closeSidebarFn, offcanvas]
     );
 
-    // if (shopState.productsListIsLoading && !shopState.productsList) {
-    //     return <BlockLoader />;
-    // }
-
     const breadcrumb = [
         { title: "الرئيسية", url: url.home() },
         { title: customPageTitle, url: url.catalog() },
@@ -91,7 +87,7 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
     let content;
 
     const productsView = (
-        <ProductsViewMain productsList={productsList} layout={viewMode} grid={productsViewGrid} offcanvas={offcanvas} openSidebarFn={openSidebarFn} />
+        <ProductsViewMain translations={homePageInfo.translations} productsList={productsList} layout={viewMode} grid={productsViewGrid} offcanvas={offcanvas} openSidebarFn={openSidebarFn} />
     );
 
     if (columns > 3) {

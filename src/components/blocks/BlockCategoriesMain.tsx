@@ -39,7 +39,10 @@ function BlockCategoriesMain(props: BlockCategoriesProps) {
             <div id="ourproducts" key={index} className={classes}>
                 <div className="category-card__body_custom">
                     <div className="category-card__image_custom">
-                        <AppLink href={url.exportCategory(category.id, locale)}>
+                        <AppLink 
+                        onClick={()=>{router.push(`/categories/${category.id}?locale=${locale}`)}}
+                        // href={url.exportCategory(category.id)} 
+                        >
                             <img src={category.imageUrl} alt={category.name} />
                         </AppLink>
                     </div>

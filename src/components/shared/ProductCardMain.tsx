@@ -16,7 +16,7 @@ import url from "../../services/url";
 // import { IProduct } from '../../interfaces/product';
 // import { useCompareAddItem } from '../../store/compare/compareHooks';
 import { useQuickviewOpen } from "../../store/quickview/quickviewHooks";
-import { IProduct } from "../../interfaces/main";
+import { IProduct, ITranslation } from "../../interfaces/main";
 // import { useWishlistAddItem } from '../../store/wishlist/wishlistHooks';
 // import { useCartAddItem } from '../../store/cart/cartHooks';
 
@@ -24,11 +24,12 @@ export type ProductCardLayout = "grid-sm" | "grid-nl" | "grid-lg" | "list" | "ho
 
 export interface ProductCardProps {
     product: IProduct;
+    translations: ITranslation;
     layout?: ProductCardLayout;
 }
 
 function ProductCardMain(props: ProductCardProps) {
-    const { product, layout } = props;
+    const { product, layout, translations } = props;
     const containerClasses = classNames("product-card", {
         "product-card--layout--grid product-card--size--sm": layout === "grid-sm",
         "product-card--layout--grid product-card--size--nl": layout === "grid-nl",
@@ -56,13 +57,27 @@ function ProductCardMain(props: ProductCardProps) {
     features = (
         <ul className="product-card__features-list">
             {/* {product.attributes.filter((x) => x.featured).map((attribute, index) => ( */}
-            <li key={"barcode"}>Barcode: {product.barcode}</li>
-            <li key={"packaging"}>packaging: {product.packaging}</li>
-            <li key={"Voltage"}>Voltage: </li>
-            <li key={"packageWidth"}>packageWidth: {product.packageWidth}</li>
-            <li key={"packageHeight"}>packageHeight: {product.packageHeight}</li>
-            <li key={"packageWeight"}>packageWeight: {product.packageWeight}</li>
-            <li key={"weight"}>packageWeight: {product.weight}</li>
+            <li
+                key={`card-barcodeTranslation-${product.barcode}`}
+            >{`${translations.barcodeTranslation}: ${product.barcode}`}</li>
+            <li
+                key={`card-widthTranslation-${product.barcode}`}
+            >{`${translations.widthTranslation}: ${product.weight}`}</li>
+            <li
+                key={`card-packagingTranslation-${product.barcode}`}
+            >{`${translations.packagingTranslation}: ${product.packaging}`}</li>
+            <li
+                key={`card-packageWidth-${product.barcode}`}
+            >{`${translations.widthTranslation}: ${product.packageWidth}`}</li>
+            <li
+                key={`card-packageHeight-${product.barcode}`}
+            >{`${translations.heightTranslation}: ${product.packageHeight}`}</li>
+            <li
+                key={`card-packageWeightTranslation-${product.barcode}`}
+            >{`${translations.packageWeightTranslation}: ${product.packageWeight}`}</li>
+            <li
+                key={`card-boxWeightTranslation-${product.barcode}`}
+            >{`${translations.boxWeightTranslation}: ${product.weight}`}</li>
             {/* <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
                     <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
                     <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
@@ -93,7 +108,7 @@ function ProductCardMain(props: ProductCardProps) {
             {image}
             <div className="product-card__info">
                 <div className="product-card__name">
-                    <AppLink>{product.name}</AppLink>
+                    <AppLink>{`${translations.nameTranslation}: ${product.name}`}</AppLink>
                 </div>
                 {/* <div className="product-card__rating">
                     <Rating value={product.rating} />
@@ -109,7 +124,7 @@ function ProductCardMain(props: ProductCardProps) {
                 {price} */}
                 <div className="product-card__buttons">
                     <AsyncAction
-                        action={() => quickviewOpen(product)}
+                        action={() => quickviewOpen(product, translations)}
                         render={({ run, loading }) => (
                             <Fragment>
                                 <button
@@ -119,7 +134,7 @@ function ProductCardMain(props: ProductCardProps) {
                                         "btn-loading": loading,
                                     })}
                                 >
-                                    Details
+                                    {translations.browseMoreTranslation}
                                 </button>
                                 <button
                                     type="button"
@@ -131,7 +146,7 @@ function ProductCardMain(props: ProductCardProps) {
                                         }
                                     )}
                                 >
-                                    Details
+                                    {translations.browseMoreTranslation}
                                 </button>
                             </Fragment>
                         )}

@@ -20,7 +20,7 @@ import {
     useShopResetFiltersThunk,
 } from '../../store/shop/shopHooks';
 import ProductCardMain from '../shared/ProductCardMain';
-import { IProduct } from '../../interfaces/main';
+import { IProduct, ITranslation } from '../../interfaces/main';
 
 export type ProductsViewLayout = 'grid' | 'grid-with-features' | 'list';
 
@@ -33,7 +33,8 @@ interface ProductsViewProps {
     grid?: ProductsViewGrid;
     offcanvas?: ProductsViewOffcanvas;
     openSidebarFn?: () => void;
-    productsList: IProduct[]
+    productsList: IProduct[],
+    translations:ITranslation
 }
 
 interface ViewMode {
@@ -48,17 +49,18 @@ function ProductsView(props: ProductsViewProps) {
         grid = 'grid-3-sidebar',
         offcanvas = 'mobile',
         openSidebarFn,
-        productsList
+        productsList,
+        translations
     } = props;
     const [layout, setLayout] = useState(propsLayout);
-    const router = useRouter();
+    // const router = useRouter();
     // const isLoading = useShopProductsListIsLoading();
     // const productsList = useShopProductsList();
     // const options = useShopOptions();
     // const filterValues = useShopFilterValues();
 
-    const handlePageChange = useSetOption('page', parseFloat);
-    const handleSortChange = useSetOption('sort', (event) => event.target.value);
+    // const handlePageChange = useSetOption('page', parseFloat);
+    // const handleSortChange = useSetOption('sort', (event) => event.target.value);
     const handleLimitChange = useSetOption('limit', (event) => parseFloat(event.target.value));
 
     const shopResetFilters = useShopResetFiltersThunk();
@@ -93,7 +95,7 @@ function ProductsView(props: ProductsViewProps) {
 
     const productsListItems = productsList.map((product) => (
         <div key={product.id} className="products-list__item">
-            <ProductCardMain product={product} />
+            <ProductCardMain translations={translations} product={product} />
         </div>
     ));
 

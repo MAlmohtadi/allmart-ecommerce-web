@@ -1,102 +1,102 @@
-import { ILinkProps } from '../interfaces/menus/link-props';
+import { ILinkProps } from "../interfaces/menus/link-props";
 
 const url = {
     home: (): ILinkProps => ({
-        href: '/',
+        href: "/",
     }),
 
-    catalog: () => '/shop/catalog',
+    catalog: () => "/shop/catalog",
 
-    gallery: () => '/shop/gallery',
+    gallery: () => "/shop/gallery",
 
     cart: (): ILinkProps => ({
-        href: '/shop/cart',
+        href: "/shop/cart",
     }),
 
     checkout: (): ILinkProps => ({
-        href: '/shop/checkout',
+        href: "/shop/checkout",
     }),
     product: (product: { slug: string }): ILinkProps => ({
-        href: '/shop/products/[slug]',
+        href: "/shop/products/[slug]",
         as: `/shop/products/${product.slug}`,
     }),
 
     wishlist: (): ILinkProps => ({
-        href: '/shop/wishlist',
+        href: "/shop/wishlist",
     }),
 
     blogCategory: (): ILinkProps => ({
-        href: '/blog/category-classic',
+        href: "/blog/category-classic",
     }),
 
     blogPost: (): ILinkProps => ({
-        href: '/blog/post-classic',
+        href: "/blog/post-classic",
     }),
 
     accountSignIn: (): ILinkProps => ({
-        href: '/account/login',
+        href: "/account/login",
     }),
 
     accountSignUp: (): ILinkProps => ({
-        href: '/account/login',
+        href: "/account/login",
     }),
 
     accountSignOut: (): ILinkProps => ({
-        href: '/account/login',
+        href: "/account/login",
     }),
 
     accountDashboard: (): ILinkProps => ({
-        href: '/account/dashboard',
+        href: "/account/dashboard",
     }),
 
     accountProfile: (): ILinkProps => ({
-        href: '/account/profile',
+        href: "/account/profile",
     }),
 
     accountOrders: (): ILinkProps => ({
-        href: '/account/orders',
+        href: "/account/orders",
     }),
 
     accountOrder: (id: number): ILinkProps => ({
-        href: '/account/orders/[orderId]',
+        href: "/account/orders/[orderId]",
         as: `/account/orders/${id}`,
     }),
 
     accountAddresses: (): ILinkProps => ({
-        href: '/account/addresses',
-        as: '/account/addresses',
+        href: "/account/addresses",
+        as: "/account/addresses",
     }),
 
     accountAddress: (address: { id: number }): ILinkProps => ({
-        href: '/account/addresses/[addressId]',
+        href: "/account/addresses/[addressId]",
         as: `/account/addresses/${address.id}`,
     }),
 
     accountPassword: (): ILinkProps => ({
-        href: '/account/password',
-        as: '/account/password',
+        href: "/account/password",
+        as: "/account/password",
     }),
     category: (categoryId: number): ILinkProps => ({
-        href: '/eshop/categories/[categoryId]',
+        href: "/eshop/categories/[categoryId]",
         as: `/eshop/categories/${categoryId}`,
     }),
-    exportCategory: (categoryId: number,locale:string): ILinkProps => ({
-        href: '/categories/[categoryId]',
-        as: `/categories/${categoryId}?locale=${locale}`,
+    exportCategory: (categoryId: number): ILinkProps => ({
+        href: "/categories/[categoryId]",
+        as: `/categories/${categoryId}`,
     }),
     categoryWithSubCategory: (categoryId: number, subCategoryId: number): ILinkProps => ({
-        href: '/eshop/categories/[categoryId]/sub-category/[subCategoryId]',
+        href: "/eshop/categories/[categoryId]/sub-category/[subCategoryId]",
         as: `/eshop/categories/${categoryId}/sub-category/${subCategoryId}`,
     }),
     contacts: (): ILinkProps => ({
-        href: '/site/contact-us',
+        href: "/site/contact-us",
     }),
     offers: (): ILinkProps => ({
-        href: '/shop/offers',
+        href: "/shop/offers",
     }),
 
     terms: (): ILinkProps => ({
-        href: '/site/terms',
+        href: "/site/terms",
     }),
 };
 
