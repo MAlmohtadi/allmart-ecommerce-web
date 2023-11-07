@@ -19,6 +19,9 @@ import MobileHeaderMain from "../mobile/MobileHeaderMain";
 import HeaderMain from "../header/HeaderMain";
 import { InitData } from "../../pages/categories";
 import ProductsViewMain from "./ProductsViewMain";
+import { useRouter } from "next/router";
+import WidgetFiltersMain from "../widgets/WidgetFiltersMain";
+import MobileMenuMain from "../mobile/MobileMenuMain";
 
 export type ShopPageCategoryColumns = 3 | 4 | 5;
 export type ShopPageCategoryViewMode = "grid" | "grid-with-features" | "list";
@@ -33,36 +36,11 @@ export interface ShopPageCategoryProps {
 }
 
 function ShopPageCategoryMain(props: ShopPageCategoryProps) {
-    // const homeData = useHome();
-    // shop
-    // const shopState = useShop();
-    let customPageTitle = "";
-    
-    const { columns, viewMode, sidebarPosition = "start", pageTitle,initData } = props;
-    const { homePageInfo, productsList} = initData;
-    if (pageTitle) {
-        customPageTitle = pageTitle;
-    } else {
-        customPageTitle = "التصنيفات ";
-        // if (!Number.isNaN(Number(`${shopState.options?.categoryId}` ?? "NaN"))) {
-        //     const category = homeData?.categories?.find((cat) => cat.id === Number(`${shopState.options?.categoryId}`));
-        //     if (shopState.options?.categoryId) {
-        //         customPageTitle = `${customPageTitle} > ${category?.name}`;
-        //     }
-        //     if (
-        //         shopState.options?.subCategoryId &&
-        //         !Number.isNaN(Number(`${shopState.options?.subCategoryId}` ?? "NaN"))
-        //     ) {
-        //         const subCategory = category?.subCategories?.find(
-        //             (subcat) => subcat.id === Number(`${shopState.options?.subCategoryId}`)
-        //         );
-                customPageTitle = `${customPageTitle}`;
-            // }
-        // }
-    }
+    const { columns, viewMode, sidebarPosition = "start", pageTitle, initData } = props;
     const offcanvas = columns === 3 ? "mobile" : "always";
     const productsViewGrid = `grid-${columns}-${columns > 3 ? "full" : "sidebar"}` as ProductsViewGrid;
 
+    const { homePageInfo, productsList } = initData;
     // sidebar
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const openSidebarFn = useCallback(() => setSidebarOpen(true), [setSidebarOpen]);
@@ -70,9 +48,18 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
 
     const sidebarComponent = useMemo(
         () => (
-            <CategorySidebar open={sidebarOpen} closeFn={closeSidebarFn} offcanvas={offcanvas}>
+            <CategorySidebar
+                title={homePageInfo.translations.categoriesTranslation}
+                open={sidebarOpen}
+                closeFn={closeSidebarFn}
+                offcanvas={offcanvas}
+            >
                 <CategorySidebarItem>
-                    <WidgetFilters title="الفلاتر" offcanvas={offcanvas} />
+                    <WidgetFiltersMain
+                        title={homePageInfo.translations.categoriesTranslation}
+                        offcanvas={offcanvas}
+                        categories={homePageInfo.categories}
+                    />
                 </CategorySidebarItem>
             </CategorySidebar>
         ),
@@ -80,14 +67,20 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
     );
 
     const breadcrumb = [
-        { title: "الرئيسية", url: url.home() },
-        { title: customPageTitle, url: url.catalog() },
+        { title: "Home", url: url.home() },
+        { title: "Shop", url: url.catalog() },
     ];
 
     let content;
-
     const productsView = (
-        <ProductsViewMain translations={homePageInfo.translations} productsList={productsList} layout={viewMode} grid={productsViewGrid} offcanvas={offcanvas} openSidebarFn={openSidebarFn} />
+        <ProductsViewMain
+            translations={homePageInfo.translations}
+            productsList={productsList}
+            layout={viewMode}
+            grid={productsViewGrid}
+            offcanvas={offcanvas}
+            openSidebarFn={openSidebarFn}
+        />
     );
 
     if (columns > 3) {
@@ -116,6 +109,11 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
     return (
         <Fragment>
             <header className="site__header d-lg-none">
+                <MobileMenuMain
+                    menuList={initData?.homePageInfo.menuList}
+                    langueges={initData?.homePageInfo.languages}
+                />
+
                 <MobileHeaderMain />
             </header>
 
@@ -126,11 +124,11 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
                 <title>التصنيفات - جبران</title>
             </Head>
 
-            <PageHeader header={customPageTitle} breadcrumb={breadcrumb} />
+            <PageHeader header={pageTitle} breadcrumb={breadcrumb} />
 
             {content}
             <footer className="site__footer">
-                <FooterMain footer={homePageInfo.footer}/>
+                <FooterMain footer={homePageInfo.footer} />
             </footer>
         </Fragment>
     );

@@ -58,9 +58,9 @@ function MobileMenuMain(props: MobileMenuProps) {
     const classes = classNames("mobilemenu", {
         "mobilemenu--open": mobileMenu.open,
     });
-    useEffect(() => {
-        setTitle(locale.startsWith("ar_") ? "القائمة" : "Menu");
-        addLanguageToMenu();
+    useEffect(() => { 
+            setTitle(locale.startsWith("ar_") ? "القائمة" : "Menu");
+            addLanguageToMenu(); 
     }, [locale]);
     const handleItemClick = (item: ISubMenu) => {
         // if (item.locale) {

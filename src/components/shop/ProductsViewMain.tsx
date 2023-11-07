@@ -53,7 +53,7 @@ function ProductsView(props: ProductsViewProps) {
         translations
     } = props;
     const [layout, setLayout] = useState(propsLayout);
-    // const router = useRouter();
+    const router = useRouter();
     // const isLoading = useShopProductsListIsLoading();
     // const productsList = useShopProductsList();
     // const options = useShopOptions();
@@ -116,23 +116,23 @@ function ProductsView(props: ProductsViewProps) {
             <div className="products-view__content">
                 <div className="products-view__options">
                     <div className={viewOptionsClasses}>
-                        {/* {!router.pathname.includes('offers') && (
+                        {!router.pathname.includes('offers') && (
                             <div className="view-options__filters-button">
                                 <button type="button" className="filters-button" onClick={openSidebarFn}>
                                     <Filters16Svg className="filters-button__icon" />
-                                    <span className="filters-button__title">الفلاتر</span>
-                                    {!!filtersCount && <span className="filters-button__counter">{filtersCount}</span>}
+                                    <span className="filters-button__title">{translations.categoriesTranslation}</span>
+                                    {/* {!!filtersCount && <span className="filters-button__counter">{filtersCount}</span>} */}
                                 </button>
                             </div>
-                        )} */}
+                        )}
                         <div className="view-options__layout">
                             <div className="layout-switcher">
                                 <div className="layout-switcher__list">{viewModes}</div>
                             </div>
                         </div>
-                        {/* <div className="view-options__legend">
-                            {`عرض ${productsList.from}—${productsList.to} من ${productsList.total} المنتجات`}
-                        </div> */}
+                        <div className="view-options__legend">
+                            {/* {`عرض ${productsList.from}—${productsList.to} من ${productsList.total} المنتجات`} */}
+                        </div>
                         <div className="view-options__divider" />
                         {/* <div className="view-options__control">
                             <label htmlFor="view-options-sort">الترتيب حسب</label>
@@ -150,7 +150,7 @@ function ProductsView(props: ProductsViewProps) {
                             </div>
                         </div> */}
                         <div className="view-options__control">
-                            <label htmlFor="view-options-limit">عرض</label>
+                            {/* <label htmlFor="view-options-limit">عرض</label> */}
                             {/* <div>
                                 <select
                                     id="view-options-limit"

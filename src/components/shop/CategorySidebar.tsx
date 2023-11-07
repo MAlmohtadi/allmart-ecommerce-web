@@ -13,6 +13,7 @@ export interface CategorySidebarProps extends PropsWithChildren<{}> {
     open: boolean;
     closeFn?: () => void;
     offcanvas?: CategorySidebarOffcanvas;
+    title?:string
 }
 
 function CategorySidebar(props: CategorySidebarProps) {
@@ -21,6 +22,7 @@ function CategorySidebar(props: CategorySidebarProps) {
         open,
         closeFn,
         offcanvas = 'mobile',
+        title='الفلاتر'
     } = props;
 
     const classes = classNames('block block-sidebar', {
@@ -95,7 +97,7 @@ function CategorySidebar(props: CategorySidebarProps) {
             <div className="block-sidebar__backdrop" ref={backdropRef} onClick={closeFn} />
             <div className="block-sidebar__body" ref={bodyRef}>
                 <div className="block-sidebar__header">
-                    <div className="block-sidebar__title">الفلاتر</div>
+                    <div className="block-sidebar__title">{title}</div>
                     <button className="block-sidebar__close" type="button" onClick={closeFn}>
                         <Cross20Svg />
                     </button>

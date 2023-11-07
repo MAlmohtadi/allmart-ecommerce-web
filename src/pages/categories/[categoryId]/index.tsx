@@ -30,7 +30,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 
 function Page(props: PageProps) {
     const { initData } = props;
-    return <ShopPageCategoryMain initData={initData} columns={4} viewMode="grid" />;
+    return <ShopPageCategoryMain initData={initData} columns={3} viewMode="grid" />;
 }
 
 
