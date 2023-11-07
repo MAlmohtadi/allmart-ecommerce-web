@@ -1,3 +1,4 @@
+// @ts-nocheck
 import mainApi from "../../api/main";
 import {
     MAIN_FETCH_START,

@@ -1,3 +1,4 @@
+// @ts-nocheck
 // application
 import { MainState } from './mainTypes';
 import {

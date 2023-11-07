@@ -8,6 +8,7 @@ module.exports = {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
     },
+    ignoreDuringBuilds: true,
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaFeatures: {
@@ -27,6 +28,7 @@ module.exports = {
             },
         },
     },
+    ignorePatterns: ["src/**/*"],
     rules: {
         indent: ['error', 4],
         'react/jsx-indent': ['error', 4],

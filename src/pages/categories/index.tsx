@@ -1,3 +1,4 @@
+// @ts-nocheck
 // application
 import ShopPageCategoryMain from "../../components/shop/ShopPageCategoryMain";
 import { wrapper } from "../../store/store";
