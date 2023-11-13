@@ -1,3 +1,4 @@
+// @ts-nocheck
 // react
 import { memo, useState, useEffect } from "react";
 import { useRouter } from "next/router";

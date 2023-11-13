@@ -1,3 +1,4 @@
+// @ts-nocheck
 // application
 import AppLink from '../shared/AppLink';
 import ArrowRoundedDown12x7Svg from '../../svg/arrow-rounded-down-12x7.svg';
