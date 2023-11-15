@@ -79,7 +79,7 @@ export interface ITranslation {
     heightTranslation: string;
     boxWeightTranslation: string;
     nameTranslation: string;
-    DownloadCatalogTranslation: string;
+    downloadCatalogTranslation: string;
     categoriesTranslation: string;
     browseMoreTranslation: string;
     widthTranslation: string;

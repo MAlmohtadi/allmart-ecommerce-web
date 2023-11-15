@@ -58,17 +58,19 @@ function MainPage(props: HomePageProps) {
             <BlockSlideShowMain banners={initData?.banners} />
             <div className="row justify-content-center pt-md-5 pt-4">
                 <div className="col-12 col-md-7 col-lg-6 col-xl-5">
-                    {/* {initData?.translations?.DownloadCatalogTranslation} */}
+                    {/* {initData?.translations?.downloadCatalogTranslation} */}
                     <AppLink className="btn btn-primary btn-xl btn-block">
-                        {initData?.translations?.DownloadCatalogTranslation}
+                        {initData?.translations?.downloadCatalogTranslation}
                     </AppLink>
                 </div>
             </div>
+            <div id="products">
             <BlockCategoriesMain
                 title={initData?.translations?.productsTranslation}
                 layout="classic"
                 categories={initData?.categories}
             />
+            </div>
 
             <div id="aboutus" className={`block block--highlighted block-categories block-categories--layout--classic`}>
                 <div className="container">
