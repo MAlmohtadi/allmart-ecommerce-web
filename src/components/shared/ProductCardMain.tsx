@@ -47,9 +47,9 @@ function ProductCardMain(props: ProductCardProps) {
     if (product.imageUrl) {
         image = (
             <div className="product-card__image product-image">
-                <AppLink className="product-image__body">
+                <div className="product-image__body">
                     <img className="product-image__img" src={product.imageUrl} alt="" />
-                </AppLink>
+                </div>
             </div>
         );
     }
@@ -107,9 +107,7 @@ function ProductCardMain(props: ProductCardProps) {
             )} */}
             {image}
             <div className="product-card__info">
-                <div className="product-card__name">
-                    <AppLink>{`${translations.nameTranslation}: ${product.name}`}</AppLink>
-                </div>
+                <div className="product-card__name">{`${translations.nameTranslation}: ${product.name}`}</div>
                 {/* <div className="product-card__rating">
                     <Rating value={product.rating} />
                     <div className=" product-card__rating-legend">{`${product.reviews} Reviews`}</div>

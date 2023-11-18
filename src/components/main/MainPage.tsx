@@ -32,6 +32,7 @@ export interface InitData {
     footer: IFooter;
     translations: ITranslation;
     languages: ILanguage[];
+    catalogUrl: string;
 }
 
 export interface HomePageProps {
@@ -59,7 +60,7 @@ function MainPage(props: HomePageProps) {
             <div className="row justify-content-center pt-md-5 pt-4">
                 <div className="col-12 col-md-7 col-lg-6 col-xl-5">
                     {/* {initData?.translations?.downloadCatalogTranslation} */}
-                    <AppLink className="btn btn-primary btn-xl btn-block">
+                    <AppLink target="_blank" href={initData.catalogUrl} className="btn btn-primary btn-xl btn-block">
                         {initData?.translations?.downloadCatalogTranslation}
                     </AppLink>
                 </div>
