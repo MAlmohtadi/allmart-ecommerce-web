@@ -63,7 +63,7 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
                 </CategorySidebarItem>
             </CategorySidebar>
         ),
-        [sidebarOpen, closeSidebarFn, offcanvas]
+        [sidebarOpen, closeSidebarFn, offcanvas,homePageInfo]
     );
 
     const breadcrumb = [
@@ -124,7 +124,7 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
                 <title>التصنيفات - جبران</title>
             </Head>
 
-            <PageHeader header={pageTitle} breadcrumb={breadcrumb} />
+            <PageHeader header={pageTitle} breadcrumb={[]} />
 
             {content}
             <footer className="site__footer">

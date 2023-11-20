@@ -177,21 +177,24 @@
         @include direction {
             #{$padding-inline-start}: 12px;
         }
-    }
-    li::before {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 9px;
-        width: 5px;
-        height: 5px;
-        border-radius: 2.5px;
-        border: 1px solid currentColor;
-
-        @include direction {
-            #{$inset-inline-start}: 0;
+        span {
+            font-weight: bold;
         }
     }
+    // li::before {
+    //     content: "";
+    //     display: block;
+    //     position: absolute;
+    //     top: 9px;
+    //     width: 5px;
+    //     height: 5px;
+    //     border-radius: 2.5px;
+    //     border: 1px solid currentColor;
+
+    //     @include direction {
+    //         #{$inset-inline-start}: 0;
+    //     }
+    // }
 }
 .product-card__badges-list {
     top: 18px;

@@ -14,7 +14,7 @@ export interface PageProps {
 
 // noinspection JSUnusedGlobalSymbols
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-    const { locale = "en_US" } = context.query;
+    const { locale = "ar_JO" } = context.query;
     console.log("getAllProduct", context);
     const homePageInfo = await mainApi.getHomePageInfo({ locale: locale });
     const productsList = await mainApi.getAllProduct({ locale: locale });
@@ -30,7 +30,7 @@ export const getServerSideProps = wrapper.getServerSideProps((store) => async (c
 
 function Page(props: PageProps) {
     const { initData } = props;
-    return <ShopPageCategoryMain initData={initData} columns={3} viewMode="grid" />;
+    return <ShopPageCategoryMain initData={initData} columns={3} viewMode="list" />;
 }
 
 

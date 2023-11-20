@@ -30,7 +30,7 @@ function MobileMenuMain(props: MobileMenuProps) {
     const mobileMenuClose = useMobileMenuClose();
     const localeChange = useLocaleChange();
     const router = useRouter();
-    const { locale = "en_US" } = router.query;
+    const { locale = "ar_JO" } = router.query;
     const [currenLocale, setCurrentLocale] = useState(locale.startsWith("ar_") ? "اللغة" : "Language");
     const [title, setTitle] = useState(locale.startsWith("ar_") ? "القائمة" : "Menu");
     const [menuWithLanguage, setMenuWithLanguage] = useState([...menuList]);

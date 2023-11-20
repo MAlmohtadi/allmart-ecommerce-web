@@ -10,7 +10,7 @@ export interface PageProps {
     initData: InitData;
 }
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
-    const { locale = "en_US" } = context.query;
+    const { locale = "ar_JO" } = context.query;
     const homePageInfo = await mainApi.getHomePageInfo({ locale: locale });
     await getHomePageInfo(store);
     return {

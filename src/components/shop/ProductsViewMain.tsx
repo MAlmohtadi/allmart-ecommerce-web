@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import Filters16Svg from '../../svg/filters-16.svg';
 import LayoutGrid16x16Svg from '../../svg/layout-grid-16x16.svg';
 import LayoutList16x16Svg from '../../svg/layout-list-16x16.svg';
+import LayoutGridWithDetails16x16Svg from '../../svg/layout-grid-with-details-16x16.svg';
 import Pagination from '../shared/Pagination';
 import ProductCard from '../shared/ProductCard';
 import {
@@ -72,7 +73,7 @@ function ProductsView(props: ProductsViewProps) {
     // const filtersCount = Object.keys(filterValues).map((x) => filterValues[x]).filter((x) => x).length;
     const viewModesDef: ViewMode[] = [
         { key: 'grid', title: 'Grid', icon: <LayoutGrid16x16Svg /> },
-        // { key: 'grid-with-features', title: 'Grid With Features', icon: <LayoutGridWithDetails16x16Svg /> },
+        { key: 'grid-with-features', title: 'Grid With Features', icon: <LayoutGridWithDetails16x16Svg /> },
         { key: 'list', title: 'List', icon: <LayoutList16x16Svg /> },
     ];
     const viewModes = viewModesDef.map((viewMode) => {

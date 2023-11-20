@@ -30,17 +30,20 @@ function DropdownLanguage(props: LanguagesProps) {
 
     const localeChange = useLocaleChange();
     const router = useRouter();
-    const { locale = "en_US" } = router.query;
+    const { locale = "ar_JO" } = router.query;
     const [currenLocale, setCurrentLocale] = useState(locale.startsWith("ar_") ? "اللغة" : "Language");
     const subMenu = languages?.map((item, index) => {
         return { name: item.showText, locale: item.locale };
     });
     const classes = classNames("nav-links__item");
     const onClick = (item: any) => {
-        router.push(router.asPath.split("?")[0] + "?locale=" + item.locale);
+        let basePath = router.asPath.includes("#") ? router.asPath.split("#")[0] : router.asPath.split("?")[0];
+
+        router.push(basePath + "?locale=" + item.locale);
         localeChange(item.locale.split("_")[0]);
         setCurrentLocale(!locale.startsWith("ar_") ? "اللغة" : "Language");
     };
+
     return (
         <ul className="nav-links__list">
             {" "}

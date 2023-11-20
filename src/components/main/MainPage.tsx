@@ -26,6 +26,7 @@ import MobileMenuMain from "../mobile/MobileMenuMain";
 export interface InitData {
     homePageInfo?: IHomePageInfo;
     categories: ICategory[];
+    catalogUrl: string;
     aboutUs: IAboutUs;
     banners: IBanner[];
     menuList: IMenu[];
@@ -56,21 +57,26 @@ function MainPage(props: HomePageProps) {
             </Head>
 
             <BlockSlideShowMain banners={initData?.banners} />
-            <div className="row justify-content-center pt-md-5 pt-4">
-                <div className="col-12 col-md-7 col-lg-6 col-xl-5">
-                    {/* {initData?.translations?.DownloadCatalogTranslation} */}
-                    <AppLink className="btn btn-primary btn-xl btn-block">
-                        {initData?.translations?.DownloadCatalogTranslation}
+            <div className={`block block--highlighted block-categories block-categories--layout--classic`}>
+                <div className="container">
+                    <AppLink href={initData?.catalogUrl} target="_blank" className="btn btn-primary btn-xl btn-block">
+                        {initData?.translations?.downloadCatalogTranslation}
                     </AppLink>
                 </div>
             </div>
-            <BlockCategoriesMain
-                title={initData?.translations?.productsTranslation}
-                layout="classic"
-                categories={initData?.categories}
-            />
-
-            <div id="aboutus" className={`block block--highlighted block-categories block-categories--layout--classic`}>
+            <div
+                id="products"
+                className={`block block--highlighted block-categories block-categories--layout--classic`}
+            >
+                <div className="container">
+                    <BlockCategoriesMain
+                        title={initData?.translations?.productsTranslation}
+                        layout="classic"
+                        categories={initData?.categories}
+                    />
+                </div>
+            </div>
+            <div id="aboutus" className={`block block-categories block-categories--layout--classic`}>
                 <div className="container">
                     <BlockHeader title={initData?.translations?.aboutUsTranslation} />
 
@@ -82,7 +88,7 @@ function MainPage(props: HomePageProps) {
 
             {/* <FooterMain footer={homePageInfo?.data?.footer}/> */}
 
-            <footer className="site__footer">
+            <footer className="site__footer block--highlighted ">
                 <FooterMain footer={initData.footer} />
             </footer>
         </Fragment>

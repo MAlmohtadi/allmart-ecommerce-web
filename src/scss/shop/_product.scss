@@ -100,21 +100,24 @@
             #{$padding-inline-start}: 13px;
             #{$padding-inline-end}: 0;
         }
-    }
-    li::before {
-        content: '';
-        display: block;
-        position: absolute;
-        top: 9px;
-        width: 5px;
-        height: 5px;
-        border-radius: 2.5px;
-        border: 1px solid currentColor;
-
-        @include direction {
-            #{$inset-inline-start}: 0;
+        span {
+            font-weight: bolder;
         }
     }
+    // li::before {
+    //     content: '';
+    //     display: block;
+    //     position: absolute;
+    //     top: 9px;
+    //     width: 5px;
+    //     height: 5px;
+    //     border-radius: 2.5px;
+    //     border: 1px solid currentColor;
+
+    //     @include direction {
+    //         #{$inset-inline-start}: 0;
+    //     }
+    // }
 }
 .product__meta {
     list-style: none;

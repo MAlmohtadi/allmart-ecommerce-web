@@ -1,24 +1,24 @@
 /* eslint-disable jsx-a11y/alt-text */
 // react
-import { memo, useState, useEffect } from 'react';
+import { memo, useState, useEffect } from "react";
 
 // application
-import AppLink from '../shared/AppLink';
-import NavPanelMain from './NavPanelMain';
-import { ILanguage, IMenu } from '../../interfaces/main';
+import AppLink from "../shared/AppLink";
+import NavPanelMain from "./NavPanelMain";
+import { ILanguage, IMenu } from "../../interfaces/main";
 // import languages from '../../i18n';
 
-export type HeaderLayout = 'default' | 'compact';
+export type HeaderLayout = "default" | "compact";
 
 export interface HeaderProps {
     layout?: HeaderLayout;
-    menuList?: IMenu[],
-    langueges?: ILanguage[]
+    menuList?: IMenu[];
+    langueges?: ILanguage[];
 }
 
 function HeaderMain(props: HeaderProps) {
     const [scrolled, setScrolled] = useState(false);
-    const { layout = 'default',menuList, langueges} = props;
+    const { layout = "default", menuList, langueges } = props;
     let bannerSection;
 
     const handleScroll = () => {
@@ -31,14 +31,16 @@ function HeaderMain(props: HeaderProps) {
     };
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll);
+        window.addEventListener("scroll", handleScroll);
     });
 
-    if (layout === 'default') {
+    if (layout === "default") {
         bannerSection = (
             <div className="site-header__middle__main container">
                 <div className="site-header__logo_main">
-                    <AppLink href="/"><img src="/images/logos/logo.png" /></AppLink>
+                    <AppLink href="/">
+                        <img src="/images/logos/logo.png" />
+                    </AppLink>
                 </div>
                 {/* <div className="site-header__search">
                     <Search context="header" />
@@ -47,15 +49,15 @@ function HeaderMain(props: HeaderProps) {
         );
     }
 
-    const navbarClasses = ['site-header__nav-panel'];
+    const navbarClasses = ["site-header__nav-panel"];
     if (scrolled) {
-        navbarClasses.push('scrolled');
+        navbarClasses.push("scrolled");
     }
 
     return (
         <div className="site-header">
             {bannerSection}
-            <div className={navbarClasses.join(' ')}>
+            <div className={navbarClasses.join(" ")}>
                 <NavPanelMain layout={layout} menuList={menuList} languages={langueges} />
             </div>
         </div>

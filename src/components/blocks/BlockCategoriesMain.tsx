@@ -18,7 +18,7 @@ export interface BlockCategoriesProps {
 function BlockCategoriesMain(props: BlockCategoriesProps) {
     const { title, layout = "classic", categories = [] } = props;
     const router = useRouter();
-    const { locale = "en_US" } = router.query;
+    const { locale = "ar_JO" } = router.query;
     const categoriesList = categories.map((category, index) => {
         const classes = `block-categories__item category-card category-card--layout--${layout}`;
         // const { subCategories }: { subCategories?: ISubCategory[] } = category;
@@ -37,12 +37,12 @@ function BlockCategoriesMain(props: BlockCategoriesProps) {
         // }
 
         return (
-            <div id="ourproducts" key={index} className={classes}>
+            <div key={index} className={classes}>
                 <div className="category-card__body_custom">
                     <div className="category-card__image_custom">
                         <AppLink 
-                        onClick={()=>{router.push(`/categories/${category.id}?locale=${locale}`)}}
-                        // href={url.exportCategory(category.id)} 
+                        // onClick={()=>{router.push(`/categories/${category.id}?locale=${locale}`)}}
+                        href={url.exportCategory(category.id, locale)} 
                         >
                             <img src={category.imageUrl} alt={category.name} />
                         </AppLink>

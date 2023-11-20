@@ -59,25 +59,25 @@ function ProductCardMain(props: ProductCardProps) {
             {/* {product.attributes.filter((x) => x.featured).map((attribute, index) => ( */}
             <li
                 key={`card-barcodeTranslation-${product.barcode}`}
-            >{`${translations.barcodeTranslation}: ${product.barcode}`}</li>
+            ><span>{translations.barcodeTranslation}: </span>{product.barcode}</li>
             <li
                 key={`card-widthTranslation-${product.barcode}`}
-            >{`${translations.widthTranslation}: ${product.weight}`}</li>
+            ><span>{translations.widthTranslation}: </span>{product.weight}</li>
             <li
                 key={`card-packagingTranslation-${product.barcode}`}
-            >{`${translations.packagingTranslation}: ${product.packaging}`}</li>
+            ><span>{translations.packagingTranslation}: </span>{product.packaging}</li>
             <li
                 key={`card-packageWidth-${product.barcode}`}
-            >{`${translations.widthTranslation}: ${product.packageWidth}`}</li>
+            ><span>{translations.widthTranslation}: </span>{product.packageWidth}</li>
             <li
                 key={`card-packageHeight-${product.barcode}`}
-            >{`${translations.heightTranslation}: ${product.packageHeight}`}</li>
+            ><span>{translations.heightTranslation}: </span>{product.packageHeight}</li>
             <li
                 key={`card-packageWeightTranslation-${product.barcode}`}
-            >{`${translations.packageWeightTranslation}: ${product.packageWeight}`}</li>
+            ><span>{translations.packageWeightTranslation}: </span>{product.packageWeight}</li>
             <li
                 key={`card-boxWeightTranslation-${product.barcode}`}
-            >{`${translations.boxWeightTranslation}: ${product.weight}`}</li>
+            ><span>{translations.boxWeightTranslation}: </span>{product.weight}</li>
             {/* <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
                     <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
                     <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
@@ -108,7 +108,7 @@ function ProductCardMain(props: ProductCardProps) {
             {image}
             <div className="product-card__info">
                 <div className="product-card__name">
-                    <AppLink>{`${translations.nameTranslation}: ${product.name}`}</AppLink>
+                    <AppLink>{` ${product.name}`}</AppLink>
                 </div>
                 {/* <div className="product-card__rating">
                     <Rating value={product.rating} />

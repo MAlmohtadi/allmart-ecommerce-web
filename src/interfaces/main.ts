@@ -3,6 +3,7 @@
 export interface IHomePageInfo {
     categories: ICategory[];
     languages: ILanguage[];
+    catalogUrl: string,
     aboutUs: IAboutUs;
     banners: IBanner[];
     menuList: IMenu[];
@@ -79,7 +80,7 @@ export interface ITranslation {
     heightTranslation: string;
     boxWeightTranslation: string;
     nameTranslation: string;
-    DownloadCatalogTranslation: string;
+    downloadCatalogTranslation: string;
     categoriesTranslation: string;
     browseMoreTranslation: string;
     widthTranslation: string;

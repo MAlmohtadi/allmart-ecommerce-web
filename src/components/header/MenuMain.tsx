@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import AppLink from '../shared/AppLink';
 import ArrowRoundedRight6x9Svg from '../../svg/arrow-rounded-right-6x9.svg';
 import { ILinkMain, INestedLink } from '../../interfaces/menus/linkMain';
+import { useRouter } from 'next/router';
 
 export type MenuLayout = 'classic' | 'topbar';
 
@@ -25,12 +26,13 @@ function MenuMain<T extends INestedLink>(props: MenuProps<T>) {
         items = [],
         onClick = () => {},
     } = props;
-
+    const router = useRouter();
+    const { locale = "ar_JO" } = router.query;
     const renderLink = (item: T, content: ReactNode) => {
         let link;
 
         if (item.link) {
-            link = <AppLink href={item.link} onClick={() => onClick && onClick(item)}>{content}</AppLink>;
+            link = <AppLink href={`${item.link}?locale=${locale}`} onClick={() => onClick && onClick(item)}>{content}</AppLink>;
         } else {
             link = <button type="button" onClick={() => onClick && onClick(item)}>{content}</button>;
         }

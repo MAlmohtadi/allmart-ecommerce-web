@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import AppLink from '../shared/AppLink';
 import { ICategory } from '../../interfaces/main';
 import { useRouter } from 'next/router';
+import url from '../../services/url';
 
 interface Props{
     categories?: ICategory[]
@@ -15,9 +16,9 @@ interface Props{
 function FilterCategory(props: Props) {
     const { categories } = props;
     const router = useRouter();
-    const { locale = "en_US" } = router.query;
+    const { locale = "ar_JO" } = router.query;
     const categoriesList = categories?.map((category) => {
-        const itemClasses = classNames('filter-categories__item'
+        const itemClasses = classNames('filter-categories__item filter-categories__item--child'
         // ,
         //  {
         //     'filter-categories__item--current': data.value === category.slug,
@@ -33,7 +34,7 @@ function FilterCategory(props: Props) {
                     </li>
                 ))} */}
                 <li className={itemClasses}>
-                    <AppLink onClick={()=>{router.push(`/categories/${category.id}?locale=${locale}`)}}>{category.name}</AppLink>
+                    <AppLink href={url.exportCategory(category.id,locale)}>{category.name}</AppLink>
                 </li>
                 {/* {category.children && category.children.map((child) => (
                     <li key={child.id} className="filter-categories__item filter-categories__item--child">

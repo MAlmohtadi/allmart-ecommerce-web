@@ -13,11 +13,11 @@ export type NavPanelLayout = "default" | "compact";
 export interface NavPanelProps {
     layout?: NavPanelLayout;
     menuList?: IMenu[];
-    languages?:ILanguage[];
+    languages?: ILanguage[];
 }
 
 function NavPanelMain(props: NavPanelProps) {
-    const { layout = "default",menuList, languages} = props;
+    const { layout = "default", menuList, languages } = props;
     let logo = null;
     let departments = null;
     let searchIndicator;
@@ -43,8 +43,7 @@ function NavPanelMain(props: NavPanelProps) {
             </div>
         );
     }
-    
- 
+
     return (
         <div className="nav-panel">
             <div className="nav-panel__container container">
@@ -52,10 +51,10 @@ function NavPanelMain(props: NavPanelProps) {
                     {logo}
 
                     <div className="nav-panel__nav-links nav-links">
-                        <NavLinksMain menuList={menuList}/>
+                        <NavLinksMain menuList={menuList} />
                     </div>
                     <div className="nav-panel__nav-links nav-links">
-                        <DropdownLanguage languages={languages}/>
+                        <DropdownLanguage languages={languages} />
                     </div>
                 </div>
             </div>

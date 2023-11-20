@@ -24,11 +24,11 @@ export type ProductLayout = "standard" | "sidebar" | "columnar" | "quickview";
 export interface ProductProps {
     product: IProduct;
     layout: ProductLayout;
-    translations: ITranslation| null
+    translations: ITranslation | null;
 }
 
 function Product(props: ProductProps) {
-    const { product, layout,translations } = props;
+    const { product, layout, translations } = props;
 
     return (
         <div className={`product product--layout--${layout}`}>
@@ -40,20 +40,34 @@ function Product(props: ProductProps) {
 
                     <div className="product__description">{`${translations?.detailsTranslation}: ${product.description}`}</div>
                     <ul className="product__features">
-                        <li key={`barcodeTranslation-${product.barcode}`}>{`${translations?.barcodeTranslation}: ${product.barcode}`}</li>
-                        <li key={`widthTranslation-${product.barcode}`}>{`${translations?.widthTranslation}: ${product.weight}`}</li>
-                        <li
-                            key={`packagingTranslation-${product.barcode}}`}
-                        >{`${translations?.packagingTranslation}: ${product.packaging}`}</li>
-                        <li key={`packageWidth-${product.barcode}`}>{`${translations?.widthTranslation}: ${product.packageWidth}`}</li>
-                        <li key={`packageHeight-${product.barcode}`}>{`${translations?.heightTranslation}: ${product.packageHeight}`}</li>
-                        <li
-                            key={`packageWeightTranslation-${product.barcode}`}
-                        >{`${translations?.packageWeightTranslation}: ${product.packageWeight}`}</li>
-                        <li
-                            key={`boxWeightTranslation-${product.name}`}
-                        >{`${translations?.boxWeightTranslation}: ${product.weight}`}</li>
-                        
+                        <li key={`product-barcodeTranslation-${product.barcode}`}>
+                            <span>{translations?.barcodeTranslation}: </span>
+                            {product.barcode}
+                        </li>
+                        <li key={`product-widthTranslation-${product.barcode}`}>
+                            <span>{translations?.widthTranslation}: </span>
+                            {product.weight}
+                        </li>
+                        <li key={`product-packagingTranslation-${product.barcode}`}>
+                            <span>{translations?.packagingTranslation}: </span>
+                            {product.packaging}
+                        </li>
+                        <li key={`product-packageWidth-${product.barcode}`}>
+                            <span>{translations?.widthTranslation}: </span>
+                            {product.packageWidth}
+                        </li>
+                        <li key={`product-packageHeight-${product.barcode}`}>
+                            <span>{translations?.heightTranslation}: </span>
+                            {product.packageHeight}
+                        </li>
+                        <li key={`product-packageWeightTranslation-${product.barcode}`}>
+                            <span>{translations?.packageWeightTranslation}: </span>
+                            {product.packageWeight}
+                        </li>
+                        <li key={`product-boxWeightTranslation-${product.barcode}`}>
+                            <span>{translations?.boxWeightTranslation}: </span>
+                            {product.weight}
+                        </li>
                     </ul>
                 </div>
             </div>
