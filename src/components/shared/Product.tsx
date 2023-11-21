@@ -37,8 +37,17 @@ function Product(props: ProductProps) {
 
                 <div className="product__info">
                     <h1 className="product__name">{product.name}</h1>
-
-                    <div className="product__description">{`${translations?.detailsTranslation}: ${product.description}`}</div>
+                    <hr></hr>
+                    <div className="product__description">
+                        {
+                            <>
+                                <b> {translations?.detailsTranslation}: </b>
+                                <span>{product.description}</span>
+                            </>
+                        }
+                    </div>
+                    
+                    <br></br>
                     <ul className="product__features">
                         <li key={`product-barcodeTranslation-${product.barcode}`}>
                             <span>{translations?.barcodeTranslation}: </span>

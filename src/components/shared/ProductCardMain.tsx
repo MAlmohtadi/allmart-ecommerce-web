@@ -47,9 +47,9 @@ function ProductCardMain(props: ProductCardProps) {
     if (product.imageUrl) {
         image = (
             <div className="product-card__image product-image">
-                <AppLink className="product-image__body">
+                <div className="product-image__body">
                     <img className="product-image__img" src={product.imageUrl} alt="" />
-                </AppLink>
+                </div>
             </div>
         );
     }
