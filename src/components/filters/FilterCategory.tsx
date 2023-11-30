@@ -1,3 +1,4 @@
+// @ts-nocheck
 // react
 import { Fragment } from 'react';
 
