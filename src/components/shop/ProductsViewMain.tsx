@@ -190,11 +190,11 @@ function ProductsView(props: ProductsViewProps) {
     } else {
         content = (
             <div className="products-view__empty">
-                <div className="products-view__empty-title">لا توجد عناصر مطابقة</div>
-                <div className="products-view__empty-subtitle">حاول إعادة ضبط المرشحات</div>
-                <button type="button" className="btn btn-primary btn-sm" onClick={shopResetFilters}>
+                <div className="products-view__empty-title">لا توجد عناصر</div>
+                {/* <div className="products-view__empty-subtitle">حاول إعادة ضبط المرشحات</div> */}
+                {/* <button type="button" className="btn btn-primary btn-sm" onClick={shopResetFilters}>
                     إلغاء الفلتر
-                </button>
+                </button> */}
             </div>
         );
     }
