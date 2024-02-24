@@ -61,23 +61,20 @@ function ProductCardMain(props: ProductCardProps) {
                 key={`card-barcodeTranslation-${product.barcode}`}
             ><span>{translations.barcodeTranslation}: </span>{product.barcode}</li>
             <li
-                key={`card-widthTranslation-${product.barcode}`}
-            ><span>{translations.widthTranslation}: </span>{product.weight}</li>
-            <li
+                key={`card-boxWeightTranslation-${product.barcode}`}
+            ><span>{translations.boxWeightTranslation}: </span>{product.weight}</li>
+              <li
                 key={`card-packagingTranslation-${product.barcode}`}
             ><span>{translations.packagingTranslation}: </span>{product.packaging}</li>
             <li
-                key={`card-packageWidth-${product.barcode}`}
+                key={`card-lengthTranslation-${product.barcode}`}
+            ><span>{translations.lengthTranslation}: </span>{product.packageLength}</li>
+            <li
+                key={`card-widthTranslation-${product.barcode}`}
             ><span>{translations.widthTranslation}: </span>{product.packageWidth}</li>
             <li
                 key={`card-packageHeight-${product.barcode}`}
             ><span>{translations.heightTranslation}: </span>{product.packageHeight}</li>
-            <li
-                key={`card-packageWeightTranslation-${product.barcode}`}
-            ><span>{translations.packageWeightTranslation}: </span>{product.packageWeight}</li>
-            <li
-                key={`card-boxWeightTranslation-${product.barcode}`}
-            ><span>{translations.boxWeightTranslation}: </span>{product.weight}</li>
             {/* <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
                     <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
                     <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>

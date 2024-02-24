@@ -84,6 +84,7 @@ export interface ITranslation {
     categoriesTranslation: string;
     browseMoreTranslation: string;
     widthTranslation: string;
+    lengthTranslation: string;
     boxSizeTranslation: string;
     packagingTranslation: string;
 }
@@ -99,4 +100,5 @@ export interface IProduct {
     packageWidth: number;
     packageHeight: number;
     packageWeight: number;
+    packageLength: number;
 }
