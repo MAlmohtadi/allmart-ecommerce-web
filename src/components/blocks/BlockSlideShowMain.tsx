@@ -57,8 +57,9 @@ function BlockSlideShowMain(props: BlockSlideShowProps) {
             'col-lg-9': withDepartments,
         },
     );
-
-    const slidesList = banners?.map((slide, index) => {
+    var slidesList;
+    if(banners && banners.length> 0){
+        slidesList = banners?.map((slide, index) => {
         const image = slide.imageUrl;
 
         return (
@@ -78,8 +79,9 @@ function BlockSlideShowMain(props: BlockSlideShowProps) {
                     }}
                 />
             </div>
-        );
-    });
+            );
+        });
+    }
 
     return (
         <>
