@@ -65,7 +65,10 @@ const mainApi = {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-        }).then((response) => response.json());
+        }).then((response) => {
+            var tt = response.json();
+            console.log("bbbb:", tt)
+            return response.json()});
 
         // This is for demonstration purposes only. Remove it and use the code above.
     },

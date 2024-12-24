@@ -61,7 +61,7 @@ function Product(props: ProductProps) {
                             <span>{translations?.packagingTranslation}: </span>
                             {product.packaging}
                         </li>
-                        <li key={`product-lengthTranslation-${product.barcode}`}>
+                        {/* <li key={`product-lengthTranslation-${product.barcode}`}>
                             <span>{translations?.lengthTranslation}: </span>
                             {product.packageLength}
                         </li>
@@ -72,6 +72,11 @@ function Product(props: ProductProps) {
                         <li key={`product-packageHeight-${product.barcode}`}>
                             <span>{translations?.heightTranslation}: </span>
                             {product.packageHeight}
+                        </li> */}
+
+                        <li key={`product-palletCapacity-${product.barcode}`}>
+                            <span>{translations?.palletTranslation}: </span>
+                            {product.palletCapacity}
                         </li>
                     </ul>
                 </div>

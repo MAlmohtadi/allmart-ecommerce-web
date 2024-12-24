@@ -82,6 +82,8 @@ function BlockSlideShowMain(props: BlockSlideShowProps) {
     });
 
     return (
+        <>
+        {slidesList &&
         <div className={blockClasses}>
             <div className="container">
                 <div className="row">
@@ -95,6 +97,8 @@ function BlockSlideShowMain(props: BlockSlideShowProps) {
                 </div>
             </div>
         </div>
+        }
+        </>
     );
 }
 

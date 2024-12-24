@@ -67,6 +67,9 @@ function ProductCardMain(props: ProductCardProps) {
                 key={`card-packagingTranslation-${product.barcode}`}
             ><span>{translations.packagingTranslation}: </span>{product.packaging}</li>
             <li
+                key={`card-palletTranslation-${product.barcode}`}
+            ><span>{translations.palletTranslation}: </span>{product.palletCapacity}</li>
+            {/* <li
                 key={`card-lengthTranslation-${product.barcode}`}
             ><span>{translations.lengthTranslation}: </span>{product.packageLength}</li>
             <li
@@ -74,7 +77,7 @@ function ProductCardMain(props: ProductCardProps) {
             ><span>{translations.widthTranslation}: </span>{product.packageWidth}</li>
             <li
                 key={`card-packageHeight-${product.barcode}`}
-            ><span>{translations.heightTranslation}: </span>{product.packageHeight}</li>
+            ><span>{translations.heightTranslation}: </span>{product.packageHeight}</li> */}
             {/* <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
                     <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>
                     <li key={index}>{`${attribute.name}: ${attribute.values.map((x) => x.name).join(', ')}`}</li>

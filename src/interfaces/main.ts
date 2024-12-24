@@ -87,6 +87,7 @@ export interface ITranslation {
     lengthTranslation: string;
     boxSizeTranslation: string;
     packagingTranslation: string;
+    palletTranslation: string;
 }
 
 export interface IProduct {
@@ -101,4 +102,5 @@ export interface IProduct {
     packageHeight: number;
     packageWeight: number;
     packageLength: number;
+    palletCapacity: number;
 }
