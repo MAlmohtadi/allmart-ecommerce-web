@@ -210,7 +210,7 @@ function ShopPageCheckout(props: CheckoutProps) {
             {totals.length > 0 && (
                 <tbody className="checkout__totals-subtotals">
                     <tr>
-                        <th>المجم1وع</th>
+                        <th>المجموع</th>
                         <td>
                             <CurrencyFormat value={cart.subtotal} />
                         </td>
