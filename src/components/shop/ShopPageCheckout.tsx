@@ -1,31 +1,29 @@
 /* eslint-disable */
 // react
-import {
-    Fragment, ChangeEvent, useEffect, useState, useRef, FormEvent,
-} from 'react';
+import { Fragment, ChangeEvent, useEffect, useState, useRef, FormEvent } from "react";
 
 // third-party
-import Head from 'next/head';
-import { useRouter } from 'next/router';
+import Head from "next/head";
+import { useRouter } from "next/router";
 
 // application
-import { toast } from 'react-toastify';
-import AppLink from '../shared/AppLink';
-import Collapse, { CollapseRenderFn } from '../shared/Collapse';
-import CurrencyFormat from '../shared/CurrencyFormat';
-import PageHeader from '../shared/PageHeader';
-import url from '../../services/url';
+import { toast } from "react-toastify";
+import AppLink from "../shared/AppLink";
+import Collapse, { CollapseRenderFn } from "../shared/Collapse";
+import CurrencyFormat from "../shared/CurrencyFormat";
+import PageHeader from "../shared/PageHeader";
+import url from "../../services/url";
 
 // data stubs
-import dataShopPayments from '../../data/shopPayments';
-import { useCart, useCartApplyCoupon, useCartClear } from '../../store/cart/cartHooks';
-import { useAccount } from '../../store/account/accountHooks';
-import { ICheckoutInfo, IDelivery, IDeliveryInfo, IPeriod } from '../../interfaces/checkout-info';
-import { useHomeAdminSettings } from '../../store/home/homeHooks';
-import shopApi from '../../api/shop';
-import { useDeferredData } from '../../services/hooks';
-import { useSale } from '../../store/sale/saleHooks';
-import MapPicker from '../shared/MapPicker';
+import dataShopPayments from "../../data/shopPayments";
+import { useCart, useCartApplyCoupon, useCartClear } from "../../store/cart/cartHooks";
+import { useAccount } from "../../store/account/accountHooks";
+import { ICheckoutInfo, IDelivery, IDeliveryInfo, IPeriod } from "../../interfaces/checkout-info";
+import { useHomeAdminSettings } from "../../store/home/homeHooks";
+import shopApi from "../../api/shop";
+import { useDeferredData } from "../../services/hooks";
+import { useSale } from "../../store/sale/saleHooks";
+import MapPicker from "../shared/MapPicker";
 
 export type RenderPaymentFn = CollapseRenderFn<HTMLLIElement, HTMLDivElement>;
 
@@ -40,24 +38,53 @@ function ShopPageCheckout(props: CheckoutProps) {
     const account = useAccount();
     const isWholeSale = useSale();
     const adminSettings = useHomeAdminSettings();
-    const [currentPayment, setCurrentPayment] = useState('cash');
-    const [deliveryPlace, setDeliveryPlace] = useState('');
+    const [currentPayment, setCurrentPayment] = useState("cash");
+    const [deliveryPlace, setDeliveryPlace] = useState("");
     const [deliveryDate, setDeliveryDate] = useState<IDelivery>();
     const [deliveryPeriod, setDeliveryPeriod] = useState<IPeriod>();
     const noteInputRef = useRef<HTMLInputElement | null>(null);
     const deliveryInfo = useDeferredData(() => shopApi.getCheckoutInfo(), initData);
     const [deliveryDetails, setDeliveryDetails] = useState<IDeliveryInfo>();
-
+    const [country, setCountry] = useState("Jordan");
+    const [state, setState] = useState("");
+    const [city, setCity] = useState("");
     const clearCart = useCartClear();
-    const [location, setLocation] = useState({ lat: -34.397, lng: 150.644 });
-    const onChangeLocation = async(lat:number, lng:number) => {
-      const deliveryDetails = await  shopApi.getDeliveryInfo({lat,lng}).then()
-      setDeliveryDetails(deliveryDetails); 
-      setLocation({ lat, lng });
+    const [location, setLocation] = useState({ lat: 31.967555, lng: 35.906802 });
+    const onChangeLocation = async (lat: number, lng: number) => {
+        if (country === "United States of America") {
+            setDeliveryDetails({
+                branchId: 2,
+                deliveryPrice: 20,
+            });
+        } else {
+            const deliveryDetails = await shopApi.getDeliveryInfo({ lat, lng }).then();
+            setDeliveryDetails(deliveryDetails);
+        }
+        setLocation({ lat, lng });
     };
     const handlePaymentChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
             setCurrentPayment(event.target.value);
+        }
+    };
+    const handleCountryChange = async (e: ChangeEvent<HTMLSelectElement>) => {
+        const selectedCountry = e.target.value;
+        setCountry(selectedCountry);
+
+        // Reset state and city if the country is not "United States of America"
+        if (e.target.value !== "United States of America") {
+            setState("");
+            setCity("");
+            const deliveryDetails = await shopApi.getDeliveryInfo(location).then();
+            setDeliveryDetails(deliveryDetails);
+        }
+        if (e.target.value === "United States of America") { 
+            const deliveryDetails = await shopApi.getDeliveryInfo(location).then();
+            setDeliveryDetails({
+                branchId: 2,
+                deliveryPrice: 20,
+            });
+            setLocation({ lat: 31.967555, lng: 35.906802});
         }
     };
     const couponRef = useRef<HTMLInputElement | null>(null);
@@ -67,13 +94,13 @@ function ShopPageCheckout(props: CheckoutProps) {
     const submitCoupon = (e: FormEvent) => {
         e.preventDefault();
         if (!couponRef.current || !couponRef.current.value) {
-            toast.error('الرجاء تعبئة كود الخصم', { theme: 'colored' });
+            toast.error("الرجاء تعبئة كود الخصم", { theme: "colored" });
         } else {
             applyCoupon(couponRef.current?.value);
         }
     };
     useEffect(() => {
-        if (cart.stateFrom === 'client' && cart.items.length < 1) {
+        if (cart.stateFrom === "client" && cart.items.length < 1) {
             const linkProps = url.cart();
 
             router.replace(linkProps.href, linkProps.as).then();
@@ -84,12 +111,12 @@ function ShopPageCheckout(props: CheckoutProps) {
         return null;
     }
 
-    const selectDay = async (id: string = '') => {
+    const selectDay = async (id: string = "") => {
         const deliveryDate = deliveryInfo.data?.deliveryInfo.find((item) => `${item.id}` === id);
         setDeliveryDate(deliveryDate);
     };
 
-    const selectPeriod = async (id: string = '') => {
+    const selectPeriod = async (id: string = "") => {
         // @ts-ignore
         const period = deliveryDate.periods.find((item) => `${item.id}` === id);
         setDeliveryPeriod(period);
@@ -107,47 +134,50 @@ function ShopPageCheckout(props: CheckoutProps) {
                 productId: item.product.id,
                 quantity: item.quantity,
             }));
-            const discount = cart.totals.find((item) => item.type === 'discount')?.price;
+            const discount = cart.totals.find((item) => item.type === "discount")?.price;
             const deliveryPrice = deliveryDetails?.deliveryPrice || 0;
             shopApi
                 .addOrder({
                     branchId: deliveryDetails?.branchId,
-                    couponCode: cart.coupon?.code || '',
+                    couponCode: cart.coupon?.code || "",
                     couponDiscount: discount || 0,
                     location: `${location.lat},${location.lng}`,
                     deliveryPrice,
-                    typeOfPayment: currentPayment === 'cash' ? 0 : 1,
-                    notes: noteInputRef.current?.value || '',
+                    typeOfPayment: currentPayment === "cash" ? 0 : 1,
+                    notes: noteInputRef.current?.value || "",
                     // @ts-ignore
                     orderedProducts,
-                    totalPrice: cart.total + deliveryPrice||0,
+                    totalPrice: cart.total + deliveryPrice || 0,
                     userId: account.id || 0,
                     isWholeSale,
+                    country,
+                    state,
+                    city,
                 })
                 .then(async () => {
-                    await router.replace('/shop/checkout/success');
+                    await router.replace("/shop/checkout/success");
                     await clearCart();
                 })
                 .catch((e) => {
-                    toast.error(e.message, { theme: 'colored' });
+                    toast.error(e.message, { theme: "colored" });
                 });
         } else if (adminSettings?.chooseDeliveryEnabled) {
-            let message = 'يجب تحديد عنوان التوصيل :';
+            let message = "يجب تحديد عنوان التوصيل :";
             // message = !deliveryDate ? `${message}\n\n - يوم التوصيل` : message;
             // message = adminSettings.choose_delivery_period_enabled !== false && !deliveryPeriod
             //     ? `${message}\n\n - وقت التوصيل`
             //     : message;
-            toast.error(message, { theme: 'colored' });
+            toast.error(message, { theme: "colored" });
         }
     };
     const totals = cart.totals.map((total, index) => {
         let { price } = total;
-        if (total.type === 'shipping') {
+        if (total.type === "shipping") {
             if (!adminSettings?.choose_delivery_period_enabled === false) {
                 return null;
             }
             // @ts-ignore
-            price = deliveryDetails?.deliveryPrice||0;
+            price = deliveryDetails?.deliveryPrice || 0;
         }
         return (
             <tr key={index}>
@@ -180,7 +210,7 @@ function ShopPageCheckout(props: CheckoutProps) {
             {totals.length > 0 && (
                 <tbody className="checkout__totals-subtotals">
                     <tr>
-                        <th>المجموع</th>
+                        <th>المجم1وع</th>
                         <td>
                             <CurrencyFormat value={cart.subtotal} />
                         </td>
@@ -232,9 +262,9 @@ function ShopPageCheckout(props: CheckoutProps) {
     });
 
     const breadcrumb = [
-        { title: 'الرئيسية', url: url.home() },
-        { title: 'سلة التسوق', url: url.cart() },
-        { title: 'تنفيذ الطلب', url: '' },
+        { title: "الرئيسية", url: url.home() },
+        { title: "سلة التسوق", url: url.cart() },
+        { title: "تنفيذ الطلب", url: "" },
     ];
 
     if (!account.isLoggedIn) {
@@ -330,23 +360,62 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             <span className="text-muted">المكان، اليوم، الوقت</span>
                                         </div>
                                     )} */}
-                                     <div className="form-group">
+                                    <div className="form-group">
                                         <MapPicker
                                             // @ts-ignore
                                             isMarkerShown
-                                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfG3eAQBGOIiySuJxu273SGFAJ73Z0f98&v=3.exp&libraries=geometry,drawing,places"
+                                            googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaijgVT-SKC6vSkvbF1XQks5XzWBWQtI0&v=3.exp&libraries=geometry,drawing,places"
                                             location={location}
                                             onChangeLocation={onChangeLocation}
-                                            loadingElement={<div style={{ height: '100%' }} />}
-                                            containerElement={<div style={{ height: '400px' }} />}
-                                            mapElement={<div style={{ height: '100%' }} />}
+                                            loadingElement={<div style={{ height: "100%" }} />}
+                                            containerElement={<div style={{ height: "400px" }} />}
+                                            mapElement={<div style={{ height: "100%" }} />}
                                         />
                                     </div>
                                     <div className="form-group">
+                                        <label htmlFor="checkout-country">الدولة</label>
+                                        <select
+                                            id="checkout-country"
+                                            className="form-control"
+                                            value={country}
+                                            onChange={handleCountryChange}
+                                        >
+                                            <option value="Jordan">Jordan</option>
+                                            <option value="United States of America">United States of America</option>
+                                        </select>
+                                        {country === "United States of America" && (
+                                            <span className="text-warning mt-2 d-block">
+                                                قد يتغير سعر التوصيل، وإذا حدث ذلك سنقوم بإبلاغك.
+                                            </span>
+                                        )}
+                                    </div>
+                                    {country === "United States of America" && (
+                                        <>
+                                            <div className="form-group">
+                                                <label htmlFor="checkout-state">الولاية</label>
+                                                <input
+                                                    id="checkout-state"
+                                                    className="form-control"
+                                                    value={state}
+                                                    onChange={(e) => setState(e.target.value)}
+                                                    placeholder="أدخل الولاية"
+                                                />
+                                            </div>
+                                            <div className="form-group">
+                                                <label htmlFor="checkout-city">المدينة</label>
+                                                <input
+                                                    id="checkout-city"
+                                                    className="form-control"
+                                                    value={city}
+                                                    onChange={(e) => setCity(e.target.value)}
+                                                    placeholder="أدخل المدينة"
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+                                    <div className="form-group">
                                         <label htmlFor="checkout-comment">
-                                            ملاحظات الطلب
-                                            {' '}
-                                            <span className="text-muted">(اختياري)</span>
+                                            ملاحظات الطلب <span className="text-muted">(اختياري)</span>
                                         </label>
                                         <textarea
                                             // @ts-ignore
@@ -374,7 +443,6 @@ function ShopPageCheckout(props: CheckoutProps) {
                                             </button>
                                         </form>
                                     </div>
-                                   
                                 </div>
                             </div>
                         </div>
