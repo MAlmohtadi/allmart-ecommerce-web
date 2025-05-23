@@ -53,8 +53,8 @@ function ShopPageCheckout(props: CheckoutProps) {
     const onChangeLocation = async (lat: number, lng: number) => {
         if (country === "United States of America") {
             setDeliveryDetails({
-                branchId: 2,
-                deliveryPrice: 20,
+                branchId: 0,
+                deliveryPrice: 25,
             });
         } else {
             const deliveryDetails = await shopApi.getDeliveryInfo({ lat, lng }).then();
@@ -81,8 +81,8 @@ function ShopPageCheckout(props: CheckoutProps) {
         if (e.target.value === "United States of America") { 
             const deliveryDetails = await shopApi.getDeliveryInfo(location).then();
             setDeliveryDetails({
-                branchId: 2,
-                deliveryPrice: 20,
+                branchId: 0,
+                deliveryPrice: 25,
             });
             setLocation({ lat: 31.967555, lng: 35.906802});
         }
