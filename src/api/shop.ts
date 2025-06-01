@@ -122,7 +122,8 @@ export interface DeliveryInfo {
     lat: number;
     lng: number;
 }
-const BASE_URL = 'http://localhost:8080/api';
+// const BASE_URL = 'http://localhost:8080/api';
+const BASE_URL = "https://jubran.jubran-api.com/api";
 const shopApi = {
 
     /**
