@@ -44,7 +44,7 @@ function MobileLinks(props: MobileLinksProps) {
                     );
                 }
 
-                if (link.type === 'link') {
+                if (link.type === 'link' || link.title === '') {
                     linkOrButton = (
                         <AppLink
                             href={link.url}
@@ -56,7 +56,8 @@ function MobileLinks(props: MobileLinksProps) {
                     );
                 } else {
                     linkOrButton = (
-                        <button type="button" className="mobile-links__item-link" onClick={toggle}>
+                        <button type="button" className="mobile-links__item-link"    onClick={() => handleItemClick(link)}>
+                        {/* onClick={toggle}> */}
                             {link.title}
                         </button>
                     );

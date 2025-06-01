@@ -7,7 +7,7 @@ import {
 // third-party
 import classNames from 'classnames';
 import { useRouter } from 'next/router';
-
+import { useHomeAdminSettings, useHome } from "../../store/home/homeHooks";
 // application
 import { toast } from 'react-toastify';
 import Cross20Svg from '../../svg/cross-20.svg';
@@ -27,6 +27,8 @@ function Search(props: SearchProps) {
     const [cancelFn, setCancelFn] = useState(() => () => {});
     const [suggestionsOpen, setSuggestionsOpen] = useState(false);
 
+    const homeData = useHome();
+    const translations = homeData?.translations;
     const [query, setQuery] = useState('');
     const wrapperRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
@@ -125,7 +127,7 @@ function Search(props: SearchProps) {
                         value={query}
                         className="search__input"
                         name="search"
-                        placeholder="ابحث عن المنتج"
+                        placeholder={translations?.searchProduct || "ابحث عن المنتج"}
                         aria-label="Site search"
                         type="text"
                         autoComplete="off"

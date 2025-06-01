@@ -8,9 +8,11 @@ import classNames from 'classnames';
 import Cross20Svg from '../../svg/cross-20.svg';
 import MobileLinks from './MobileLinks';
 import { useCurrencyChange } from '../../store/currency/currencyHooks';
-import { useLocaleChange } from '../../store/locale/localeHooks';
+import { useLanguage, useLocaleChange, useSyncedLocalStorage } from "../../store/locale/localeHooks";
 import { useMobileMenu, useMobileMenuClose } from '../../store/mobile-menu/mobileMenuHooks';
 
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
 // data stubs
 import {getMobileMenu} from '../../data/mobileMenu';
 import dataShopCurrencies from '../../data/shopCurrencies';
@@ -23,6 +25,11 @@ function MobileMenu() {
     const localeChange = useLocaleChange();
     const currencyChange = useCurrencyChange();
     const homeData = useHome();
+    const [direction, setDirection] = useSyncedLocalStorage<"ltr" | "rtl">(
+        "direction",
+        "ltr"
+        );
+    const router = useRouter();
     const { categories } = homeData;
     const classes = classNames('mobilemenu', {
         'mobilemenu--open': mobileMenu.open,
@@ -30,8 +37,18 @@ function MobileMenu() {
 
     const handleItemClick = (item: IMobileMenuLink) => {
         if (item.data) {
+            
+            console.log("lang click22:", item.data);
             if (item.data.type === 'language') {
-                localeChange(item.data.locale);
+                console.log("lang click:", item.data);
+                let basePath = router.asPath.includes("#") ? router.asPath.split("#")[0] : router.asPath.split("?")[0];
+                router.push(`${basePath}`).then(() => {
+                    router.reload();
+                });
+                
+                Cookies.set("langId", item?.data?.langId.toString(), { path: "/" });
+                setDirection(item?.data?.direction);
+                // localeChange(item.data.locale);
                 mobileMenuClose();
             }
             if (item.data.type === 'currency') {

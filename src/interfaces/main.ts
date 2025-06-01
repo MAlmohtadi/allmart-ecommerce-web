@@ -172,6 +172,7 @@ export interface IEshopTranslation {
     cancel: string //---
     emptyCart: string //---
     quantity: string;
+    from: string;
 }
 
 export interface IProduct {

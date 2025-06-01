@@ -50,7 +50,7 @@ export function getMobileMenu(translations: IEshopTranslation | null, languages:
             children: languages ? languages.map((lang) => ({
                 type: 'button',
                 title: lang.name,
-                data: { type: 'language', locale: lang.locale },
+                data: { type: 'language', locale: lang.locale, langId : lang.id, direction: lang.direction },
             })) : [], 
             // children: [
             //     { type: 'button', title: 'English', data: { type: 'language', locale: 'en' } },

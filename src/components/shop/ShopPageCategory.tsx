@@ -32,6 +32,7 @@ export interface ShopPageCategoryProps {
 
 function ShopPageCategory(props: ShopPageCategoryProps) {
     const homeData = useHome();
+    const translations = homeData?.translations;
     // shop
     const shopState = useShop();
     let customPageTitle = '';
@@ -66,7 +67,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     const sidebarComponent = useMemo(() => (
         <CategorySidebar open={sidebarOpen} closeFn={closeSidebarFn} offcanvas={offcanvas}>
             <CategorySidebarItem>
-                <WidgetFilters title="الفلاتر" offcanvas={offcanvas} />
+                <WidgetFilters title={translations?.filters || "الفلاتر"} offcanvas={offcanvas} />
             </CategorySidebarItem>
         </CategorySidebar>
     ), [sidebarOpen, closeSidebarFn, offcanvas]);
@@ -76,7 +77,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     }
 
     const breadcrumb = [
-        { title: 'الرئيسية', url: url.home() },
+        { title: translations?.home || 'الرئيسية', url: url.home() },
         { title: customPageTitle, url: url.catalog() },
     ];
 
@@ -121,7 +122,7 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
     return (
         <Fragment>
             <Head>
-                <title>التصنيفات - جبران</title>
+                <title>{translations?.categories} - {translations?.jubran}</title>
             </Head>
 
             <PageHeader header={customPageTitle} breadcrumb={breadcrumb} />

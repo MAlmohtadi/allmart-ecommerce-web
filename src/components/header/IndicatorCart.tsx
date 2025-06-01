@@ -26,7 +26,7 @@ function IndicatorCart() {
     if (cart.totals.length > 0) {
         totals = cart.totals.map((total, index) => (
             <tr key={index}>
-                <th>{total.title}</th>
+                <th>{total.title === 'التوصيل' ? translations?.delivery :translations?.discountCoupon }</th>
                 <td><CurrencyFormat value={total.price} /></td>
             </tr>
         ));
@@ -121,7 +121,7 @@ function IndicatorCart() {
                         <tbody>
                             {totals}
                             <tr>
-                                <th>{translations?.subTotal || 'المجموع'}</th>
+                                <th>{translations?.total || 'المجموع'}</th>
                                 <td><CurrencyFormat value={cart.total} /></td>
                             </tr>
                         </tbody>

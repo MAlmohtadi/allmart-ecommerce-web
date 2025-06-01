@@ -183,7 +183,8 @@ function ShopPageCheckout(props: CheckoutProps) {
         }
         return (
             <tr key={index}>
-                <th>{total.title}</th>
+                {/* <th>{total.title}</th> */}
+                <th>{total.title === 'التوصيل' ? translations?.delivery :translations?.discountCoupon }</th>
                 <td>
                     <CurrencyFormat value={price} />
                 </td>
@@ -248,7 +249,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                             <span className="input-radio__circle" />
                         </span>
                     </span>
-                    <span className="payment-methods__item-title">{payment.title}</span>
+                    <span className="payment-methods__item-title">{payment.title === 'دفع فيزا عند الاستلام' ? translations?.payWithVisaOnDelivery : translations?.payCashOnDelivery}</span>
                 </label>
             </li>
         );

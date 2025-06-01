@@ -7,6 +7,7 @@ import classNames from 'classnames';
 // application
 import Cross20Svg from '../../svg/cross-20.svg';
 
+import {  useHome } from "../../store/home/homeHooks";
 export type CategorySidebarOffcanvas = 'always' | 'mobile';
 
 export interface CategorySidebarProps extends PropsWithChildren<{}> {
@@ -31,6 +32,9 @@ function CategorySidebar(props: CategorySidebarProps) {
         'block-sidebar--offcanvas--mobile': offcanvas === 'mobile',
     });
 
+    const homeData = useHome();
+    const translations = homeData?.translations;
+    const currTitle =translations?.filters  || title ;
     const backdropRef = useRef<HTMLDivElement>(null);
     const bodyRef = useRef<HTMLDivElement>(null);
 
@@ -97,7 +101,7 @@ function CategorySidebar(props: CategorySidebarProps) {
             <div className="block-sidebar__backdrop" ref={backdropRef} onClick={closeFn} />
             <div className="block-sidebar__body" ref={bodyRef}>
                 <div className="block-sidebar__header">
-                    <div className="block-sidebar__title">{title}</div>
+                    <div className="block-sidebar__title">{currTitle}</div>
                     <button className="block-sidebar__close" type="button" onClick={closeFn}>
                         <Cross20Svg />
                     </button>

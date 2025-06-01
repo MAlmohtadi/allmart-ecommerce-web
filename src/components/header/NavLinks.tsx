@@ -37,7 +37,12 @@ function NavLinks() {
         }
 
         const categoryMenu = getHeaderNavigation(homeData.translations).find((item) => item.title === 'التصنيفات' || item.title === 'Categories');
-
+        console.log("categories11:", categories);
+        console.log("categoryMenu:", categoryMenu);
+        console.log("submenu:", categoryMenu?.submenu);
+        console.log(categoryMenu && categoryMenu.submenu
+            && Array.isArray(categoryMenu.submenu.menu)
+            && !categoryMenu?.submenu?.menu.length);
         if (categoryMenu && categoryMenu.submenu
             && Array.isArray(categoryMenu.submenu.menu)
             && !categoryMenu?.submenu?.menu.length) {
@@ -56,6 +61,7 @@ function NavLinks() {
                 });
             });
         }
+        console.log("dsadasd", JSON.stringify( categoryMenu))
     };
     customMenuDataPreperation();
     const handleMouseEnter = (event: ReactMouseEvent) => {

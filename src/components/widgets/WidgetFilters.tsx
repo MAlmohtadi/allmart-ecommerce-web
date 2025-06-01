@@ -15,6 +15,7 @@ import {
     useShopResetFiltersThunk,
     useShopSetFilterValueThunk,
 } from '../../store/shop/shopHooks';
+import { useHome } from '../../store/home/homeHooks';
 
 type WidgetFiltersProps = {
     title?: ReactNode;
@@ -25,6 +26,8 @@ type RenderFilterFn = CollapseRenderFn<HTMLDivElement, HTMLDivElement>;
 
 function WidgetFilters(props: WidgetFiltersProps) {
     const { title, offcanvas = 'mobile' } = props;
+    const homeData = useHome();
+    const translations = homeData?.translations;
     const filters = useShopFilters();
     const values = useShopFilterValues();
 
@@ -42,7 +45,7 @@ function WidgetFilters(props: WidgetFiltersProps) {
         const renderFilter: RenderFilterFn = ({ toggle, setItemRef, setContentRef }) => (
             <div className="filter filter--opened" ref={setItemRef}>
                 <button type="button" className="filter__title" onClick={toggle}>
-                    السعر
+                   {translations?.price || 'السعر'}
                     <ArrowRoundedDown12x7Svg className="filter__arrow" />
                 </button>
                 <div className="filter__body" ref={setContentRef}>
@@ -79,7 +82,7 @@ function WidgetFilters(props: WidgetFiltersProps) {
                     className="btn btn-secondary btn-sm"
                     onClick={shopResetFilters}
                 >
-                    إعادة تعيين
+                  {translations?.reassign || ' إعادة تعيين'}
                 </button>
             </div>
         </div>

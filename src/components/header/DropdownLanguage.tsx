@@ -41,7 +41,7 @@ function DropdownLanguage(props: LanguagesProps) {
     ? languages.map((item, index) => {
         return { name: item.showText, locale: item.locale, direction: item.direction, langId: item.id};
     }): [];
-    console.log("langs:" +Array.isArray(languages), languages);
+    // console.log("langs:" +Array.isArray(languages), languages);
     const classes = classNames("nav-links__item");
     const onClick = (item: any) => {
         let basePath = router.asPath.includes("#") ? router.asPath.split("#")[0] : router.asPath.split("?")[0];

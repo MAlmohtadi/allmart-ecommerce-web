@@ -19,6 +19,7 @@ import {
     useShopProductsListIsLoading,
     useShopResetFiltersThunk,
 } from '../../store/shop/shopHooks';
+import {  useHome } from "../../store/home/homeHooks";
 
 export type ProductsViewLayout = 'grid' | 'grid-with-features' | 'list';
 
@@ -48,7 +49,9 @@ function ProductsView(props: ProductsViewProps) {
     } = props;
     const [layout, setLayout] = useState(propsLayout);
     const router = useRouter();
-    const isLoading = useShopProductsListIsLoading();
+    const isLoading = useShopProductsListIsLoading(); 
+    const homeData = useHome();
+    const translations = homeData?.translations;
     const productsList = useShopProductsList();
     const options = useShopOptions();
     const filterValues = useShopFilterValues();
@@ -113,7 +116,7 @@ function ProductsView(props: ProductsViewProps) {
                             <div className="view-options__filters-button">
                                 <button type="button" className="filters-button" onClick={openSidebarFn}>
                                     <Filters16Svg className="filters-button__icon" />
-                                    <span className="filters-button__title">الفلاتر</span>
+                                    <span className="filters-button__title">{translations?.filters || 'الفلاتر'}</span>
                                     {!!filtersCount && <span className="filters-button__counter">{filtersCount}</span>}
                                 </button>
                             </div>
@@ -124,11 +127,11 @@ function ProductsView(props: ProductsViewProps) {
                             </div>
                         </div>
                         <div className="view-options__legend">
-                            {`عرض ${productsList.from}—${productsList.to} من ${productsList.total} المنتجات`}
+                            {` ${translations?.offer} ${productsList.from}—${productsList.to}  ${translations?.from} ${productsList.total} ${translations?.products} `}
                         </div>
                         <div className="view-options__divider" />
                         <div className="view-options__control">
-                            <label htmlFor="view-options-sort">الترتيب حسب</label>
+                            <label htmlFor="view-options-sort">{translations?.sortBy || 'الترتيب حسب'}</label>
                             <div>
                                 <select
                                     id="view-options-sort"
@@ -136,14 +139,14 @@ function ProductsView(props: ProductsViewProps) {
                                     value={options.sort || productsList.sort}
                                     onChange={handleSortChange}
                                 >
-                                    <option value="default">بدون</option>
-                                    <option value="asc">الأقل سعرا</option>
-                                    <option value="desc">الاعلى سعرا</option>
+                                    <option value="default">{translations?.none || 'بدون'}</option>
+                                    <option value="asc">{translations?.lowestPrice || 'الأقل سعرا'}</option>
+                                    <option value="desc">{translations?.highestPrice || 'الاعلى سعرا'}</option>
                                 </select>
                             </div>
                         </div>
                         <div className="view-options__control">
-                            <label htmlFor="view-options-limit">عرض</label>
+                            <label htmlFor="view-options-limit">{translations?.offer || 'عرض'}</label>
                             <div>
                                 <select
                                     id="view-options-limit"
