@@ -67,7 +67,7 @@ const mainApi = {
             },
         }).then((response) => {
             var tt = response.json();
-            console.log("bbbb:", tt)
+            // console.log("bbbb:", tt)
             return response.json()});
 
         // This is for demonstration purposes only. Remove it and use the code above.

@@ -44,7 +44,8 @@ export function homeFetchThunk(langId: number | undefined ): HomeThunkAction<Pro
 
         const saleState = getState()[SALE_NAMESPACE];
         const { isWholeSale } = saleState;
-        console.log("kooooooooooooooooooo: ", langId);
+        // console.log("kooooooooooooooooooo: ", langId);
+        console.log("home_page_data_3");
         const homeDate = await shopApi.getHomePageData({ isWholeSale, langId });
 
         if (canceled) {

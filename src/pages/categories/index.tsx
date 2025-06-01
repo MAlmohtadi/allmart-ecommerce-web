@@ -16,7 +16,7 @@ export interface PageProps {
 // noinspection JSUnusedGlobalSymbols
 export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
     const { locale = "ar_JO",categoryId  } = context.params;
-    console.log("getAllProduct", context);
+    // console.log("getAllProduct", context);
     const homePageInfo = await mainApi.getHomePageInfo({ locale: locale });
     let productsList;
     if(categoryId){

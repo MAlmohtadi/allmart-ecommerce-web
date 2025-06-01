@@ -139,7 +139,7 @@ const shopApi = {
          */
         
         options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
-        console.log("hooooola:"+options.langId)
+        // console.log("hooooola:"+options.langId)
         return fetch(`${BASE_URL}/home/getHomeInfo?${qs.stringify(options)}`, {
             method: 'GET',
             headers: {
@@ -157,7 +157,7 @@ const shopApi = {
      */
     getAboutUsContent: (): Promise<any> => {
         const langId = parseInt(Cookies.get("langId") || "1")
-        console.log("hooooola:"+langId)
+        // console.log("hooooola:"+langId)
         return fetch(`${BASE_URL}/page/content/getAboutUs?langId=${langId}`, {
             method: 'GET',
             headers: {

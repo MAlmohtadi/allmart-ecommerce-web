@@ -26,6 +26,7 @@ import { useSale } from '../../store/sale/saleHooks';
 import { useTranslations } from '../../store/home/homeHooks';
 import BlockCategoriesCustom from '../blocks/BlockCategoriesCustom';
 
+import { useHome } from '../../store/home/homeHooks';
 export interface InitData {
     homepageInfo?: IHomePageResponse;
     featuredProducts?: IProductResponse;
@@ -44,10 +45,20 @@ function HomePage(props: HomePageProps) {
     const isWholeSale = useSale();
     const [langId, setLangId] = useState<number | null>(initData?.langId ?? null);
 
-    console.log("zeeeeeeeooLang: ", langId );
-    const homepageInfo = useDeferredData(() => shopApi.getHomePageData({ isWholeSale, langId:langId  }), initData?.homepageInfo);
+    const homeData = useHome();
+    // console.log("zeeeeeeeooLang: ", langId );
+    // const homepageInfo = useDeferredData(() => shopApi.getHomePageData({ isWholeSale, langId:langId  }), initData?.homepageInfo);
+    var homepageInfo = {};
+    if (homeData && homeData.categories) {
+        homepageInfo.data = homeData || {};
+    } else if (initData?.homepageInfo) {
+        homepageInfo.data = initData.homepageInfo;
+    } else {
+        console.log("home_page_data_1")
+        homepageInfo = useDeferredData(() => shopApi.getHomePageData({ isWholeSale, langId:langId  }), initData?.homepageInfo);
+    }
     const translations = useTranslations();
-    console.log('translations', translations);
+    // console.log('translations', translations);
     const featuredProducts = useDeferredData(
         () => shopApi.getFeaturedProducts({ isWholeSale: false,  langId: langId  }),
         initData?.featuredProducts,
@@ -133,27 +144,27 @@ function HomePage(props: HomePageProps) {
 }
 
 
-export async function getServerSideProps(context) {
-    const cookies = parse(context.req.headers.cookie || '');
-    const langId = parseInt(cookies.langId || '1');
-    console.log("poooooooooooLang: ", langId);
-    const isWholeSale = false; // or detect it from cookies/query if needed
+// export async function getServerSideProps(context) {
+//     const cookies = parse(context.req.headers.cookie || '');
+//     const langId = parseInt(cookies.langId || '1');
+//     // console.log("poooooooooooLang: ", langId);
+//     const isWholeSale = false; // or detect it from cookies/query if needed
 
-    const homepageInfo = await shopApi.getHomePageData({ langId, isWholeSale });
-    const featuredProducts = await shopApi.getFeaturedProducts({ langId, isWholeSale });
-    const offerProducts = await shopApi.getOfferProducts({ langId, isWholeSale });
+//     // const homepageInfo = await shopApi.getHomePageData({ langId, isWholeSale });
+//     const featuredProducts = await shopApi.getFeaturedProducts({ langId, isWholeSale });
+//     const offerProducts = await shopApi.getOfferProducts({ langId, isWholeSale });
 
-    return {
-        props: {
-            initData: {
-                homepageInfo,
-                featuredProducts,
-                offerProducts,
-                translations: {},
-                languages: [],
-                langId,
-            },
-        },
-    };
-}
+//     return {
+//         props: {
+//             initData: {
+//                 // homepageInfo,
+//                 featuredProducts,
+//                 offerProducts,
+//                 translations: {},
+//                 languages: [],
+//                 langId,
+//             },
+//         },
+//     };
+// }
 export default HomePage;

@@ -43,14 +43,14 @@ function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
     const isWholeSale = useSale();
     const account = useAccount();
     const [dir] = useSyncedLocalStorage<"ltr" | "rtl">("direction", "rtl");
-    console.log("homeData", homeData);
+    // console.log("homeData", homeData);
     // fetch home page data when ever isWholeSale changed
-    useEffect(() => {
-        fetchHomePageData();
-        if (account.id) {
-            initWishlist();
-        }
-    }, [isWholeSale, account.id]);
+    // useEffect(() => {
+    //     fetchHomePageData();
+    //     if (account.id) {
+    //         initWishlist();
+    //     }
+    // }, [isWholeSale, account.id]);
 
     // preloader
     useEffect(() => {
@@ -106,7 +106,7 @@ function StroykaApp({ Component, pageProps, router }: StroykaAppProps) {
         };
       }, [router.events]);
     useEffect(() => {
-        console.log("Setting HTML lang & dir", direction, locale);
+        // console.log("Setting HTML lang & dir", direction, locale);
         document.documentElement.lang = locale;
         // document.documentElement.dir = direction;
         document.documentElement.dir = dir;// localStorage.getItem('direction') || 'rtl';;
@@ -136,7 +136,7 @@ StroykaApp.getInitialProps = wrapper.getInitialAppProps(store => async (context)
     const { ctx } = context;
     const cookies = parse(ctx.req?.headers.cookie || "");
     const langId = parseInt(cookies.langId || "1");
-
+console.log("home_page_data_2")
     const homeData = await shopApi.getHomePageData({ langId, isWholeSale: false });
 
     store.dispatch({
