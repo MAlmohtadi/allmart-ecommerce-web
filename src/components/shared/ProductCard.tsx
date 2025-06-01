@@ -15,6 +15,8 @@ import { IProduct } from '../../interfaces/product';
 import { useAccount } from '../../store/account/accountHooks';
 import ProductGallery from './ProductGallery';
 
+import { useHome } from '../../store/home/homeHooks';
+
 export type ProductCardLayout = 'grid-sm' | 'grid-nl' | 'grid-lg' | 'list' | 'horizontal';
 
 export interface ProductCardProps {
@@ -24,6 +26,8 @@ export interface ProductCardProps {
 
 function ProductCard(props: ProductCardProps) {
     const { product, layout } = props;
+
+        const homeData = useHome();
     const containerClasses = classNames('product-card', {
         'product-card--layout--grid product-card--size--sm': layout === 'grid-sm',
         'product-card--layout--grid product-card--size--nl': layout === 'grid-nl',
@@ -99,7 +103,7 @@ function ProductCard(props: ProductCardProps) {
                         <div className="product-card__offer-price">
                             {`إشتري ${product.offerQuantity || 0} حبات بـ ${
                                 product.offerPrice || 0
-                            } دينار`}
+                            } ${homeData.translations?.currency}`}
 
                         </div>
                     </div>
@@ -107,8 +111,8 @@ function ProductCard(props: ProductCardProps) {
             </div>
             <div className="product-card__actions">
                 <div className="product-card__availability">
-                    الحالة:
-                    <span className="text-success">{`${product.isStockAvailable ? ' متوفر ' : ' غير متوفر '}`}</span>
+                {homeData.translations?.status}:
+                    <span className="text-success">{`${product.isStockAvailable ?    homeData.translations?.available :    homeData.translations?.outOfStock}`}</span>
                 </div>
                 {price}
                 <div className="product-card__buttons">
@@ -123,7 +127,8 @@ function ProductCard(props: ProductCardProps) {
                                         'btn-loading': loading,
                                     })}
                                 >
-                                    أضف للسلة
+                                    {/* أضف للسلة */}
+                                    {homeData.translations?.addBasket}
                                 </button>
                                 <button
                                     type="button"
@@ -135,7 +140,8 @@ function ProductCard(props: ProductCardProps) {
                                         },
                                     )}
                                 >
-                                    أضف للسلة
+                                    {/* أضف للسلة */}
+                                    {homeData.translations?.addBasket}
                                 </button>
                             </Fragment>
                         )}

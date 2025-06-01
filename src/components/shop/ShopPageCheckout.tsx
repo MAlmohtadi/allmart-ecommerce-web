@@ -19,7 +19,7 @@ import dataShopPayments from "../../data/shopPayments";
 import { useCart, useCartApplyCoupon, useCartClear } from "../../store/cart/cartHooks";
 import { useAccount } from "../../store/account/accountHooks";
 import { ICheckoutInfo, IDelivery, IDeliveryInfo, IPeriod } from "../../interfaces/checkout-info";
-import { useHomeAdminSettings } from "../../store/home/homeHooks";
+import { useHomeAdminSettings, useHome } from "../../store/home/homeHooks";
 import shopApi from "../../api/shop";
 import { useDeferredData } from "../../services/hooks";
 import { useSale } from "../../store/sale/saleHooks";
@@ -38,6 +38,8 @@ function ShopPageCheckout(props: CheckoutProps) {
     const account = useAccount();
     const isWholeSale = useSale();
     const adminSettings = useHomeAdminSettings();
+    const homeData = useHome();
+    const translations = homeData?.translations;
     const [currentPayment, setCurrentPayment] = useState("cash");
     const [deliveryPlace, setDeliveryPlace] = useState("");
     const [deliveryDate, setDeliveryDate] = useState<IDelivery>();
@@ -202,15 +204,15 @@ function ShopPageCheckout(props: CheckoutProps) {
         <table className="checkout__totals">
             <thead className="checkout__totals-header">
                 <tr>
-                    <th>المنتج</th>
-                    <th>السعر</th>
+                    <th>{translations?.product || 'المنتج'}</th>
+                    <th>{translations?.price || 'السعر'}</th>
                 </tr>
             </thead>
             <tbody className="checkout__totals-products">{cartItems}</tbody>
             {totals.length > 0 && (
                 <tbody className="checkout__totals-subtotals">
                     <tr>
-                        <th>المجموع</th>
+                        <th>{translations?.total || 'المجموع'}</th>
                         <td>
                             <CurrencyFormat value={cart.subtotal} />
                         </td>
@@ -220,7 +222,7 @@ function ShopPageCheckout(props: CheckoutProps) {
             )}
             <tfoot className="checkout__totals-footer">
                 <tr>
-                    <th>المبلغ الإجمالي</th>
+                    <th>{translations?.totalPrice || 'المبلغ الإجمالي'}</th>
                     <td>
                         <CurrencyFormat value={cart.total + (deliveryDetails?.deliveryPrice || 0)} />
                     </td>
@@ -262,19 +264,19 @@ function ShopPageCheckout(props: CheckoutProps) {
     });
 
     const breadcrumb = [
-        { title: "الرئيسية", url: url.home() },
-        { title: "سلة التسوق", url: url.cart() },
-        { title: "تنفيذ الطلب", url: "" },
+        { title: translations?.home ||  "الرئيسية", url: url.home() },
+        { title: translations?.cart || "سلة التسوق", url: url.cart() },
+        { title: translations?.checkout || "تنفيذ الطلب", url: "" },
     ];
 
     if (!account.isLoggedIn) {
         return (
             <Fragment>
                 <Head>
-                    <title>المفضلة - جبران</title>
+                    <title>{translations?.favorites} - {translations?.jubran}</title>
                 </Head>
 
-                <PageHeader header="تنفيذ الطلب" breadcrumb={breadcrumb} />
+                <PageHeader header={translations?.checkout || "تنفيذ الطلب"} breadcrumb={breadcrumb} />
 
                 <div className="block block-empty">
                     <div className="container">
@@ -282,7 +284,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                             <div className="block-empty__message">يجب عليك تسجيل الدخول !</div>
                             <div className="block-empty__actions">
                                 <AppLink href="/account/login" className="btn btn-primary btn-sm">
-                                    تسجيل الدخول
+                                   {translations?.checkout || " تسجيل الدخول"}
                                 </AppLink>
                             </div>
                         </div>
@@ -294,10 +296,10 @@ function ShopPageCheckout(props: CheckoutProps) {
     return (
         <Fragment>
             <Head>
-                <title>تنفيذ الطلب - جبران</title>
+                <title>{translations?.checkout} - {translations?.jubran}</title>
             </Head>
 
-            <PageHeader header="تنفيذ الطلب" breadcrumb={breadcrumb} />
+            <PageHeader header={translations?.checkout || "تنفيذ الطلب"} breadcrumb={breadcrumb} />
 
             <div className="checkout block">
                 <div className="container">
@@ -305,7 +307,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                         <div className="col-12 col-lg-6 col-xl-7">
                             <div className="card mb-lg-0">
                                 <div className="card-body">
-                                    <h3 className="card-title">تحديد عنوان التوصيل</h3>
+                                    <h3 className="card-title">{translations?.orderDelivryAddress || 'تحديد عنوان التوصيل'}</h3>
                                     {/* <div className="form-group">
                                         <label htmlFor="checkout-city">مكان التوصيل</label>
                                         <select
@@ -373,7 +375,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                                         />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="checkout-country">الدولة</label>
+                                        <label htmlFor="checkout-country">{translations?.country || 'الدولة'}</label>
                                         <select
                                             id="checkout-country"
                                             className="form-control"
@@ -385,37 +387,37 @@ function ShopPageCheckout(props: CheckoutProps) {
                                         </select>
                                         {country === "United States of America" && (
                                             <span className="text-warning mt-2 d-block">
-                                                قد يتغير سعر التوصيل، وإذا حدث ذلك سنقوم بإبلاغك.
+                                                {translations?.deliveryMessage || ' قد يتغير سعر التوصيل، وإذا حدث ذلك سنقوم بإبلاغك.'}
                                             </span>
                                         )}
                                     </div>
                                     {country === "United States of America" && (
                                         <>
                                             <div className="form-group">
-                                                <label htmlFor="checkout-state">الولاية</label>
+                                                <label htmlFor="checkout-state"> {translations?.state || 'الولاية'}</label>
                                                 <input
                                                     id="checkout-state"
                                                     className="form-control"
                                                     value={state}
                                                     onChange={(e) => setState(e.target.value)}
-                                                    placeholder="أدخل الولاية"
+                                                    placeholder={translations?.state || 'الولاية'}
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label htmlFor="checkout-city">المدينة</label>
+                                                <label htmlFor="checkout-city">{translations?.state || 'المدينة'}</label>
                                                 <input
                                                     id="checkout-city"
                                                     className="form-control"
                                                     value={city}
                                                     onChange={(e) => setCity(e.target.value)}
-                                                    placeholder="أدخل المدينة"
+                                                    placeholder={translations?.state || 'المدينة'}
                                                 />
                                             </div>
                                         </>
                                     )}
                                     <div className="form-group">
                                         <label htmlFor="checkout-comment">
-                                            ملاحظات الطلب <span className="text-muted">(اختياري)</span>
+                                           {translations?.orderNotesOptional || ' ملاحظات الطلب '}
                                         </label>
                                         <textarea
                                             // @ts-ignore
@@ -436,10 +438,10 @@ function ShopPageCheckout(props: CheckoutProps) {
                                                 type="text"
                                                 className="form-control"
                                                 id="input-coupon-code"
-                                                placeholder="كود الخصم"
+                                                placeholder=   {translations?.discountCoupon || "كود الخصم"}
                                             />
                                             <button type="submit" className="btn btn-primary">
-                                                تأكيد الكود
+                                               {translations?.confirmCode || " تأكيد الكود"}
                                             </button>
                                         </form>
                                     </div>
@@ -450,7 +452,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                         <div className="col-12 col-lg-6 col-xl-5 mt-4 mt-lg-0">
                             <div className="card mb-0">
                                 <div className="card-body">
-                                    <h3 className="card-title">طلبك</h3>
+                                    <h3 className="card-title">{translations?.yourOrder || "طلبك"}</h3>
 
                                     {cartTable}
 
@@ -462,7 +464,7 @@ function ShopPageCheckout(props: CheckoutProps) {
                                         className="btn btn-primary btn-xl btn-block"
                                         onClick={onSubmit}
                                     >
-                                        تأكيد
+                                      {translations?.confirm || "  تأكيد"}
                                     </button>
                                 </div>
                             </div>

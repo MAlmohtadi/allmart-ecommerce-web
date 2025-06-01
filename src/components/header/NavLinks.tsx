@@ -9,10 +9,11 @@ import AppLink from '../shared/AppLink';
 import ArrowRoundedDown9x6Svg from '../../svg/arrow-rounded-down-9x6.svg';
 import Megamenu from './Megamenu';
 import Menu from './Menu';
-import { useDirection } from '../../store/locale/localeHooks';
+import { useDirection, useSyncedLocalStorage } from '../../store/locale/localeHooks';
 
+import {HomeState} from "./../../store/home/homeTypes";
 // data stubs
-import dataHeaderNavigation from '../../data/headerNavigation';
+import getHeaderNavigation from '../../data/headerNavigation';
 import { IHomePageResponse } from '../../interfaces/homepage';
 import { useHome } from '../../store/home/homeHooks';
 
@@ -24,6 +25,8 @@ export interface NavLinksProps {
 }
 function NavLinks() {
     const direction = useDirection();
+    
+    const [dir] = useSyncedLocalStorage<"ltr" | "rtl">("direction", "rtl");
     const homeData = useHome();
     const { categories } = homeData;
 
@@ -33,7 +36,7 @@ function NavLinks() {
             return;
         }
 
-        const categoryMenu = dataHeaderNavigation.find((item) => item.title === 'التصنيفات');
+        const categoryMenu = getHeaderNavigation(homeData.translations).find((item) => item.title === 'التصنيفات' || item.title === 'Categories');
 
         if (categoryMenu && categoryMenu.submenu
             && Array.isArray(categoryMenu.submenu.menu)
@@ -65,7 +68,7 @@ function NavLinks() {
             const megamenuWidth = megamenu.getBoundingClientRect().width;
             const itemOffsetLeft = item.offsetLeft;
 
-            if (direction === 'rtl') {
+            if (dir === 'rtl') {
                 const itemPosition = containerWidth - (itemOffsetLeft + item.getBoundingClientRect().width);
 
                 const megamenuPosition = Math.round(Math.min(itemPosition, containerWidth - megamenuWidth));
@@ -81,7 +84,7 @@ function NavLinks() {
         }
     };
 
-    const linksList = dataHeaderNavigation.map((item, index) => {
+    const linksList = getHeaderNavigation(homeData.translations).map((item, index) => {
         let arrow;
         let submenu;
 

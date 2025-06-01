@@ -23,8 +23,12 @@ import url from '../../services/url';
 import { useCart } from '../../store/cart/cartHooks';
 import { useMobileMenuOpen } from '../../store/mobile-menu/mobileMenuHooks';
 import { useWishlist } from '../../store/wishlist/wishlistHooks';
+import {HomeState} from "./../../store/home/homeTypes";
 
-function MobileHeader() {
+export interface MobileHeaderProps {
+        homeData: HomeState;
+}
+function MobileHeader(props: MobileHeaderProps) {
     const [searchOpen, setSearchOpen] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const cart = useCart();

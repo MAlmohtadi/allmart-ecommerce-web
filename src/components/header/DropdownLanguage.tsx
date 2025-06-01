@@ -1,7 +1,7 @@
 // @ts-nocheck
 // react
 import { Fragment, useMemo, useState } from "react";
-
+import Cookies from "js-cookie";
 // third-party
 import { FormattedMessage } from "react-intl";
 
@@ -9,7 +9,7 @@ import { FormattedMessage } from "react-intl";
 import Dropdown from "./Dropdown";
 // import languages from '../../i18n';
 // import { ILanguage } from "../../interfaces/language";
-import { useLanguage, useLocaleChange } from "../../store/locale/localeHooks";
+import { useLanguage, useLocaleChange, useSyncedLocalStorage } from "../../store/locale/localeHooks";
 import { ILanguage } from "../../interfaces/main";
 import classNames from "classnames";
 
@@ -24,23 +24,37 @@ interface DropdownLanguageItem {
     icon: string;
 }
 interface LanguagesProps {
-    languages?: ILanguage[];
+    languages?: ILanguage[] | null;
 }
 function DropdownLanguage(props: LanguagesProps) {
     const { languages } = props;
-
+    const [direction, setDirection] = useSyncedLocalStorage<"ltr" | "rtl">(
+        "direction",
+        "ltr"
+      );
     const localeChange = useLocaleChange();
     const router = useRouter();
     const { locale = "ar_JO" } = router.query;
     const [currenLocale, setCurrentLocale] = useState(locale.startsWith("ar_") ? "اللغة" : "Language");
-    const subMenu = languages?.map((item, index) => {
-        return { name: item.showText, locale: item.locale };
-    });
+    const langs = props.languages || [];
+    const subMenu = Array.isArray(languages)
+    ? languages.map((item, index) => {
+        return { name: item.showText, locale: item.locale, direction: item.direction, langId: item.id};
+    }): [];
+    console.log("langs:" +Array.isArray(languages), languages);
     const classes = classNames("nav-links__item");
     const onClick = (item: any) => {
         let basePath = router.asPath.includes("#") ? router.asPath.split("#")[0] : router.asPath.split("?")[0];
-
-        router.push(basePath + "?locale=" + item.locale);
+        console.log("direction in set:", item.direction);
+        Cookies.set("langId", item.langId.toString(), { path: "/" });
+        console.log("item dr:", item);
+        setDirection(item.direction);
+        // localStorage.setItem("langId", item.id);
+        // localStorage.setItem("direction", item.direction);
+        // router.push(basePath + "?locale=" + item.locale);
+        router.push(`${basePath}?locale=${item.locale}`).then(() => {
+            router.reload();
+        });
         localeChange(item.locale.split("_")[0]);
         setCurrentLocale(!locale.startsWith("ar_") ? "اللغة" : "Language");
     };

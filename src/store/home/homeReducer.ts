@@ -1,5 +1,6 @@
 // application
 import { HomeState } from './homeTypes';
+import { HYDRATE } from 'next-redux-wrapper';
 import {
     HomeAction,
     HOME_INIT,
@@ -13,10 +14,21 @@ const initialState: HomeState = {
     categories: [],
     banners: [],
     adminSettingsResponse: null,
+    translations: null,
+    languages: null,
 };
 
 function homeReducer(state = initialState, action: HomeAction): HomeState {
+    if(action.type == HOME_FETCH_SUCCESS) {
+    console.log("action", {data: {...action.data}});
+    }
     switch (action.type) {
+    case HYDRATE:
+        // Merge server-side state only if values exist
+        return {
+            ...state,
+            ...action.payload.home,
+        };
     case HOME_INIT:
         return {
             ...state,
@@ -28,9 +40,11 @@ function homeReducer(state = initialState, action: HomeAction): HomeState {
         return {
             ...state,
             homeIsLoading: false,
-            categories: [...action.data.categories],
-            banners: [...action.data.banners],
-            adminSettingsResponse: { ...action.data.adminSettingsResponse },
+            categories: [...action.data?.categories],
+            banners: [...action.data?.banners],
+            adminSettingsResponse: { ...action.data?.adminSettingsResponse },
+            languages: [ ...action.data?.languages ],
+            translations: { ...action.data?.translations },
         };
     default:
         return state;

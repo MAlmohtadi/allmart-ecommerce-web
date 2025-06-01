@@ -16,6 +16,7 @@ export const useHomeCategories = () => useHomeSelector((state) => state.categori
 export const useHomeBanners = () => useHomeSelector((state) => state.banners);
 
 export const useHomeAdminSettings = () => useHomeSelector((state) => state.adminSettingsResponse);
+export const useTranslations = () => useHomeSelector((state) => state.translations);
 
 export const useHomeInit = () => useAppAction(homeInitThunk);
 export const useHomeFetchData = () => useAppAction(homeFetchThunk);

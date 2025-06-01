@@ -90,6 +90,90 @@ export interface ITranslation {
     palletTranslation: string;
 }
 
+export interface IEshopTranslation {
+    home: string;
+    orders: string;
+    allOrders: string;
+    currentOrders: string;
+    oldOrders: string;
+    categories: string;
+    specialOffers: string;
+    imageGallery: string;
+    aboutUs: string;
+    ourProducts: string;
+    currency: string;
+    addBasket: string;
+    contactUs: string;
+    information: string;
+    privacy: string;
+    support: string;
+    cancelAppAccount: string;
+    cancelWebAccount: string;
+    socialLinks: string;
+    downloadApp: string;
+    contactMessage: string;
+    show: string;
+    products: string;
+    sortBy: string;
+    none: string;
+    lowestPrice: string;
+    highestPrice: string;
+    filters: string;
+    price: string;
+    reassign: string;
+    offer: string;
+    status: string;
+    available: string;
+    outOfStock: string;
+    image: string;
+    product: string;
+    favorites: string;
+    subTotal: string;
+    delivery: string;
+    discountCoupon: string;
+    total: string;
+    browseCart: string;
+    checkout: string;
+    cart: string;
+    editCart: string;
+    continueShopping: string;
+    paySummary: string;
+    totalPrice: string;
+    orderDelivryAddress: string;
+    yourOrder: string;
+    order: string;
+    payWithVisaOnDelivery: string;
+    payCashOnDelivery: string;
+    confirm: string;
+    country: string;
+    orderNotesOptional: string;
+    confirmCode: string;
+    searchProduct: string;
+    myAccount: string;
+    signOut: string;
+    date: string;
+    myInformation: string;
+    name: string;
+    phoneNumber: string;
+    secondaryPhoneNumber: string;
+    email: string;
+    confirmInformation: string;
+    cancelAccount: string;
+    login: string;
+    jubran: string; //--
+    browse: string; //--
+    facebookLogin: string; //--
+    register: string; //--
+    facebookRegister: string; //--
+    deliveryMessage: string //---
+    state: string //---
+    city: string //---
+    editOrder: string //---
+    cancel: string //---
+    emptyCart: string //---
+    quantity: string;
+}
+
 export interface IProduct {
     id: number;
     name: string;

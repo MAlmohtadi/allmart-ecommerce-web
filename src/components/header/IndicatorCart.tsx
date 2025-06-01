@@ -14,9 +14,12 @@ import Indicator from './Indicator';
 import url from '../../services/url';
 import { useCart, useCartRemoveItem } from '../../store/cart/cartHooks';
 
+import { useHome } from '../../store/home/homeHooks';
 function IndicatorCart() {
     const cart = useCart();
     const cartRemoveItem = useCartRemoveItem();
+    const homeData = useHome();
+    const translations = homeData?.translations;
     let dropdown;
     let totals;
 
@@ -31,7 +34,7 @@ function IndicatorCart() {
         totals = (
             <Fragment>
                 <tr>
-                    <th>المجموع الفرعي</th>
+                    <th>{translations?.subTotal || 'المجموع الفرعي'}</th>
                     <td><CurrencyFormat value={cart.subtotal} /></td>
                 </tr>
                 {totals}
@@ -118,7 +121,7 @@ function IndicatorCart() {
                         <tbody>
                             {totals}
                             <tr>
-                                <th>المجموع</th>
+                                <th>{translations?.subTotal || 'المجموع'}</th>
                                 <td><CurrencyFormat value={cart.total} /></td>
                             </tr>
                         </tbody>
@@ -126,8 +129,8 @@ function IndicatorCart() {
                 </div>
 
                 <div className="dropcart__buttons">
-                    <AppLink href={url.cart()} className="btn btn-secondary">تصفح السلة</AppLink>
-                    <AppLink href={url.checkout()} className="btn btn-primary">تنفيذ الطلب</AppLink>
+                    <AppLink href={url.cart()} className="btn btn-secondary">{translations?.browseCart || 'تصفح السلة'}</AppLink>
+                    <AppLink href={url.checkout()} className="btn btn-primary">{translations?.checkout || 'تنفيذ الطلب'}</AppLink>
                 </div>
             </div>
         );
@@ -135,7 +138,7 @@ function IndicatorCart() {
         dropdown = (
             <div className="dropcart">
                 <div className="dropcart__empty">
-                    سلة التسوق فارغة
+                   {translations?.emptyCart || ' سلة التسوق فارغة'}
                 </div>
             </div>
         );

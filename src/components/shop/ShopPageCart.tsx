@@ -17,6 +17,7 @@ import PageHeader from '../shared/PageHeader';
 import url from '../../services/url';
 import { CartItem } from '../../store/cart/cartTypes';
 
+import { useHome } from '../../store/home/homeHooks';
 import {
     useCart, useCartRemoveItem, useCartUpdateQuantities,
 } from '../../store/cart/cartHooks';
@@ -29,6 +30,8 @@ export interface Quantity {
 function ShopPageCart() {
     const [quantities, setQuantities] = useState<Quantity[]>([]);
     const cart = useCart();
+    const homeData = useHome();
+    const translations = homeData?.translations;
     const cartRemoveItem = useCartRemoveItem();
     const cartUpdateQuantities = useCartUpdateQuantities();
     const updateQuantities = () => cartUpdateQuantities(
@@ -75,8 +78,8 @@ function ShopPageCart() {
     };
 
     const breadcrumb = [
-        { title: 'الرئيسية', url: '' },
-        { title: 'سلة التسوق', url: '' },
+        { title: translations?.home || 'الرئيسية', url: '' },
+        { title: translations?.cart || 'سلة التسوق', url: '' },
     ];
 
     let content;
@@ -139,17 +142,17 @@ function ShopPageCart() {
                     <td className="cart-table__column cart-table__column--price" data-title="العرض">
                         <CurrencyFormat value={item.product?.offerPrice || 0} />
                     </td> */}
-                    <td className="cart-table__column cart-table__column--price" data-title="السعر">
+                    <td className="cart-table__column cart-table__column--price" data-title={translations?.price || 'السعر'}>
                         <CurrencyFormat value={item.price} />
                     </td>
-                    <td className="cart-table__column cart-table__column--quantity" data-title="الكمية">
+                    <td className="cart-table__column cart-table__column--quantity" data-title={translations?.quantity || 'الكمية'}>
                         <InputNumber
                             onChange={(quantity) => handleChangeQuantity(item, quantity)}
                             value={getItemQuantity(item)}
                             min={1}
                         />
                     </td>
-                    <td className="cart-table__column cart-table__column--total" data-title="المجموع">
+                    <td className="cart-table__column cart-table__column--total" data-title={translations?.total || 'المجموع'}>
                         <CurrencyFormat value={item.total} />
                     </td>
                     <td className="cart-table__column cart-table__column--remove">{removeButton}</td>
@@ -161,7 +164,7 @@ function ShopPageCart() {
             <Fragment>
                 <thead className="cart__totals-header">
                     <tr>
-                        <th>المجموع</th>
+                        <th>{translations?.total || 'المجموع'}</th>
                         <td>
                             <CurrencyFormat value={cart.subtotal} />
                         </td>
@@ -204,7 +207,7 @@ function ShopPageCart() {
 
                     return (
                         <button type="button" onClick={run} className={classes} disabled={!cartNeedUpdate()}>
-                            تعديل السلة
+                            {translations?.editCart || 'تعديل السلة'}
                         </button>
                     );
                 }}
@@ -230,7 +233,7 @@ function ShopPageCart() {
                     <div className="cart__actions">
                         <div className="cart__buttons">
                             <AppLink href="/" className="btn btn-light">
-                                أكمل التسوق
+                               {translations?.continueShopping || ' أكمل التسوق'}
                             </AppLink>
                             {updateCartButton}
                         </div>
@@ -240,12 +243,12 @@ function ShopPageCart() {
                         <div className="col-12 col-md-7 col-lg-6 col-xl-5">
                             <div className="card">
                                 <div className="card-body">
-                                    <h3 className="card-title">ملخص الدفع</h3>
+                                    <h3 className="card-title">{translations?.paySummary || 'ملخص الدفع'}</h3>
                                     <table className="cart__totals">
                                         {cartTotals}
                                         <tfoot className="cart__totals-footer">
                                             <tr>
-                                                <th>المبلغ الكلي</th>
+                                                <th>{translations?.totalPrice || 'المبلغ الكلي'}</th>
                                                 <td>
                                                     <CurrencyFormat value={cart.total} />
                                                 </td>
@@ -256,7 +259,7 @@ function ShopPageCart() {
                                         href={url.checkout()}
                                         className="btn btn-primary btn-xl btn-block cart__checkout-button"
                                     >
-                                        تنفيذ الطلب
+                                       {translations?.checkout || ' تنفيذ الطلب'}
                                     </AppLink>
                                 </div>
                             </div>
@@ -273,7 +276,7 @@ function ShopPageCart() {
                         <div className="block-empty__message">السلة فارغة!</div>
                         <div className="block-empty__actions">
                             <AppLink href="/" className="btn btn-primary btn-sm">
-                                أكمل التسوق
+                              {translations?.continueShopping || '   أكمل التسوق'}
                             </AppLink>
                         </div>
                     </div>
@@ -285,10 +288,10 @@ function ShopPageCart() {
     return (
         <Fragment>
             <Head>
-                <title>سلة التسوق</title>
+                <title> {translations?.cart || 'سلة التسوق'}</title>
             </Head>
 
-            <PageHeader header="سلة التسوق" breadcrumb={breadcrumb} />
+            <PageHeader header= {translations?.cart || 'سلة التسوق'} breadcrumb={breadcrumb} />
 
             {content}
         </Fragment>

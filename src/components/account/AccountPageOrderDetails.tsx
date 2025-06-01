@@ -17,11 +17,14 @@ import { orderStatus } from './AccountPageOrders';
 import CurrencyFormat from '../shared/CurrencyFormat';
 import BlockLoader from '../blocks/BlockLoader';
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { useHome } from '../../store/home/homeHooks';
 
 export default function AccountPageOrderDetails() {
     const router = useRouter();
     const account = useAccount();
     const orderState = useOrder();
+    const homeData = useHome();
+    const translations = homeData?.translations;
     const getOrderProducts = useOrderProductsFetchData();
     const orderDetails = orderState.selectedOrder;
     const statusId: number = orderDetails?.statusId || 1;
@@ -58,7 +61,7 @@ export default function AccountPageOrderDetails() {
     return (
         <Fragment>
             <Head>
-                <title>معلومات الطلب - جبران</title>
+                <title>{translations?.information} - {translations?.jubran}</title>
             </Head>
 
             <div className="card">
@@ -86,8 +89,8 @@ export default function AccountPageOrderDetails() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>المنتج</th>
-                                    <th>المجموع</th>
+                                    <th>{translations?.product || 'المنتج'}</th>
+                                    <th>{translations?.product || 'المجموع'}</th>
                                 </tr>
                             </thead>
                             <tbody className="card-table__body card-table__body--merge-rows">

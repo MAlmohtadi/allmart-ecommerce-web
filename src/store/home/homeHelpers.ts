@@ -7,8 +7,9 @@ import { homeInitThunk } from './homeActions';
 
 export default async function getHomePageData(
     store: Store<RootState>,
+    langId: number | undefined 
 ): Promise<void> {
     // console.log(context);
     const dispatch = store.dispatch as AppDispatch;
-    await dispatch(homeInitThunk());
+    await dispatch(homeInitThunk(langId));
 }

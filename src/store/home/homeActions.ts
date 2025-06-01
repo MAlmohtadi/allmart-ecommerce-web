@@ -33,7 +33,7 @@ export function homeFetchSuccess(data: IHomePageResponse): HomeFetchSuccessActio
     };
 }
 
-export function homeFetchThunk(): HomeThunkAction<Promise<void>> {
+export function homeFetchThunk(langId: number | undefined ): HomeThunkAction<Promise<void>> {
     return async (dispatch, getState) => {
         let canceled = false;
 
@@ -44,7 +44,8 @@ export function homeFetchThunk(): HomeThunkAction<Promise<void>> {
 
         const saleState = getState()[SALE_NAMESPACE];
         const { isWholeSale } = saleState;
-        const homeDate = await shopApi.getHomePageData({ isWholeSale });
+        console.log("kooooooooooooooooooo: ", langId);
+        const homeDate = await shopApi.getHomePageData({ isWholeSale, langId });
 
         if (canceled) {
             return;
@@ -54,11 +55,11 @@ export function homeFetchThunk(): HomeThunkAction<Promise<void>> {
     };
 }
 
-export function homeInitThunk(): HomeThunkAction<Promise<void>> {
+export function homeInitThunk(langId: number | undefined = 1): HomeThunkAction<Promise<void>> {
     return async (dispatch) => {
         dispatch(homeInit());
         await Promise.all([
-            dispatch(homeFetchThunk()),
+            dispatch(homeFetchThunk(langId)),
         ]);
     };
 }

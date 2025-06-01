@@ -1,3 +1,8 @@
+import {
+    IEshopTranslation,
+    ILanguage,
+} from "../interfaces/main";
+
 export interface IBanner {
     id: number;
     imageUrl: string;
@@ -42,4 +47,6 @@ export interface IHomePageResponse {
     categories: ICategory[],
     banners: IBanner[],
     adminSettingsResponse: IAdminSettingsResponse
+    translations: IEshopTranslation ;
+    languages: ILanguage[];
 }

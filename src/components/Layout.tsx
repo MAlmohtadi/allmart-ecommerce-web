@@ -20,16 +20,19 @@ import mainApi from "../api/main";
 import { useDeferredData } from "../services/hooks";
 import { useLocale, useLocaleChange } from "../store/locale/localeHooks";
 import Quickview from "./shared/Quickview";
+import {HomeState} from "./../store/home/homeTypes";
 // import Quickview from './shared/Quickview';
 
 export interface LayoutProps extends PropsWithChildren<{}> {
     headerLayout: HeaderLayout;
+    homeData: HomeState;
 }
 
 function Layout(props: LayoutProps) {
     const { children, headerLayout } = props;
     const route = useRouter();
     const localeChange = useLocaleChange();
+    
     useEffect(() => {
         if (route.pathname !== "/" && !route.pathname.startsWith("/categories")) {
             localeChange("ar");
@@ -49,19 +52,19 @@ function Layout(props: LayoutProps) {
             <div className="site">
                 {route.pathname !== "/" && !route.pathname.startsWith("/categories") && (
                     <header className="site__header d-lg-none">
-                        <MobileHeader />
+                        <MobileHeader homeData={props.homeData} />
                     </header>
                 )}
 
                 <header className="site__header d-lg-block d-none">
-                    {route.pathname !== "/" && !route.pathname.startsWith("/categories") && <Header />}
+                    {route.pathname !== "/" && !route.pathname.startsWith("/categories") && <Header  homeData={props.homeData}  />}
                 </header>
 
                 <div className="site__body">{children}</div>
 
                 {route.pathname !== "/" && !route.pathname.startsWith("/categories") && (
                     <footer className="site__footer">
-                        <Footer />
+                        <Footer  homeData={props.homeData}  />
                     </footer>
                 )}
             </div>

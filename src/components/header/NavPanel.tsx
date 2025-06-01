@@ -9,19 +9,26 @@ import IndicatorAccount from './IndicatorAccount';
 import IndicatorSearch from './IndicatorSearch';
 import LogoSmallSvg from '../../svg/logo-small.svg';
 import NavLinks from './NavLinks';
+import { useHome } from '../../store/home/homeHooks';
 import { useInitWishlistProducts, useWishlist } from '../../store/wishlist/wishlistHooks';
 import { useAccount } from '../../store/account/accountHooks';
 
+import DropdownLanguage from "./DropdownLanguage";
+
+import {HomeState} from "./../../store/home/homeTypes";
 export type NavPanelLayout = 'default' | 'compact';
 
 export interface NavPanelProps {
     layout?: NavPanelLayout;
+            homeData: HomeState;
 }
 
 function NavPanel(props: NavPanelProps) {
     const { layout = 'default' } = props;
     const wishlist = useWishlist();
     const account = useAccount();
+    const homeData = useHome();
+    const { languages } = homeData;
     const fetchWishList = useInitWishlistProducts();
     const {
         items: { length: wishlistCount },
@@ -57,7 +64,7 @@ function NavPanel(props: NavPanelProps) {
             </div>
         );
     }
-
+console.log("languages", languages);
     return (
         <div className="nav-panel">
             <div className="nav-panel__container container">
@@ -65,7 +72,7 @@ function NavPanel(props: NavPanelProps) {
                     {logo}
 
                     <div className="nav-panel__nav-links nav-links">
-                        <NavLinks />
+                        <NavLinks  />
                     </div>
 
                     <div className="nav-panel__indicators">
@@ -76,6 +83,13 @@ function NavPanel(props: NavPanelProps) {
                         <CartIndicator />
 
                         <IndicatorAccount />
+                    </div>
+                    <div className="nav-panel__nav-links nav-links">
+                        {/* <DropdownLanguage languages={[{id:1, name:"english", showText:"english", isActive:true, locale:"en_US", direction:"ltr"}
+                            ,{id:2, name:"العربية", showText:"العربية", isActive:true, locale:"ar_JO", direction:"rtl"}
+                        ]} /> */}
+
+                        <DropdownLanguage languages={languages} />
                     </div>
                 </div>
             </div>

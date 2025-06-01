@@ -23,7 +23,7 @@ export interface ProductByCategory {
     // langId:string;
     categoryId: string;
 }
-const BASE_URL = "https://jubran.jubran-api.com/api";
+const BASE_URL = "http://localhost:8080/api";
 const mainApi = {
     /**
      * Returns array of HomePage.

@@ -13,7 +13,7 @@ import { useLocaleChange } from "../../store/locale/localeHooks";
 import { useMobileMenu, useMobileMenuClose } from "../../store/mobile-menu/mobileMenuHooks";
 
 // data stubs
-import dataMobileMenu from "../../data/mobileMenu";
+// import dataMobileMenu from "../../data/mobileMenu";
 import dataShopCurrencies from "../../data/shopCurrencies";
 import { IMobileMenuLink } from "../../interfaces/menus/mobile-menu";
 import { useHome } from "../../store/home/homeHooks";

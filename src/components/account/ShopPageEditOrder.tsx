@@ -16,7 +16,7 @@ import InputNumber from '../shared/InputNumber';
 import PageHeader from '../shared/PageHeader';
 import url from '../../services/url';
 import { CartItem } from '../../store/cart/cartTypes';
-
+import { useHome } from '../../store/home/homeHooks';
 import {
     useOrder, useOrderRemoveItem, useOrderUpdateQuantities, useUpdateOrderProducts,
 } from '../../store/order/orderHooks';
@@ -29,6 +29,8 @@ export interface Quantity {
 function ShopPageEditOrder() {
     const [quantities, setQuantities] = useState<Quantity[]>([]);
     const orderState = useOrder();
+    const homeData = useHome();
+    const translations = homeData?.translations;
     const cartRemoveItem = useOrderRemoveItem();
     const cartUpdateQuantities = useOrderUpdateQuantities();
     const orderUpdateProducts = useUpdateOrderProducts();
@@ -77,9 +79,9 @@ function ShopPageEditOrder() {
     };
 
     const breadcrumb = [
-        { title: 'الرئيسية', url: '' },
-        { title: 'حسابي', url: '/account/profile' },
-        { title: 'الطلبات', url: '/account/orders' },
+        { title: translations?.home || 'الرئيسية', url: '' },
+        { title: translations?.myAccount || 'حسابي', url: '/account/profile' },
+        { title: translations?.orders || 'الطلبات', url: '/account/orders' },
     ];
 
     let content;
@@ -146,7 +148,7 @@ function ShopPageEditOrder() {
         <Fragment>
             <thead className="cart__totals-header">
                 <tr>
-                    <th>المجموع</th>
+                    <th>{translations?.total || 'المجموع'}</th>
                     <td>
                         <CurrencyFormat value={orderState.subtotal} />
                     </td>
@@ -176,7 +178,7 @@ function ShopPageEditOrder() {
 
                 return (
                     <button type="button" onClick={run} className={classes} disabled={!cartNeedUpdate()}>
-                        تعديل الطلب
+                       {translations?.editOrder || ' تعديل الطلب'}
                     </button>
                 );
             }}
@@ -203,7 +205,7 @@ function ShopPageEditOrder() {
                 <div className="cart__actions">
                     <div className="cart__buttons">
                         <AppLink href={url.accountOrder(orderState.selectedOrder?.id || 0)} className="btn btn-light">
-                            إلغاء
+                           {translations?.cancel || ' إلغاء'}
                         </AppLink>
                         {updateCartButton}
                     </div>
@@ -218,7 +220,7 @@ function ShopPageEditOrder() {
                                     {cartTotals}
                                     <tfoot className="cart__totals-footer">
                                         <tr>
-                                            <th>المبلغ الكلي</th>
+                                            <th>{translations?.totalPrice || 'المبلغ الكلي'}</th>
                                             <td>
                                                 <CurrencyFormat value={orderState.total} />
                                             </td>
@@ -234,7 +236,7 @@ function ShopPageEditOrder() {
 
                                         return (
                                             <button type="button" onClick={run} className={classes} disabled={orderState.selectedOrder?.totalPrice === orderState.total}>
-                                                تأكيد الطلب
+                                                {translations?.confirm || 'تأكيد الطلب'}
                                             </button>
                                         );
                                     }}

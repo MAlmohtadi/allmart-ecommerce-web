@@ -4,6 +4,7 @@ import qs from 'query-string';
 import { isMobile } from 'react-device-detect';
 import { IProductOptions } from '../interfaces/list';
 
+import Cookies from "js-cookie";
 import { IHomePageResponse } from '../interfaces/homepage';
 import { IProductResponse, IProduct } from '../interfaces/product';
 import { ICoupon } from '../interfaces/coupon';
@@ -40,6 +41,7 @@ export interface GetSaleOptions {
     sort?: string,
     subCategoryId?: number,
     userId?: number
+    langId?: number
 }
 export interface AccountOptions {
     phone?: string;
@@ -120,7 +122,7 @@ export interface DeliveryInfo {
     lat: number;
     lng: number;
 }
-const BASE_URL = 'https://jubran.jubran-api.com/api';
+const BASE_URL = 'http://localhost:8080/api';
 const shopApi = {
 
     /**
@@ -135,6 +137,9 @@ const shopApi = {
          * where:
          * - true = options.isWholeSale
          */
+        
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
+        console.log("hooooola:"+options.langId)
         return fetch(`${BASE_URL}/home/getHomeInfo?${qs.stringify(options)}`, {
             method: 'GET',
             headers: {
@@ -151,7 +156,9 @@ const shopApi = {
      * Returns array of categories.
      */
     getAboutUsContent: (): Promise<any> => {
-        return fetch(`${BASE_URL}/page/content/getAboutUs`, {
+        const langId = parseInt(Cookies.get("langId") || "1")
+        console.log("hooooola:"+langId)
+        return fetch(`${BASE_URL}/page/content/getAboutUs?langId=${langId}`, {
             method: 'GET',
             headers: {
                 Accept: 'application/json',
@@ -177,6 +184,8 @@ const shopApi = {
      * Returns array of featured products.
      */
     getFeaturedProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+        
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
         return fetch(`${BASE_URL}/products/getFeaturedProducts`, {
             method: 'POST',
             headers: {
@@ -192,6 +201,7 @@ const shopApi = {
      * Returns array of offer products.
      */
     getOfferProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
         return fetch(`${BASE_URL}/offers/getOfferProdcuts`, {
             method: 'POST',
             headers: {
@@ -258,6 +268,7 @@ const shopApi = {
     * Return products list.
     */
     getProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
         return fetch(`${BASE_URL}/products/getProducts`, {
             method: 'POST',
             headers: {
@@ -273,6 +284,8 @@ const shopApi = {
      * Return products list.
      */
     getSearchProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
+        
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
         return fetch(`${BASE_URL}/products/searchProducts`, {
             method: 'POST',
             headers: {
@@ -288,6 +301,8 @@ const shopApi = {
     * Return products list.
     */
     getOfferProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
+        
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
         return fetch(`${BASE_URL}/offers/getOfferProdcuts`, {
             method: 'POST',
             headers: {
@@ -348,6 +363,8 @@ const shopApi = {
     * Return wishlist products .
     */
     getWishListProducts: (options: WishListOptions): Promise<IProduct[]> => {
+        
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
         return fetch(`${BASE_URL}/favorite/getFavoriteProducts`, {
             method: 'POST',
             headers: {

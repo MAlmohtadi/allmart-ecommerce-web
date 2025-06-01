@@ -1,20 +1,33 @@
 import { FunctionComponent } from 'react';
 
+import { useSelector } from 'react-redux';
 // application
 import FooterContacts from './FooterContacts';
 import FooterLinks from './FooterLinks';
 import ToTop from './ToTop';
-
+import {
+    IEshopTranslation,
+    ILanguage,
+} from "../../interfaces/main";
 import AppLink from '../shared/AppLink';
 
-const Footer: FunctionComponent = () => {
-    const informationLinks = [
-        { title: 'سياسة الخصوصية', url: '/site/terms' },
-        { title: 'الدعم', url: '/site/support' },
-        { title: 'الغاء الحساب التطبيق', url: '/site/cancel-account' },
-        { title: 'الغاء الحساب المتصفح', url: '/site/cancel-account-web' },
-        { title: 'صفحات التواصل', url: '/site/social-info' },
-    ];
+import {HomeState} from "./../../store/home/homeTypes";
+interface FooterProps {
+    homeData: HomeState;
+}
+const Footer: FunctionComponent<FooterProps> = ({ homeData }) => {
+
+        
+
+    function getInformationLinks(translations: IEshopTranslation | null) {
+        return [
+            { title: translations?.privacy || 'سياسة الخصوصية', url: '/site/terms' },
+            { title: translations?.support || 'الدعم', url: '/site/support' },
+            { title: translations?.cancelAppAccount || 'الغاء الحساب التطبيق', url: '/site/cancel-account' },
+            { title: translations?.cancelWebAccount || 'الغاء الحساب المتصفح', url: '/site/cancel-account-web' },
+            { title: translations?.socialLinks || 'صفحات التواصل', url: '/site/social-info' },
+        ];
+    }
 
     return (
         <div className="site-footer">
@@ -22,14 +35,14 @@ const Footer: FunctionComponent = () => {
                 <div className="site-footer__widgets">
                     <div className="row">
                         <div className="col-12 col-md-6 col-lg-4">
-                            <FooterContacts />
+                            <FooterContacts homeData={homeData} />
                         </div>
                         <div className="col-6 col-md-3 col-lg-2">
-                            <FooterLinks title="معلومات" items={informationLinks} />
+                            <FooterLinks title={homeData?.translations?.information || 'معلومات'} items={getInformationLinks(homeData?.translations)} />
                         </div>
                         <div className="col-12 col-md-3 col-lg-2">
                             <div className="site-footer__widget footer-links">
-                                <h5 className="footer-links__title">قم بتحميل التطبيق</h5>
+                                <h5 className="footer-links__title"> {homeData?.translations?.downloadApp || 'قم بتحميل التطبيق '} </h5>
                                 <ul className="footer-links__list">
                                     <li key="Google Play" className="footer-links__item">
                                         <AppLink

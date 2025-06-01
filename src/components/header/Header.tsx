@@ -9,8 +9,10 @@ import Search from './Search';
 
 export type HeaderLayout = 'default' | 'compact';
 
+import {HomeState} from "./../../store/home/homeTypes";
 export interface HeaderProps {
     layout?: HeaderLayout;
+        homeData: HomeState;
 }
 
 function Header(props: HeaderProps) {
@@ -53,7 +55,7 @@ function Header(props: HeaderProps) {
         <div className="site-header">
             {bannerSection}
             <div className={navbarClasses.join(' ')}>
-                <NavPanel layout={layout} />
+                <NavPanel layout={layout} homeData={props.homeData} />
             </div>
         </div>
     );

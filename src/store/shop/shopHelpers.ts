@@ -7,7 +7,7 @@ import { AppDispatch } from '../types';
 import { IFilterValues, IListOptions, IProductOptions } from '../../interfaces/list';
 import { RootState } from '../root/rootTypes';
 import { shopInitThunk } from './shopActions';
-
+import { parse } from "cookie";
 export function parseQueryOptions(query: string) {
     const queryObject = queryString.parse(query);
     const optionValues: IListOptions & IProductOptions = {};
@@ -75,7 +75,10 @@ export default async function getShopPageData(
 ): Promise<void> {
     // @ts-ignore
     const query = queryString.stringify(queryString.parseUrl(context.req.url).query);
+    const cookies = parse(context.req?.headers.cookie || "");
+    const langId = parseInt(cookies.langId || "1");
     const options = { ...parseQueryOptions(query), ...context.params };
+    options.langId = langId;
     const filters = parseQueryFilters(query);
     if (typeof context.req.url === 'string' && context.req.url.includes('offers')) {
         options.isOffer = true;

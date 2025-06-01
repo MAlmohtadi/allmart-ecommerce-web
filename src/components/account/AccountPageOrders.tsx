@@ -14,6 +14,7 @@ import url from '../../services/url';
 import { useOrder } from '../../store/order/orderHooks';
 import BlockLoader from '../blocks/BlockLoader';
 import { useAccount } from '../../store/account/accountHooks';
+import { useHome } from '../../store/home/homeHooks';
 
 export const orderStatus = {
     1: {
@@ -37,6 +38,8 @@ function AccountPageOrders() {
     const [page, setPage] = useState(1);
     const orderState = useOrder();
     const account = useAccount();
+    const homeData = useHome();
+    const translations = homeData?.translations;
     const limit = 5;
     const total = orderState.orders.length;
     const pages = Math.ceil(total / limit);
@@ -76,7 +79,7 @@ function AccountPageOrders() {
         return (
             <Fragment>
                 <Head>
-                    <title>جميع الطلبات — جبران</title>
+                    <title>{translations?.allOrders} — {translations?.jubran}</title>
                 </Head>
 
                 <div className="block block-empty">
@@ -85,7 +88,7 @@ function AccountPageOrders() {
                             <div className="block-empty__message">يجب عليك تسجيل الدخول !</div>
                             <div className="block-empty__actions">
                                 <AppLink href="/account/login" className="btn btn-primary btn-sm">
-                                    تسجيل الدخول
+                                  {translations?.login || 'تسجيل الدخول'}
                                 </AppLink>
                             </div>
                         </div>
@@ -101,7 +104,7 @@ function AccountPageOrders() {
             </Head>
 
             <div className="card-header">
-                <h5>جميع الطلبات</h5>
+                <h5>{translations?.allOrders || 'جميع الطلبات'}</h5>
             </div>
             <div className="card-divider" />
             <div className="card-table">
@@ -109,10 +112,10 @@ function AccountPageOrders() {
                     <table>
                         <thead>
                             <tr>
-                                <th>الطلب</th>
-                                <th>التاريخ</th>
-                                <th>الحالة</th>
-                                <th>المجموع</th>
+                                <th>{translations?.order || 'الطلب'}</th>
+                                <th>{translations?.date || 'التاريخ'}</th>
+                                <th>{translations?.status || 'الحالة'}</th>
+                                <th>{translations?.total || 'المجموع'}</th>
                             </tr>
                         </thead>
                         <tbody>{ordersList}</tbody>

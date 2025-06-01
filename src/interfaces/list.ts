@@ -46,7 +46,8 @@ export interface IProductOptions {
     maxPrice?:string;
     minPrice?:string
     textToSearch?:string;
-    isOffer?:boolean
+    isOffer?:boolean;
+    langId?: number;
 }
 export interface IFilterValues {
     [filterSlug: string]: string;

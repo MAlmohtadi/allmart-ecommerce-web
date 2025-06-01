@@ -7,10 +7,11 @@ import Indicator from './Indicator';
 import Person20Svg from '../../svg/person-20.svg';
 import url from '../../services/url';
 import { useAccount, useAccountLogin, useAccountLogout } from '../../store/account/accountHooks';
-
+import { useHome } from '../../store/home/homeHooks';
 function IndicatorAccount() {
     const phoneInputRef = useRef<HTMLInputElement | null>(null);
     const account = useAccount();
+    const homeData = useHome();
     const accountLogin = useAccountLogin();
     const accountLogout = useAccountLogout();
     function submitHandler(event: FormEvent) {
@@ -31,23 +32,23 @@ function IndicatorAccount() {
         <div className="account-menu">
             {!account.isLoggedIn && (
                 <form className="account-menu__form" noValidate={false} onSubmit={submitHandler}>
-                    <div className="account-menu__form-title">تسجيل الدخول إلى حسابك</div>
+                    <div className="account-menu__form-title">{homeData.translations?.login || 'تسجيل الدخول إلى حسابك'}</div>
                     <div className="form-group">
                         <label htmlFor="header-mobile" className="sr-only">
-                            رقم الهاتف
+                           {homeData.translations?.phoneNumber || ' رقم الهاتف'}
                         </label>
                         <input
                             required
                             id="header-mobile"
                             type="tel"
                             className="form-control form-control-sm"
-                            placeholder="رقم الهاتف"
+                            placeholder= {homeData.translations?.phoneNumber || ' رقم الهاتف'}
                             ref={phoneInputRef}
                         />
                     </div>
                     <div className="form-group account-menu__form-button">
                         <button type="submit" className="btn btn-primary btn-sm">
-                            دخول
+                           {homeData.translations?.login || ' دخول'}
                         </button>
                     </div>
                     <div className="form-group account-menu__form-button">
@@ -60,11 +61,11 @@ function IndicatorAccount() {
                             fields="name,email"
                             scope="public_profile,email"
                             callback={responseFacebook}
-                            textButton=" بإستخدام فيسبوك"
+                            textButton=  {homeData.translations?.facebookLogin ||" بإستخدام فيسبوك"}
                         />
                     </div>
                     <div className="account-menu__form-link">
-                        <AppLink href={url.accountSignUp()}>انشاء حساب</AppLink>
+                        <AppLink href={url.accountSignUp()}>  {homeData.translations?.register ||'انشاء حساب'}</AppLink>
                     </div>
                 </form>
             )}
@@ -80,16 +81,16 @@ function IndicatorAccount() {
                     <div className="account-menu__divider" />
                     <ul className="account-menu__links">
                         <li>
-                            <AppLink href={url.accountProfile()}>حسابي</AppLink>
+                            <AppLink href={url.accountProfile()}>  {homeData.translations?.myAccount || 'حسابي'}</AppLink>
                         </li>
                         <li>
-                            <AppLink href={url.accountOrders()}>طلباتي</AppLink>
+                            <AppLink href={url.accountOrders()}>  {homeData.translations?.yourOrder ||'طلباتي'}</AppLink>
                         </li>
                     </ul>
                     <div className="account-menu__divider" />
                     <ul className="account-menu__links">
                         <li>
-                            <AppLink onClick={accountLogout}>تسجيل الخروج</AppLink>
+                            <AppLink onClick={accountLogout}>  {homeData.translations?.signOut || 'تسجيل الخروج'}</AppLink>
                         </li>
                     </ul>
                 </Fragment>

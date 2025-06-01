@@ -12,7 +12,7 @@ import { useLocaleChange } from '../../store/locale/localeHooks';
 import { useMobileMenu, useMobileMenuClose } from '../../store/mobile-menu/mobileMenuHooks';
 
 // data stubs
-import dataMobileMenu from '../../data/mobileMenu';
+import {getMobileMenu} from '../../data/mobileMenu';
 import dataShopCurrencies from '../../data/shopCurrencies';
 import { IMobileMenuLink } from '../../interfaces/menus/mobile-menu';
 import { useHome } from '../../store/home/homeHooks';
@@ -54,7 +54,7 @@ function MobileMenu() {
             return;
         }
 
-        const categoryMenu = dataMobileMenu.find((item) => item.title === 'التصنيفات');
+        const categoryMenu = getMobileMenu(homeData.translations, homeData.languages).find((item) => item.title === 'التصنيفات');
         if (
             categoryMenu
             && categoryMenu.children
@@ -95,7 +95,7 @@ function MobileMenu() {
                     </button>
                 </div>
                 <div className="mobilemenu__content">
-                    <MobileLinks links={dataMobileMenu} onItemClick={handleItemClick} />
+                    <MobileLinks links={getMobileMenu(homeData?.translations, homeData?.languages)} onItemClick={handleItemClick} />
                 </div>
             </div>
         </div>

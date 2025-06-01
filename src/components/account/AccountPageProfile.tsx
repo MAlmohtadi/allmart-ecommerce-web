@@ -4,6 +4,7 @@ import { FormEvent, useRef } from 'react';
 import { toast } from 'react-toastify';
 
 import { useAccount, useAccountUpdate, useAccountRemove } from '../../store/account/accountHooks';
+import { useHome } from '../../store/home/homeHooks';
 import AppLink from '../shared/AppLink';
 
 export default function AccountPageProfile() {
@@ -12,6 +13,7 @@ export default function AccountPageProfile() {
     const phoneInputRef = useRef<HTMLInputElement | null>(null);
     const phone2ndInputRef = useRef<HTMLInputElement | null>(null);
     const emailInputRef = useRef<HTMLInputElement | null>(null);
+    const homeData = useHome();
 
     const accountUpdate = useAccountUpdate();
     const accountRemove = useAccountRemove();
@@ -59,7 +61,7 @@ export default function AccountPageProfile() {
                         <div className="block-empty__message">يجب عليك تسجيل الدخول !</div>
                         <div className="block-empty__actions">
                             <AppLink href="/account/login" className="btn btn-primary btn-sm">
-                                تسجيل الدخول
+                            {homeData.translations?.login || 'تسجيل الدخول'}
                             </AppLink>
                         </div>
                     </div>
@@ -70,11 +72,11 @@ export default function AccountPageProfile() {
     return (
         <div className="card">
             <Head>
-                <title>حسابي — جبران</title>
+                <title>{homeData.translations?.myAccount} — {homeData.translations?.jubran}</title>
             </Head>
 
             <div className="card-header">
-                <h5>معلوماتي</h5>
+                <h5>{homeData.translations?.myInformation}</h5>
             </div>
             <div className="card-divider" />
             <div className="card-body">
@@ -82,53 +84,54 @@ export default function AccountPageProfile() {
                     <div className="col-12 col-lg-7 col-xl-6">
                         <form onSubmit={submitHandler}>
                             <div className="form-group">
-                                <label htmlFor="name">الاسم</label>
+                                <label htmlFor="name">{homeData.translations?.name}</label>
                                 <input
                                     ref={nameInputRef}
                                     id="name"
                                     type="text"
                                     className="form-control"
                                     required
-                                    placeholder="الاسم *"
+                                    placeholder={homeData.translations?.name || 'الاسم *'}
                                     defaultValue={account.name}
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="phone">رقم الهاتف</label>
+                                <label htmlFor="phone">{homeData.translations?.phoneNumber}</label>
                                 <input
                                     ref={phoneInputRef}
                                     id="phone"
                                     type="tel"
                                     required
                                     className="form-control"
-                                    placeholder="رقم الهاتف *"
+                                    placeholder={homeData.translations?.phoneNumber || 'رقم الهاتف *'}
                                     defaultValue={account.phone}
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="phone-2">رقم الهاتف الثاني</label>
+                                <label htmlFor="phone-2">{homeData.translations?.secondaryPhoneNumber}</label>
                                 <input
                                     ref={phone2ndInputRef}
                                     id="phone-2"
                                     type="tel"
                                     className="form-control"
-                                    placeholder="رقم الهاتف الثاني (إختياري)"
+                                    placeholder={homeData.translations?.secondaryPhoneNumber || "رقم الهاتف الثاني (إختياري)"}
                                     defaultValue={account.secondaryPhone}
                                 />
                             </div>
                             <div className="form-group">
-                                <label htmlFor="register-email">الايميل</label>
+                                <label htmlFor="register-email">{homeData.translations?.email || 'الايميل'}</label>
                                 <input
                                     ref={emailInputRef}
                                     id="register-email"
                                     type="text"
                                     className="form-control"
-                                    placeholder="الايميل (إختياري)"
+                                    placeholder={homeData.translations?.email || 'الايميل'}
                                     defaultValue={account.email}
                                 />
                             </div>
                             <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
-                                تأكيد المعلومات
+                                
+                                {homeData.translations?.confirmInformation || 'تأكيد المعلومات'}
                             </button>
                         </form>
                     </div>
@@ -141,7 +144,8 @@ export default function AccountPageProfile() {
                             onClick={deleteAccount}
                             style={{ float: 'left' }}
                         >
-                            إلغاء الحساب
+                            {homeData.translations?.cancelAccount || ' إلغاء الحساب'}
+                           
                         </button>
                     </div>
                 </div>

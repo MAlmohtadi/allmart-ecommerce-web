@@ -10,14 +10,17 @@ import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import FacebookLogin from 'react-facebook-login';
 import PageHeader from '../shared/PageHeader';
+import { useHome } from '../../store/home/homeHooks';
 
 // data stubs
 import { useAccount, useAccountLogin, useAccountRegister } from '../../store/account/accountHooks';
 
 export default function AccountPageLogin() {
+     const homeData = useHome();
+     const translations = homeData?.translations
     const breadcrumb = [
-        { title: 'الرئيسية', url: '' },
-        { title: 'الحساب', url: '/account/dashboard' },
+        { title:translations?.home || 'الرئيسية', url: '' },
+        { title:  translations?.myAccount || 'حسابي', url: '/account/dashboard' },
     ];
     const route = useRouter();
     const account = useAccount();
@@ -90,10 +93,13 @@ export default function AccountPageLogin() {
     return (
         <Fragment>
             <Head>
-                <title>تسجيل الدخول</title>
+                <title>
+                    
+                    {translations?.login || 'تسجيل الدخول'}
+                </title>
             </Head>
 
-            <PageHeader header="الحساب" breadcrumb={breadcrumb} />
+            <PageHeader header={translations?.myAccount} breadcrumb={breadcrumb} />
 
             <div className="block">
                 <div className="container">
@@ -101,20 +107,26 @@ export default function AccountPageLogin() {
                         <div className="col-md-6 d-flex">
                             <div className="card flex-grow-1 mb-md-0">
                                 <div className="card-body">
-                                    <h3 className="card-title">تسجيل الدخول بالهاتف</h3>
+                                    <h3 className="card-title">
+                                        {translations?.login || ' تسجيل الدخول بالهاتف'}
+                                       
+                                        </h3>
                                     <form onSubmit={loginHandler}>
                                         <div className="form-group">
-                                            <label htmlFor="login-phone">رقم الهاتف</label>
+                                            <label htmlFor="login-phone">
+                                                {translations?.phoneNumber || 'رقم الهاتف'}
+                                           
+                                                </label>
                                             <input
                                                 ref={loginPhoneInputRef}
                                                 id="login-phone"
                                                 type="tel"
                                                 className="form-control"
-                                                placeholder="رقم الهاتف"
+                                                placeholder={translations?.phoneNumber || 'رقم الهاتف'}
                                             />
                                         </div>
                                         <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
-                                            تسجيل الدخول
+                                        {translations?.login || ' تسجيل الدخول '}
                                         </button>
                                     </form>
 
@@ -129,7 +141,7 @@ export default function AccountPageLogin() {
                                         // @ts-ignore
                                         callback={responseFacebook}
                                         icon="fa-facebook"
-                                        textButton=" تسجيل دخول بإستخدام فيسبوك"
+                                        textButton= {translations?.facebookLogin || " تسجيل دخول بإستخدام فيسبوك"}
                                     />
                                 </div>
                             </div>
@@ -137,7 +149,10 @@ export default function AccountPageLogin() {
                         <div className="col-md-6 d-flex mt-4 mt-md-0">
                             <div className="card flex-grow-1 mb-0">
                                 <div className="card-body">
-                                    <h3 className="card-title">انشاء حساب</h3>
+                                    <h3 className="card-title">
+                                    {translations?.register || ' انشاء حساب جديد'}
+                                        
+                                        </h3>
                                     <form onSubmit={submitHandler}>
                                         <div className="form-group">
                                             <label htmlFor="name">الاسم</label>
@@ -147,42 +162,43 @@ export default function AccountPageLogin() {
                                                 type="text"
                                                 className="form-control"
                                                 required
-                                                placeholder="الاسم *"
+                                                placeholder={translations?.name || "الاسم *"}
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="phone">رقم الهاتف</label>
+                                            <label htmlFor="phone">
+                                            {translations?.phoneNumber || 'رقم الهاتف'}</label>
                                             <input
                                                 ref={phoneInputRef}
                                                 id="phone"
                                                 type="tel"
                                                 required
                                                 className="form-control"
-                                                placeholder="رقم الهاتف *"
+                                                placeholder= {translations?.phoneNumber || "رقم الهاتف *"}
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="phone-2">رقم الهاتف الثاني</label>
+                                            <label htmlFor="phone-2"> {translations?.secondaryPhoneNumber || 'رقم الهاتف الثاني'}</label>
                                             <input
                                                 ref={phone2ndInputRef}
                                                 id="phone-2"
                                                 type="tel"
                                                 className="form-control"
-                                                placeholder="رقم الهاتف الثاني (إختياري)"
+                                                placeholder={translations?.secondaryPhoneNumber || 'رقم الهاتف الثاني'}
                                             />
                                         </div>
                                         <div className="form-group">
-                                            <label htmlFor="register-email">الايميل</label>
+                                            <label htmlFor="register-email">{translations?.email || 'الايميل'}</label>
                                             <input
                                                 ref={emailInputRef}
                                                 id="register-email"
                                                 type="text"
                                                 className="form-control"
-                                                placeholder="الايميل (إختياري)"
+                                                placeholder={translations?.email || 'الايميل'}
                                             />
                                         </div>
                                         <button type="submit" className="btn btn-primary mt-2 mt-md-3 mt-lg-4">
-                                            تأكيد المعلومات
+                                            {translations?.email || 'تأكيد المعلومات'}
                                         </button>
                                     </form>
                                     <FacebookLogin
@@ -195,7 +211,7 @@ export default function AccountPageLogin() {
                                         scope="public_profile,email"
                                         callback={registerFacebook}
                                         icon="fa-facebook"
-                                        textButton=" انشاء حساب بإستخدام فيسبوك"
+                                        textButton= {translations?.facebookRegister || " انشاء حساب بإستخدام فيسبوك"}
                                     />
                                 </div>
                             </div>
