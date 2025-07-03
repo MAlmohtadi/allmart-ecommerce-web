@@ -13,6 +13,7 @@ class MyDocument extends Document {
         return (
             <Html lang="ar" dir="rtl">
                 <Head>
+                    <meta name="facebook-domain-verification" content="21fvqoyz2jqspqngo09ffj5wqndev3" />
                     <link rel="shortcut icon" href="/favicon.ico" />
 
                     {/* fonts */}
