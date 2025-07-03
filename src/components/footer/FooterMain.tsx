@@ -66,6 +66,11 @@ function FooterMain(props: Props){
                             </div>
                         </div> */}
                     </div>
+                    <div className="row">
+                        <div className="footer-contacts__contacts">
+                            Jubran foodstuff Trading Company © 2023
+                        </div>
+                    <div/>
                 </div>
             </div>
             <ToTop />
