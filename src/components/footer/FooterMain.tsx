@@ -9,7 +9,8 @@ import { IFooter } from "../../interfaces/main";
 import FooterLinksMain from "./FooterLinksMain";
 
 interface Props{
-    footer: IFooter
+    footer: IFooter;
+    translations: ITranslation;
 }
 function FooterMain(props: Props){
 
@@ -68,7 +69,7 @@ function FooterMain(props: Props){
                     </div>
                     <div className="row">
                         <div className="footer-contacts__contacts">
-                            Jubran foodstuff Trading Company © 2023
+                        {translations?.companyNameTranslation}
                         </div>
                     </div>
                 </div>

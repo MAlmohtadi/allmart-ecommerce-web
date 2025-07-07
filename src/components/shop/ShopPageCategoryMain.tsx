@@ -128,7 +128,7 @@ function ShopPageCategoryMain(props: ShopPageCategoryProps) {
 
             {content}
             <footer className="site__footer">
-                <FooterMain footer={homePageInfo.footer} />
+                <FooterMain footer={homePageInfo.footer} translations={homePageInfo?.translations}/>
             </footer>
         </Fragment>
     );

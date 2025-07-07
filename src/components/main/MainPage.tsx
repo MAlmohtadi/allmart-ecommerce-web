@@ -89,7 +89,7 @@ function MainPage(props: HomePageProps) {
             {/* <FooterMain footer={homePageInfo?.data?.footer}/> */}
 
             <footer className="site__footer block--highlighted ">
-                <FooterMain footer={initData.footer} />
+                <FooterMain footer={initData.footer} translations={initData?.translations} />
             </footer>
         </Fragment>
     );

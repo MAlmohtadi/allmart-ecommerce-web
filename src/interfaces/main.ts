@@ -88,6 +88,7 @@ export interface ITranslation {
     boxSizeTranslation: string;
     packagingTranslation: string;
     palletTranslation: string;
+    companyNameTranslation: string;
 }
 
 export interface IEshopTranslation {
