@@ -69,7 +69,7 @@ function FooterMain(props: Props){
                     </div>
                     <div className="row">
                         <div className="footer-contacts__contacts">
-                        {translations?.companyNameTranslation}
+                        {props.translations?.companyNameTranslation}
                         </div>
                     </div>
                 </div>
