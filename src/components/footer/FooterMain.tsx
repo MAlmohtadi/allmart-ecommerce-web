@@ -5,7 +5,7 @@ import { FunctionComponent } from "react";
 import FooterContactsMain from "./FooterContactsMain";
 import ToTop from "./ToTop";
 
-import { IFooter } from "../../interfaces/main";
+import { IFooter, ITranslation } from "../../interfaces/main";
 import FooterLinksMain from "./FooterLinksMain";
 
 interface Props{
