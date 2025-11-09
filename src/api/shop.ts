@@ -277,7 +277,7 @@ const shopApi = {
                 'Content-Type': 'application/json',
                 deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
             },
-            body: JSON.stringify(options),
+            body: JSON.stringify(options).replaceAll('subcategoryId', 'subCategoryId'),
         })
             .then((response) => response.json());
     },

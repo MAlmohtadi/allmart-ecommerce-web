@@ -81,7 +81,7 @@ export function shopFetchProductsListThunk(): ShopThunkAction<Promise<void>> {
         const {
             options,
         } = shopState;
-
+console.log("options113", options)
         options.sort = typeof options.sort === 'string' ? options.sort : '';
         options.nextPageNumber = options.page ? options.page - 1 : 0;
         options.pageSize = options.limit || 12;
@@ -89,7 +89,7 @@ export function shopFetchProductsListThunk(): ShopThunkAction<Promise<void>> {
         let productsList;
         if (options.isOffer) {
             productsList = await shopApi.getOfferProductsList(options);
-        } else if (!options.subCategoryId || options.textToSearch) {
+        } else if (!options.subcategoryId || options.textToSearch) {
             productsList = await shopApi.getSearchProductsList(options);
         } else {
             productsList = await shopApi.getProductsList(options);

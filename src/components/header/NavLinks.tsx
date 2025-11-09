@@ -62,8 +62,10 @@ function NavLinks() {
             });
         }
         console.log("dsadasd", JSON.stringify( categoryMenu))
+        return categoryMenu;
     };
-    customMenuDataPreperation();
+
+    console.log("aa" , {a:customMenuDataPreperation()});
     const handleMouseEnter = (event: ReactMouseEvent) => {
         const item = event.currentTarget as HTMLElement;
         const megamenu = item.querySelector('.nav-links__megamenu') as HTMLElement;
@@ -99,11 +101,23 @@ function NavLinks() {
         }
 
         if (item.submenu && item.submenu.type === 'menu') {
-            submenu = (
-                <div className="nav-links__menu">
-                    <Menu items={item.submenu.menu} />
-                </div>
-            );
+            if(item.title === 'التصنيفات' || item.title === 'Categories')
+            {
+                let menu = customMenuDataPreperation()?.submenu?.menu
+                if(menu != null && menu != undefined){
+                submenu = (
+                    <div className="nav-links__menu">
+                        <Menu items={menu} />
+                    </div>
+                );
+            }
+            } else {
+                submenu = (
+                    <div className="nav-links__menu">
+                        <Menu items={item.submenu.menu} />
+                    </div>
+                );
+        }
         }
 
         if (item.submenu && item.submenu.type === 'megamenu') {

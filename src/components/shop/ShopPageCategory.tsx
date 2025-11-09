@@ -6,6 +6,7 @@ import {
     useState,
 } from 'react';
 
+import { useRouter } from 'next/router';
 // third-party
 import Head from 'next/head';
 // application
@@ -18,6 +19,8 @@ import url from '../../services/url';
 import WidgetFilters from '../widgets/WidgetFilters';
 import { useHome } from '../../store/home/homeHooks';
 import { useShop } from '../../store/shop/shopHooks';
+
+
 
 export type ShopPageCategoryColumns = 3 | 4 | 5;
 export type ShopPageCategoryViewMode = 'grid' | 'grid-with-features' | 'list';
@@ -33,6 +36,8 @@ export interface ShopPageCategoryProps {
 function ShopPageCategory(props: ShopPageCategoryProps) {
     const homeData = useHome();
     const translations = homeData?.translations;
+    // const router = useRouter();
+    // const { categoryId, subCategoryId } = router.query;
     // shop
     const shopState = useShop();
     let customPageTitle = '';
@@ -50,8 +55,8 @@ function ShopPageCategory(props: ShopPageCategoryProps) {
             if (shopState.options?.categoryId) {
                 customPageTitle = `${customPageTitle} > ${category?.name}`;
             }
-            if (shopState.options?.subCategoryId && !Number.isNaN(Number((`${shopState.options?.subCategoryId}` ?? 'NaN')))) {
-                const subCategory = category?.subCategories?.find((subcat) => subcat.id === Number(`${shopState.options?.subCategoryId}`));
+            if (shopState.options?.subcategoryId && !Number.isNaN(Number((`${shopState.options?.subcategoryId}` ?? 'NaN')))) {
+                const subCategory = category?.subCategories?.find((subcat) => subcat.id === Number(`${shopState.options?.subcategoryId}`));
                 customPageTitle = `${customPageTitle} > ${subCategory?.name}`;
             }
         }
