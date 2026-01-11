@@ -42,12 +42,20 @@ function MobileMenu() {
             if (item.data.type === 'language') {
                 console.log("lang click:", item.data);
                 let basePath = router.asPath.includes("#") ? router.asPath.split("#")[0] : router.asPath.split("?")[0];
+                
+                Cookies.set("langId", item?.data?.langId.toString(), { path: "/" });
+                
+                // CRITICAL: Update direction immediately before navigation
+                setDirection(item?.data?.direction);
+                // Also update document directly for immediate effect
+                if (typeof document !== 'undefined') {
+                    document.documentElement.dir = item?.data?.direction;
+                }
+                
                 router.push(`${basePath}`).then(() => {
                     router.reload();
                 });
                 
-                Cookies.set("langId", item?.data?.langId.toString(), { path: "/" });
-                setDirection(item?.data?.direction);
                 // localeChange(item.data.locale);
                 mobileMenuClose();
             }

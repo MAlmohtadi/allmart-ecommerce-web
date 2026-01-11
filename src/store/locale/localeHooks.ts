@@ -46,10 +46,16 @@ export function useSyncedLocalStorage<T = string>(
     const readValue = () => {
       if (typeof window === "undefined") return defaultValue;
       const stored = localStorage.getItem(key);
+      if (!stored) return defaultValue;
+      
+      // Try to parse as JSON first, fallback to plain string for backward compatibility
       try {
-        return stored ? (JSON.parse(stored) as T) : defaultValue;
+        const parsed = JSON.parse(stored);
+        return parsed as T;
       } catch {
-        return defaultValue;
+        // If parsing fails, it might be a plain string (for direction: "rtl" or "ltr")
+        // Return as-is if it's a string, otherwise return default
+        return (stored as unknown as T) || defaultValue;
       }
     };
   
@@ -57,14 +63,27 @@ export function useSyncedLocalStorage<T = string>(
   
     const updateValue = (newValue: T) => {
       setValue(newValue);
-      localStorage.setItem(key, JSON.stringify(newValue));
+      // Store as JSON for complex types, but for simple strings like "rtl"/"ltr", 
+      // we can store directly for backward compatibility
+      if (typeof newValue === 'string' && (newValue === 'rtl' || newValue === 'ltr')) {
+        // Store direction as plain string for backward compatibility
+        localStorage.setItem(key, newValue);
+      } else {
+        localStorage.setItem(key, JSON.stringify(newValue));
+      }
       window.dispatchEvent(new Event("local-storage-change"));
     };
   
     useEffect(() => {
       const handleStorage = (event: StorageEvent) => {
-        if (event.key === key) {
-          setValue(event.newValue ? JSON.parse(event.newValue) : defaultValue);
+        if (event.key === key && event.newValue) {
+          try {
+            const parsed = JSON.parse(event.newValue);
+            setValue(parsed as T);
+          } catch {
+            // Fallback to plain string
+            setValue((event.newValue as unknown as T) || defaultValue);
+          }
         }
       };
   
@@ -79,7 +98,7 @@ export function useSyncedLocalStorage<T = string>(
         window.removeEventListener("storage", handleStorage);
         window.removeEventListener("local-storage-change", handleLocalChange);
       };
-    }, [key]);
+    }, [key, defaultValue]);
   
     return [value, updateValue];
   }

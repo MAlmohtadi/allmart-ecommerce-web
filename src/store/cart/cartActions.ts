@@ -124,6 +124,16 @@ export function cartUpdateShippingPrice(price: number): CartThunkAction<Promise<
 export function cartClear(): CartThunkAction<Promise<void>> {
     return (dispatch) => (
         new Promise((resolve) => {
+            // Also remove franchise-specific cart from localStorage
+            if (typeof window !== 'undefined') {
+                const Cookies = require('js-cookie');
+                const franchiseId = Cookies.get('franchiseId');
+                if (franchiseId) {
+                    const cartKey = `cart_${franchiseId}`;
+                    localStorage.removeItem(cartKey);
+                }
+            }
+
             setTimeout(() => {
                 dispatch(cartClearSuccess());
                 resolve();

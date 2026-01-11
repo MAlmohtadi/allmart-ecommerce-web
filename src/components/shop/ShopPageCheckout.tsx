@@ -24,6 +24,7 @@ import shopApi from "../../api/shop";
 import { useDeferredData } from "../../services/hooks";
 import { useSale } from "../../store/sale/saleHooks";
 import MapPicker from "../shared/MapPicker";
+import { useFranchise } from "../../store/franchise/franchiseHooks";
 
 export type RenderPaymentFn = CollapseRenderFn<HTMLLIElement, HTMLDivElement>;
 
@@ -45,48 +46,26 @@ function ShopPageCheckout(props: CheckoutProps) {
     const [deliveryDate, setDeliveryDate] = useState<IDelivery>();
     const [deliveryPeriod, setDeliveryPeriod] = useState<IPeriod>();
     const noteInputRef = useRef<HTMLInputElement | null>(null);
+    const franchise = useFranchise();
     const deliveryInfo = useDeferredData(() => shopApi.getCheckoutInfo(), initData);
     const [deliveryDetails, setDeliveryDetails] = useState<IDeliveryInfo>();
-    const [country, setCountry] = useState("Jordan");
+    // Country comes from franchise context, not user selection
+    const country = franchise.countryCode === 'USA' ? 'United States of America' : 'Jordan';
     const [state, setState] = useState("");
     const [city, setCity] = useState("");
     const clearCart = useCartClear();
     const [location, setLocation] = useState({ lat: 31.967555, lng: 35.906802 });
+    
+    // Delivery price from API (franchise-aware via headers)
     const onChangeLocation = async (lat: number, lng: number) => {
-        if (country === "United States of America") {
-            setDeliveryDetails({
-                branchId: 0,
-                deliveryPrice: 25,
-            });
-        } else {
-            const deliveryDetails = await shopApi.getDeliveryInfo({ lat, lng }).then();
-            setDeliveryDetails(deliveryDetails);
-        }
+        // API automatically uses franchise context from headers
+        const deliveryDetails = await shopApi.getDeliveryInfo({ lat, lng });
+        setDeliveryDetails(deliveryDetails);
         setLocation({ lat, lng });
     };
     const handlePaymentChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
             setCurrentPayment(event.target.value);
-        }
-    };
-    const handleCountryChange = async (e: ChangeEvent<HTMLSelectElement>) => {
-        const selectedCountry = e.target.value;
-        setCountry(selectedCountry);
-
-        // Reset state and city if the country is not "United States of America"
-        if (e.target.value !== "United States of America") {
-            setState("");
-            setCity("");
-            const deliveryDetails = await shopApi.getDeliveryInfo(location).then();
-            setDeliveryDetails(deliveryDetails);
-        }
-        if (e.target.value === "United States of America") { 
-            const deliveryDetails = await shopApi.getDeliveryInfo(location).then();
-            setDeliveryDetails({
-                branchId: 0,
-                deliveryPrice: 25,
-            });
-            setLocation({ lat: 31.967555, lng: 35.906802});
         }
     };
     const couponRef = useRef<HTMLInputElement | null>(null);
@@ -377,20 +356,18 @@ function ShopPageCheckout(props: CheckoutProps) {
                                     </div>
                                     <div className="form-group">
                                         <label htmlFor="checkout-country">{translations?.country || 'الدولة'}</label>
-                                        <select
+                                        <input
                                             id="checkout-country"
                                             className="form-control"
+                                            type="text"
                                             value={country}
-                                            onChange={handleCountryChange}
-                                        >
-                                            <option value="Jordan">Jordan</option>
-                                            <option value="United States of America">United States of America</option>
-                                        </select>
-                                        {country === "United States of America" && (
-                                            <span className="text-warning mt-2 d-block">
-                                                {translations?.deliveryMessage || ' قد يتغير سعر التوصيل، وإذا حدث ذلك سنقوم بإبلاغك.'}
-                                            </span>
-                                        )}
+                                            readOnly
+                                            disabled
+                                            style={{ backgroundColor: '#f5f5f5', cursor: 'not-allowed' }}
+                                        />
+                                        <small className="form-text text-muted">
+                                            {translations?.countryNote || 'البلد محدد حسب اختيارك عند الدخول للموقع'}
+                                        </small>
                                     </div>
                                     {country === "United States of America" && (
                                         <>

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars,arrow-body-style */
 // noinspection ES6UnusedImports
 import qs from 'query-string';
-import { isMobile } from 'react-device-detect';
 import { IProductOptions } from '../interfaces/list';
 
 import Cookies from "js-cookie";
@@ -11,6 +10,8 @@ import { ICoupon } from '../interfaces/coupon';
 import { ICheckoutInfo, IDeliveryInfo } from '../interfaces/checkout-info';
 import { IOrderProduct, IOrderSummary } from '../interfaces/order';
 import { IAccount } from '../store/account/accountTypes';
+import { apiRequest, apiRequestSSR } from '../utils/api-interceptor';
+import FranchiseContext from '../utils/franchise-context';
 
 export interface GetCategoriesOptions {
     depth?: number;
@@ -56,6 +57,7 @@ export interface WishListOptions {
     isWholeSale?: boolean;
     userId?: number;
     productId?: number;
+    langId?: number;
 }
 export interface CouponOptions {
     code: string;
@@ -122,393 +124,406 @@ export interface DeliveryInfo {
     lat: number;
     lng: number;
 }
-// const BASE_URL = 'http://localhost:8080/api';
+// BASE_URL is now handled by api-interceptor.ts
+// const BASE_URL = 'http://localhost:8080/api'; // Kept for reference, not used
 const BASE_URL = "https://jubran.jubran-api.com/api";
+
+export interface FranchiseResponse {
+    id: number;
+    code: string;
+    name: string;
+    countryCode: string;
+    currencyCode: string;
+    currencySymbolAr: string;
+    currencySymbolEn: string;
+}
+
 const shopApi = {
+    /**
+     * Get franchise by country code (client-side)
+     * Response format: FranchiseResponse (direct from API, not wrapped)
+     */
+    getFranchiseByCountry: (countryCode: string): Promise<FranchiseResponse> => {
+        return apiRequest(`/franchise/getByCountry?countryCode=${countryCode}`, {
+            method: 'GET',
+        }).then(async (response) => {
+            if (!response.ok) {
+                throw new Error(`Failed to get franchise: ${response.statusText}`);
+            }
+            const result: FranchiseResponse = await response.json();
+            
+            // Store franchise info in cookies (from API response)
+            if (result.id && result.code && result.currencyCode) {
+                FranchiseContext.setFranchiseId(result.id);
+                FranchiseContext.setFranchiseCode(result.code);
+                FranchiseContext.setCountryCode(result.countryCode);
+                FranchiseContext.setCurrencyCode(result.currencyCode);
+                FranchiseContext.setCurrencySymbols(
+                    result.currencySymbolAr || 'د.أ',
+                    result.currencySymbolEn || 'JD'
+                );
+            }
+            
+            return result;
+        });
+    },
 
     /**
-     * Returns array of categories.
+     * Get franchise by country code (SSR version)
+     * Response format: FranchiseResponse (direct from API, not wrapped)
+     */
+    getFranchiseByCountrySSR: (countryCode: string, cookieString?: string): Promise<FranchiseResponse> => {
+        return apiRequestSSR(`/franchise/getByCountry?countryCode=${countryCode}`, cookieString, {
+            method: 'GET',
+        }).then(async (response) => {
+            if (!response.ok) {
+                throw new Error(`Failed to get franchise: ${response.statusText}`);
+            }
+            const result: FranchiseResponse = await response.json();
+            return result;
+        });
+    },
+
+    /**
+     * Get all active franchises (public endpoint)
+     * Response format: FranchiseResponse[] (array of franchises)
+     */
+    getActiveFranchises: (): Promise<FranchiseResponse[]> => {
+        return apiRequest(`/franchise/getActiveFranchises`, {
+            method: 'GET',
+        }).then(async (response) => {
+            if (!response.ok) {
+                throw new Error(`Failed to get active franchises: ${response.statusText}`);
+            }
+            const result: FranchiseResponse[] = await response.json();
+            return result;
+        });
+    },
+
+    /**
+     * Returns array of categories (client-side).
      */
     getHomePageData: (options: GetSaleOptions = {}): Promise<IHomePageResponse> => {
-        /**
-         * This is what your API endpoint might look like:
-         *
-         * https://example.com/api/categories.json?isWholeSale=true
-         *
-         * where:
-         * - true = options.isWholeSale
-         */
-        
-        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
-        // console.log("hooooola:"+options.langId)
-        return fetch(`${BASE_URL}/home/getHomeInfo?${qs.stringify(options)}`, {
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1", 10);
+        return apiRequest(`/home/getHomeInfo?${qs.stringify(options)}`, {
             method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
+    },
 
-        // This is for demonstration purposes only. Remove it and use the code above.
+    /**
+     * Returns array of categories (SSR version).
+     */
+    getHomePageDataSSR: (options: GetSaleOptions = {}, cookieString?: string): Promise<IHomePageResponse> => {
+        const { parse } = require('cookie');
+        const langId = cookieString 
+            ? parseInt(parse(cookieString).langId || '1', 10)
+            : 1;
+        options.langId = langId;
+        return apiRequestSSR(`/home/getHomeInfo?${qs.stringify(options)}`, cookieString, {
+            method: 'GET',
+        }).then((response) => response.json());
     },
     /**
      * Returns array of categories.
      */
     getAboutUsContent: (): Promise<any> => {
-        const langId = parseInt(Cookies.get("langId") || "1")
-        // console.log("hooooola:"+langId)
-        return fetch(`${BASE_URL}/page/content/getAboutUs?langId=${langId}`, {
+        const langId = parseInt(Cookies.get("langId") || "1", 10);
+        return apiRequest(`/page/content/getAboutUs?langId=${langId}`, {
             method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
 
     getSocialLinks: (): Promise<any> => {
-        return fetch(`${BASE_URL}/page/content/getSocialLinks`, {
+        return apiRequest(`/page/content/getSocialLinks`, {
             method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
     /**
-     * Returns array of featured products.
+     * Returns array of featured products (client-side).
      */
     getFeaturedProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
-        
-        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
-        return fetch(`${BASE_URL}/products/getFeaturedProducts`, {
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1", 10);
+        return apiRequest(`/products/getFeaturedProducts`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
+
     /**
-     * Returns array of offer products.
+     * Returns array of featured products (SSR version).
+     */
+    getFeaturedProductsSSR: (options: GetSaleOptions = {}, cookieString?: string): Promise<IProductResponse> => {
+        const { parse } = require('cookie');
+        const langId = cookieString 
+            ? parseInt(parse(cookieString).langId || '1', 10)
+            : 1;
+        options.langId = langId;
+        return apiRequestSSR(`/products/getFeaturedProducts`, cookieString, {
+            method: 'POST',
+            body: JSON.stringify(options),
+        }).then((response) => response.json());
+    },
+
+    /**
+     * Returns array of offer products (client-side).
      */
     getOfferProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
-        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
-        return fetch(`${BASE_URL}/offers/getOfferProdcuts`, {
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1", 10);
+        return apiRequest(`/offers/getOfferProdcuts`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
+    },
+
+    /**
+     * Returns array of offer products (SSR version).
+     */
+    getOfferProductsSSR: (options: GetSaleOptions = {}, cookieString?: string): Promise<IProductResponse> => {
+        const { parse } = require('cookie');
+        const langId = cookieString 
+            ? parseInt(parse(cookieString).langId || '1', 10)
+            : 1;
+        options.langId = langId;
+        return apiRequestSSR(`/offers/getOfferProdcuts`, cookieString, {
+            method: 'POST',
+            body: JSON.stringify(options),
+        }).then((response) => response.json());
     },
     /**
-    * Returns array of offer products.
+    * User login (public endpoint).
     */
     login: (options: AccountOptions = {}): Promise<IAccount | Error> => {
-        return fetch(`${BASE_URL}/user/login`, {
+        return apiRequest(`/user/login`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
+
     updateAccount: (options: AccountOptions = {}): Promise<IAccount> => {
-        return fetch(`${BASE_URL}/user/update`, {
+        return apiRequest(`/user/update`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
+
+    /**
+     * User registration (public endpoint).
+     */
     registerAccount: (options: AccountOptions = {}): Promise<IAccount> => {
-        return fetch(`${BASE_URL}/user/register`, {
+        return apiRequest(`/user/register`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
+
     removeAccount: (options: AccountOptions = {}): Promise<void> => {
-        return fetch(`${BASE_URL}/user/deleteUserInfo`, {
+        return apiRequest(`/user/deleteUserInfo`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
     /**
-    * Return products list.
+    * Return products list (client-side).
     */
     getProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
-        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
-        return fetch(`${BASE_URL}/products/getProducts`, {
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1", 10);
+        return apiRequest(`/products/getProducts`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options).replaceAll('subcategoryId', 'subCategoryId'),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
-    /*
-     * Return products list.
+
+    /**
+     * Return products list (SSR version).
+     */
+    getProductsListSSR: (options: IProductOptions = {}, cookieString?: string): Promise<IProductResponse> => {
+        const { parse } = require('cookie');
+        const langId = cookieString 
+            ? parseInt(parse(cookieString).langId || '1', 10)
+            : 1;
+        options.langId = langId;
+        return apiRequestSSR(`/products/getProducts`, cookieString, {
+            method: 'POST',
+            body: JSON.stringify(options).replaceAll('subcategoryId', 'subCategoryId'),
+        }).then((response) => response.json());
+    },
+
+    /**
+     * Return search products list (client-side).
      */
     getSearchProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
-        
-        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
-        return fetch(`${BASE_URL}/products/searchProducts`, {
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1", 10);
+        return apiRequest(`/products/searchProducts`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
-    /*
-    * Return products list.
-    */
+
+    /**
+     * Return search products list (SSR version).
+     */
+    getSearchProductsListSSR: (options: IProductOptions = {}, cookieString?: string): Promise<IProductResponse> => {
+        const { parse } = require('cookie');
+        const langId = cookieString 
+            ? parseInt(parse(cookieString).langId || '1', 10)
+            : 1;
+        options.langId = langId;
+        return apiRequestSSR(`/products/searchProducts`, cookieString, {
+            method: 'POST',
+            body: JSON.stringify(options),
+        }).then((response) => response.json());
+    },
+
+    /**
+     * Return offer products list (client-side).
+     */
     getOfferProductsList: (options: IProductOptions = {}): Promise<IProductResponse> => {
-        
-        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
-        return fetch(`${BASE_URL}/offers/getOfferProdcuts`, {
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1", 10);
+        return apiRequest(`/offers/getOfferProdcuts`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
-    /*
-    * add to wishlist.
-    */
+
+    /**
+     * Return offer products list (SSR version).
+     */
+    getOfferProductsListSSR: (options: IProductOptions = {}, cookieString?: string): Promise<IProductResponse> => {
+        const { parse } = require('cookie');
+        const langId = cookieString 
+            ? parseInt(parse(cookieString).langId || '1', 10)
+            : 1;
+        options.langId = langId;
+        return apiRequestSSR(`/offers/getOfferProdcuts`, cookieString, {
+            method: 'POST',
+            body: JSON.stringify(options),
+        }).then((response) => response.json());
+    },
+    /**
+     * Add to wishlist.
+     */
     addToWishlist: (options: WishListOptions): Promise<boolean> => {
-        return fetch(`${BASE_URL}/favorite/add`, {
+        return apiRequest(`/favorite/add`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.ok);
+        }).then((response) => response.ok);
     },
-    /*
-    * remove from wishlist.
-    */
+
+    /**
+     * Remove from wishlist.
+     */
     removeFromWishlist: (options: WishListOptions): Promise<boolean> => {
-        return fetch(`${BASE_URL}/favorite/delete`, {
+        return apiRequest(`/favorite/delete`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.ok);
+        }).then((response) => response.ok);
     },
-    /*
-    * remove All from wishlist.
-    */
+
+    /**
+     * Remove all from wishlist.
+     */
     removeAllWishlist: (options: WishListOptions): Promise<boolean> => {
-        return fetch(`${BASE_URL}/favorite/delete`, {
+        return apiRequest(`/favorite/delete`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.ok);
+        }).then((response) => response.ok);
     },
+
     /**
-    * Return wishlist products .
-    */
+     * Return wishlist products (client-side).
+     */
     getWishListProducts: (options: WishListOptions): Promise<IProduct[]> => {
-        
-        options.langId = options.langId || parseInt(Cookies.get("langId") || "1")
-        return fetch(`${BASE_URL}/favorite/getFavoriteProducts`, {
+        options.langId = options.langId || parseInt(Cookies.get("langId") || "1", 10);
+        return apiRequest(`/favorite/getFavoriteProducts`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
     /**
-    * apply coupon.
-    */
+     * Apply coupon.
+     */
     applyCoupon: (options: CouponOptions): Promise<ICoupon & Error> => {
-        return fetch(`${BASE_URL}/coupons/getCouponByCode`, {
+        return apiRequest(`/coupons/getCouponByCode`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
+
     /**
-    * get checkout Info.
-    */
+     * Get checkout info.
+     */
     getCheckoutInfo: (): Promise<ICheckoutInfo> => {
-        return fetch(`${BASE_URL}/checkout/getCheckoutInfo`, {
+        return apiRequest(`/checkout/getCheckoutInfo`, {
             method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
+
     /**
-     * get delivery Info.
-    */
+     * Get delivery info.
+     */
     getDeliveryInfo: (options: DeliveryInfo): Promise<IDeliveryInfo> => {
-        return fetch(`${BASE_URL}/checkout/getDeliveryInfo`, {
+        return apiRequest(`/checkout/getDeliveryInfo`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
     /**
-    * add order.
-    */
+     * Add order.
+     */
     addOrder: (options: OrderOptions): Promise<IOrderSummary & Error> => {
-        return fetch(`${BASE_URL}/orders/addOrder`, {
+        return apiRequest(`/orders/addOrder`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
-    /*
-    * Return user orders.
-    */
+
+    /**
+     * Return user orders.
+     */
     getUserOrders: (options: UserOrdersOptions): Promise<IOrderSummary[]> => {
-        return fetch(`${BASE_URL}/orders/getUserOrders`, {
+        return apiRequest(`/orders/getUserOrders`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
-    /*
-    * Return order products orders.
-    */
+
+    /**
+     * Return order products.
+     */
     getOrderProducts: (options: OrderProductsOptions): Promise<IOrderProduct[]> => {
-        return fetch(`${BASE_URL}/orders/getOrderProducts`, {
+        return apiRequest(`/orders/getOrderProducts`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
-    /*
-    * update order products orders.
-    */
+
+    /**
+     * Update order products.
+     */
     updateOrderProducts: (options: OrderBaseOptions): Promise<IOrderProduct[]> => {
-        return fetch(`${BASE_URL}/orders/updateOrderProducts`, {
+        return apiRequest(`/orders/updateOrderProducts`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
-    /*
-    * cancel order  orders.
-    */
+
+    /**
+     * Cancel order.
+     */
     cancelOrder: (options: OrderProductsOptions): Promise<IOrderSummary> => {
-        return fetch(`${BASE_URL}/orders/cancelOrder`, {
+        return apiRequest(`/orders/cancelOrder`, {
             method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
             body: JSON.stringify(options),
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
-    /*
-    * cancel order  orders.
-    */
+
+    /**
+     * Get gallery images.
+     */
     getGalleryImages: (): Promise<Images[]> => {
-        return fetch(`${BASE_URL}/gallery/getAll`, {
+        return apiRequest(`/gallery/getAll`, {
             method: 'GET',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                deviceType: isMobile ? 'mobileWeb' : 'desktopWeb',
-            },
-        })
-            .then((response) => response.json());
+        }).then((response) => response.json());
     },
 };
 

@@ -46,6 +46,11 @@ function homeReducer(state = initialState, action: HomeAction): HomeState {
             languages: [ ...action.data?.languages ],
             translations: { ...action.data?.translations },
         };
+    case 'CLEAR_HOME_DATA':
+        return {
+            ...initialState,
+            init: state.init, // Keep init flag
+        };
     default:
         return state;
     }

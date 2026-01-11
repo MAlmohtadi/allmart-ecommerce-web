@@ -115,6 +115,28 @@ function shopReducer(state = initialState, action: ShopAction): ShopState {
             },
             filters: {},
         };
+    case 'CLEAR_PRODUCT_FILTERS':
+        return {
+            ...state,
+            options: {
+                ...state.options,
+                limit: 12,
+                page: 1,
+                sort: '',
+                maxPrice: '100',
+                minPrice: '0',
+            },
+            filters: {},
+        };
+    case 'CLEAR_SELECTED_CATEGORY':
+        return {
+            ...state,
+            options: {
+                ...state.options,
+                categoryId: undefined,
+                subcategoryId: undefined,
+            },
+        };
     default:
         return state;
     }

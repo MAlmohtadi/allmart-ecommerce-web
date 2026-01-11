@@ -14,6 +14,7 @@ import { useInitWishlistProducts, useWishlist } from '../../store/wishlist/wishl
 import { useAccount } from '../../store/account/accountHooks';
 
 import DropdownLanguage from "./DropdownLanguage";
+import CountrySwitcher from "../country/CountrySwitcher";
 
 import {HomeState} from "./../../store/home/homeTypes";
 export type NavPanelLayout = 'default' | 'compact';
@@ -85,11 +86,14 @@ console.log("languages", languages);
                         <IndicatorAccount />
                     </div>
                     <div className="nav-panel__nav-links nav-links">
-                        {/* <DropdownLanguage languages={[{id:1, name:"english", showText:"english", isActive:true, locale:"en_US", direction:"ltr"}
-                            ,{id:2, name:"العربية", showText:"العربية", isActive:true, locale:"ar_JO", direction:"rtl"}
-                        ]} /> */}
-
-                        <DropdownLanguage languages={languages} />
+                        <ul className="nav-links__list">
+                            <li className="nav-links__item" style={{ position: 'relative', zIndex: 100 }}>
+                                <CountrySwitcher />
+                            </li>
+                            <li key="language" className="nav-links__item nav-links__item--with-submenu" style={{ position: 'relative', zIndex: 100 }}>
+                                <DropdownLanguage languages={languages} inline={true} />
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

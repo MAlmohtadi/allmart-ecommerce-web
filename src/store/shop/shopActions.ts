@@ -67,7 +67,7 @@ export function shopSetFilterValue(filter: string, value: string | null): ShopSe
     };
 }
 
-export function shopFetchProductsListThunk(): ShopThunkAction<Promise<void>> {
+export function shopFetchProductsListThunk(cookieString?: string): ShopThunkAction<Promise<void>> {
     return async (dispatch, getState) => {
         let canceled = false;
 
@@ -81,19 +81,32 @@ export function shopFetchProductsListThunk(): ShopThunkAction<Promise<void>> {
         const {
             options,
         } = shopState;
-console.log("options113", options)
         options.sort = typeof options.sort === 'string' ? options.sort : '';
         options.nextPageNumber = options.page ? options.page - 1 : 0;
         options.pageSize = options.limit || 12;
         options.isWholeSale = saleState.isWholeSale;
         let productsList;
-        if (options.isOffer) {
-            productsList = await shopApi.getOfferProductsList(options);
-        } else if (!options.subcategoryId || options.textToSearch) {
-            productsList = await shopApi.getSearchProductsList(options);
+        
+        // Use SSR versions if cookieString is provided (SSR context)
+        if (cookieString) {
+            if (options.isOffer) {
+                productsList = await shopApi.getOfferProductsListSSR(options, cookieString);
+            } else if (!options.subcategoryId || options.textToSearch) {
+                productsList = await shopApi.getSearchProductsListSSR(options, cookieString);
+            } else {
+                productsList = await shopApi.getProductsListSSR(options, cookieString);
+            }
         } else {
-            productsList = await shopApi.getProductsList(options);
+            // Client-side versions
+            if (options.isOffer) {
+                productsList = await shopApi.getOfferProductsList(options);
+            } else if (!options.subcategoryId || options.textToSearch) {
+                productsList = await shopApi.getSearchProductsList(options);
+            } else {
+                productsList = await shopApi.getProductsList(options);
+            }
         }
+        
         if (canceled) {
             return;
         }
@@ -126,12 +139,29 @@ export function shopResetFiltersThunk(): ShopThunkAction<Promise<void>> {
 export function shopInitThunk(
     options: IListOptions & IProductOptions = {},
     filters: IFilterValues = {},
+    cookieString?: string,
 ): ShopThunkAction<Promise<void>> {
     return async (dispatch) => {
         dispatch(shopInit(options, filters));
 
         await Promise.all([
-            dispatch(shopFetchProductsListThunk()),
+            dispatch(shopFetchProductsListThunk(cookieString)),
         ]);
+    };
+}
+
+export function clearProductFilters(): ShopThunkAction<void> {
+    return (dispatch) => {
+        dispatch({
+            type: 'CLEAR_PRODUCT_FILTERS',
+        });
+    };
+}
+
+export function clearSelectedCategory(): ShopThunkAction<void> {
+    return (dispatch) => {
+        dispatch({
+            type: 'CLEAR_SELECTED_CATEGORY',
+        });
     };
 }

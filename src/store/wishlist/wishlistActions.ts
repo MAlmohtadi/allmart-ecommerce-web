@@ -114,3 +114,9 @@ export function wishlistInitThunk(): WishlistThunkAction<Promise<void>> {
         ]);
     };
 }
+
+export function wishlistClear(): WishlistAction {
+    return {
+        type: 'WISHLIST_CLEAR',
+    };
+}

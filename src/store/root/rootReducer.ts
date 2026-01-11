@@ -19,6 +19,7 @@ import orderReducer from '../order/orderReducer';
 import { MAIN_NAMESPACE } from '../main/mainTypes';
 import mainReducer from '../main/mainReducer';
 import quickviewReducer, { QUICKVIEW_NAMESPACE } from '../quickview/quickviewReducer';
+import franchiseReducer, { FRANCHISE_NAMESPACE } from '../franchise/franchiseReducer';
 
 export default combineReducers({
     version: (state: number = version) => state,
@@ -34,4 +35,5 @@ export default combineReducers({
     [ORDER_NAMESPACE]: orderReducer,
     [MAIN_NAMESPACE]: mainReducer,
     [QUICKVIEW_NAMESPACE]: quickviewReducer,
+    [FRANCHISE_NAMESPACE]: franchiseReducer,
 });

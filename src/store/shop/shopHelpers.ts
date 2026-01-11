@@ -76,7 +76,8 @@ export default async function getShopPageData(
     // @ts-ignore
     const query = queryString.stringify(queryString.parseUrl(context.req.url).query);
     const cookies = parse(context.req?.headers.cookie || "");
-    const langId = parseInt(cookies.langId || "1");
+    const langId = parseInt(cookies.langId || "1", 10);
+    const cookieString = context.req?.headers.cookie; // Pass cookie string for SSR
     const options = { ...parseQueryOptions(query), ...context.params };
     options.langId = langId;
     const filters = parseQueryFilters(query);
@@ -87,5 +88,5 @@ export default async function getShopPageData(
     }
     const dispatch = store.dispatch as AppDispatch;
 
-    await dispatch(shopInitThunk(options, filters));
+    await dispatch(shopInitThunk(options, filters, cookieString));
 }

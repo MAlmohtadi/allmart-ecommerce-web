@@ -46,6 +46,8 @@ function wishlistBaseReducer(state = initialState, action: WishlistAction) {
         return addItem(state, action.product);
     case WISHLIST_REMOVE_ITEM:
         return removeItem(state, action.productId);
+    case 'WISHLIST_CLEAR':
+        return initialState;
     default:
         return state;
     }

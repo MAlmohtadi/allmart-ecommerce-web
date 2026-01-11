@@ -64,3 +64,11 @@ export function homeInitThunk(langId: number | undefined = 1): HomeThunkAction<P
         ]);
     };
 }
+
+export function clearHomeData(): HomeThunkAction<void> {
+    return (dispatch) => {
+        dispatch({
+            type: 'CLEAR_HOME_DATA',
+        });
+    };
+}

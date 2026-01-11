@@ -115,7 +115,6 @@ function ProductsView(props: ProductsViewProps) {
     if (productsListItems.length > 0) {
         content = (
             <div className="products-view__content">
-                <div>hello</div>
                 {/* <div>{JSON.stringify(productsList)}</div> */}
                 <div className="products-view__options">
                     <div className={viewOptionsClasses}>
