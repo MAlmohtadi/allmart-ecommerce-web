@@ -77,10 +77,22 @@ export function useDeferredData<T>(
 
         memoizedSource().then((data) => {
             if (canceled) {
+                console.log('[HOOKS] useDeferredData: Request canceled');
                 return;
             }
 
+            console.log('[HOOKS] useDeferredData: Data received successfully');
             setState(() => ({ isLoading: false, data }));
+        }).catch((error) => {
+            console.error('[HOOKS] useDeferredData: Error in promise', {
+                message: error?.message,
+                status: error?.status,
+                requiresCountrySelection: error?.requiresCountrySelection,
+                error,
+                stackTrace: new Error().stack
+            });
+            // Don't update state on error - let it remain in loading state
+            // This prevents errors from breaking the UI
         });
 
         return () => {

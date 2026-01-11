@@ -30,13 +30,20 @@ export const apiRequest = async (
     if (requiresFranchiseContext) {
         if (!franchiseId || !countryCode) {
             if (typeof window !== 'undefined') {
-                // Client-side: This is an error - reject immediately
-                console.warn('Franchise context missing for protected endpoint:', url);
-                return Promise.reject({
+                console.log('[API-INTERCEPTOR] Franchise context missing for protected endpoint:', {
+                    url,
+                    franchiseId,
+                    countryCode,
+                    stackTrace: new Error().stack
+                });
+                // Client-side: Reject silently (modal will be shown, no need for console warning)
+                const error = {
                     message: 'Franchise context required. Please select a country.',
                     status: 403,
                     requiresCountrySelection: true,
-                });
+                };
+                console.log('[API-INTERCEPTOR] Rejecting promise with error:', error);
+                return Promise.reject(error);
             }
             // SSR: Continue without franchise header (will fail on server, but handled gracefully)
         }

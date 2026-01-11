@@ -189,14 +189,30 @@ const shopApi = {
      * Response format: FranchiseResponse[] (array of franchises)
      */
     getActiveFranchises: (): Promise<FranchiseResponse[]> => {
+        console.log('[API] getActiveFranchises: Starting API call');
         return apiRequest(`/franchise/getActiveFranchises`, {
             method: 'GET',
         }).then(async (response) => {
+            console.log('[API] getActiveFranchises: Response received', {
+                ok: response.ok,
+                status: response.status,
+                statusText: response.statusText
+            });
             if (!response.ok) {
+                console.error('[API] getActiveFranchises: Response not OK');
                 throw new Error(`Failed to get active franchises: ${response.statusText}`);
             }
             const result: FranchiseResponse[] = await response.json();
+            console.log('[API] getActiveFranchises: Success, got', result.length, 'franchises');
             return result;
+        }).catch((error) => {
+            console.error('[API] getActiveFranchises: Error caught', {
+                message: error?.message,
+                status: error?.status,
+                requiresCountrySelection: error?.requiresCountrySelection,
+                error
+            });
+            throw error;
         });
     },
 
@@ -242,11 +258,27 @@ const shopApi = {
      * Returns array of featured products (client-side).
      */
     getFeaturedProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+        console.log('[API] getFeaturedProducts: Starting API call', options);
         options.langId = options.langId || parseInt(Cookies.get("langId") || "1", 10);
         return apiRequest(`/products/getFeaturedProducts`, {
             method: 'POST',
             body: JSON.stringify(options),
-        }).then((response) => response.json());
+        }).then((response) => {
+            console.log('[API] getFeaturedProducts: Response received', {
+                ok: response.ok,
+                status: response.status
+            });
+            return response.json();
+        }).catch((error) => {
+            console.error('[API] getFeaturedProducts: Error caught', {
+                message: error?.message,
+                status: error?.status,
+                requiresCountrySelection: error?.requiresCountrySelection,
+                error,
+                stackTrace: new Error().stack
+            });
+            throw error;
+        });
     },
 
     /**
@@ -268,11 +300,27 @@ const shopApi = {
      * Returns array of offer products (client-side).
      */
     getOfferProducts: (options: GetSaleOptions = {}): Promise<IProductResponse> => {
+        console.log('[API] getOfferProducts: Starting API call', options);
         options.langId = options.langId || parseInt(Cookies.get("langId") || "1", 10);
         return apiRequest(`/offers/getOfferProdcuts`, {
             method: 'POST',
             body: JSON.stringify(options),
-        }).then((response) => response.json());
+        }).then((response) => {
+            console.log('[API] getOfferProducts: Response received', {
+                ok: response.ok,
+                status: response.status
+            });
+            return response.json();
+        }).catch((error) => {
+            console.error('[API] getOfferProducts: Error caught', {
+                message: error?.message,
+                status: error?.status,
+                requiresCountrySelection: error?.requiresCountrySelection,
+                error,
+                stackTrace: new Error().stack
+            });
+            throw error;
+        });
     },
 
     /**
