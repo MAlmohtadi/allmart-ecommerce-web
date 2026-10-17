@@ -3,7 +3,7 @@ import { IShopCategory } from './category';
 export interface IBaseFilter {
     type: string;
     name: string;
-    slug: string;
+    // slug: string;
 }
 export interface IBaseFilterItem {
     slug: string;

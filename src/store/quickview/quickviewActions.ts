@@ -1,6 +1,8 @@
 // application
+import mainApi from '../../api/main';
 import shopApi from '../../api/shop';
-import { IProduct } from '../../interfaces/product';
+import { IProduct, ITranslation } from '../../interfaces/main';
+// import { IProduct } from '../../interfaces/product';
 import {
     QUICKVIEW_CLOSE,
     QUICKVIEW_OPEN,
@@ -11,10 +13,11 @@ import {
 
 let cancelPreviousRequest = () => {};
 
-export function quickviewOpenSuccess(product: IProduct): QuickviewOpenAction {
+export function quickviewOpenSuccess(product: IProduct,translations: ITranslation): QuickviewOpenAction {
     return {
         type: QUICKVIEW_OPEN,
         product,
+        translations
     };
 }
 
@@ -24,7 +27,7 @@ export function quickviewClose(): QuickviewCloseAction {
     };
 }
 
-export function quickviewOpen(productSlug: string): QuickviewThunkAction<Promise<void>> {
+export function quickviewOpen(product: IProduct,translations: ITranslation): QuickviewThunkAction<Promise<void>> {
     return (dispatch) => {
         cancelPreviousRequest();
 
@@ -32,17 +35,17 @@ export function quickviewOpen(productSlug: string): QuickviewThunkAction<Promise
             let canceled = false;
             // sending request to server, timeout is used as a stub
             const timer = setTimeout(() => {
-                shopApi.getProductBySlug(productSlug).then((product) => {
+                const myPromise = new Promise(() => {
                     if (canceled) {
                         return;
                     }
 
                     if (product) {
-                        dispatch(quickviewOpenSuccess(product));
+                        dispatch(quickviewOpenSuccess(product,translations));
                     }
 
                     resolve();
-                });
+                  });
             }, 350);
 
             cancelPreviousRequest = () => {

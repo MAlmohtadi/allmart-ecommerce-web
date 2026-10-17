@@ -14,16 +14,19 @@ import Indicator from './Indicator';
 import url from '../../services/url';
 import { useCart, useCartRemoveItem } from '../../store/cart/cartHooks';
 
+import { useHome } from '../../store/home/homeHooks';
 function IndicatorCart() {
     const cart = useCart();
     const cartRemoveItem = useCartRemoveItem();
+    const homeData = useHome();
+    const translations = homeData?.translations;
     let dropdown;
     let totals;
 
     if (cart.totals.length > 0) {
         totals = cart.totals.map((total, index) => (
             <tr key={index}>
-                <th>{total.title}</th>
+                <th>{total.title === 'التوصيل' ? translations?.delivery :translations?.discountCoupon }</th>
                 <td><CurrencyFormat value={total.price} /></td>
             </tr>
         ));
@@ -31,7 +34,7 @@ function IndicatorCart() {
         totals = (
             <Fragment>
                 <tr>
-                    <th>Subtotal</th>
+                    <th>{translations?.subTotal || 'المجموع الفرعي'}</th>
                     <td><CurrencyFormat value={cart.subtotal} /></td>
                 </tr>
                 {totals}
@@ -53,15 +56,22 @@ function IndicatorCart() {
             );
         }
 
-        if (item.product.images.length) {
-            image = (
-                <div className="product-image dropcart__product-image">
-                    <AppLink href={url.product(item.product)} className="product-image__body">
-                        <img className="product-image__img" src={item.product.images[0]} alt="" />
-                    </AppLink>
+        // eslint-disable-next-line prefer-const
+        image = (
+            <div className="product-image dropcart__product-image">
+                <div className="product-image__body">
+                    <img
+                        className="product-image__img"
+                        src={item.product?.imageUrl}
+                        onError={({ currentTarget }) => {
+                            // eslint-disable-next-line no-param-reassign
+                            currentTarget.src = '/images/products/defaultImage.png';
+                        }}
+                        alt={item.product.name}
+                    />
                 </div>
-            );
-        }
+            </div>
+        );
 
         const removeButton = (
             <AsyncAction
@@ -85,7 +95,7 @@ function IndicatorCart() {
                 {image}
                 <div className="dropcart__product-info">
                     <div className="dropcart__product-name">
-                        <AppLink href={url.product(item.product)}>{item.product.name}</AppLink>
+                        {item.product.name}
                     </div>
                     {options}
                     <div className="dropcart__product-meta">
@@ -111,7 +121,7 @@ function IndicatorCart() {
                         <tbody>
                             {totals}
                             <tr>
-                                <th>Total</th>
+                                <th>{translations?.total || 'المجموع'}</th>
                                 <td><CurrencyFormat value={cart.total} /></td>
                             </tr>
                         </tbody>
@@ -119,8 +129,8 @@ function IndicatorCart() {
                 </div>
 
                 <div className="dropcart__buttons">
-                    <AppLink href={url.cart()} className="btn btn-secondary">View Cart</AppLink>
-                    <AppLink href={url.checkout()} className="btn btn-primary">Checkout</AppLink>
+                    <AppLink href={url.cart()} className="btn btn-secondary">{translations?.browseCart || 'تصفح السلة'}</AppLink>
+                    <AppLink href={url.checkout()} className="btn btn-primary">{translations?.checkout || 'تنفيذ الطلب'}</AppLink>
                 </div>
             </div>
         );
@@ -128,7 +138,7 @@ function IndicatorCart() {
         dropdown = (
             <div className="dropcart">
                 <div className="dropcart__empty">
-                    Your shopping cart is empty!
+                   {translations?.emptyCart || ' سلة التسوق فارغة'}
                 </div>
             </div>
         );

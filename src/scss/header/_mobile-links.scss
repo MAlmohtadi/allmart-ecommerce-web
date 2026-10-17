@@ -73,6 +73,15 @@ $local-expand-transition-duration: .3s;
 }
 .mobile-links__item-sub-links {
     visibility: hidden;
+    overflow: scro;
+    height: 0;
+    opacity: 0;
+    transition: height $local-expand-transition-duration,
+                opacity $local-expand-transition-duration,
+                visibility 0s $local-expand-transition-duration;
+}
+.mobile-links__item-sub-links-toggle {
+    visibility: hidden;
     overflow: hidden;
     height: 0;
     opacity: 0;
@@ -83,6 +92,14 @@ $local-expand-transition-duration: .3s;
 
 .mobile-links__item--open {
     & > .mobile-links__item-sub-links {
+        visibility: visible;
+        height: auto;
+        overflow: scroll;
+        opacity: 1;
+        transition-delay: 0s, 0s, 0s;
+    }
+
+    & > .mobile-links__item-sub-links-toggle {
         visibility: visible;
         height: auto;
         opacity: 1;

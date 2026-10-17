@@ -15,6 +15,7 @@ import {
     useShopResetFiltersThunk,
     useShopSetFilterValueThunk,
 } from '../../store/shop/shopHooks';
+import { useHome } from '../../store/home/homeHooks';
 
 type WidgetFiltersProps = {
     title?: ReactNode;
@@ -25,6 +26,8 @@ type RenderFilterFn = CollapseRenderFn<HTMLDivElement, HTMLDivElement>;
 
 function WidgetFilters(props: WidgetFiltersProps) {
     const { title, offcanvas = 'mobile' } = props;
+    const homeData = useHome();
+    const translations = homeData?.translations;
     const filters = useShopFilters();
     const values = useShopFilterValues();
 
@@ -33,7 +36,7 @@ function WidgetFilters(props: WidgetFiltersProps) {
 
     const handleValueChange = useCallback(({ filter, value }: FilterChangeValueEvent) => {
         shopSetFilterValue(
-            filter.slug,
+            filter.name,
             isDefaultFilterValue(filter, value) ? null : serializeFilterValue(filter, value),
         ).then();
     }, [shopSetFilterValue]);
@@ -42,19 +45,19 @@ function WidgetFilters(props: WidgetFiltersProps) {
         const renderFilter: RenderFilterFn = ({ toggle, setItemRef, setContentRef }) => (
             <div className="filter filter--opened" ref={setItemRef}>
                 <button type="button" className="filter__title" onClick={toggle}>
-                    {filter.name}
+                   {translations?.price || 'السعر'}
                     <ArrowRoundedDown12x7Svg className="filter__arrow" />
                 </button>
                 <div className="filter__body" ref={setContentRef}>
                     <div className="filter__container">
-                        <Filter data={filter} value={values[filter.slug]} onChangeValue={handleValueChange} />
+                        <Filter data={filter} value={values[filter.name]} onChangeValue={handleValueChange} />
                     </div>
                 </div>
             </div>
         );
 
         return (
-            <div key={filter.slug} className="widget-filters__item">
+            <div key={filter.name} className="widget-filters__item">
                 <Collapse toggleClass="filter--opened" render={renderFilter} />
             </div>
         );
@@ -79,7 +82,7 @@ function WidgetFilters(props: WidgetFiltersProps) {
                     className="btn btn-secondary btn-sm"
                     onClick={shopResetFilters}
                 >
-                    Reset
+                  {translations?.reassign || ' إعادة تعيين'}
                 </button>
             </div>
         </div>

@@ -1,3 +1,4 @@
+import { ICoupon } from '../../interfaces/coupon';
 import { IProduct } from '../../interfaces/product';
 
 export interface CartItemOption {
@@ -14,9 +15,10 @@ export interface CartItem {
     price: number;
     quantity: number;
     total: number;
+    eligibleForDiscount: boolean;
 }
 
-export type CartTotalType = 'shipping' | 'tax';
+export type CartTotalType = 'shipping' | 'tax' | 'discount';
 
 export interface CartTotal {
     type: CartTotalType;
@@ -30,6 +32,8 @@ export interface Cart {
     subtotal: number;
     totals: CartTotal[];
     total: number;
+    shippingPrice: number;
+    coupon?: ICoupon
 }
 
 export interface CartState extends Cart {

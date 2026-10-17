@@ -15,7 +15,7 @@ import AppLink from '../shared/AppLink';
 import Cart20Svg from '../../svg/cart-20.svg';
 import Heart20Svg from '../../svg/heart-20.svg';
 import Indicator from '../header/Indicator';
-import LogoSmallSvg from '../../svg/logo-small.svg';
+import LogSvg from './LogoSvg';
 import Menu18x14Svg from '../../svg/menu-18x14.svg';
 import Search from '../header/Search';
 import Search20Svg from '../../svg/search-20.svg';
@@ -23,13 +23,32 @@ import url from '../../services/url';
 import { useCart } from '../../store/cart/cartHooks';
 import { useMobileMenuOpen } from '../../store/mobile-menu/mobileMenuHooks';
 import { useWishlist } from '../../store/wishlist/wishlistHooks';
+import {HomeState} from "./../../store/home/homeTypes";
 
-function MobileHeader() {
+export interface MobileHeaderProps {
+        homeData: HomeState;
+}
+function MobileHeader(props: MobileHeaderProps) {
     const [searchOpen, setSearchOpen] = useState(false);
     const inputRef = useRef<HTMLInputElement | null>(null);
     const cart = useCart();
     const { items: { length: wishlistCount } } = useWishlist();
     const mobileMenuOpen = useMobileMenuOpen();
+
+    const [scrolled, setScrolled] = useState(false);
+
+    const handleScroll = () => {
+        const offset = window.scrollY;
+        if (offset > 70) {
+            setScrolled(true);
+        } else {
+            setScrolled(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+    });
 
     useEffect(() => {
         if (searchOpen && inputRef.current) {
@@ -49,8 +68,12 @@ function MobileHeader() {
         'mobile-header__search--open': searchOpen,
     });
 
+    const mobileNvbarClasses = ['mobile-header'];
+    if (scrolled) {
+        mobileNvbarClasses.push('scrolled-mobile');
+    }
     return (
-        <div className="mobile-header">
+        <div className={mobileNvbarClasses.join(' ')}>
             <div className="mobile-header__panel">
                 <div className="container">
                     <div className="mobile-header__body">
@@ -58,7 +81,7 @@ function MobileHeader() {
                             <Menu18x14Svg />
                         </button>
                         <AppLink href={url.home()} className="mobile-header__logo">
-                            <LogoSmallSvg />
+                            <LogSvg />
                         </AppLink>
                         <Search
                             context="mobile-header"

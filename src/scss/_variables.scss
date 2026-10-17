@@ -120,10 +120,13 @@
    $light-divider-color:            #ebebeb               !default;
    // dark
    $dark-color:                     $light-opposite-color !default;
+//    $dark-color:                     $light-color !default;
+
    $dark-opposite-color:            $light-color          !default;
    // accent
-   $accent-color:                   #ffd333               !default;
+   $accent-color:                   #61012d               !default;
    $accent-opposite-color:          $light-opposite-color !default;
+// $accent-opposite-color:          $light-color !default;
    //links
    $link-color:                     #1a66ff               !default;
    $link-hover-color:               #1a66ff               !default;
@@ -302,7 +305,7 @@
       $nav-panel-bg:           $accent-color                                                                   !default;
       $nav-panel-shadow:       0 1px rgba(#000, .04), inset 0 -1px rgba(#000, .04)                             !default;
       $nav-panel-stuck-shadow: 0 1px rgba(#000, .04), inset 0 -1px rgba(#000, .04), 0 1px 20px rgba(#000, .15) !default;
-      $nav-panel-font-color:   $accent-opposite-color                                                          !default;
+      $nav-panel-font-color:   #fff                                                          !default;
       $nav-panel-logo-color:   $nav-panel-font-color                                                           !default;
       $nav-panel-height:       54px                                                                            !default;
       $nav-panel-padding:      6px                                                                             !default;
@@ -328,10 +331,10 @@
       // default
       $nav-links-item-default-bg:          transparent                                !default;
       $nav-links-item-default-shadow:      none                                       !default;
-      $nav-links-item-default-font-color:  inherit                                    !default;
-      $nav-links-item-default-arrow-color: rgba(#000, .3)                             !default;
+      $nav-links-item-default-font-color:  $light-color                                    !default;
+      $nav-links-item-default-arrow-color: rgba(#fff, 1)                             !default;
       // hover
-      $nav-links-item-hover-bg:            rgba(#fff, .5)                             !default;
+      $nav-links-item-hover-bg:            rgba(#fff,.5)                             !default;
       $nav-links-item-hover-shadow:        $nav-links-item-default-shadow             !default;
       $nav-links-item-hover-font-color:    $nav-links-item-default-font-color         !default;
       $nav-links-item-hover-arrow-color:   $nav-links-item-default-arrow-color        !default;
@@ -549,7 +552,7 @@
       // primary
          // default
          $btn-primary-bg-color:          $accent-color                 !default;
-         $btn-primary-font-color:        $accent-opposite-color        !default;
+         $btn-primary-font-color:        $light-color        !default;
          $btn-primary-icon-color:        $btn-primary-font-color       !default;
          // hover
          $btn-primary-hover-bg-color:    $dark-color                   !default;
@@ -675,7 +678,7 @@
       // active
       $layout-switcher-active-bg:            $accent-color                         !default;
       $layout-switcher-active-border-color:  $accent-color                         !default;
-      $layout-switcher-active-color:         $accent-opposite-color                !default;
+      $layout-switcher-active-color:         $light-color                         !default;
 
    // ----------------------------------------
    // -- .filters-button
@@ -718,7 +721,7 @@
       $pagination-hover-font-color:    $pagination-font-color !default;
       // current
       $pagination-current-bg:          $accent-color          !default;
-      $pagination-current-font-color:  $accent-opposite-color !default;
+      $pagination-current-font-color:  $light-color !default;
 
    // ----------------------------------------
    // -- .post-card

@@ -1,4 +1,4 @@
-import { IOrderSummary } from '../interfaces/order';
+import { IOrderSummary } from '../interfaces/order-old';
 
 const dataAccountOrders: IOrderSummary[] = [
     {

@@ -1,43 +1,38 @@
-// third-party
-import { GetServerSideProps } from 'next';
-
+// @ts-nocheck
 // application
-import HomePageOne, { InitData } from '../components/home/HomePageOne';
-import shopApi from '../api/shop';
+import MainPage, { InitData } from "../components/main/MainPage";
+import mainApi, { DEFAULT_LOCALE, normalizeHomePageInfo } from "../api/main";
+import { wrapper } from "../store/store";
+import getHomePageInfo, { defaultLocaleRedirect } from "../store/main/mainHelpers";
+import { useLocale } from "../store/locale/localeHooks";
 
 export interface PageProps {
-    initData?: InitData;
+    initData: InitData;
 }
-
-// noinspection JSUnusedGlobalSymbols
-export const getServerSideProps: GetServerSideProps<PageProps> = async () => ({
-    props: {
-        initData: {
-            featuredProducts: await shopApi.getPopularProducts({ limit: 8 }),
-            bestsellers: await shopApi.getPopularProducts({ limit: 7 }),
-            latestProducts: await shopApi.getLatestProducts({ limit: 8 }),
-            productColumns: [
-                {
-                    title: 'Top Rated Products',
-                    products: await shopApi.getTopRatedProducts({ limit: 3 }),
-                },
-                {
-                    title: 'Special Offers',
-                    products: await shopApi.getDiscountedProducts({ limit: 3 }),
-                },
-                {
-                    title: 'Bestsellers',
-                    products: await shopApi.getPopularProducts({ limit: 3 }),
-                },
-            ],
+export const getServerSideProps = wrapper.getServerSideProps((store) => async (context) => {
+    const { locale = DEFAULT_LOCALE } = context.query;
+    let homePageInfo = await mainApi.getHomePageInfo({ locale: locale });
+    if (!homePageInfo) {
+        // unknown/inactive ?locale (or the API failed for it): show the Arabic page instead of a 500
+        if (locale !== DEFAULT_LOCALE) {
+            return defaultLocaleRedirect("/");
+        }
+        homePageInfo = normalizeHomePageInfo(null);
+    }
+    await getHomePageInfo(store);
+    return {
+        props: {
+            initData: {
+                ...homePageInfo,
+            },
         },
-    },
+    };
 });
 
 function Page(props: PageProps) {
     const { initData } = props;
 
-    return <HomePageOne initData={initData} />;
+    return <MainPage initData={initData} />;
 }
 
 export default Page;

@@ -39,16 +39,12 @@ function MobileLinks(props: MobileLinksProps) {
 
                     subLinks = (
                         <div className="mobile-links__item-sub-links" ref={setContentRef}>
-                            <MobileLinks
-                                links={link.children}
-                                level={level + 1}
-                                onItemClick={onItemClick}
-                            />
+                            <MobileLinks links={link.children} level={level + 1} onItemClick={onItemClick} />
                         </div>
                     );
                 }
 
-                if (link.type === 'link') {
+                if (link.type === 'link' || link.title === '') {
                     linkOrButton = (
                         <AppLink
                             href={link.url}
@@ -60,11 +56,8 @@ function MobileLinks(props: MobileLinksProps) {
                     );
                 } else {
                     linkOrButton = (
-                        <button
-                            type="button"
-                            className="mobile-links__item-link"
-                            onClick={() => handleItemClick(link)}
-                        >
+                        <button type="button" className="mobile-links__item-link"    onClick={() => handleItemClick(link)}>
+                        {/* onClick={toggle}> */}
                             {link.title}
                         </button>
                     );

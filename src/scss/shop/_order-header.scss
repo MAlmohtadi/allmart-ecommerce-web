@@ -37,7 +37,8 @@
     line-height: 1.375;
     clear: both;
     padding-top: 12px;
-
+    display: flex;
+    justify-content: space-between;
     mark {
         padding: 0;
         color: $card-font-color;

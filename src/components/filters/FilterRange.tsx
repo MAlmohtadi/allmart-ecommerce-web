@@ -97,11 +97,9 @@ function FilterRange(props: FilterRangeProps) {
                 />
             </div>
             <div className="filter-price__title">
-                Price:
-                {' '}
-                <span className="filter-price__min-value"><CurrencyFormat value={fromLabel} /></span>
-                {' – '}
                 <span className="filter-price__max-value"><CurrencyFormat value={toLabel} /></span>
+                {' – '}
+                <span className="filter-price__min-value"><CurrencyFormat value={fromLabel} /></span>
             </div>
         </div>
     ), [min, max, from, to, fromLabel, toLabel, handleChange]);

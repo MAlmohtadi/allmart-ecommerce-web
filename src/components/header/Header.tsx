@@ -1,53 +1,61 @@
+/* eslint-disable jsx-a11y/alt-text */
 // react
-import { memo } from 'react';
-
-// third-party
-import { FormattedMessage } from 'react-intl';
+import { memo, useState, useEffect } from 'react';
 
 // application
 import AppLink from '../shared/AppLink';
-import LogoSvg from '../../svg/logo.svg';
 import NavPanel from './NavPanel';
 import Search from './Search';
-import Topbar from './Topbar';
 
 export type HeaderLayout = 'default' | 'compact';
 
+import {HomeState} from "./../../store/home/homeTypes";
 export interface HeaderProps {
     layout?: HeaderLayout;
+        homeData: HomeState;
 }
 
 function Header(props: HeaderProps) {
+    const [scrolled, setScrolled] = useState(false);
     const { layout = 'default' } = props;
     let bannerSection;
+
+    const handleScroll = () => {
+        const offset = window.scrollY;
+        if (offset > 200) {
+            setScrolled(true);
+        } else {
+            setScrolled(false);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+    });
 
     if (layout === 'default') {
         bannerSection = (
             <div className="site-header__middle container">
                 <div className="site-header__logo">
-                    <AppLink href="/"><LogoSvg /></AppLink>
+                    <AppLink href="/"><img src="/images/logos/logo.png" /></AppLink>
                 </div>
                 <div className="site-header__search">
                     <Search context="header" />
-                </div>
-                <div className="site-header__phone">
-                    <div className="site-header__phone-title">
-                        <FormattedMessage id="header.phoneLabel" defaultMessage="Customer Service" />
-                    </div>
-                    <div className="site-header__phone-number">
-                        <FormattedMessage id="header.phone" defaultMessage="(800) 060-0730" />
-                    </div>
                 </div>
             </div>
         );
     }
 
+    const navbarClasses = ['site-header__nav-panel'];
+    if (scrolled) {
+        navbarClasses.push('scrolled');
+    }
+
     return (
         <div className="site-header">
-            <Topbar />
             {bannerSection}
-            <div className="site-header__nav-panel">
-                <NavPanel layout={layout} />
+            <div className={navbarClasses.join(' ')}>
+                <NavPanel layout={layout} homeData={props.homeData} />
             </div>
         </div>
     );

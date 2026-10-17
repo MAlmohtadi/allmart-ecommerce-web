@@ -2,7 +2,7 @@
 import AppLink from '../shared/AppLink';
 import BlockHeader from '../shared/BlockHeader';
 import url from '../../services/url';
-import { ICategory } from '../../interfaces/category';
+import { ICategory, ISubCategory } from '../../interfaces/homepage';
 
 export type BlockCategoriesLayout = 'classic' | 'compact';
 
@@ -17,34 +17,38 @@ function BlockCategories(props: BlockCategoriesProps) {
 
     const categoriesList = categories.map((category, index) => {
         const classes = `block-categories__item category-card category-card--layout--${layout}`;
-        const { children }: { children?: ICategory[] } = category;
+        const { subCategories }: { subCategories?: ISubCategory[] } = category;
 
-        const subcategories = children && children.map((sub, subIndex) => (
+        const subcategoriesLinks = subCategories && subCategories.slice(0, 3).map((sub, subIndex) => (
             <li key={subIndex}>
-                <AppLink href={url.category(sub)}>{sub.name}</AppLink>
+                <AppLink href={url.categoryWithSubCategory(category.id, sub.id)}>{sub.name}</AppLink>
             </li>
         ));
+        if (subCategories.length > 3) {
+            subcategoriesLinks.push(
+                <li key={3}>
+                    <AppLink>.....</AppLink>
+                </li>,
+            );
+        }
 
         return (
             <div key={index} className={classes}>
                 <div className=" category-card__body">
                     <div className=" category-card__image">
-                        <AppLink href={url.category(category)}>
-                            <img src={category.image} alt="" />
+                        <AppLink href={url.category(category.id)}>
+                            <img src={category.imageUrl} alt="" />
                         </AppLink>
                     </div>
                     <div className=" category-card__content">
                         <div className=" category-card__name">
-                            <AppLink href={url.category(category)}>{category.name}</AppLink>
+                            <AppLink href={url.category(category.id)}>{category.name}</AppLink>
                         </div>
                         <ul className="category-card__links">
-                            {subcategories}
+                            {subcategoriesLinks}
                         </ul>
                         <div className="category-card__all">
-                            <AppLink href={url.category(category)}>Show All</AppLink>
-                        </div>
-                        <div className="category-card__products">
-                            {`${category.items} Products`}
+                            <AppLink href={url.category(category.id)}>عرض الكل</AppLink>
                         </div>
                     </div>
                 </div>

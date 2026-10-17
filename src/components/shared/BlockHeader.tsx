@@ -11,7 +11,7 @@ export interface BlockHeaderGroup {
 }
 
 export interface BlockHeaderProps<T extends BlockHeaderGroup> {
-    title: string;
+    title?: string;
     arrows?: boolean;
     groups?: T[];
     onNext?: () => void;
