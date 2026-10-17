@@ -25,11 +25,43 @@ export interface ProductByCategory {
 }
 // const BASE_URL = "http://localhost:8080/api";
 const BASE_URL = "https://jubran.jubran-api.com/api";
+
+// the exportation site falls back to Arabic when the requested ?locale is not usable
+export const DEFAULT_LOCALE = "ar_JO";
+
+/**
+ * Gives every list/section the exportation pages read a safe empty value, so a language without
+ * a footer, translations, menu or about-us entry renders an empty section instead of crashing.
+ * Uses null (never undefined) so the result can be returned from getServerSideProps.
+ */
+export function normalizeHomePageInfo(data?: Partial<IHomePageInfo> | null): IHomePageInfo {
+    return {
+        ...data,
+        categories: data?.categories ?? [],
+        languages: data?.languages ?? [],
+        banners: data?.banners ?? [],
+        menuList: data?.menuList ?? [],
+        footer: data?.footer ?? {},
+        translations: data?.translations ?? ({} as ITranslation),
+        aboutUs: data?.aboutUs ?? (null as unknown as IAboutUs),
+        catalogUrl: data?.catalogUrl ?? (null as unknown as string),
+    };
+}
+
+// an error response (unknown locale, bad categoryId, API failure) becomes an empty list instead of crashing the page
+function productListOrEmpty(response: Response): Promise<IProduct[]> {
+    if (!response.ok) {
+        return Promise.resolve([]);
+    }
+    return response.json().then((data) => (Array.isArray(data) ? data : []));
+}
+
 const mainApi = {
     /**
-     * Returns array of HomePage.
+     * Returns the home page info, or null when the API rejects the locale (HTTP 400) or fails,
+     * so the caller can fall back to DEFAULT_LOCALE instead of rendering a 500.
      */
-    getHomePageInfo: (options: Language): Promise<IHomePageInfo> => {
+    getHomePageInfo: (options: Language): Promise<IHomePageInfo | null> => {
         /**
          * This is what your API endpoint might look like:
          *
@@ -44,7 +76,10 @@ const mainApi = {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-        }).then((response) => response.json());
+        })
+            .then((response) => (response.ok ? response.json() : null))
+            .then((data) => (data ? normalizeHomePageInfo(data) : null))
+            .catch(() => null);
 
         // This is for demonstration purposes only. Remove it and use the code above.
     },
@@ -175,7 +210,9 @@ const mainApi = {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-        }).then((response) => response.json());
+        })
+            .then(productListOrEmpty)
+            .catch(() => []);
     },
     /**
      * Returns array of product.
@@ -187,7 +224,9 @@ const mainApi = {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
-        }).then((response) => response.json());
+        })
+            .then(productListOrEmpty)
+            .catch(() => []);
     },
 };
 

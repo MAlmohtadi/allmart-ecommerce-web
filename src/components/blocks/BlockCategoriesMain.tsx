@@ -9,6 +9,8 @@ import { useRouter } from "next/router";
 
 export type BlockCategoriesLayout = "classic" | "compact";
 
+const DEFAULT_CATEGORY_IMAGE = "/images/products/defaultImage.png";
+
 export interface BlockCategoriesProps {
     title?: string;
     categories?: ICategory[];
@@ -19,7 +21,7 @@ function BlockCategoriesMain(props: BlockCategoriesProps) {
     const { title, layout = "classic", categories = [] } = props;
     const router = useRouter();
     const { locale = "ar_JO" } = router.query;
-    const categoriesList = categories.map((category, index) => {
+    const categoriesList = (categories || []).map((category, index) => {
         const classes = `block-categories__item category-card category-card--layout--${layout}`;
         // const { subCategories }: { subCategories?: ISubCategory[] } = category;
 
@@ -44,7 +46,21 @@ function BlockCategoriesMain(props: BlockCategoriesProps) {
                         // onClick={()=>{router.push(`/categories/${category.id}?locale=${locale}`)}}
                         href={url.exportCategory(category.id, locale)} 
                         >
-                            <img src={category.imageUrl} alt={category.name} />
+                            {/* no image (null or a legacy ".../null" URL) or a failed load: show the default image */}
+                            <img
+                                src={
+                                    category.imageUrl && !/\/null$/.test(category.imageUrl)
+                                        ? category.imageUrl
+                                        : DEFAULT_CATEGORY_IMAGE
+                                }
+                                onError={({ currentTarget }) => {
+                                    if (!currentTarget.src.endsWith(DEFAULT_CATEGORY_IMAGE)) {
+                                        // eslint-disable-next-line no-param-reassign
+                                        currentTarget.src = DEFAULT_CATEGORY_IMAGE;
+                                    }
+                                }}
+                                alt={category.name}
+                            />
                         </AppLink>
                     </div>
                 </div>

@@ -7,10 +7,11 @@ type FunctionComponentProps = {
     links: ILink[];
 };
 interface Props {
-   informationSection: IInformationSection
+   informationSection?: IInformationSection | null
 }
 function FooterLinksMain(props: Props) {
-    const { headTitle, links = [] } = props.informationSection;
+    // a language without a footer entry has no information section: render an empty widget
+    const { headTitle, links = [] } = props.informationSection ?? ({} as Partial<IInformationSection>);
 
     const linksList = links && links.map((item, index) => (
         <li key={index} className="footer-links__item">

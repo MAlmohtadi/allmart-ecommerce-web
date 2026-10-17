@@ -58,25 +58,29 @@ function BlockSlideShowMain(props: BlockSlideShowProps) {
         },
     );
     var slidesList;
-    if(banners && banners.length> 0){
-        slidesList = banners?.map((slide, index) => {
-        const image = slide.imageUrl;
+    // a banner without an image (null, or a legacy ".../null" URL) would only be an empty slide with a dot
+    const bannersWithImage = (banners || []).filter((slide) => slide.imageUrl && !/\/null$/.test(slide.imageUrl));
+    if(bannersWithImage.length> 0){
+        slidesList = bannersWithImage.map((slide, index) => {
+        // the API already returns an encoded https URL: do not encode it again, only escape it for a CSS string
+        const image = slide.imageUrl.replace(/["\\]/g, '\\$&');
+        // inline so the shared slideshow scss offsets (-190px / -70px / top center) do not apply
+        const imageStyle = {
+            backgroundImage: `url("${image}")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+        };
 
         return (
             <div key={index} className="block-slideshow__slide">
                 <div
                     className="block-slideshow__slide-image block-slideshow__slide-image--desktop"
-                    style={{
-                        backgroundImage: `url('${image}')`,
-                        backgroundRepeat: 'round',
-                    }}
+                    style={imageStyle}
                 />
                 <div
                     className="block-slideshow__slide-image block-slideshow__slide-image--mobile"
-                    style={{
-                        backgroundImage: `url('${image}')`,
-                        backgroundRepeat: 'round',
-                    }}
+                    style={imageStyle}
                 />
             </div>
             );

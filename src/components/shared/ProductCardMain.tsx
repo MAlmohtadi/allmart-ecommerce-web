@@ -22,6 +22,8 @@ import { IProduct, ITranslation } from "../../interfaces/main";
 
 export type ProductCardLayout = "grid-sm" | "grid-nl" | "grid-lg" | "list" | "horizontal";
 
+const DEFAULT_PRODUCT_IMAGE = "/images/products/defaultImage.png";
+
 export interface ProductCardProps {
     product: IProduct;
     translations: ITranslation;
@@ -44,15 +46,25 @@ function ProductCardMain(props: ProductCardProps) {
     let image;
     let features;
 
-    if (product.imageUrl) {
-        image = (
-            <div className="product-card__image product-image">
-                <div className="product-image__body">
-                    <img className="product-image__img" src={product.imageUrl} alt="" />
-                </div>
+    // the API returns null (or, before the API fix, a ".../null" URL) when the product has no image: show the default image instead
+    const hasImage = !!product.imageUrl && !/\/null$/.test(product.imageUrl);
+    image = (
+        <div className="product-card__image product-image">
+            <div className="product-image__body">
+                <img
+                    className="product-image__img"
+                    src={hasImage ? product.imageUrl : DEFAULT_PRODUCT_IMAGE}
+                    onError={({ currentTarget }) => {
+                        if (!currentTarget.src.endsWith(DEFAULT_PRODUCT_IMAGE)) {
+                            // eslint-disable-next-line no-param-reassign
+                            currentTarget.src = DEFAULT_PRODUCT_IMAGE;
+                        }
+                    }}
+                    alt=""
+                />
             </div>
-        );
-    }
+        </div>
+    );
 
     features = (
         <ul className="product-card__features-list">
@@ -124,7 +136,7 @@ function ProductCardMain(props: ProductCardProps) {
                 {price} */}
                 <div className="product-card__buttons">
                     <AsyncAction
-                        action={() => quickviewOpen(product, translations)}
+                        action={() => quickviewOpen(hasImage ? product : { ...product, imageUrl: DEFAULT_PRODUCT_IMAGE }, translations)}
                         render={({ run, loading }) => (
                             <Fragment>
                                 <button

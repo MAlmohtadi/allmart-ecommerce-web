@@ -1,5 +1,5 @@
 // @ts-nocheck
-import mainApi from "../../api/main";
+import mainApi, { normalizeHomePageInfo } from "../../api/main";
 import {
     MAIN_FETCH_START,
     MAIN_FETCH_SUCCESS,
@@ -55,7 +55,8 @@ export function mainFetchThunk(): MainThunkAction<Promise<void>> {
             return;
         }
 
-        dispatch(mainFetchSuccess(mainDate));
+        // a failed request returns null: store empty lists rather than crashing the reducer
+        dispatch(mainFetchSuccess(mainDate ?? normalizeHomePageInfo(null)));
     };
 }
 

@@ -23,7 +23,7 @@ function FooterMain(props: Props){
                             <FooterContactsMain callUsSection={props.footer?.callUsSection} />
                         </div>
                         <div className="col-6 col-md-3 col-lg-2">
-                            <FooterLinksMain informationSection={props.footer.informationSection}                            />
+                            <FooterLinksMain informationSection={props.footer?.informationSection}                            />
                         </div>
                         {/* <div className="col-12 col-md-3 col-lg-2">
                             <div className="site-footer__widget footer-links">

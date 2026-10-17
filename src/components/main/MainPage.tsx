@@ -57,13 +57,16 @@ function MainPage(props: HomePageProps) {
             </Head>
 
             <BlockSlideShowMain banners={initData?.banners} />
-            <div className={`block block--highlighted block-categories block-categories--layout--classic`}>
-                <div className="container">
-                    <AppLink href={initData?.catalogUrl} target="_blank" className="btn btn-primary btn-xl btn-block">
-                        {initData?.translations?.downloadCatalogTranslation}
-                    </AppLink>
+            {/* no catalog for this language: hide the button (AppLink would otherwise open the home page) */}
+            {initData?.catalogUrl && (
+                <div className={`block block--highlighted block-categories block-categories--layout--classic`}>
+                    <div className="container">
+                        <AppLink href={initData.catalogUrl} target="_blank" className="btn btn-primary btn-xl btn-block">
+                            {initData?.translations?.downloadCatalogTranslation}
+                        </AppLink>
+                    </div>
                 </div>
-            </div>
+            )}
             <div
                 id="products"
                 className={`block block--highlighted block-categories block-categories--layout--classic`}
@@ -89,7 +92,7 @@ function MainPage(props: HomePageProps) {
             {/* <FooterMain footer={homePageInfo?.data?.footer}/> */}
 
             <footer className="site__footer block--highlighted ">
-                <FooterMain footer={initData.footer} translations={initData?.translations} />
+                <FooterMain footer={initData?.footer} translations={initData?.translations} />
             </footer>
         </Fragment>
     );
